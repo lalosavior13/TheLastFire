@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c755b7a6b6de948899fdefe9a71b99, type: 3}
+  m_Name: DevilBehavior_0
+  m_EditorClassIdentifier: 
+  drawGizmos: 1
+  _arrowProjectileIndex:
+    index: 2
+    objectIndex: 0
+    collectionIndex: 1
+  _limits:
+    _min: 5
+    _max: 15
+  _waypoints:
+    _ceilingWaypoints:
+    - {x: 0, y: 16, z: 0}
+    - {x: -20, y: 16, z: 0}
+    - {x: 20, y: 16, z: 0}
+    _floorWaypoints: []
+    _leftWallWaypoints:
+    - {x: -25, y: 12, z: 0}
+    - {x: -25, y: 7, z: 0}
+    - {x: -25, y: 2, z: 0}
+    _rightWallWaypoints:
+    - {x: 25, y: 12, z: 0}
+    - {x: 25, y: 7, z: 0}
+    - {x: 25, y: 2, z: 0}
+    color: {r: 0, g: 1, b: 1, a: 1}
+    radius: 0.25
+  _projectilesSpawnRates:
+  - 0.55
+  - 0.4
+  - 3
+  _ceilingSpawnPoint: {x: 0, y: 28, z: 5}
+  _ceilingDestinyPoint: {x: 0, y: 17, z: 5}
+  _leftTowerSpawnPoint: {x: -29, y: 1, z: 5}
+  _rightTowerSpawnPoint: {x: 29, y: 1, z: 5}
+  _leftTowerDestinyPoint: {x: -20, y: 1, z: 5}
+  _rightTowerDestinyPoint: {x: 20, y: 1, z: 5}
+  _towerInterpolationDuration: 0.7
+  _towerShakeDuration: 0.3
+  _towerShakeSpeed: 2.1
+  _towerShakeMagnitude: 0.5
+  _towerHP: 20
+  _ceilingHP: 10
+  gizmosColor: {r: 0, g: 1, b: 0.015245676, a: 1}
+  gizmosRadius: 0.25

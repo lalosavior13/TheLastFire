@@ -1,0 +1,354 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Voidless;
+
+namespace Flamingo
+{
+/// \TODO Practically Deprecated...
+public enum JumpState
+{
+	Grounded = 1,
+	Jumping = 2,
+	Falling = 4,
+	Landing = 8
+}
+
+/// <summary>Event invoked when JumpAbility's State Changes.</summary>
+/// <param name="_stateID">State's ID.</param>
+/// <param name="_jumpLevel">Jump's Level [index].</param>
+public delegate void OnJumpStateChange(int _stateID, int _jumpLevel);
+
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(DisplacementAccumulator))]
+[RequireComponent(typeof(GravityApplier))]
+public class JumpAbility : MonoBehaviour, IStateMachine
+{
+	public event OnJumpStateChange onJumpStateChange; 			/// <summary>OnJumpStateChange's event delegate.</summary>
+
+	public const int STATE_FLAG_GROUNDED = 0; 					/// <summary>Grounded State's Flag.</summary>
+	public const int STATE_FLAG_JUMPING = 1; 					/// <summary>Jumping State's Flag.</summary>
+	public const int STATE_FLAG_FALLING = 2; 					/// <summary>Falling State's Flag.</summary>
+	public const int STATE_FLAG_LANDING = 3; 					/// <summary>Landing State's Flag.</summary>
+	public const int STATE_ID_GROUNDED = 1 << 0; 				/// <summary>Grounded State's ID.</summary>
+	public const int STATE_ID_JUMPING = 1 << 1; 				/// <summary>Jumping State's ID.</summary>
+	public const int STATE_ID_FALLING = 1 << 2; 				/// <summary>Falling State's ID.</summary>
+	public const int STATE_ID_LANDING = 1 << 3; 				/// <summary>Landing State's ID.</summary>
+
+	[Header("Gravity Scales' Settings:")]
+	[SerializeField] private float _groundedScale; 				/// <summary>GravityScale when Grounded.</summary>
+	[SerializeField] private float _jumpingScale; 				/// <summary>GravityScale when Jumping.</summary>
+	[SerializeField] private float _fallingScale; 				/// <summary>GravityScale when Falling.</summary>
+	[SerializeField] private int _scaleChangePriority; 			/// <summary>Gravity Scale's Change Priority.</summary>
+	[Space(5f)]
+	[SerializeField]
+	[Range(0.0f, 1.0f)] private float _progressForExtraJump; 	/// <summary>Minimum Progress required for extra jump.</summary>
+	[SerializeField] private ForceInformation2D[] _forcesInfo; 	/// <summary>Force's Information.</summary>
+	[Space(5f)]
+	[SerializeField] private float _landingDuration; 			/// <summary>Landing's Duration.</summary>
+	private TimeConstrainedForceApplier2D[] _forcesAppliers; 	/// <summary>Forces' Appliers.</summary>
+	private int _currentJumpIndex; 								/// <summary>Current Jump's Index.</summary>
+	private int _state; 										/// <summary>Current State.</summary>
+	private int _previousState; 								/// <summary>Previous State.</summary>
+	private int _ignoreResetMask; 								/// <summary>Mask that selectively contains state to ignore resetting if they were added again [with AddState's method]. As it is 0 by default, it won't ignore resetting any state [~0 = 11111111]</summary>
+	private Rigidbody2D _rigidbody; 							/// <summary>Rigidbody's Component.</summary>
+	private DisplacementAccumulator _accumulator; 				/// <summary>displacementAccumulator's Component.</summary>
+	private GravityApplier _gravityApplier; 					/// <summary>GravityApplier's Component.</summary>
+	private Cooldown _landingCooldown; 							/// <summary>Landing Cooldown's reference.</summary>
+
+#region Getters/Setters:
+	/// <summary>Gets and Sets groundedScale property.</summary>
+	public float groundedScale
+	{
+		get { return _groundedScale; }
+		set { _groundedScale = value; }
+	}
+
+	/// <summary>Gets and Sets jumpingScale property.</summary>
+	public float jumpingScale
+	{
+		get { return _jumpingScale; }
+		set { _jumpingScale = value; }
+	}
+
+	/// <summary>Gets and Sets fallingScale property.</summary>
+	public float fallingScale
+	{
+		get { return _fallingScale; }
+		set { _fallingScale = value; }
+	}
+
+	/// <summary>Gets and Sets landingDuration property.</summary>
+	public float landingDuration
+	{
+		get { return _landingDuration; }
+		set { _landingDuration = value; }
+	}
+
+	/// <summary>Gets and Sets progressForExtraJump property.</summary>
+	public float progressForExtraJump
+	{
+		get { return _progressForExtraJump; }
+		set { _progressForExtraJump = value; }
+	}
+
+	/// <summary>Gets and Sets scaleChangePriority property.</summary>
+	public int scaleChangePriority
+	{
+		get { return _scaleChangePriority; }
+		set { _scaleChangePriority = value; }
+	}
+
+	/// <summary>Gets and Sets forcesInfo property.</summary>
+	public ForceInformation2D[] forcesInfo
+	{
+		get { return _forcesInfo; }
+		private set { _forcesInfo = value; }
+	}
+
+	/// <summary>Gets and Sets currentJumpIndex property.</summary>
+	public int currentJumpIndex
+	{
+		get { return _currentJumpIndex; }
+		private set { _currentJumpIndex = value; }
+	}
+
+	/// <summary>Gets and Sets state property.</summary>
+	public int state
+	{
+		get { return _state; }
+		set { _state = value; }
+	}
+
+	/// <summary>Gets and Sets previousState property.</summary>
+	public int previousState
+	{
+		get { return _previousState; }
+		set { _previousState = value; }
+	}
+
+	/// <summary>Gets and Sets ignoreResetMask property.</summary>
+	public int ignoreResetMask
+	{
+		get { return _ignoreResetMask; }
+		set { _ignoreResetMask = value; }
+	}
+
+	/// <summary>Gets and Sets forcesAppliers property.</summary>
+	public TimeConstrainedForceApplier2D[] forcesAppliers
+	{
+		get { return _forcesAppliers; }
+		set { _forcesAppliers = value; }
+	}
+
+	/// <summary>Gets grounded property.</summary>
+	public bool grounded { get { return this.HasState(STATE_ID_GROUNDED); } }
+
+	/// <summary>Gets and Sets landingCooldown property.</summary>
+	public Cooldown landingCooldown
+	{
+		get { return _landingCooldown; }
+		private set { _landingCooldown = value; }
+	}
+
+	/// <summary>Gets rigidbody Component.</summary>
+	public new Rigidbody2D rigidbody
+	{ 
+		get
+		{
+			if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody2D>();
+			return _rigidbody;
+		}
+	}
+
+	/// <summary>Gets accumulator Component.</summary>
+	public DisplacementAccumulator accumulator
+	{ 
+		get
+		{
+			if(_accumulator == null) _accumulator = GetComponent<DisplacementAccumulator>();
+			return _accumulator;
+		}
+	}
+
+	/// <summary>Gets gravityApplier Component.</summary>
+	public GravityApplier gravityApplier
+	{ 
+		get
+		{
+			if(_gravityApplier == null) _gravityApplier = GetComponent<GravityApplier>();
+			return _gravityApplier;
+		}
+	}
+#endregion
+
+#region UnityMethods:
+	/// <summary>JumpAbility's instance initialization.</summary>
+	private void Awake()
+	{
+		this.ChangeState(STATE_ID_GROUNDED);
+		UpdateForcesAppliers();
+		landingCooldown = new Cooldown(this, landingDuration, OnLandingCooldownEnds);
+		gravityApplier.onGroundedStateChange += OnGroundedStateChange;
+		currentJumpIndex = 0;
+	}
+
+	/// <summary>Updates JumpAbility's instance at each Physics Thread's frame.</summary>
+	private void FixedUpdate()
+	{
+		/// \TODO FIX THIS SHIT
+		if(this.HasStates(STATE_ID_JUMPING))
+		{
+			TimeConstrainedForceApplier2D applier = forcesAppliers[currentJumpIndex];
+			accumulator.AddDisplacement(applier.velocity * applier.timeScale);
+		}
+	}
+#endregion
+
+#region StateMachineCallbacks:
+	/// <summary>Enters int State.</summary>
+	/// <param name="_state">int State that will be entered.</param>
+	public void OnEnterState(int _state)
+	{
+		switch(_state)
+		{
+			case STATE_ID_GROUNDED:
+			gravityApplier.RequestScaleChange(GetInstanceID(), groundedScale, scaleChangePriority);
+			if(forcesAppliers != null) forcesAppliers[currentJumpIndex].CancelForce();
+			currentJumpIndex = 0;
+			break;
+
+			case STATE_ID_JUMPING:
+			gravityApplier.RequestScaleChange(GetInstanceID(), jumpingScale, scaleChangePriority);
+			break;
+
+			case STATE_ID_FALLING:
+			gravityApplier.RequestScaleChange(GetInstanceID(), fallingScale, scaleChangePriority);
+			break;
+
+			case STATE_ID_LANDING:
+			landingCooldown.Begin();
+			break;
+
+			default:
+			break;
+		}
+
+		//Debug.Log("[JumpAbility] Entered State with Bit-Chain: " + _state.GetBitChain());
+	}
+	
+	/// <summary>Leaves int State.</summary>
+	/// <param name="_state">int State that will be left.</param>
+	public void OnExitState(int _state)
+	{ /*...*/ }
+
+	/// <summary>Callback invoked when new state's flags are added.</summary>
+	/// <param name="_state">State's flags that were added.</param>
+	public void OnStatesAdded(int _state)
+	{
+		InvokeOnGroundedStateChange(_state, currentJumpIndex);
+	}
+
+	/// <summary>Callback invoked when new state's flags are removed.</summary>
+	/// <param name="_state">State's flags that were removed.</param>
+	public void OnStatesRemoved(int _state)
+	{ /*...*/ }
+#endregion
+
+#region Callbacks:
+	/// <summary>Callback invoked when the jump ends.</summary>
+	private void OnJumpEnds()
+	{
+		this.ChangeState(STATE_ID_FALLING);
+	}
+
+	/// <summary>Callback invokes when the Landing's cooldown ends.</summary>
+	private void OnLandingCooldownEnds()
+	{
+		this.ChangeState(STATE_ID_GROUNDED);
+	}
+
+	/// <summary>Callback invoked when the GravityApplier's grounded state changes.</summary>
+	/// <param name="_grounded">New Grounded State.</param>
+	private void OnGroundedStateChange(bool _grounded)
+	{
+		switch(_grounded)
+		{
+			case true:
+			this.ChangeState((previousState | STATE_FLAG_FALLING) == previousState ? STATE_ID_LANDING : STATE_ID_GROUNDED);
+			break;
+
+			case false:
+			if(!this.HasStates(STATE_ID_JUMPING))
+			{
+				this.ChangeState(STATE_ID_FALLING);
+				if(currentJumpIndex == 0 && forcesInfo.Length > 1) forcesAppliers[currentJumpIndex].CancelForce();
+			}
+			break;
+		}
+	}
+
+	/// <summary>Invokes JumpAbility's State Change.</summary>
+	/// <param name="_stateID">State's ID.</param>
+	/// <param name="_jumpLevel">Jump's Level [index].</param>
+	private void InvokeOnGroundedStateChange(int _stateID, int _jumpLevel)
+	{
+		if(onJumpStateChange != null) onJumpStateChange(_stateID, _jumpLevel);
+	}
+#endregion
+
+	/// <summary>Updates Forces' Appliers.</summary>
+	public void UpdateForcesAppliers()
+	{
+		forcesAppliers = new TimeConstrainedForceApplier2D[forcesInfo.Length];
+
+		for(int i = 0; i < forcesAppliers.Length; i++)
+		{
+			ForceInformation2D forceInfo = forcesInfo[i];
+			forcesAppliers[i] = new TimeConstrainedForceApplier2D(
+				this,
+				rigidbody,
+				forceInfo.force,
+				forceInfo.duration,
+				forceInfo.forceMode,
+				OnJumpEnds
+			);
+		}
+	}
+
+	/// <summary>Performs Jump's Ability.</summary>
+	public void Jump()
+	{
+		if(this.HasStates(STATE_ID_LANDING)) return;
+
+		int limit = forcesAppliers.Length - 1;
+		TimeConstrainedForceApplier2D forceApplier = null;
+
+		if(this.HasStates(STATE_ID_GROUNDED) && currentJumpIndex == 0)
+		{
+			forceApplier = forcesAppliers[currentJumpIndex];
+
+		} else if(this.HasAnyOfTheStates(STATE_ID_JUMPING | STATE_ID_FALLING) && currentJumpIndex < limit)
+		{
+			forceApplier = forcesAppliers[currentJumpIndex];
+			forceApplier.CancelForce();
+			currentJumpIndex++;
+			forceApplier = forcesAppliers[currentJumpIndex];
+		}
+
+		if(forceApplier == null) return;
+
+		//Debug.Log("[JumpAbility] ForceApplier #" + currentJumpIndex + ": " + forceApplier.ToString());
+
+		forceApplier.ApplyForce();
+		this.ChangeState(STATE_ID_JUMPING);
+	}
+
+	/// <summary>Advances Jump's Index.</summary>
+	public void AdvanceJumpIndex()
+	{
+		currentJumpIndex++;
+	}
+}
+}

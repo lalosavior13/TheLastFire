@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: b81a1591c16ef8f41a844595fd2d109d
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Magic Wand
+  fontNames:
+  - Magic Wand
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 5550197d7023b974aa5615dde937b609, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,159 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using Voidless;
+
+namespace Flamingo
+{
+public class TrainingGroundController : Singleton<TrainingGroundController>
+{
+	[SerializeField] private CollectionIndex _soundEffectIndex; 	/// <summary>Particle Effect's Index on the Game's Data.</summary>
+	[SerializeField] private Mateo _mateo; 									/// <summary>Mateo's Reference.</summary>
+	[SerializeField] private DestroyOnImpact[] _targetImpactHandlers; 		/// <summary>Target's DestroyOnImpacts' Components.</summary>
+	[SerializeField] private DestroyOnImpact[] _marbleImpactHandlers; 		/// <summary>Marble's DestroyOnImpacts' Components.</summary>
+	[SerializeField] private DestroyOnImpact[] _petrolImpactHandlers; 		/// <summary>Petrol's DestroyOnImpacts' Components.</summary>
+	[Space(5f)]
+	[Header("UI:")]
+	[SerializeField] private Text _targetsScoreText; 						/// <summary>Targets' Score's Text.</summary>
+	[SerializeField] private Text _marblesScoreText; 						/// <summary>Marbles' Score's Text.</summary>
+	[SerializeField] private Text _petrolsScoreText; 						/// <summary>Petrols' Score's Text.</summary>
+	[SerializeField] private int _targetsScore; 												/// <summary>Targets' Score.</summary>
+	private int _marblesScore; 												/// <summary>Marbles' Score.</summary>
+	[SerializeField] private int _petrolsScore; 												/// <summary>Petrols' Score.</summary>
+
+
+public void Cheer()
+	{
+		if(targetsScore == 0) 
+		{
+			int index = soundEffectIndex;
+		AudioController.PlayOneShot(index);
+		}
+	}
+
+void Cheer2()
+	{
+		if(petrolsScore == 0) 
+		{
+			int index = soundEffectIndex;
+		AudioController.PlayOneShot(index);
+		}
+		
+	}
+
+	/// <summary>Gets and Sets mateo property.</summary>
+	public Mateo mateo
+	{
+		get { return _mateo; }
+		set { _mateo = value; }
+	}
+
+	/// <summary>Gets targetImpactHandlers property.</summary>
+	public DestroyOnImpact[] targetImpactHandlers { get { return _targetImpactHandlers; } }
+
+	/// <summary>Gets marbleImpactHandlers property.</summary>
+	public DestroyOnImpact[] marbleImpactHandlers { get { return _marbleImpactHandlers; } }
+
+	/// <summary>Gets petrolImpactHandlers property.</summary>
+	public DestroyOnImpact[] petrolImpactHandlers { get { return _petrolImpactHandlers; } }
+
+	/// <summary>Gets and Sets targetsScore property.</summary>
+	public int targetsScore
+	{
+		get { return _targetsScore; }
+		private set
+		{
+			_targetsScore = value;
+			if(targetsScoreText != null) targetsScoreText.text = _targetsScore.ToString();
+		}
+	}
+
+	/// <summary>Gets and Sets soundEffectIndex property.</summary>
+	public CollectionIndex soundEffectIndex
+	{
+		get { return _soundEffectIndex; }
+		set { _soundEffectIndex = value; }
+	}
+
+	/// <summary>Gets and Sets marblesScore property.</summary>
+	public int marblesScore
+	{
+		get { return _marblesScore; }
+		private set
+		{
+			_marblesScore = value;
+			if(marblesScoreText != null) marblesScoreText.text = _marblesScore.ToString();
+		}
+	}
+
+	/// <summary>Gets and Sets petrolsScore property.</summary>
+	public int petrolsScore
+	{
+		get { return _petrolsScore; }
+		private set
+		{
+			_petrolsScore = value;
+			if(petrolsScoreText != null) petrolsScoreText.text = _petrolsScore.ToString();
+		}
+	}
+
+	/// <summary>Gets targetsScoreText property.</summary>
+	public Text targetsScoreText { get { return _targetsScoreText; } }
+
+	/// <summary>Gets marblesScoreText property.</summary>
+	public Text marblesScoreText { get { return _marblesScoreText; } }
+
+	/// <summary>Gets petrolsScoreText property.</summary>
+	public Text petrolsScoreText { get { return _petrolsScoreText; } }
+
+	/// <summary>TrainingGroundController's instance initialization.</summary>
+	protected override void OnAwake()
+	{
+		//mateo.PerformInitialPose(true);
+		//mateo.StareTowards(StareTarget.Player);
+
+		if(targetImpactHandlers != null) foreach(DestroyOnImpact handler in targetImpactHandlers)
+		{
+			handler.onDestroyed += OnTargetImpactEvent;
+		}
+
+		if(marbleImpactHandlers != null) foreach(DestroyOnImpact handler in marbleImpactHandlers)
+		{
+			handler.onDestroyed += OnMarbleImpactEvent;
+		}
+
+		if(petrolImpactHandlers != null) foreach(DestroyOnImpact handler in petrolImpactHandlers)
+		{
+			handler.onDestroyed += OnPetrolImpactEvent;
+		}
+
+		_targetsScore = 32;
+		_petrolsScore = 35;
+	}
+
+	/// <summary>Event invoked when an impact is received.</summary>
+	/// <param name="_info">Trigger2D's Information.</param>
+	private void OnTargetImpactEvent(/*Trigger2DInformation _info*/)
+	{
+		targetsScore--;
+		Cheer();
+	}
+
+	/// <summary>Event invoked when an impact is received.</summary>
+	/// <param name="_info">Trigger2D's Information.</param>
+	private void OnMarbleImpactEvent(/*Trigger2DInformation _info*/)
+	{
+		marblesScore--;
+	}
+
+	/// <summary>Event invoked when an impact is received.</summary>
+	/// <param name="_info">Trigger2D's Information.</param>
+	private void OnPetrolImpactEvent(/*Trigger2DInformation _info*/)
+	{
+		petrolsScore--;
+		Cheer2();
+	}
+}
+}

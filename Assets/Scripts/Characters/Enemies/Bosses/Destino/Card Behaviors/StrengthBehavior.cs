@@ -1,0 +1,531 @@
+﻿using System.Collections;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using Voidless;
+
+namespace Flamingo
+{
+[CreateAssetMenu]
+public class StrengthBehavior : DestinoScriptableCoroutine
+{
+	[Space(5f)]
+	[Header("Drumsticks' Attributes:")]
+	[SerializeField] private CollectionIndex _drumstickSoundIndex; 				/// <summary>Drumsticks Sound's Index.</summary>
+	[SerializeField] private AnimatorCredential _drumstickPhaseCredential; 	/// <summary>Activate Drumstick's Animator Credential.</summary>
+	[SerializeField] private IntRange _drumBeatsSequence; 						/// <summary>Drumstickes' beats sequence's range.</summary>
+	[SerializeField] private Vector3 _leftDrumstickSpawnPoint; 					/// <summary>Left Drumstick's Spawn Position.</summary>
+	[SerializeField] private Vector3 _rightDrumstickSpawnPoint; 				/// <summary>Right Drumstick's Spawn Position.</summary>
+	[SerializeField] private NormalizedVector3 _orientationVector; 				/// <summary>Drumstick's Orientation Vector.</summary>
+	[SerializeField] private NormalizedVector3 _rotationAxis; 					/// <summary>Drumstick's Rotation Axis.</summary>
+	[SerializeField] [Range(0.0f, 1.0f)] private float _dotTolerance; 			/// <summary>Dot Product's Tolerance.</summary>
+	[SerializeField] private float _drumstickShakeDuration; 					/// <summary>Drumstick's ShakeDuration.</summary>
+	[SerializeField] private float _drumstickShakeSpeed; 						/// <summary>Drumstick's Shake Speed.</summary>
+	[SerializeField] private float _drumstickShakeMagnitude; 					/// <summary>Drumstick's Shake Magnitude.</summary>
+	[SerializeField] private RotationDataSet[] _leftDrumstickRotationsSet; 		/// <summary>Left Drumstick's Rotations' Data Set.</summary>
+	[SerializeField] private RotationDataSet[] _rightDrumstickRotationsSet; 	/// <summary>Right Drumstick's Rotations' Data Set.</summary>
+	[Space(5f)]
+	[Header("Trumpet's Attributes:")]
+	[SerializeField] private CollectionIndex _trumpetSoundIndex; 				/// <summary>Trumpet Sound's Index.</summary>
+	[SerializeField] private AnimatorCredential _activateTrumpetCredential; 	/// <summary>Activate Trumpet's Credential.</summary>
+	[SerializeField] private Vector3 _trumpetSpawnPoint; 						/// <summary>Trumpet's Spawn Position.</summary>
+	[SerializeField] private Vector3 _trumpetDestinyPoint; 						/// <summary>Trumpet's Destiny Position [considering Mateo's X position].</summary>
+	[SerializeField] private float _entranceDuration; 							/// <summary>Trumpet's Entrance Duration.</summary>
+	[SerializeField] private float _exitDuration; 								/// <summary>Trumpet's Exit Duration.</summary>
+	[SerializeField] private float _soundEmissionDuration; 						/// <summary>Trumpet's Sound Emission Duration.</summary>
+	[SerializeField] private float _trumpetShakeDuration; 						/// <summary>Trumpet's ShakeDuration.</summary>
+	[SerializeField] private float _trumpetShakeSpeed; 							/// <summary>Trumpet's Shake Speed.</summary>
+	[SerializeField] private float _trumpetShakeMagnitude; 						/// <summary>Trumpet's Shake Magnitude.</summary>
+	[Space(5f)]
+	[Header("Cymbals' Attributes:")]
+	[SerializeField] private CollectionIndex _cymbalSoundIndex; 				/// <summary>Cymbal Sound's Index.</summary>
+	[SerializeField] private CollectionIndex _cymbalIndex; 						/// <summary>Cymbal Projectile's Index.</summary>
+	[SerializeField] private AnimatorCredential _activateCymbalsCredential; 	/// <summary>Activate Cymbals' Animator Credential.</summary>
+	[SerializeField] private TransformData _leftCymbalSpawnPoint; 				/// <summary>Left Cymbal's Spawn Point [as TransformData].</summary>
+	[SerializeField] private TransformData _rightCymbalSpawnPoint; 				/// <summary>Right Cymbal's Spawn Point [as TransformData].</summary>
+	[Space(5f)]
+	[Header("Sounds' Attributes:")]
+	[SerializeField] private float _cooldownAfterSoundNote; 					/// <summary>Cooldown's Duration after a sing note is played.</summary>
+#if UNITY_EDITOR
+	[Space(5f)]
+	[Header("Test's Settings:")]
+	[SerializeField] private bool testDebugIndex; 								/// <summary>Test Debug's Index.</summary>
+	[HideInInspector] public int debugIndex; 									/// <summary>RotationsDataSet's on given index to debug.</summary>
+	[HideInInspector] public int debugSubIndex; 								/// <summary>RotationData on given sub-index to debug.</summary>
+	[Space(5f)]
+	[Header("Gizmos' Attributes:")]
+	[SerializeField] private Vector2 gizmosTextOffset; 							/// <summary>Gizmos' Text Offset.</summary>
+	[SerializeField] private Color gizmosColor; 								/// <summary>Gizmos' Color.</summary>
+	[SerializeField] private Color buildUpColor; 								/// <summary>Build-Up's Color.</summary>
+	[SerializeField] private Color swingColor; 									/// <summary>Swing's Color.</summary>
+	[SerializeField] private float gizmosRadius; 								/// <summary>Gizmos' Radius.</summary>
+	[SerializeField] private float gizmosRayLength; 							/// <summary>Gizmos' Ray Length.</summary>
+#endif
+
+#region Getters:
+	/// <summary>Gets drumBeatsSequence property.</summary>
+	public IntRange drumBeatsSequence { get { return _drumBeatsSequence; } }
+
+	/// <summary>Gets leftDrumstickSpawnPoint property.</summary>
+	public Vector3 leftDrumstickSpawnPoint { get { return _leftDrumstickSpawnPoint; } }
+
+	/// <summary>Gets rightDrumstickSpawnPoint property.</summary>
+	public Vector3 rightDrumstickSpawnPoint { get { return _rightDrumstickSpawnPoint; } }
+
+	/// <summary>Gets trumpetSpawnPoint property.</summary>
+	public Vector3 trumpetSpawnPoint { get { return _trumpetSpawnPoint; } }
+
+	/// <summary>Gets trumpetDestinyPoint property.</summary>
+	public Vector3 trumpetDestinyPoint { get { return _trumpetDestinyPoint; } }
+
+	/// <summary>Gets orientationVector property.</summary>
+	public NormalizedVector3 orientationVector { get { return _orientationVector; } }
+
+	/// <summary>Gets rotationAxis property.</summary>
+	public NormalizedVector3 rotationAxis { get { return _rotationAxis; } }
+
+	/// <summary>Gets dotTolerance property.</summary>
+	public float dotTolerance { get { return _dotTolerance; } }
+
+	/// <summary>Gets drumstickShakeDuration property.</summary>
+	public float drumstickShakeDuration { get { return _drumstickShakeDuration; } }
+
+	/// <summary>Gets drumstickShakeSpeed property.</summary>
+	public float drumstickShakeSpeed { get { return _drumstickShakeSpeed; } }
+
+	/// <summary>Gets drumstickShakeMagnitude property.</summary>
+	public float drumstickShakeMagnitude { get { return _drumstickShakeMagnitude; } }
+
+	/// <summary>Gets entranceDuration property.</summary>
+	public float entranceDuration { get { return _entranceDuration; } }
+
+	/// <summary>Gets exitDuration property.</summary>
+	public float exitDuration { get { return _exitDuration; } }
+
+	/// <summary>Gets soundEmissionDuration property.</summary>
+	public float soundEmissionDuration { get { return _soundEmissionDuration; } }
+
+	/// <summary>Gets trumpetShakeDuration property.</summary>
+	public float trumpetShakeDuration { get { return _trumpetShakeDuration; } }
+
+	/// <summary>Gets trumpetShakeSpeed property.</summary>
+	public float trumpetShakeSpeed { get { return _trumpetShakeSpeed; } }
+
+	/// <summary>Gets trumpetShakeMagnitude property.</summary>
+	public float trumpetShakeMagnitude { get { return _trumpetShakeMagnitude; } }
+
+	/// <summary>Gets cooldownAfterSoundNote property.</summary>
+	public float cooldownAfterSoundNote { get { return _cooldownAfterSoundNote; } }
+
+	/// <summary>Gets leftDrumstickRotationsSet property.</summary>
+	public RotationDataSet[] leftDrumstickRotationsSet { get { return _leftDrumstickRotationsSet; } }
+
+	/// <summary>Gets rightDrumstickRotationsSet property.</summary>
+	public RotationDataSet[] rightDrumstickRotationsSet { get { return _rightDrumstickRotationsSet; } }
+
+	/// <summary>Gets drumstickPhaseCredential property.</summary>
+	public AnimatorCredential drumstickPhaseCredential { get { return _drumstickPhaseCredential; } }
+
+	/// <summary>Gets activateTrumpetCredential property.</summary>
+	public AnimatorCredential activateTrumpetCredential { get { return _activateTrumpetCredential; } }
+
+	/// <summary>Gets activateCymbalsCredential property.</summary>
+	public AnimatorCredential activateCymbalsCredential { get { return _activateCymbalsCredential; } }
+
+	/// <summary>Gets drumstickSoundIndex property.</summary>
+	public CollectionIndex drumstickSoundIndex { get { return _drumstickSoundIndex; } }
+
+	/// <summary>Gets trumpetSoundIndex property.</summary>
+	public CollectionIndex trumpetSoundIndex { get { return _trumpetSoundIndex; } }
+
+	/// <summary>Gets cymbalSoundIndex property.</summary>
+	public CollectionIndex cymbalSoundIndex { get { return _cymbalSoundIndex; } }
+
+	/// <summary>Gets cymbalIndex property.</summary>
+	public CollectionIndex cymbalIndex { get { return _cymbalIndex; } }
+
+	/// <summary>Gets leftCymbalSpawnPoint property.</summary>
+	public TransformData leftCymbalSpawnPoint { get { return _leftCymbalSpawnPoint; } }
+
+	/// <summary>Gets rightCymbalSpawnPoint property.</summary>
+	public TransformData rightCymbalSpawnPoint { get { return _rightCymbalSpawnPoint; } }
+#endregion
+
+	/// <summary>Callback invoked when drawing Gizmos.</summary>
+	protected override void OnDrawGizmos()
+	{
+#if UNITY_EDITOR
+		base.OnDrawGizmos();
+
+		Gizmos.color = gizmosColor;
+
+		Gizmos.DrawWireSphere(leftDrumstickSpawnPoint, gizmosRadius);
+		Gizmos.DrawWireSphere(rightDrumstickSpawnPoint, gizmosRadius);
+		/*VGizmos.DrawText("Left Drumstick's Spawn Position", leftDrumstickSpawnPoint, gizmosTextOffset, Color.white);
+		VGizmos.DrawText("Right Drumstick's Spawn Position", rightDrumstickSpawnPoint, gizmosTextOffset, Color.white);*/
+
+		if(leftDrumstickRotationsSet != null && leftDrumstickRotationsSet.Length > 0)
+		{
+			RotationData data = leftDrumstickRotationsSet[debugIndex].rotationDataSet[debugSubIndex];
+
+			Gizmos.color = buildUpColor;
+			Gizmos.DrawRay(leftDrumstickSpawnPoint, data.buildUpDirection.normalized * gizmosRayLength);
+			Gizmos.color = swingColor;
+			Gizmos.DrawRay(leftDrumstickSpawnPoint, data.swingDirection.normalized * gizmosRayLength);
+		}
+		if(rightDrumstickRotationsSet != null && rightDrumstickRotationsSet.Length > 0)
+		{
+			RotationData data = rightDrumstickRotationsSet[debugIndex].rotationDataSet[debugSubIndex];
+
+			Gizmos.color = buildUpColor;
+			Gizmos.DrawRay(rightDrumstickSpawnPoint, data.buildUpDirection.normalized * gizmosRayLength);
+			Gizmos.color = swingColor;
+			Gizmos.DrawRay(rightDrumstickSpawnPoint, data.swingDirection.normalized * gizmosRayLength);
+		}
+
+		Gizmos.DrawWireSphere(trumpetSpawnPoint, gizmosRadius);
+		Gizmos.DrawWireSphere(trumpetDestinyPoint, gizmosRadius);
+
+		/// \TODO Correct the positioning on the Text...
+		/*VGizmos.DrawText("Trumpet's Spawn Position", trumpetSpawnPoint, gizmosTextOffset, Color.white);
+		VGizmos.DrawText("Trumpet's Destiny Position", trumpetDestinyPoint, gizmosTextOffset, Color.white);*/
+
+		VGizmos.DrawTransformData(leftCymbalSpawnPoint);
+		VGizmos.DrawTransformData(rightCymbalSpawnPoint);
+#endif
+	}
+
+	/// <summary>Coroutine's IEnumerator.</summary>
+	/// <param name="boss">Object of type T's argument.</param>
+	public override IEnumerator Routine(DestinoBoss boss)
+	{
+		if(!run)
+		{
+			InvokeCoroutineEnd();
+			yield break;
+		}
+		
+		IEnumerator[] routines = new IEnumerator[3];
+		int[] routinesIndices = VMath.GetUniqueRandomSet(3);
+		int i = 0;
+
+		foreach(int index in routinesIndices)
+		{
+			IEnumerator routine = null;
+
+			switch(index)
+			{
+				case 0: routine = DrumsticksRoutine(boss); break;
+				case 1: routine = TrumpetRoutine(boss); break;
+				case 2: routine = CymbalsRoutine(boss); break;
+			}
+
+			routines[i] = routine;
+			i++;
+		}
+
+		/// Temp for mere Testing:
+		routines = new IEnumerator[1] { DrumsticksRoutine(boss) };
+
+		foreach(IEnumerator routine in routines)
+		{
+			while(routine.MoveNext()) yield return null;
+		}
+
+		Debug.Log("[StrengthBehavior] This Shit Came to an End...");
+
+		yield return null;
+		InvokeCoroutineEnd();
+	}
+
+	/// <summary>Drumsticks' Routine.</summary>
+	/// <param name="boss">Destino's reference.</param>
+	private IEnumerator DrumsticksRoutine(DestinoBoss boss)
+	{
+		AudioClip clip = AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), boss.reFaNoteIndex);
+		ContactWeapon leftDrumstick = boss.leftDrumstick;
+		ContactWeapon rightDrumstick = boss.rightDrumstick;
+		Animator drumstickAnimator = rightDrumstick.GetComponent<Animator>();
+		AnimationAttacksHandler drumstickAttacksHandler = rightDrumstick.GetComponent<AnimationAttacksHandler>();
+		Renderer leftDrumstickRenderer = leftDrumstick.transform.GetChild(0).GetComponent<Renderer>();
+		float drumstickLength = leftDrumstickRenderer.bounds.size.y;
+		FloatRange leftDrumstickLimits = new FloatRange(-drumstickLength, -drumstickLength * 2.0f);
+		FloatRange rightDrumstickLimits = new FloatRange(drumstickLength, drumstickLength * 2.0f);
+		IEnumerator[] sequence = new IEnumerator[drumBeatsSequence.Random()];
+		Action<RotationEvent, int> onLeftDrumstickRotationEvent = (rotationEvent, ID)=>
+		{
+			switch(rotationEvent)
+			{
+				case RotationEvent.BuildUpEnds:
+				Vector3 projectedMateoPosition = Game.ProjectMateoPosition(1.0f);
+				leftDrumstick.transform.position = leftDrumstickSpawnPoint.WithX(leftDrumstickLimits.Clamp(projectedMateoPosition.x - drumstickLength));
+				break;
+
+				case RotationEvent.BuildingUp:
+				leftDrumstick.ActivateHitBoxes(false);
+				break;
+
+				case RotationEvent.Swinging:
+				leftDrumstick.ActivateHitBoxes(true);
+				break;
+
+				case RotationEvent.SwingEnds:
+				leftDrumstick.StartCoroutine(leftDrumstick.transform.GetChild(0).ShakePosition(drumstickShakeDuration, drumstickShakeSpeed, drumstickShakeMagnitude));
+				break;
+			}
+		};
+		Action<RotationEvent, int> onRightDrumstickRotationEvent = (rotationEvent, ID)=>
+		{
+			switch(rotationEvent)
+			{
+				case RotationEvent.BuildUpEnds:
+				Vector3 projectedMateoPosition = Game.ProjectMateoPosition(1.0f);
+				rightDrumstick.transform.position = rightDrumstickSpawnPoint.WithX(rightDrumstickLimits.Clamp(projectedMateoPosition.x + drumstickLength));
+				break;
+
+				case RotationEvent.BuildingUp:
+				rightDrumstick.ActivateHitBoxes(false);
+				break;
+
+				case RotationEvent.Swinging:
+				rightDrumstick.ActivateHitBoxes(true);
+				break;
+
+				case RotationEvent.SwingEnds:
+				rightDrumstick.StartCoroutine(rightDrumstick.transform.GetChild(0).ShakePosition(drumstickShakeDuration, drumstickShakeSpeed, drumstickShakeMagnitude));
+				break;
+			}
+		};
+		int[] drumstickCombo = VMath.GetUniqueRandomSet(new IntRange(1, 3), 2);
+		int index = 0;
+		bool drumstickAttackFinished = false;
+
+		Debug.Log("[StrengthBehavior] Combos: " + drumstickCombo.CollectionToString());
+
+		OnAnimationAttackEvent onAnimationAttackEvent = (_state)=>
+		{
+			switch(_state)
+			{
+				case AnimationCommandState.None:
+				break;
+
+			    case AnimationCommandState.Startup:
+			    AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), drumstickSoundIndex);
+			    break;
+
+			    case AnimationCommandState.Active:
+			    break;
+
+			    case AnimationCommandState.Recovery:
+			    break;
+
+			    case AnimationCommandState.End:
+			    if(index < drumstickCombo.Length)
+			    {
+			    	drumstickAnimator.SetInteger(drumstickPhaseCredential, drumstickCombo[index]);
+			    	index++;
+			    }
+			    else
+			    {
+			    	drumstickAnimator.SetInteger(drumstickPhaseCredential, 0);
+			    	drumstickAttackFinished = true;
+			    }
+			    break;
+			}
+
+			Debug.Log("[StrengthBehavior] Animation Attack Event for Drumstick: " + _state.ToString());
+		};
+
+		drumstickAttacksHandler.onAnimationAttackEvent -= onAnimationAttackEvent;
+		drumstickAttacksHandler.onAnimationAttackEvent += onAnimationAttackEvent;
+
+		SecondsDelayWait wait = new SecondsDelayWait(clip.length);
+		while(wait.MoveNext()) yield return null;
+
+		wait.ChangeDurationAndReset(cooldownAfterSoundNote);
+		while(wait.MoveNext()) yield return null;
+
+		//leftDrumstick.SetActive(true);
+		rightDrumstick.SetActive(true);
+		drumstickAnimator.SetInteger(drumstickPhaseCredential, drumstickCombo[index]);
+		index++;
+
+		/*for(int i = 0; i < sequence.Length; i++)
+		{
+			sequence[i] = UnityEngine.Random.Range(0, 2) == 0?
+				RotationDataSet.BuildUpAndSwing(leftDrumstickRotationsSet, leftDrumstick.transform, rotationAxis, orientationVector, dotTolerance, onLeftDrumstickRotationEvent)
+				: RotationDataSet.BuildUpAndSwing(rightDrumstickRotationsSet, rightDrumstick.transform, rotationAxis, orientationVector, dotTolerance, onRightDrumstickRotationEvent);
+		}
+
+		foreach(IEnumerator rotateRoutine in sequence)
+		{
+			while(rotateRoutine.MoveNext()) yield return null;
+		}*/
+
+		while(!drumstickAttackFinished) yield return null;
+	
+		//leftDrumstick.SetActive(false);
+		rightDrumstick.SetActive(false);
+	}
+
+	/// <summary>Trumpet's Routine.</summary>
+	/// <param name="boss">Destino's reference.</param>
+	private IEnumerator TrumpetRoutine(DestinoBoss boss)
+	{
+		AudioClip clip = AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), boss.laReNoteIndex);
+		ContactWeapon trumpet = boss.trumpet;
+		Animator trumpetAnimator = trumpet.GetComponent<Animator>();
+		AnimationAttacksHandler trumpetAttacksHandler = trumpet.GetComponent<AnimationAttacksHandler>();
+		SecondsDelayWait wait = new SecondsDelayWait(soundEmissionDuration);
+		Vector3 projectedMateoPosition = Game.ProjectMateoPosition(1.0f);
+		float x = projectedMateoPosition.x;
+		Vector3 spawnPosition = trumpetSpawnPoint.WithX(x);
+		Vector3 destinyPoint = trumpetDestinyPoint.WithX(x);
+		float t = 0.0f;
+		float inverseDuration = 1.0f / entranceDuration;
+		bool trumpetAttackFinished = false;
+		trumpet.SetActive(true);
+		trumpet.ActivateHitBoxes(false);
+		OnAnimationAttackEvent onAnimationAttackEvent = (_state)=>
+		{
+			switch(_state)
+			{
+				case AnimationCommandState.Startup:
+				AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), trumpetSoundIndex);
+				break;
+
+				case AnimationCommandState.Active:
+				trumpet.ActivateHitBoxes(true);
+				break;
+
+				case AnimationCommandState.Recovery:
+				break;
+
+				case AnimationCommandState.End:
+				trumpet.ActivateHitBoxes(false);
+				trumpetAttackFinished = true;
+				break;
+			}
+
+			Debug.Log("[StrengthBehavior] Animation attack Event for Trumpet: " + _state.ToString());
+		};
+
+		trumpetAttacksHandler.onAnimationAttackEvent -= onAnimationAttackEvent;
+		trumpetAttacksHandler.onAnimationAttackEvent += onAnimationAttackEvent;
+
+		wait.ChangeDurationAndReset(clip.length);
+		while(wait.MoveNext()) yield return null;
+
+		wait.ChangeDurationAndReset(cooldownAfterSoundNote);
+		while(wait.MoveNext()) yield return null;
+
+		trumpetAnimator.SetTrigger(activateTrumpetCredential);
+		AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), trumpetSoundIndex);
+
+		while(!trumpetAttackFinished) yield return null;
+
+#region Before:
+		/*while(t < 1.0f)
+		{
+			trumpet.transform.position = Vector3.Lerp(spawnPosition, destinyPoint, t);
+			t += (Time.deltaTime * inverseDuration);
+			yield return null;
+		}
+
+		trumpet.transform.position = destinyPoint;
+		t = 1.0f;
+		inverseDuration = 1.0f / exitDuration;
+		trumpet.ActivateHitBoxes(true);
+
+		trumpet.StartCoroutine(trumpet.transform.ShakePosition(trumpetShakeDuration, trumpetShakeSpeed, trumpetShakeMagnitude));
+		while(wait.MoveNext()) yield return null;
+
+		trumpet.ActivateHitBoxes(false);
+
+		while(t > 0.0f)
+		{
+			trumpet.transform.position = Vector3.Lerp(spawnPosition, destinyPoint, t);
+			t -= (Time.deltaTime * inverseDuration);
+			yield return null;
+		}
+
+		trumpet.transform.position = spawnPosition;
+		t = 0.0f;
+		trumpet.SetActive(false);*/
+#endregion
+	}
+
+	/// <summary>Cymbals' Routine.</summary>
+	/// <param name="boss">Boss' reference.</param>
+	private IEnumerator CymbalsRoutine(DestinoBoss boss)
+	{
+		AudioClip clip = AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), boss.siMiNoteIndex);
+		ContactWeapon cymbals = boss.cymbals;
+		Animator cymbalsAnimator = cymbals.GetComponent<Animator>();
+		AnimationAttacksHandler cymbalsAttacksHandler = cymbals.GetComponent<AnimationAttacksHandler>();
+		SecondsDelayWait wait = new SecondsDelayWait(clip.length);
+		bool cymbalAttackEnded = false;
+		OnAnimationAttackEvent onAnimationAttackEvent = (_state)=>
+		{
+			switch(_state)
+			{
+				case AnimationCommandState.Startup:
+				cymbals.gameObject.SetActive(true);
+				cymbals.ActivateHitBoxes(false);
+				AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), cymbalSoundIndex);
+				break;
+
+				case AnimationCommandState.Active:
+				cymbals.ActivateHitBoxes(true);
+				break;
+
+				case AnimationCommandState.Recovery:
+				cymbals.ActivateHitBoxes(false);
+				break;
+
+				case AnimationCommandState.End:
+				cymbals.gameObject.SetActive(false);
+				cymbals.ActivateHitBoxes(false);
+				cymbalAttackEnded = true;
+				break;
+			}
+		};
+
+		cymbalsAttacksHandler.onAnimationAttackEvent -= onAnimationAttackEvent;
+		cymbalsAttacksHandler.onAnimationAttackEvent += onAnimationAttackEvent;
+
+		cymbals.gameObject.SetActive(true);
+
+		while(wait.MoveNext()) yield return null;
+
+		wait.ChangeDurationAndReset(cooldownAfterSoundNote);
+		while(wait.MoveNext()) yield return null;
+
+		cymbalsAnimator.SetTrigger(activateCymbalsCredential);
+		AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), cymbalSoundIndex);
+
+		while(!cymbalAttackEnded) yield return null;
+
+#region Before:
+		/*int count = 2;
+		bool keepWaiting = true;
+		OnPoolObjectDeactivation onCymbalDeactivated = (poolObject)=>
+		{
+			count--;
+			if(count <= 0) keepWaiting = false;
+		};
+
+		Projectile leftCymbal = PoolManager.RequestProjectile(Faction.Enemy, cymbalIndex, leftCymbalSpawnPoint.position, leftCymbalSpawnPoint.right);
+		Projectile rightCymbal = PoolManager.RequestProjectile(Faction.Enemy, cymbalIndex, rightCymbalSpawnPoint.position, rightCymbalSpawnPoint.right);
+
+		leftCymbal.onPoolObjectDeactivation += onCymbalDeactivated;
+		rightCymbal.onPoolObjectDeactivation += onCymbalDeactivated;
+
+		while(keepWaiting) yield return null;
+
+		leftCymbal.onPoolObjectDeactivation -= onCymbalDeactivated;
+		rightCymbal.onPoolObjectDeactivation -= onCymbalDeactivated;*/
+#endregion
+	}
+}
+}

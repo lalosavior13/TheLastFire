@@ -1,0 +1,43 @@
+Regarding Destino:
+
+Actions:
+
+/*
+NOTE: The reasons to separate scenario and boss's manipulations is so we can test the bosses on other sceneries.
+*/
+
+Agnostic Scenario-Dependant:
+ - Music Manipulation
+
+Scenario-Dependant:
+ - Opening-Close of the curtain
+ - Turning on-off of lights
+ - Floor manipulation
+
+Boss:
+ - Death (One-Hit Kill)
+ 	- Scythe's swing:
+ 		- Level 1: One swing, slow buildup
+ 		- Level 2: Back and forth (2 swings)
+ 		- Level 3: 3 swings + flinching false starts
+ - Devil
+ 	- Minimum of 3 arrows, maximum of 9 arrows
+ 	- As soon as arrows anchor to the floor/wall/ceiling, the space gets cut-off (the become colliders)
+ 	- They can be parried if timed properly
+ 	- Arrow's speed accelerates over time
+ 	- Arrow's tip does damage, the chain does not. Both are colliders though.
+
+ - The Chariot
+ 	- Creates 2 types of spheres:
+ 		- Petrol: Affectable only by fire.
+ 		- Marble: Affectable only by sword.
+ 	- Creates a sequence of the spheres.
+ 		- The sequence is random
+ 		- The sequence must have at least one of each sphere type
+ 		- Each created sphere spawns from the center (or from a setted center)
+ 		- Once the sequence is done, it follows the player as a snake (the child sphere follows its parent, like some sort of IK).
+ 		- Sequence minimum length of 3 spheres, maximum of 10 spheres 
+ 	- The sequence begins from left (head) to right (tail)
+ 	- The sequence is presented before following Mateo
+ 	- The sequence is equally positioned from the center.
+ 	- The projectiles move in a Steering Behavior manner (seek behavior)
