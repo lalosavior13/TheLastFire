@@ -207,7 +207,7 @@ public class Projectile : ContactWeapon
 	/// <param name="_info">Trigger2D's Information.</param>
 	public override void OnImpactEvent(Trigger2DInformation _info)
 	{
-		Debug.Log("[Projectile] Impact Event invoked...");
+		Debug.Log("[Projectile] " + gameObject.name + "  Impact Event invoked...");
 		InvokeDeactivationEvent(DeactivationCause.Destroyed, _info);
 	}
 
@@ -259,6 +259,7 @@ public class Projectile : ContactWeapon
 	/// <param name="_info">Trigger2D's Information.</param>
 	public virtual void InvokeDeactivationEvent(DeactivationCause _cause, Trigger2DInformation _info = default(Trigger2DInformation))
 	{
+		Debug.Log("[Projectile] InvokeDeactivationEvent invoked...");
 		if(onDeactivated != null) onDeactivated(_cause, _info);
 		if(!dontDeactivateOnImpact) OnObjectDeactivation();
 	}

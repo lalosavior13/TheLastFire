@@ -27,13 +27,14 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             _instance = (T)FindObjectOfType(typeof(T));
  
             if (_instance == null)
-            Debug.LogWarning("An Instance of " + typeof(T) + " is needed in the scene, but there is none.");
+            Debug.LogError("An Instance of " + typeof(T) + " is needed in the scene, but there is none.");
          }
  
          return _instance;
       }
 	}
 
+   /// <summary>Callback invoked when the MonoBehaviour is instantiated.</summary>
    private void Awake()
    {
       if(Instance != this) Destroy(gameObject);

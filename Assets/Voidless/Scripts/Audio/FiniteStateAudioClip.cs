@@ -8,7 +8,7 @@ namespace Voidless
 public class FiniteStateAudioClip : ScriptableObject
 {
 	[SerializeField] private AudioClip _clip; 				/// <summary>AudioClip's reference.</summary>
-	[SerializeField] private FloatWrapper[] _statesRanges; 	/// <summary>States' Time Ranges.</summary>
+	[HideInInspector] public FloatWrapper[] _statesRanges; 					/// <summary>States' Time Ranges.</summary>
 	private float _time; 									/// <summary>Current's Time.</summary>
 
 	/// <summary>Gets and Sets clip property.</summary>
@@ -80,7 +80,6 @@ public class FiniteStateAudioClip : ScriptableObject
 	{
 		ChangeState(0);
 	}
-
 }
 }
 

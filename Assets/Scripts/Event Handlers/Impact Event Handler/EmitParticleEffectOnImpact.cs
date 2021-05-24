@@ -37,6 +37,7 @@ public class EmitParticleEffectOnImpact : ImpactEventListener
 	/// <param name="_info">Trigger2D's Information.</param>
 	protected override void OnImpactEvent(Trigger2DInformation _info)
 	{
+		Debug.Log("[EmitParticleEffectOnImpact] Emitting Particle Effect...");
 		Vector3 point = _info.contactPoint;
 		Vector3 direction = transform.position - point;
 		int index = particleEffectIndex;

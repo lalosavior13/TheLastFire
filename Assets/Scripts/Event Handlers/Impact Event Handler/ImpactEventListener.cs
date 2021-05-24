@@ -7,7 +7,7 @@ using Voidless;
 namespace Flamingo
 {
 [RequireComponent(typeof(ImpactEventHandler))]
-public class ImpactEventListener : MonoBehaviour
+public abstract class ImpactEventListener : MonoBehaviour
 {
 	private ImpactEventHandler _eventHandler; 	/// <summary>ImpactEventHandler's Component.</summary>
 
@@ -21,20 +21,20 @@ public class ImpactEventListener : MonoBehaviour
 		}
 	}
 
-	/// <summary>Callback invoked when ImpactEventListener's instance is disabled.</summary>
-	private void OnDisable()
-	{
-		eventHandler.onImpactEvent -= OnImpactEvent;
-	}
-
 	/// <summary>ImpactEventListener's instance initialization.</summary>
 	private void Awake()
 	{
 		eventHandler.onImpactEvent += OnImpactEvent;		
 	}
 
+	/// <summary>Callback invoked when ImpactEventListener's instance is destroyed, before being passed to the Garbage Collector.</summary>
+	private void OnDestroy()
+	{
+		eventHandler.onImpactEvent -= OnImpactEvent;
+	}
+
 	/// <summary>Callback invoked when an impact is received.</summary>
 	/// <param name="_info">Trigger2D's Information.</param>
-	protected virtual void OnImpactEvent(Trigger2DInformation _info) { /*...*/ }
+	protected abstract void OnImpactEvent(Trigger2DInformation _info);
 }
 }

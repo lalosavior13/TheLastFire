@@ -21,9 +21,9 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 {
 	[Space(5f)]
 	[Header("Loops:")]
-	[SerializeField] private CollectionIndex _fireShowPiece; 						/// <summary>Fire Show's Piece.</summary>
-	[SerializeField] private CollectionIndex _swordShowPiece; 						/// <summary>Sword Show's Piece.</summary>
-	[SerializeField] private CollectionIndex _danceShowPiece; 						/// <summary>Dance Show's Piece.</summary>
+	[SerializeField] private CollectionIndex _fireShowPieceIndex; 					/// <summary>Fire Show's Piece's Index.</summary>
+	[SerializeField] private CollectionIndex _swordShowPieceIndex; 					/// <summary>Sword Show's Piece's Index.</summary>
+	[SerializeField] private CollectionIndex _danceShowPieceIndex; 					/// <summary>Dance Show's Piece's Index.</summary>
 	[Space(5f)]
 	[Header("Sound Effects:")]
 	[SerializeField] private CollectionIndex _applauseSoundIndex; 					/// <summary>Applause's Sound Index.</summary>
@@ -89,14 +89,14 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 #endif
 
 #region Getters/Setters:
-	/// <summary>Gets fireShowPiece property.</summary>
-	public CollectionIndex fireShowPiece { get { return _fireShowPiece; } }
+	/// <summary>Gets fireShowPieceIndex property.</summary>
+	public CollectionIndex fireShowPieceIndex { get { return _fireShowPieceIndex; } }
 
-	/// <summary>Gets swordShowPiece property.</summary>
-	public CollectionIndex swordShowPiece { get { return _swordShowPiece; } }
+	/// <summary>Gets swordShowPieceIndex property.</summary>
+	public CollectionIndex swordShowPieceIndex { get { return _swordShowPieceIndex; } }
 
-	/// <summary>Gets danceShowPiece property.</summary>
-	public CollectionIndex danceShowPiece { get { return _danceShowPiece; } }
+	/// <summary>Gets danceShowPieceIndex property.</summary>
+	public CollectionIndex danceShowPieceIndex { get { return _danceShowPieceIndex; } }
 
 	/// <summary>Gets applauseSoundIndex property.</summary>
 	public CollectionIndex applauseSoundIndex { get { return _applauseSoundIndex; } }
@@ -331,8 +331,11 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			fireShowSuccessPercentage
 		);*/
 
-		AudioController.GetLoopSource(0).Pause();
-		AudioController.GetLoopSource(1).Pause();
+		/// Still need to decide when to deprecate.
+		/*AudioController.GetLoopSource(0).Pause();
+		AudioController.GetLoopSource(1).Pause();*/
+		AudioController.StopFSMLoop(0);
+		AudioController.StopFSMLoop(1);
 
 		IEnumerator signDisplacement = DisplayAndHideSign(DestinoSceneController.Instance.fireShowSign, fireShowSignSpawnPoint, fireShowSignDestinyPoint);
 		IEnumerator showJudgement = null;
@@ -354,7 +357,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 		for(int i = 0; i < rounds; i++)
 		{
-			AudioClip clip = AudioController.Play(AudioController.GetLoopSource(2), fireShowPiece, false);
+			AudioClip clip = AudioController.Play(AudioController.GetLoopSource(), fireShowPieceIndex, false);
 			wait.waitDuration = clip.length;
 			targetsPerRound = fireShowTargetsPerRound.Random();
 			float fTargetsPerRound = (float)targetsPerRound;
@@ -385,9 +388,12 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			while(showJudgement.MoveNext()) yield return null;
 		}
 
-		AudioController.GetLoopSource(2).Stop();
+		/// Still deciding when to deprecate
+		/*AudioController.GetLoopSource(2).Stop();
 		AudioController.GetLoopSource(0).UnPause();
-		AudioController.GetLoopSource(1).UnPause();
+		AudioController.GetLoopSource(1).UnPause();*/
+		AudioController.PlayFSMLoop(0, DestinoSceneController.Instance.mainLoopIndex);
+		AudioController.PlayFSMLoop(1, DestinoSceneController.Instance.mainLoopVoiceIndex);
 	}
 
 	/// <summary>Sword Show's Routine.</summary>
@@ -404,6 +410,9 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			swordTargetIndices,
 			swordShowSuccessPercentage
 		);*/
+
+		AudioController.StopFSMLoop(0);
+		AudioController.StopFSMLoop(1);
 
 		IEnumerator signDisplacement = DisplayAndHideSign(DestinoSceneController.Instance.swordShowSign, swordShowSignSpawnPoint, swordShowSignDestinyPoint);
 		IEnumerator showJudgement = null;
@@ -425,6 +434,8 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 		for(int i = 0; i < rounds; i++)
 		{
+			AudioClip clip = AudioController.Play(AudioController.GetLoopSource(), swordShowPieceIndex, false);
+			wait.waitDuration = clip.length;
 			targetsPerRound = swordShowTargetsPerRound.Random();
 			float fTargetsPerRound = (float)targetsPerRound;
 			targetsDestroyed = 0.0f;
@@ -467,12 +478,18 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 			while(showJudgement.MoveNext()) yield return null;
 		}
+
+		AudioController.PlayFSMLoop(0, DestinoSceneController.Instance.mainLoopIndex);
+		AudioController.PlayFSMLoop(1, DestinoSceneController.Instance.mainLoopVoiceIndex);
 	}
 
 	/// <summary>Dance Show's Routine.</summary>
 	/// <param name="boss">Destino's Reference.</param>
 	private IEnumerator DanceShowRoutine(DestinoBoss boss)
 	{
+		AudioController.StopFSMLoop(0);
+		AudioController.StopFSMLoop(1);
+
 		IEnumerator signDisplacement = DisplayAndHideSign(DestinoSceneController.Instance.danceShowSign, danceShowSignSpawnPoint, danceShowSignDestinyPoint);
 		IEnumerator showJudgement = null;
 		SecondsDelayWait wait = new SecondsDelayWait(danceShowDuration);
@@ -484,6 +501,9 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 		for(int i = 0; i < rounds; i++)
 		{
+			AudioClip clip = AudioController.Play(AudioController.GetLoopSource(), danceShowPieceIndex, false);
+			wait.waitDuration = clip.length;
+
 			int ringsPR =  ringsPerRound.Random();
 			float fRingsPerRound = (float)ringsPR;
 			Ring[] rings = new Ring[ringsPR];
@@ -528,6 +548,9 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 			while(showJudgement.MoveNext()) yield return null;
 		}
+
+		AudioController.PlayFSMLoop(0, DestinoSceneController.Instance.mainLoopIndex);
+		AudioController.PlayFSMLoop(1, DestinoSceneController.Instance.mainLoopVoiceIndex);
 	}
 
 	/// <summary>Evaluates show.</summary>

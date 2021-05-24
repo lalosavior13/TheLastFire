@@ -258,8 +258,8 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 			AudioClip openingClip = AudioController.PlayOneShot(curtainOpeningSoundIndex);
 			CloseCurtainsWithWeight(stage1CurtainClosure, /*openingClip.length*/0.0f, ()=>
 			{
-				AudioController.Play(AudioController.GetLoopSource(0), mainLoopIndex, true);
-				AudioController.Play(AudioController.GetLoopSource(1), mainLoopVoiceIndex, true);
+				AudioController.PlayFSMLoop(0, mainLoopIndex, true);
+				AudioController.PlayFSMLoop(1, mainLoopVoiceIndex, true);
 				destino.RequestCard();
 			});
 			break;

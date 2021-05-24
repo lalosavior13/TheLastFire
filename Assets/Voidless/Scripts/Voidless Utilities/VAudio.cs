@@ -7,7 +7,7 @@ namespace Voidless
 {
 /*
 	Play VS PlayOneShot:
-		- Play Stops the Audiosource, then plays the sound.
+		- Play Stops the AudioSource, then plays the sound.
 		- PlayOneShot stacks sounds, but previous stacked sounds are not stopped.
 */
 public static class VAudio
@@ -45,11 +45,54 @@ public static class VAudio
 		if(onWaitEnds != null) onWaitEnds();
 	}
 
-	/// \TODO Really do the coroutine...
-	public static IEnumerator PlayFiniteStateClip(this AudioSource _audioSource, FiniteStateAudioClip _FSMClip, bool _loop = false, Action<FiniteStateAudioClip> onCLipEndeded = null)
+	/// <summary>Plays FiniteStateAudioClip's Clip.</summary>
+	/// <param name="_mono">MonoBehaviour's reference for the Coroutine.</param>
+	/// <param name="_source">AudioSource's that will be played reference.</param>
+	/// <param name="_FSMClip">FiniteStateAudioClip's reference.</param>
+	/// <param name="_coroutine">Coroutine's reference.</param>
+	/// <param name="_loop">Loop the AudioClip? True by default.</param>
+	/// <param name="_restartState">Restart State? False by default.</param>
+	/// <param name="onClipEnded">Optional Callback invoked when the FSM AudioClip ends [reaching its final state].</param>
+	public static void PlayFSMAudioClip(this MonoBehaviour _mono, AudioSource _source, FiniteStateAudioClip _FSMClip, ref Coroutine _coroutine, bool _loop = false, bool _resetState = false, Action<FiniteStateAudioClip> onCLipEndeded = null)
 	{
+		if(_mono != null && _source != null)
+		_mono.StartCoroutine(_source.PlayFiniteStateClip(_FSMClip, _loop, _resetState, onCLipEndeded));
+	}
+
+	/// <summary>Stops FiniteStateAudioClip from playing on given AudioSource.</summary>
+	/// <param name="_mono">MonoBehaviour's reference for the Coroutine.</param>
+	/// <param name="_source">AudioSource's that will be played reference.</param>
+	/// <param name="_coroutine">Coroutine's reference.</param>
+	public static void StopFSMAudioClip(this MonoBehaviour _mono, AudioSource _source, ref Coroutine _coroutine)
+	{
+		if(_mono == null && _source == null) return;
+
+		_source.Stop();
+		_mono.DispatchCoroutine(ref _coroutine);
+	}
+
+	/// <summary>Plays FiniteStateAudioClip's Clip.</summary>
+	/// <param name="_mono">MonoBehaviour's reference for the Coroutine.</param>
+	/// <param name="_source">AudioSource's that will be played reference.</param>
+	/// <param name="_FSMClip">FiniteStateAudioClip's reference.</param>
+	/// <param name="_coroutine">Coroutine's reference.</param>
+	/// <param name="_loop">Loop the AudioClip? True by default.</param>
+	/// <param name="_restartState">Restart State? False by default.</param>
+	/// <param name="onClipEnded">Optional Callback invoked when the FSM AudioClip ends [reaching its final state].</param>
+	public static IEnumerator PlayFiniteStateClip(this AudioSource _audioSource, FiniteStateAudioClip _FSMClip, bool _loop = false, bool _resetState = false, Action<FiniteStateAudioClip> onCLipEndeded = null)
+	{
+		if(_FSMClip == null || _FSMClip.clip == null) yield break;
+
+		if(_resetState) _FSMClip.ResetState();
+
+		_audioSource.Stop();
+		_audioSource.clip = _FSMClip.clip;
+		_audioSource.time = _FSMClip.GetCurrentStateTime();
+		_audioSource.Play();
+		_audioSource.loop = _loop;
+
 		while(true)
-		{
+		{ /// Just change FSM Clip's time value each frame, that's pretty much it...
 			_FSMClip.time += Time.deltaTime;
 			yield return null;
 		}
