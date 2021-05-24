@@ -14,26 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawGizmos: 1
   _run: 0
-  _fireShowPiece:
+  _fireShowPieceIndex:
     index: 0
     objectIndex: 0
-    collectionIndex: 5
-  _swordShowPiece:
+    collectionIndex: 0
+  _swordShowPieceIndex:
     index: 0
     objectIndex: 0
-    collectionIndex: 5
-  _danceShowPiece:
+    collectionIndex: 0
+  _danceShowPieceIndex:
     index: 0
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 0
   _applauseSoundIndex:
-    index: 7
+    index: 14
     objectIndex: 0
-    collectionIndex: 6
+    collectionIndex: 7
   _booingSoundIndex:
-    index: 7
+    index: 15
     objectIndex: 0
-    collectionIndex: 6
+    collectionIndex: 7
   _fireShowSignSpawnPoint: {x: 0, y: 15, z: -2}
   _swordShowSignSpawnPoint: {x: 0, y: 15, z: -2}
   _danceShowSignSpawnPoint: {x: 0, y: 15, z: -2}

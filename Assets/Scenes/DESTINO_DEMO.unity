@@ -4913,6 +4913,11 @@ PrefabInstance:
       propertyPath: _releaseSoundIndex.index
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 5122952807910987794, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
+        type: 3}
+      propertyPath: _chargedProjectileID.index
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5122952807910987803, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
         type: 3}
       propertyPath: m_LocalPosition.x

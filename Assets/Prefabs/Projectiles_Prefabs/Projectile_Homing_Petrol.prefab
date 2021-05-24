@@ -179,6 +179,8 @@ GameObject:
   - component: {fileID: 6290249964948521387}
   - component: {fileID: 6018280101986912862}
   - component: {fileID: -764941346286712987}
+  - component: {fileID: 8004148243966298879}
+  - component: {fileID: 1053435754808995988}
   m_Layer: 11
   m_Name: Projectile_Homing_Petrol
   m_TagString: Untagged
@@ -252,6 +254,7 @@ MonoBehaviour:
   _lifespan: 0
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
+  dontDeactivateOnImpact: 0
   _maxSteeringForce: 1.5
   _distance: 1.2
   color: {r: 1, g: 0, b: 0, a: 1}
@@ -267,3 +270,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8004148243966298879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4968317203677032462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materialIDindexPairs: []
+  _particleEffectIndex:
+    index: 7
+    objectIndex: 0
+    collectionIndex: 8
+--- !u!114 &1053435754808995988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4968317203677032462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materialIDindexPairs: []
+  _soundEffectIndex:
+    index: 38
+    objectIndex: 0
+    collectionIndex: 7

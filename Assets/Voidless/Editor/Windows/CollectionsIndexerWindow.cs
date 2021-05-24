@@ -65,10 +65,13 @@ public class CollectionsIndexerWindow : EditorWindow
 
 				foreach(Object obj in tuple.Item2)
 				{
-					EditorGUILayout.BeginHorizontal();
-					GUILayout.Label("Element " + itemIndex + ": ");
-					GUILayout.Label(obj.name);
-					EditorGUILayout.EndHorizontal();
+					if(obj != null)
+					{
+						EditorGUILayout.BeginHorizontal();
+						GUILayout.Label("Element " + itemIndex + ": ");
+						GUILayout.Label(obj.name);
+						EditorGUILayout.EndHorizontal();
+					}
 
 					itemIndex++;
 				}

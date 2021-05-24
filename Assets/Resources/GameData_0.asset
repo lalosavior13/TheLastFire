@@ -38,7 +38,9 @@ MonoBehaviour:
   - {fileID: 5278712921402561579, guid: 0f553060d72e9534fb925964bacb3646, type: 3}
   - {fileID: 5278712921402561579, guid: c4677f2a939e498418f5f4e8b7d13968, type: 3}
   - {fileID: 5278712921402561579, guid: 13f2f18aad7c31d4d9dd0424b50e706c, type: 3}
-  _FSMLoops: []
+  _FSMLoops:
+  - {fileID: 11400000, guid: 89bfa2b1c0f1bb54cae540866022a46e, type: 2}
+  - {fileID: 11400000, guid: 3dde1125cb7b12a4eafe806c0c1f6d8b, type: 2}
   _loops:
   - {fileID: 8300000, guid: 395070aeb38f86940aaa8852782be0dc, type: 3}
   - {fileID: 8300000, guid: 4228c095c17596242ad05f92330dec2f, type: 3}
