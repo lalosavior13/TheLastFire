@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: JudgementBehavior_0
   m_EditorClassIdentifier: 
   drawGizmos: 1
-  _run: 0
+  _run: 1
   _fireShowPieceIndex:
-    index: 0
+    index: 2
     objectIndex: 0
-    collectionIndex: 0
+    collectionIndex: 6
   _swordShowPieceIndex:
-    index: 0
+    index: 3
     objectIndex: 0
-    collectionIndex: 0
+    collectionIndex: 6
   _danceShowPieceIndex:
-    index: 0
+    index: 4
     objectIndex: 0
-    collectionIndex: 0
+    collectionIndex: 6
   _applauseSoundIndex:
     index: 14
     objectIndex: 0
@@ -49,9 +49,6 @@ MonoBehaviour:
     objectIndex: 0
     collectionIndex: 1
   - index: 5
-    objectIndex: 0
-    collectionIndex: 1
-  - index: 6
     objectIndex: 0
     collectionIndex: 1
   _fireShowWaypoints:
@@ -145,6 +142,10 @@ MonoBehaviour:
     objectIndex: 0
     collectionIndex: 3
   - index: 1
+    objectIndex: 0
+    collectionIndex: 3
+  _applauseObjectsIndices:
+  - index: 2
     objectIndex: 0
     collectionIndex: 3
   _trashProjectilesWaypoints:

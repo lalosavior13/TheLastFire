@@ -98,13 +98,11 @@ MonoBehaviour:
     _damageScale: 1
   _trailRenderers: []
   _speedMode: 0
-  _affectable:
-    serializedVersion: 2
-    m_Bits: 0
   _speed: 2.5
   _lifespan: 10
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
+  dontDeactivateOnImpact: 0
   _type: 0
   _axes:
     _x: 0
@@ -178,7 +176,7 @@ MonoBehaviour:
   _detectableHitEvents: 1
   _affectedLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 524288
   _affectedTags: []
 --- !u!1 &8577006707181469839
 GameObject:

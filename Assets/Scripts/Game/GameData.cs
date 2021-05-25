@@ -16,6 +16,9 @@ public class GameData : ScriptableObject
 	[Header("Configurations:")]
 	[SerializeField] [Range(0, 60)] private int _frameRate; 					/// <summary>Game's Frame rate.</summary>
 	[Space(5f)]
+	[Header("Layers:")]
+	[SerializeField] private LayerValue _outOfBoundsLayer; 						/// <summary>Out of Bounds's Layer.</summary>
+	[Space(5f)]
 	[Header("Projectiles:")]
 	[SerializeField] private Projectile[] _playerProjectiles; 					/// <summary>Player's Projectiles.</summary>
 	[SerializeField] private Projectile[] _enemyProjectiles; 					/// <summary>Enemy's Projectiles.</summary>
@@ -46,6 +49,9 @@ public class GameData : ScriptableObject
 			return _idealDeltaTime;
 		}
 	}
+
+	/// <summary>Gets outOfBoundsLayer property.</summary>
+	public LayerValue outOfBoundsLayer { get { return _outOfBoundsLayer; } }
 
 	/// <summary>Gets playerProjectiles property.</summary>
 	public Projectile[] playerProjectiles { get { return _playerProjectiles; } }
@@ -79,6 +85,17 @@ public class GameData : ScriptableObject
 	public void Initialize()
 	{
 		Application.targetFrameRate = frameRate;
+	}
+
+	/// <summary>Resets FSM Loop's States.</summary>
+	public void ResetFSMLoopStates()
+	{
+		if(FSMLoops == null) return;
+
+		foreach(FiniteStateAudioClip FSMLoop in FSMLoops)
+		{
+			FSMLoop.ResetState();
+		}
 	}
 }
 }

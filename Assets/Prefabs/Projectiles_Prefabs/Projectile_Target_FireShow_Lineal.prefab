@@ -81,13 +81,11 @@ MonoBehaviour:
     _damageScale: 1
   _trailRenderers: []
   _speedMode: 0
-  _affectable:
-    serializedVersion: 2
-    m_Bits: 0
   _speed: 2.5
   _lifespan: 10
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
+  dontDeactivateOnImpact: 0
 --- !u!114 &-5221806206260212205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,7 +168,7 @@ MonoBehaviour:
   _detectableHitEvents: 1
   _affectedLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 524288
   _affectedTags: []
 --- !u!58 &5783463566843126559
 CircleCollider2D:

@@ -101,6 +101,7 @@ MonoBehaviour:
   _lifespan: 10
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
+  dontDeactivateOnImpact: 0
   _type: 1
   _axes:
     _x: 0
@@ -152,10 +153,10 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.00000017881393}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.8
 --- !u!114 &287322113
@@ -174,7 +175,7 @@ MonoBehaviour:
   _detectableHitEvents: 1
   _affectedLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 524288
   _affectedTags: []
 --- !u!1001 &3465886262227397670
 PrefabInstance:

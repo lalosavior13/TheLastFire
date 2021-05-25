@@ -45,19 +45,19 @@ public class Fragmentable : MonoBehaviour
 	/// <summary>Callback invoked when Fragmentable's instance is disabled.</summary>
 	private void OnDisable()
 	{
-		Defragmentate();
+		//Defragmentate();
 	}
 
 	/// <summary>Fragmentable's instance initialization.</summary>
 	private void Awake()
 	{
-		BakePiecesData();
+		/*BakePiecesData();
 
 		if(pieces != null)
 		foreach(HitCollider2D piece in pieces)
 		{
 			piece.onTriggerEvent2D += OnTriggerEvent2D;
-		}
+		}*/
 	}
 
 	/// <summary>Bakes Pieces' Data.</summary>
@@ -117,8 +117,8 @@ public class Fragmentable : MonoBehaviour
 	/// <param name="onDefragmentationEnds">Optional callback invoked when the defragmentation ends [null by default].</param>
 	public void Defragmentate(float _duration, Action onDefragmentationEnds = null)
 	{
-		if(fragmented)
-		this.StartCoroutine(Defragmentation(_duration, onDefragmentationEnds), ref defragmentation);
+		/*if(fragmented)
+		this.StartCoroutine(Defragmentation(_duration, onDefragmentationEnds), ref defragmentation);*/
 	}
 
 	/// <summary>Callback invoked when this Hit Collider2D intersects with another GameObject.</summary>
@@ -128,7 +128,7 @@ public class Fragmentable : MonoBehaviour
 	private void OnTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _hitColliderID = 0)
 	{
 		Trigger2DInformation info = Trigger2DInformation.CreateTriggerInformation(pieces[_hitColliderID].collider, _collider);
-		Fragmentate(pieces[_hitColliderID].transform.position - info.contactPoint);
+		//Fragmentate(pieces[_hitColliderID].transform.position - info.contactPoint);
 	}	
 
 	/// <summary>Fragments pieces for some time.</summary>

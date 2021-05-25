@@ -188,6 +188,8 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 		
 		Game.mateo.PerformInitialPose();
 
+		Game.ResetFSMLoopStates();
+
 		AudioClip clip = AudioController.PlayOneShot(orchestraTunningSoundIndex);
 		CloseCurtainsWithWeight(WEIGHT_BLENDSHAPE_CURTAIN_CLOSED, 0.0f, null);
 	}

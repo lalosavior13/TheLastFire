@@ -76,6 +76,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 	[Space(5f)]
 	[Header("Crowd's Boos Attributes:")]
 	[SerializeField] private CollectionIndex[] _trashProjectilesIndices; 			/// <summary>Indices of all the trash (Parabola) Projectiles.</summary>
+	[SerializeField] private CollectionIndex[] _applauseObjectsIndices; 			/// <summary>Indices of objects thrown at an applause.</summary>
 	[SerializeField] private Vector3[] _trashProjectilesWaypoints; 					/// <summary>Trash Projectiles' Waypoints.</summary>
 	[SerializeField] private IntRange _trashProjectilesPerRound; 					/// <summary>Range of Trash projectiles per round.</summary>
 	[SerializeField] private FloatRange _trashProjectileCooldown; 					/// <summary>Cooldown duration's range per trash Projectile.</summary>
@@ -112,6 +113,9 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 	/// <summary>Gets trashProjectilesIndices property.</summary>
 	public CollectionIndex[] trashProjectilesIndices { get { return _trashProjectilesIndices; } }
+
+	/// <summary>Gets applauseObjectsIndices property.</summary>
+	public CollectionIndex[] applauseObjectsIndices { get { return _applauseObjectsIndices; } }
 
 	/// <summary>Gets ringsIndices property.</summary>
 	public CollectionIndex[] ringsIndices { get { return _ringsIndices; } }
@@ -319,7 +323,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 	/// <param name="boss">Destino's Reference.</param>
 	private IEnumerator FireShowRoutine(DestinoBoss boss)
 	{
-		/// THANKS SALAZAR ELEFUCK: Your Welcome Emo Bitch!
+		/// THANKS SALAZAR ELEFUCK
 		/*return TargetShowRoutine(
 			DestinoSceneController.Instance.fireShowSign,
 			fireShowSignSpawnPoint,
@@ -343,50 +347,63 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		int rounds = fireShowRounds.Random();
 		int targetsPerRound = 0;
 		float targetsDestroyed = 0.0f;
-		OnDeactivated onTargetDeactivation = (cause, info)=>
+		OnDeactivated onTargetDeactivation = (projectile, cause, info)=>
 		{
 			switch(cause)
 			{
 				case DeactivationCause.Destroyed:
 				targetsDestroyed++;
 				break;
+
+				case DeactivationCause.LeftBoundaries:
+				Ray ray = fireShowWaypoints.GetTargetOriginAndDirection();
+				projectile.OnObjectReset();
+				projectile.transform.position = ray.origin;
+				projectile.direction = ray.direction;
+				projectile.activated = true;
+				Debug.DrawRay(ray.origin, ray.direction * 5.0f, Color.cyan, 5.0f);
+				break;
 			}
+
+			Debug.Log("[JudgementBehavior] Targets: " + targetsPerRound + ", Targets Destroyed: " + targetsDestroyed);
 		};
 
 		while(signDisplacement.MoveNext()) yield return null;
 
-		for(int i = 0; i < rounds; i++)
+		AudioClip clip = AudioController.Play(AudioController.GetLoopSource(), fireShowPieceIndex, false);
+		wait.waitDuration = clip.length;
+		wait.waitDuration = clip.length;
+		targetsPerRound = fireShowTargetsPerRound.Random();
+		float fTargetsPerRound = (float)targetsPerRound;
+		targetsDestroyed = 0.0f;
+		Projectile[] targets = new Projectile[targetsPerRound];
+
+		for(int j = 0; j < targetsPerRound; j++)
 		{
-			AudioClip clip = AudioController.Play(AudioController.GetLoopSource(), fireShowPieceIndex, false);
-			wait.waitDuration = clip.length;
-			targetsPerRound = fireShowTargetsPerRound.Random();
-			float fTargetsPerRound = (float)targetsPerRound;
-			targetsDestroyed = 0.0f;
-			Projectile[] targets = new Projectile[targetsPerRound];
-
-			for(int j = 0; j < targetsPerRound; j++)
-			{
-				Ray ray = fireShowWaypoints.GetTargetOriginAndDirection();
-				Projectile p = PoolManager.RequestProjectile(Faction.Enemy, fireTargetIndices.Random(), ray.origin, ray.direction);
-				p.onDeactivated -= onTargetDeactivation;
-				p.onDeactivated += onTargetDeactivation;
-
-				targets[j] = p;
-			}
-
-			while(wait.MoveNext()) yield return null;
-			wait.Reset();
-
-			foreach(Projectile target in targets)
-			{
-				target.onDeactivated -= onTargetDeactivation;
-			}
-
-			Debug.Log("[JudgementBehavior] Targets Destroyed: " + targetsDestroyed);
-			showJudgement = EvaluateShow(fTargetsPerRound, targetsDestroyed, fireShowSuccessPercentage);
-
-			while(showJudgement.MoveNext()) yield return null;
+			Ray ray = fireShowWaypoints.GetTargetOriginAndDirection();
+			Projectile p = PoolManager.RequestProjectile(Faction.Enemy, fireTargetIndices.Random(), ray.origin, ray.direction);
+			p.onDeactivated -= onTargetDeactivation;
+			p.onDeactivated += onTargetDeactivation;
+			p.lifespan = 0.0f; 	/// Make 'em last for ever...
+			targets[j] = p;
 		}
+
+		while(wait.MoveNext() && targetsDestroyed < targetsPerRound) yield return null;
+		Debug.Log("[JudgementBehavior] Clip reached its end...");
+		wait.Reset();
+
+		AudioController.Stop(AudioController.GetLoopSource());
+
+		foreach(Projectile target in targets)
+		{
+			target.OnObjectDeactivation();
+			target.onDeactivated -= onTargetDeactivation;
+		}
+
+		Debug.Log("[JudgementBehavior] Targets Destroyed: " + targetsDestroyed);
+		showJudgement = EvaluateShow(fTargetsPerRound, targetsDestroyed, fireShowSuccessPercentage);
+
+		while(showJudgement.MoveNext()) yield return null;
 
 		/// Still deciding when to deprecate
 		/*AudioController.GetLoopSource(2).Stop();
@@ -420,7 +437,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		int rounds = swordShowRounds.Random();
 		int targetsPerRound = 0;
 		float targetsDestroyed = 0.0f;
-		OnDeactivated onTargetDeactivation = (cause, info)=>
+		OnDeactivated onTargetDeactivation = (projectile, cause, info)=>
 		{
 			switch(cause)
 			{
@@ -432,8 +449,8 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 		while(signDisplacement.MoveNext()) yield return null;
 
-		for(int i = 0; i < rounds; i++)
-		{
+		/*for(int i = 0; i < rounds; i++)
+		{*/
 			AudioClip clip = AudioController.Play(AudioController.GetLoopSource(), swordShowPieceIndex, false);
 			wait.waitDuration = clip.length;
 			targetsPerRound = swordShowTargetsPerRound.Random();
@@ -465,7 +482,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 				p.activated = true;
 			}
 
-			while(wait.MoveNext()) yield return null;
+			while(wait.MoveNext() && targetsDestroyed < targetsPerRound) yield return null;
 			wait.Reset();
 
 			foreach(Projectile target in targets)
@@ -477,7 +494,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			showJudgement = EvaluateShow(fTargetsPerRound, targetsDestroyed, swordShowSuccessPercentage);
 
 			while(showJudgement.MoveNext()) yield return null;
-		}
+		//}
 
 		AudioController.PlayFSMLoop(0, DestinoSceneController.Instance.mainLoopIndex);
 		AudioController.PlayFSMLoop(1, DestinoSceneController.Instance.mainLoopVoiceIndex);
@@ -499,8 +516,8 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 		while(signDisplacement.MoveNext()) yield return null;
 
-		for(int i = 0; i < rounds; i++)
-		{
+		/*for(int i = 0; i < rounds; i++)
+		{*/
 			AudioClip clip = AudioController.Play(AudioController.GetLoopSource(), danceShowPieceIndex, false);
 			wait.waitDuration = clip.length;
 
@@ -535,7 +552,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 				ring.transform.position = ringPosition;
 			}
 
-			while(wait.MoveNext()) yield return null;
+			while(wait.MoveNext() && ringsPassed < fRingsPerRound) yield return null;
 			wait.Reset();
 
 			foreach(Ring ring in rings)
@@ -547,7 +564,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			showJudgement = EvaluateShow(fRingsPerRound, ringsPassed, danceShowSuccessPercentage);
 
 			while(showJudgement.MoveNext()) yield return null;
-		}
+		//}
 
 		AudioController.PlayFSMLoop(0, DestinoSceneController.Instance.mainLoopIndex);
 		AudioController.PlayFSMLoop(1, DestinoSceneController.Instance.mainLoopVoiceIndex);
@@ -567,6 +584,23 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		{
 			/// Here yo play the cheer sounds:
 			AudioController.PlayOneShot(AudioController.GetScenarioSource(), applauseSoundIndex);
+
+			SecondsDelayWait wait = new SecondsDelayWait(0.0f);
+			int rounds = trashProjectilesPerRound.Random();
+
+			for(int i = 0; i < rounds; i++)
+			{
+				wait.ChangeDurationAndReset(trashProjectileCooldown.Random());
+				PoolManager.RequestParabolaProjectile(
+					Faction.Enemy,
+					applauseObjectsIndices.Random(),
+					trashProjectilesWaypoints.Random(),
+					Game.ProjectMateoPosition(mateoPositionProjection.Random()),
+					trashProjectileTime
+				);
+
+				while(wait.MoveNext()) yield return null;
+			}
 		}
 		else
 		{

@@ -76,6 +76,12 @@ public class Game : Singleton<Game>
 	}
 #endregion
 
+	/// <summary>Resets FSM Loop's States.</summary>
+	public static void ResetFSMLoopStates()
+	{
+		if(data != null) data.ResetFSMLoopStates();
+	}
+
 	/// <returns>Mateo's Position.</returns>
 	public static Vector2 GetMateoPosition()
 	{

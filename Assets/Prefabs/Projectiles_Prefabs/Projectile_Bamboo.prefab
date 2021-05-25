@@ -363,7 +363,7 @@ MonoBehaviour:
   _lifespan: 5
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
-  dontDeactivateOnImpact: 1
+  dontDeactivateOnImpact: 0
 --- !u!114 &8502636351339952987
 MonoBehaviour:
   m_ObjectHideFlags: 0

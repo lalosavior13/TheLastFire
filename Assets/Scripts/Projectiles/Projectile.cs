@@ -36,7 +36,7 @@ public enum DeactivationCause
 /// <summary>Event invoked when the projectile is deactivated.</summary>
 /// <param name="_cause">Cause of the deactivation.</param>
 /// <param name="_info">Additional Trigger2D's information.</param>
-public delegate void OnDeactivated(DeactivationCause _cause, Trigger2DInformation _info);
+public delegate void OnDeactivated(Projectile _projectile, DeactivationCause _cause, Trigger2DInformation _info);
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Projectile : ContactWeapon
@@ -201,6 +201,14 @@ public class Projectile : ContactWeapon
 			Trigger2DInformation info = Trigger2DInformation.CreateTriggerInformation(hitBoxesInfo[_hitColliderID].hitCollider.collider, _collider);
 			InvokeDeactivationEvent(DeactivationCause.Impacted, info);
 		}
+
+		int outOfBoundsMask = Game.data.outOfBoundsLayer.ToLayerMask();
+		
+		if((outOfBoundsMask | layerMask) == outOfBoundsMask)
+		{
+			Trigger2DInformation info = default(Trigger2DInformation);
+			InvokeDeactivationEvent(DeactivationCause.LeftBoundaries, info);
+		}
 	}
 
 	/// <summary>Event invoked when an impact is received.</summary>
@@ -259,9 +267,9 @@ public class Projectile : ContactWeapon
 	/// <param name="_info">Trigger2D's Information.</param>
 	public virtual void InvokeDeactivationEvent(DeactivationCause _cause, Trigger2DInformation _info = default(Trigger2DInformation))
 	{
-		Debug.Log("[Projectile] InvokeDeactivationEvent invoked...");
-		if(onDeactivated != null) onDeactivated(_cause, _info);
+		Debug.Log("[Projectile] " + gameObject.name + " Deactivation Event. Cause: " + _cause.ToString());
 		if(!dontDeactivateOnImpact) OnObjectDeactivation();
+		if(onDeactivated != null) onDeactivated(this, _cause, _info);
 	}
 }
 }
