@@ -121,6 +121,7 @@ public class TimeConstrainedForceApplier2D
 		body = _body;
 		force = _force;
 		duration = _duration;
+		forceMode = _forceMode;
 		timeScale = 1.0f;
 
 		cooldown = new Cooldown(monoBehaviour, cooldownDuration);
@@ -136,7 +137,34 @@ public class TimeConstrainedForceApplier2D
 	public void ApplyForce()
 	{
 		if(!onCooldown)
-		monoBehaviour.StartCoroutine(ApplyForceRoutine(), ref forceCoroutine);
+		{
+			switch(forceMode)
+			{
+				case ForceMode.Force:
+				velocity += (force / body.mass) * Time.fixedDeltaTime;
+				break;
+
+				case ForceMode.Acceleration:
+				velocity += force * Time.fixedDeltaTime;
+				break;
+
+				case ForceMode.Impulse:
+				velocity = force / body.mass;
+				break;
+
+				case ForceMode.VelocityChange:
+				velocity = force;
+				break;
+
+				default:
+				velocity = force;
+				break;
+			}
+
+			Debug.Log("[TimeConstrainedForceApplier2D] Gotta Apply " + velocity * duration + " at " + duration + " seconds.");
+
+			monoBehaviour.StartCoroutine(ApplyForceRoutine(), ref forceCoroutine);
+		}
 	}
 
 	/// <summary>Cancels Force.</summary>
@@ -158,14 +186,13 @@ public class TimeConstrainedForceApplier2D
 	private IEnumerator ApplyForceRoutine()
 	{
 		//int frames = 0;
-		velocity = Vector2.zero;
 		progress = 0.0f;
 		float inverseDuration = 1.0f / duration;
 		float inverseMass = 1.0f / body.mass;
 		float dt = 0.0f;
 		float t = 0.0f;
 		float previousMass = body.mass;
-		
+
 		while(progress < 1.0f)
 		{
 			dt = Time.fixedDeltaTime;
@@ -174,15 +201,23 @@ public class TimeConstrainedForceApplier2D
 			switch(forceMode)
 			{
 				case ForceMode.Force:
+				Debug.Log("[TimeConstrainedForceApplier2D] Force");
 				velocity += (force * inverseMass) * dt;
 				break;
 
 				case ForceMode.Acceleration:
+				Debug.Log("[TimeConstrainedForceApplier2D] Acceleration");
 				velocity += force * dt;
 				break;
 
 				case ForceMode.Impulse:
+				Debug.Log("[TimeConstrainedForceApplier2D] Impulse");
 				velocity = force * inverseMass;
+				break;
+
+				case ForceMode.VelocityChange:
+				Debug.Log("[TimeConstrainedForceApplier2D] VelocityChange");
+				velocity = force;
 				break;
 
 				default:
@@ -195,13 +230,14 @@ public class TimeConstrainedForceApplier2D
 
 			//body.MovePosition(body.position + (velocity * t));
 			progress += (t * inverseDuration);
-
+			Debug.Log("[TimeConstrainedForceApplier2D] Velocity: " + velocity);
 			/*frames++;
 			Debug.Log($"Frames: {frames}");*/
 
 			yield return VCoroutines.WAIT_PHYSICS_THREAD;
 		}
 		
+		Debug.Log("[TimeConstrainedForceApplier2D] Displaced: " + velocity);
 		if(cooldownDuration > 0.0f) cooldown.Begin();
 		OnForceEnds.Invoke();
 		CancelForce();

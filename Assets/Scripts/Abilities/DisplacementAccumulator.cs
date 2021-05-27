@@ -40,7 +40,7 @@ public class DisplacementAccumulator : MonoBehaviour
 	private void OnEndOfPhysicsStep()
 	{
 		if(velocity.sqrMagnitude == 0.0f) return;
-
+		//Debug.Log("[DisplacementAccumulator2D] Velocity: " + velocity);
 		rigidbody.MovePosition(rigidbody.position + (velocity * Time.fixedDeltaTime));
 		velocity *= 0.0f;
 	}

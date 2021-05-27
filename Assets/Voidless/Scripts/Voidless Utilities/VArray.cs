@@ -7,6 +7,23 @@ namespace Voidless
 {
 public static class VArray
 {
+	/// <returns>Array from given array with shuffled elements.</returns>
+	public static T[] RandomSet<T>(params T[] _elements)
+	{
+		if(_elements == null) return null;
+
+		int size = _elements.Length;
+		int[] indices = VMath.GetUniqueRandomSet(size);
+		T[] array = new T[size];
+
+		for(int i = 0; i < size; i++)
+		{
+			array[i] = _elements[indices[i]];
+		}
+
+		return array;
+	}
+
 	public static int GetArrayMaxLength<T>(params T[][] _arrays)
 	{
 		int maxSize = 0;

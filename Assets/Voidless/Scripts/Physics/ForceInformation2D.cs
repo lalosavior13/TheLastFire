@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,22 @@ public struct ForceInformation2D
 		force = _force;
 		duration = _duration;
 		forceMode = _forceMode;	
+	}
+
+	/// <returns>String representing this ForceInformation2D structure.</returns>
+	public override string ToString()
+	{
+		StringBuilder builder = new StringBuilder();
+
+		builder.Append("[ Force: ");
+		builder.Append(force.ToString());
+		builder.Append(", Duration: ");
+		builder.Append(duration.ToString());
+		builder.Append(", Force Mode: ");
+		builder.Append(forceMode.ToString());
+		builder.Append(" ]");
+
+		return builder.ToString();
 	}
 }
 }

@@ -21,6 +21,7 @@ public class Ring : PoolGameObject
 	[SerializeField] private Renderer _renderer; 					/// <summary>Ring Mesh's Renderer.</summary>
 	[SerializeField] private HitCollider2D[] _hitBoxes; 			/// <summary>Ring's HitBoxes.</summary>
 	private Dictionary<int, Vector2> _directionsMapping; 			/// <summary>Direction's Mapping for each possible GameObject.</summary>
+	private bool _passedOn; 										/// <summary>Has an object already passed on this Ring?.</summary>
 
 	/// <summary>Gets correctionRotation property.</summary>
 	public EulerRotation correctionRotation { get { return _correctionRotation; } }
@@ -52,6 +53,13 @@ public class Ring : PoolGameObject
 		private set { _directionsMapping = value; }
 	}
 
+	/// <summary>Gets and Sets passedOn property.</summary>
+	public bool passedOn
+	{
+		get { return _passedOn; }
+		set { _passedOn = value; }
+	}
+
 	/// <summary>Draws Gizmos on Editor mode when Ring's instance is selected.</summary>
 	private void OnDrawGizmosSelected()
 	{
@@ -74,6 +82,8 @@ public class Ring : PoolGameObject
 				i++;
 			}
 		}
+
+		passedOn = false;
 	}
 
 	/// <summary>Callback invoked when Ring's instance is going to be destroyed and passed to the Garbage Collector.</summary>
@@ -113,9 +123,10 @@ public class Ring : PoolGameObject
 			{
 				Vector2 direction = (obj.transform.position - transform.position);
 				direction = ToRelativeOrientationVector(direction);
-				if(Vector2.Dot(direction, directionsMapping[instanceID]) >= dotProduct)
+				if(Vector2.Dot(direction, directionsMapping[instanceID]) >= dotProduct && !passedOn)
 				{
 					Debug.Log("[Ring] Success, the GameObject passed correctly");
+					passedOn = true;
 					InvokeRingPassedEvent(_collider);
 				}
 				else Debug.Log("[Ring] Failure, you are mom gay.");
@@ -167,6 +178,7 @@ public class Ring : PoolGameObject
 	{
 		base.OnObjectReset();
 		if(directionsMapping != null) directionsMapping.Clear();
+		passedOn = false;
 	}
 }
 }

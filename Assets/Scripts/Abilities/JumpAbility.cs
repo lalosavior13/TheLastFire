@@ -314,6 +314,8 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 				forceInfo.forceMode,
 				OnJumpEnds
 			);
+
+			Debug.Log("[JumpAbility] Force Info " + i + ": " + forcesAppliers[i]);
 		}
 	}
 
@@ -349,6 +351,41 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	public void AdvanceJumpIndex()
 	{
 		currentJumpIndex++;
+	}
+
+	/// <summary>Predicts Force at its duration [considering its ForceMode].</summary>
+	/// <param name="index">Force's Index.</param>
+	/// <returns>Force's prediction.</returns>
+	public Vector2 PredictForce(int index)
+	{
+		index = Mathf.Clamp(index, 0, forcesInfo.Length - 1);
+		ForceInformation2D forceInfo = forcesInfo[index];
+		Vector2 f = forceInfo.force;
+		float t = forceInfo.duration;
+
+		Debug.Log("[JumpAbility] ForceInformation2D used for prediction: " + forceInfo);
+
+		switch(forceInfo.forceMode)
+		{
+			case ForceMode.Force: 			return (f * (t * t * 0.5f)) / rigidbody.mass;
+			case ForceMode.Acceleration: 	return f * (t * t * 0.5f);
+			case ForceMode.Impulse: 		return (f * t) / rigidbody.mass;
+			case ForceMode.VelocityChange: 	return f * t;
+			default:  						return f * t;
+		}
+	}
+
+	/// <returns>Accumulation of the Predictions of all Jump forces.</returns>
+	public Vector2 PredictForces()
+	{
+		Vector2 f = Vector2.zero;
+
+		for(int i = 0; i < forcesInfo.Length; i++)
+		{
+			f += PredictForce(i);
+		}
+
+		return f;
 	}
 }
 }

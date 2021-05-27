@@ -159,9 +159,10 @@ public class GravityApplier : MonoBehaviour
 	{
 		if(useGravity)
 		{
-			velocity = bestScale != 0.0f ? velocity + (gravity * bestScale * Time.fixedDeltaTime) : Vector2.zero;
+			velocity += bestScale != 0.0f ? (gravity * bestScale * Time.fixedDeltaTime) : Vector2.zero;
 			accumulator.AddDisplacement(velocity);
 		}
+		else ResetVelocity();
 	}
 
 	/// <summary>Resets Velocity.</summary>

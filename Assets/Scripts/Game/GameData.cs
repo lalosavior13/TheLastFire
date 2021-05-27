@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Text;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Voidless;
@@ -81,10 +82,25 @@ public class GameData : ScriptableObject
 	public ParticleEffect[] particleEffects { get { return _particleEffects; } }
 #endregion
 
+	/// This finally fixed the camera issues: https://docs.unity3d.com/ScriptReference/Time-maximumDeltaTime.html
 	/// <summary>Initializes Game's Data.</summary>
 	public void Initialize()
 	{
 		Application.targetFrameRate = frameRate;
+		Time.maximumDeltaTime = idealDeltaTime;
+		Time.fixedDeltaTime = idealDeltaTime;
+
+		StringBuilder builder = new StringBuilder();
+
+		builder.AppendLine("Initializing Game's Data...");
+		builder.Append("Frame Rate: ");
+		builder.AppendLine(Application.targetFrameRate.ToString());
+		builder.Append("Ideal Delta Time: ");
+		builder.AppendLine(idealDeltaTime.ToString());
+		builder.Append("Fixed Delta Time: ");
+		builder.Append(Time.fixedDeltaTime);
+
+		Debug.Log(builder.ToString());
 	}
 
 	/// <summary>Resets FSM Loop's States.</summary>

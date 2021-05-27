@@ -64,13 +64,13 @@ public static class VPhysics2D
 		{
 			case ForceMode.Force:
 			case ForceMode.Acceleration:
-			return v * t * Time.fixedDeltaTime;
+			return v * t * t * 0.5f;
 
 			case ForceMode.Impulse:
 			case ForceMode.VelocityChange:
 			return v * t;
 
-			default: return v;
+			default: return v * t;
 		}
 	}
 

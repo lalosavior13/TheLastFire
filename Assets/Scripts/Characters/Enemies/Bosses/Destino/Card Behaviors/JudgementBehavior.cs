@@ -284,10 +284,11 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 		/// If you wanna test all:
 #region SignsShowcase:
-		IEnumerator[] routines = new IEnumerator[3];
+		IEnumerator[] routines = VArray.RandomSet(/*FireShowRoutine(boss), SwordShowRoutine(boss), */DanceShowRoutine(boss));
+		/*IEnumerator[] routines = new IEnumerator[3];
 		routines[0] = FireShowRoutine(boss);
 		routines[1] = SwordShowRoutine(boss);
-		routines[2] = DanceShowRoutine(boss);
+		routines[2] = DanceShowRoutine(boss);*/
 
 		foreach(IEnumerator routine in routines)
 		{
@@ -358,10 +359,12 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 				case DeactivationCause.LeftBoundaries:
 				Ray ray = fireShowWaypoints.GetTargetOriginAndDirection();
 				projectile.OnObjectReset();
-				projectile.transform.position = ray.origin;
-				projectile.direction = ray.direction;
+				//projectile.transform.position = ray.origin;
+				//projectile.direction = direction;
+				projectile.direction = -projectile.direction;
 				projectile.activated = true;
-				Debug.DrawRay(ray.origin, ray.direction * 5.0f, Color.cyan, 5.0f);
+				projectile.transform.position += (projectile.direction * 3.0f);
+				//Debug.DrawRay(ray.origin, ray.direction * 5.0f, Color.cyan, 5.0f);*/
 				break;
 			}
 
@@ -527,6 +530,9 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			ringsPassed = 0.0f;
 			float lastSpawnPositionX = 0.0f;
 			float accumulatedX = 0.0f;
+			Vector2 maxJumpForce = Game.mateo.jumpAbility.PredictForces();
+
+			Debug.DrawRay(Game.mateo.transform.position + (Vector3)maxJumpForce, Vector3.up * 5.0f, Color.cyan, 5.0f);
 
 			for(int j = 0; j < ringsPR; j++)
 			{
@@ -535,7 +541,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 				accumulatedX += extents.x + xOffset.Random();
 				Vector3 spawnPosition = new Vector3(
 					accumulatedX,
-					(ySpawnLimits.Min() + extents.y) + (ySpawnLimits.Random() - extents.y),
+					(ySpawnLimits.Min() + extents.y) + (Random.Range(0.0f, maxJumpForce.y) - extents.y),
 					0.0f
 				);
 				ring.transform.position = spawnPosition;
