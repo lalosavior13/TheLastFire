@@ -11,7 +11,10 @@ GameObject:
   - component: {fileID: 2820567389141206707}
   - component: {fileID: 5278712921402561579}
   - component: {fileID: 8382966526915367829}
-  m_Layer: 0
+  - component: {fileID: 2782180563348355105}
+  - component: {fileID: 1712832252268646226}
+  - component: {fileID: 6914109716471910452}
+  m_Layer: 15
   m_Name: Projectile_Ring_0Degrees
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,6 +80,52 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &2782180563348355105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508937575161781952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1712832252268646226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508937575161781952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materialIDindexPairs: []
+  _particleEffectIndex:
+    index: 10
+    objectIndex: 0
+    collectionIndex: 8
+--- !u!114 &6914109716471910452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508937575161781952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materialIDindexPairs: []
+  _soundEffectIndex:
+    index: 40
+    objectIndex: 0
+    collectionIndex: 7
 --- !u!1 &6706877511127452273
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,7 +42,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Roll_grounded_right
-  m_Speed: 1.2
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3876190902250497350}
@@ -2070,7 +2070,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Dash_Land_left
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -5949681203354655003}
@@ -2410,7 +2410,7 @@ AnimatorStateMachine:
     m_Position: {x: -90, y: -540, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2241983268399897945}
-    m_Position: {x: -110, y: -140, z: 0}
+    m_Position: {x: -120, y: -250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -9102796830496959855}
     m_Position: {x: 1170, y: -340, z: 0}
@@ -4548,7 +4548,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Roll_grounded_left
-  m_Speed: 1.2
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 6637755513564532395}
@@ -5887,9 +5887,9 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: -2745176982368961924}
-    second: []
   - first: {fileID: 842887696245743349}
+    second: []
+  - first: {fileID: -2745176982368961924}
     second: []
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 230, y: 200, z: 0}
@@ -6277,7 +6277,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Roll_air_right
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 7298183173775659001}
@@ -6731,7 +6731,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Roll_air_left
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 6988894279844736398}

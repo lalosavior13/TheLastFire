@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DeathBehavior_0
   m_EditorClassIdentifier: 
   drawGizmos: 0
-  _run: 1
+  _run: 0
   _scytheAttackIDCredential:
     _tag: Prop_Attack_ID
     _ID: -4144412

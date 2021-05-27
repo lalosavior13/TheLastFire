@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: JudgementBehavior_0
   m_EditorClassIdentifier: 
   drawGizmos: 1
-  _run: 0
+  _run: 1
   _fireShowPieceIndex:
     index: 2
     objectIndex: 0
@@ -124,17 +124,17 @@ MonoBehaviour:
     objectIndex: 0
     collectionIndex: 4
   _ySpawnLimits:
-    _min: 1.5
+    _min: 2
     _max: 2.5
   _xOffset:
     _min: 3
-    _max: 5
+    _max: 3
   _danceShowRounds:
     _min: 10
     _max: 10
   _ringsPerRound:
-    _min: 8
-    _max: 8
+    _min: 20
+    _max: 20
   _danceShowDuration: 10
   _danceShowSuccessPercentage: 1
   _trashProjectilesIndices:

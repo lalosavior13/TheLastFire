@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StrengthBehavior_0
   m_EditorClassIdentifier: 
   drawGizmos: 1
-  _run: 1
+  _run: 0
   _drumstickSoundIndex:
     index: 33
     objectIndex: 0
