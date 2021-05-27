@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ChariotBehavior_0
   m_EditorClassIdentifier: 
   drawGizmos: 0
-  _run: 0
+  _run: 1
   _projectileSpawnPosition: {x: 0, y: 9, z: 0}
   _petrolSphereID:
     index: 1

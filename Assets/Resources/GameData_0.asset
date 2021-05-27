@@ -33,7 +33,7 @@ MonoBehaviour:
   - {fileID: 6563647546888967388, guid: 82af2cdf0b49c01458e88729df941401, type: 3}
   - {fileID: 6018280101986912862, guid: 05b2c17c0c2fe8e4db53c021e566b853, type: 3}
   _enemyParabolaProjectiles:
-  - {fileID: 449427217695644160, guid: b82ec7de13a935e4c860dfca1cfb8dda, type: 3}
+  - {fileID: 449427217695644160, guid: 0dfbc17cfc0cf934a8c089f8df53bb4d, type: 3}
   - {fileID: 449427217695644160, guid: d34c65e5215495749b3c218e3d5a7d4b, type: 3}
   - {fileID: 449427217695644160, guid: bdf44366f21f2ee47bd94b1b19e29f1e, type: 3}
   _poolObjects:
@@ -96,6 +96,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3ee4eb6f3e3004847b7a988f335bf344, type: 3}
   - {fileID: 8300000, guid: dad3704d6d6c43f478dc888b4e334526, type: 3}
   - {fileID: 8300000, guid: 6578e6d68ac696648a9ce597be9c21e0, type: 3}
+  - {fileID: 8300000, guid: 3bf7a74ff182f6848b79406b57705f0a, type: 3}
+  - {fileID: 8300000, guid: fc7010f347399764cb3fcf759c90fd86, type: 3}
   _particleEffects:
   - {fileID: 2948463789655692408, guid: 05729ccca8bca724b80aa225032af021, type: 3}
   - {fileID: 6782677579952761336, guid: 40a16e0a24c989a40b60a9e7cfc239dc, type: 3}
@@ -107,4 +109,7 @@ MonoBehaviour:
   - {fileID: 2865075430554431865, guid: aa8d6482d70a23445b4b2a928ed1b845, type: 3}
   - {fileID: 3682682372088323882, guid: e473029e4c70ad543a6879b82a732f4f, type: 3}
   - {fileID: 7041335668634373212, guid: b395d5d6eb4b4b846acc021ee036b744, type: 3}
+  - {fileID: 6306249289954181648, guid: 8fc06027b01064e4f885fd8dd2929310, type: 3}
+  - {fileID: 3209865493363014059, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
+  - {fileID: 6306249289954181648, guid: 8fc06027b01064e4f885fd8dd2929310, type: 3}
   - {fileID: 6306249289954181648, guid: 8fc06027b01064e4f885fd8dd2929310, type: 3}

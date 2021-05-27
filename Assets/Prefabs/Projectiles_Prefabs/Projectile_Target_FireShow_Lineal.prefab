@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2980982915052507437}
   - component: {fileID: 5372738417912063611}
   - component: {fileID: -5221806206260212205}
+  - component: {fileID: 8980158399394826366}
+  - component: {fileID: 4269707253737162276}
   m_Layer: 11
   m_Name: Projectile_Target_FireShow_Lineal
   m_TagString: Untagged
@@ -98,6 +100,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8980158399394826366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980982915052507435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materialIDindexPairs: []
+  _particleEffectIndex:
+    index: 5
+    objectIndex: 0
+    collectionIndex: 8
+--- !u!114 &4269707253737162276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980982915052507435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materialIDindexPairs: []
+  _soundEffectIndex:
+    index: 36
+    objectIndex: 0
+    collectionIndex: 7
 --- !u!1 &4025212834880948052
 GameObject:
   m_ObjectHideFlags: 0

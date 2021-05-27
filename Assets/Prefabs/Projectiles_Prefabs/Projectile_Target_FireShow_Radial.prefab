@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5331431299568190518}
   - component: {fileID: 4726841204741414268}
   - component: {fileID: -9184542112531113684}
+  - component: {fileID: 6703699245727064998}
+  - component: {fileID: 7925511711325863637}
   m_Layer: 11
   m_Name: Projectile_Target_FireShow_Radial
   m_TagString: Untagged
@@ -110,7 +112,7 @@ MonoBehaviour:
     _z: 1
   _space: 0
   _radius: 3
-  _motionSpeed: 150
+  _motionSpeed: 100
 --- !u!114 &-9184542112531113684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +125,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6703699245727064998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980982915052507435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materialIDindexPairs: []
+  _particleEffectIndex:
+    index: 5
+    objectIndex: 0
+    collectionIndex: 8
+--- !u!114 &7925511711325863637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980982915052507435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _materialIDindexPairs: []
+  _soundEffectIndex:
+    index: 36
+    objectIndex: 0
+    collectionIndex: 7
 --- !u!50 &287322114
 Rigidbody2D:
   serializedVersion: 4
@@ -154,7 +190,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.00000017881393}

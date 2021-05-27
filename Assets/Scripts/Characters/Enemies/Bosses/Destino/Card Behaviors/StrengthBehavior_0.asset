@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: StrengthBehavior_0
   m_EditorClassIdentifier: 
   drawGizmos: 1
-  _run: 0
+  _run: 1
   _drumstickSoundIndex:
     index: 33
     objectIndex: 0
-    collectionIndex: 6
+    collectionIndex: 7
   _drumstickPhaseCredential:
     _tag: DrumstickPhase
     _ID: 1695110616
@@ -101,7 +101,7 @@ MonoBehaviour:
   _trumpetSoundIndex:
     index: 32
     objectIndex: 0
-    collectionIndex: 6
+    collectionIndex: 7
   _activateTrumpetCredential:
     _tag: Activate
     _ID: 1326475003
@@ -116,7 +116,7 @@ MonoBehaviour:
   _cymbalSoundIndex:
     index: 34
     objectIndex: 0
-    collectionIndex: 6
+    collectionIndex: 7
   _cymbalIndex:
     index: 3
     objectIndex: 0

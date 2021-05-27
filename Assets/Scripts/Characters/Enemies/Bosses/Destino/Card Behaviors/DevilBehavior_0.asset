@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: DevilBehavior_0
   m_EditorClassIdentifier: 
   drawGizmos: 1
+  _run: 0
   _arrowProjectileIndex:
     index: 2
     objectIndex: 0

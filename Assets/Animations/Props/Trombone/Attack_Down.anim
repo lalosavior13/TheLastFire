@@ -469,6 +469,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 2
     messageOptions: 0
+  - time: 0.81666666
+    functionName: EmitSoundEffect
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 32
+    messageOptions: 0
   - time: 1.75
     functionName: InvokeAnimationAttackEvent
     data: 
