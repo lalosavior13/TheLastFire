@@ -127,14 +127,14 @@ MonoBehaviour:
     _min: 2
     _max: 2.5
   _xOffset:
+    _min: 0.5
+    _max: 1
+  _danceShowRounds:
     _min: 3
     _max: 3
-  _danceShowRounds:
-    _min: 10
-    _max: 10
   _ringsPerRound:
-    _min: 20
-    _max: 20
+    _min: 8
+    _max: 8
   _danceShowDuration: 10
   _danceShowSuccessPercentage: 1
   _trashProjectilesIndices:

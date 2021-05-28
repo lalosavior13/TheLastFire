@@ -515,62 +515,92 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		SecondsDelayWait wait = new SecondsDelayWait(danceShowDuration);
 		int rounds = danceShowRounds.Random();
 		float ringsPassed = 0.0f;
+		float fRingsPerRound = 0.0f;
+		float totalRingsPassed = 0.0f;
+		Vector2 maxJumpForce = Game.GetMateoMaxJumpingHeight();
 		OnRingPassed onRingPassed = (collider)=> { ringsPassed++; };
 
 		while(signDisplacement.MoveNext()) yield return null;
 
-		/*for(int i = 0; i < rounds; i++)
-		{*/
-			AudioClip clip = AudioController.Play(AudioController.GetLoopSource(), danceShowPieceIndex, false);
-			wait.waitDuration = clip.length;
+		AudioClip clip = AudioController.Play(AudioController.GetLoopSource(), danceShowPieceIndex, false);
+		wait.waitDuration = clip.length;
 
+		for(int i = 0; i < rounds; i++)
+		{
 			int ringsPR =  ringsPerRound.Random();
-			float fRingsPerRound = (float)ringsPR;
+			float currentRingsPR = (float)ringsPR;
+			fRingsPerRound += currentRingsPR;
 			Ring[] rings = new Ring[ringsPR];
+			float[] spaces = new float[rings.Length - 1];
 			ringsPassed = 0.0f;
-			float lastSpawnPositionX = 0.0f;
-			float accumulatedX = 0.0f;
-			Vector2 maxJumpForce = Game.mateo.jumpAbility.PredictForces();
+			float width = 0.0f;
+			float halfWidth = 0.0f;
+			float x = 0.0f;
+			float y = 0.0f;
+			Ring ring = null;
 
 			Debug.DrawRay(Game.mateo.transform.position + (Vector3)maxJumpForce, Vector3.up * 5.0f, Color.cyan, 5.0f);
 
+			/// Create and store some values:
 			for(int j = 0; j < ringsPR; j++)
 			{
-				Ring ring = PoolManager.RequestPoolGameObject(ringsIndices.Random(), Vector3.zero, Random.Range(0, 2) == 0 ? Quaternion.identity : Quaternion.Euler(Vector3.up * 180.0f)).GetComponent<Ring>();
-				Vector2 extents = ring.renderer.bounds.extents;
-				accumulatedX += extents.x + xOffset.Random();
-				Vector3 spawnPosition = new Vector3(
-					accumulatedX,
-					(ySpawnLimits.Min() + extents.y) + (Random.Range(0.0f, maxJumpForce.y) - extents.y),
-					0.0f
-				);
-				ring.transform.position = spawnPosition;
-				ring.onRingPassed += onRingPassed;
+				ring = PoolManager.RequestPoolGameObject(ringsIndices.Random(), Vector3.zero, Random.Range(0, 2) == 0 ? Quaternion.identity : Quaternion.Euler(Vector3.up * 180.0f)).GetComponent<Ring>();
+				width += ring.renderer.bounds.size.x;
+
+				if(j < ringsPR - 1)
+				{
+					spaces[j] = xOffset.Random();
+					width += spaces[j];
+				}
+
 				rings[j] = ring;
 			}
 
-			float x = accumulatedX * 0.5f;
+			halfWidth = width * -0.25f;
+			x = halfWidth; 	/// Starting Spawn's Position...
 
-			foreach(Ring ring in rings)
+			for(int j = 0; j < ringsPR; j++)
 			{
-				Vector3 ringPosition = ring.transform.position;
-				ringPosition.x -= x;
-				ring.transform.position = ringPosition;
+				ring = rings[j];
+
+				Vector2 extents = ring.renderer.bounds.extents;
+				y = (ySpawnLimits.Min() + extents.y) + (Random.Range(0.0f, maxJumpForce.y) - extents.y);
+				x += extents.x;
+				Vector3 spawnPosition = new Vector3(x, y, 0.0f);
+
+				x += extents.x + xOffset.Random();
+				if(j < ringsPR - 1) x += spaces[j];
+
+				ring.transform.position = spawnPosition;
+				ring.onRingPassed += onRingPassed;
+				
 			}
 
-			while(wait.MoveNext() && ringsPassed < fRingsPerRound) yield return null;
+			x = width * 0.5f;
+
+			foreach(Ring currentRing in rings)
+			{
+				Vector3 ringPosition = currentRing.transform.position;
+				ringPosition.x -= x;
+				currentRing.transform.position = ringPosition;
+			}
+
+			while(wait.MoveNext() && ringsPassed < currentRingsPR) yield return null;
+			if(wait.progress == 1.0f) break; /// Direct to the evaluation
 			wait.Reset();
 
-			foreach(Ring ring in rings)
+			totalRingsPassed += ringsPassed;
+
+			foreach(Ring currentRing in rings)
 			{
-				ring.onRingPassed -= onRingPassed;
-				ring.OnObjectDeactivation();
+				currentRing.onRingPassed -= onRingPassed;
+				currentRing.OnObjectDeactivation();
 			}
+		}
 
-			showJudgement = EvaluateShow(fRingsPerRound, ringsPassed, danceShowSuccessPercentage);
+		showJudgement = EvaluateShow(fRingsPerRound, totalRingsPassed, danceShowSuccessPercentage);
 
-			while(showJudgement.MoveNext()) yield return null;
-		//}
+		while(showJudgement.MoveNext()) yield return null;
 
 		AudioController.PlayFSMLoop(0, DestinoSceneController.Instance.mainLoopIndex);
 		AudioController.PlayFSMLoop(1, DestinoSceneController.Instance.mainLoopVoiceIndex);

@@ -96,6 +96,14 @@ public class Game : Singleton<Game>
 		return mateo != null ? mateo.transform.position + (mateo.deltaCalculator.velocity * t) : Vector3.zero;
 	}
 
+	/// <summary>Gets Mateo's Maximum Jump Force.</summary>
+	/// <param name="_allJumps">Predict the force of all jumps? If false, it will only project the force of the first jump.</param>
+	/// <returns>Force projection of Mateo's jumps.</returns>
+	public static Vector2 GetMateoMaxJumpingHeight(bool _allJumps = true)
+	{
+		return _allJumps ? mateo.jumpAbility.PredictForces() : mateo.jumpAbility.PredictForce(0);
+	}
+
 	/// <summary>Adds Target's Transform into the Camera.</summary>
 	/// <param name="_transform">Transform to Add.</param>
 	public static void AddTargetTransformToCamera(Transform _transform)

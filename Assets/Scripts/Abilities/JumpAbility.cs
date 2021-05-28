@@ -37,9 +37,9 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	public const int STATE_ID_LANDING = 1 << 3; 				/// <summary>Landing State's ID.</summary>
 
 	[Header("Gravity Scales' Settings:")]
-	[SerializeField] private float _groundedScale; 				/// <summary>GravityScale when Grounded.</summary>
-	[SerializeField] private float _jumpingScale; 				/// <summary>GravityScale when Jumping.</summary>
-	[SerializeField] private float _fallingScale; 				/// <summary>GravityScale when Falling.</summary>
+	[SerializeField] private float _groundedScale; 				/// <summary>Gravity's Scale when Grounded.</summary>
+	[SerializeField] private float _jumpingScale; 				/// <summary>Gravity's Scale when Jumping.</summary>
+	[SerializeField] private float _fallingScale; 				/// <summary>Gravity's Scale when Falling.</summary>
 	[SerializeField] private int _scaleChangePriority; 			/// <summary>Gravity Scale's Change Priority.</summary>
 	[Space(5f)]
 	[SerializeField]
@@ -314,8 +314,6 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 				forceInfo.forceMode,
 				OnJumpEnds
 			);
-
-			Debug.Log("[JumpAbility] Force Info " + i + ": " + forcesAppliers[i]);
 		}
 	}
 
@@ -359,20 +357,23 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	public Vector2 PredictForce(int index)
 	{
 		index = Mathf.Clamp(index, 0, forcesInfo.Length - 1);
-		ForceInformation2D forceInfo = forcesInfo[index];
-		Vector2 f = forceInfo.force;
-		float t = forceInfo.duration;
 
-		Debug.Log("[JumpAbility] ForceInformation2D used for prediction: " + forceInfo);
+		ForceInformation2D forceInfo = forcesInfo[index];
+		float t = forceInfo.duration;
+		float iT = (t * t * 0.5f); 					/// Time's Integral.
+		Vector2 f = forceInfo.force;
+		Vector2 g = gravityApplier.gravity * iT * jumpingScale;
 
 		switch(forceInfo.forceMode)
 		{
-			case ForceMode.Force: 			return (f * (t * t * 0.5f)) / rigidbody.mass;
-			case ForceMode.Acceleration: 	return f * (t * t * 0.5f);
-			case ForceMode.Impulse: 		return (f * t) / rigidbody.mass;
-			case ForceMode.VelocityChange: 	return f * t;
-			default:  						return f * t;
+			case ForceMode.Force: 			f =  (f * iT) / rigidbody.mass; 	break;
+			case ForceMode.Acceleration: 	f =  f * iT; 						break;
+			case ForceMode.Impulse: 		f =  (f * t) / rigidbody.mass; 		break;
+			case ForceMode.VelocityChange: 	f =  f * t; 						break;
+			default:  						f =  f * t; 						break;
 		}
+
+		return f + g;
 	}
 
 	/// <returns>Accumulation of the Predictions of all Jump forces.</returns>
