@@ -36,7 +36,7 @@ public class SoundEffectEmiter : MonoBehaviour
 	/// <param name="_index">Sound Effect's Index.</param>
 	public void EmitSoundEffect(int _index)
 	{
-		AudioController.PlayOneShot(AudioController.GetSoundEffectSource(source), _index, volumeScale);
+		AudioController.PlayOneShot(SourceType.SFX, source, _index, volumeScale);
 	}
 }
 }

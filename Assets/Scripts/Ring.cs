@@ -125,11 +125,11 @@ public class Ring : PoolGameObject
 				direction = ToRelativeOrientationVector(direction);
 				if(Vector2.Dot(direction, directionsMapping[instanceID]) >= dotProduct && !passedOn)
 				{
-					Debug.Log("[Ring] Success, the GameObject passed correctly");
+					//Debug.Log("[Ring] Success, the GameObject passed correctly");
 					passedOn = true;
 					InvokeRingPassedEvent(_collider);
 				}
-				else Debug.Log("[Ring] Failure, you are mom gay.");
+				//else Debug.Log("[Ring] Failure, you are mom gay.");
 
 				/*Debug.DrawRay(transform.position, direction, Color.cyan, 3.0f);
 				Debug.DrawRay(transform.position, directionsMapping[instanceID], Color.magenta, 3.0f);*/

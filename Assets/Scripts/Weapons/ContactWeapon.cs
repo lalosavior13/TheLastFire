@@ -134,7 +134,7 @@ public class ContactWeapon : PoolGameObject
 		int layer = _collider.gameObject.layer;
 		int mask = 1 << layer;
 
-		Debug.Log("[ContactWeapon] Made contact with: " + _collider.name);
+		//Debug.Log("[ContactWeapon] Made contact with: " + _collider.name);
 
 		if((healthAffectableMask | mask) == healthAffectableMask)
 		{

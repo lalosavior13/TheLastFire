@@ -29,7 +29,7 @@ public void Cheer()
 		if(targetsScore == 0) 
 		{
 			int index = soundEffectIndex;
-		AudioController.PlayOneShot(index);
+		AudioController.PlayOneShot(SourceType.Scenario, 0, index);
 		}
 	}
 
@@ -38,7 +38,7 @@ void Cheer2()
 		if(petrolsScore == 0) 
 		{
 			int index = soundEffectIndex;
-		AudioController.PlayOneShot(index);
+		AudioController.PlayOneShot(SourceType.Scenario, 0, index);
 		}
 		
 	}

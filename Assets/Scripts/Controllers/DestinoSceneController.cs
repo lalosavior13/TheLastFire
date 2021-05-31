@@ -190,7 +190,7 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 
 		Game.ResetFSMLoopStates();
 
-		AudioClip clip = AudioController.PlayOneShot(orchestraTunningSoundIndex);
+		AudioClip clip = AudioController.PlayOneShot(SourceType.Scenario, 0, orchestraTunningSoundIndex);
 		CloseCurtainsWithWeight(WEIGHT_BLENDSHAPE_CURTAIN_CLOSED, 0.0f, null);
 	}
 
@@ -257,7 +257,7 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 		switch(_ID)
 		{
 			case Mateo.ID_EVENT_INITIALPOSE_ENDED:
-			AudioClip openingClip = AudioController.PlayOneShot(curtainOpeningSoundIndex);
+			AudioClip openingClip = AudioController.PlayOneShot(SourceType.Scenario, 0, curtainOpeningSoundIndex);
 			CloseCurtainsWithWeight(stage1CurtainClosure, /*openingClip.length*/0.0f, ()=>
 			{
 				AudioController.PlayFSMLoop(0, mainLoopIndex, true);

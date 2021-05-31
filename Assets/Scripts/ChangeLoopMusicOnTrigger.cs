@@ -28,7 +28,7 @@ public class ChangeLoopMusicOnTrigger : MonoBehaviour
 		GameObject obj = col.gameObject;
 	
 		if(obj.CompareTag(tag))
-		AudioController.Play(AudioController.GetLoopSource(loopSource), loopIndex, true);
+		AudioController.Play(SourceType.Loop, 0, loopIndex, true);
 	}
 }
 }

@@ -2098,7 +2098,7 @@ PrefabInstance:
     - target: {fileID: 6454213616821555350, guid: bdb24498052e900489a206c3c27edc8f,
         type: 3}
       propertyPath: _mainLoopVoiceIndex.index
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6454213616821555350, guid: bdb24498052e900489a206c3c27edc8f,
         type: 3}

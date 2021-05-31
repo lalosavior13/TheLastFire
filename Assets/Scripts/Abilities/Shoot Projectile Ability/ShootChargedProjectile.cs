@@ -138,8 +138,8 @@ public class ShootChargedProjectile : ShootProjectile
 	/// <summary>Creates Projectile and parents it to the muzzle [if such exists].</summary>
 	private void CreateProjectile()
 	{
-		if(ID == projectileID) AudioController.PlayOneShot(AudioController.GetSoundEffectSource(), projectileCreationSoundIndex);
-		else if(ID == chargedProjectileID) AudioController.PlayOneShot(AudioController.GetSoundEffectSource(), maxChargeSoundIndex);
+		if(ID == projectileID) AudioController.PlayOneShot(SourceType.SFX, 0, projectileCreationSoundIndex);
+		else if(ID == chargedProjectileID) AudioController.PlayOneShot(SourceType.SFX, 0, maxChargeSoundIndex);
 
 		projectile = PoolManager.RequestProjectile(faction, ID, muzzle.position, Vector3.zero);
 		projectile.transform.parent = muzzle;
@@ -166,7 +166,7 @@ public class ShootChargedProjectile : ShootProjectile
 
 		if(currentCharge < minimumCharge) return false;
 
-		AudioController.PlayOneShot(AudioController.GetSoundEffectSource(), releaseSoundIndex);
+		AudioController.PlayOneShot(SourceType.SFX, 0, releaseSoundIndex);
 
 		return Shoot(ID, _origin, _direction);
 	}

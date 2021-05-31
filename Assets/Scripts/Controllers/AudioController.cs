@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,12 +8,13 @@ using Voidless;
 
 namespace Flamingo
 {
-/*public enum AudioSourceType
+public enum SourceType
 {
+	Default,
 	Loop,
 	Scenario,
-	...
-}*/
+	SFX
+}
 
 [RequireComponent(typeof(AudioSource))]
 public class AudioController : Singleton<AudioController>
@@ -27,9 +29,9 @@ public class AudioController : Singleton<AudioController>
 	[SerializeField] private AudioSource[] _scenarioSources; 		/// <summary>Scenario's AudioSources.</summary>
 	[SerializeField] private AudioSource[] _soundEffectSources; 	/// <summary>Mateo's AudioSources.</summary>
 	private AudioSource _audioSource; 								/// <summary>AudioSource's Component.</summary>
-	private int _lastLoopIndex; 									/// <summary>Last Loop's Index.</summary>
-	private Coroutine[] loopFSMCoroutines; 							/// <summary>Coroutines' references for the Loops' FSM AudioClips.</summary>
 	private Coroutine volumeFading; 								/// <summary>Volume Fading's Coroutine Reference.</summary>
+	private Coroutine[] loopFSMCoroutines; 							/// <summary>Coroutines' references for the Loops' FSM AudioClips.</summary>
+	private Coroutine[] loopVolumeFadings; 							/// <summary>Coroutines' references for the Loops' volume's fading.</summary>
 
 	/// <summary>Gets exposedVolumeParameterName property.</summary>
 	public string exposedVolumeParameterName { get { return _exposedVolumeParameterName; } }
@@ -59,18 +61,31 @@ public class AudioController : Singleton<AudioController>
 		}
 	}
 
-	/// <summary>Gets and Sets lastLoopIndex property.</summary>
-	public static int lastLoopIndex
-	{
-		get { return Instance._lastLoopIndex; }
-		set { Instance._lastLoopIndex = value; }
-	}
-
 	/// <summary>Callback called on Awake if this Object is the Singleton's Instance.</summary>
    	protected override void OnAwake()
 	{
-		lastLoopIndex = -1;
-		if(loopSources != null) loopFSMCoroutines = new Coroutine[loopSources.Length];
+		if(loopSources == null) return;
+
+		int length = loopSources.Length;
+
+		loopFSMCoroutines = new Coroutine[length];
+		loopVolumeFadings = new Coroutine[length];
+	}
+
+	/// <summary>Gets AudioSource according to the provided type, on the located index.</summary>
+	/// <param name="_type">AudioSource's Type [SourceType.Loop by default].</param>
+	/// <param name="_index">Optional index on the set of AudioSources [0 by default].</param>
+	/// <returns>AudioSource.</returns>
+	private static AudioSource GetAudioSource(SourceType _type = SourceType.Default, int _index = 0)
+	{
+		switch(_type)
+		{
+			case SourceType.Default: 	return Instance.audioSource;
+			case SourceType.Loop: 		return GetLoopSource(_index);
+			case SourceType.Scenario: 	return GetScenarioSource(_index);
+			case SourceType.SFX: 		return GetSoundEffectSource(_index);
+			default: 					return null;
+		}
 	}
 
 	/// <summary>Gets Loop's AudioSource on the given index.</summary>
@@ -105,20 +120,23 @@ public class AudioController : Singleton<AudioController>
 	/// <param name="_aucioClip">AudioClip to play.</param>
 	/// <param name="_loop">Loop AudioClip? false as default.</param>
 	/// <returns>Playing AudioClip.</returns>
-	public static AudioClip Play(AudioSource _source, int _index, bool _loop = false)
+	public static AudioClip Play(SourceType _type, int _sourceIndex, int _index, bool _loop = false)
 	{
-		if(_index == lastLoopIndex) return null;
-
+		AudioSource source = GetAudioSource(_type, _sourceIndex);
 		AudioClip clip = Game.data.loops[_index];
-		AudioMixer mixer = _source.outputAudioMixerGroup.audioMixer;
+		AudioMixer mixer = source.outputAudioMixerGroup.audioMixer;
 
-		if(mixer != null && lastLoopIndex > -1)
-		{
+		/// I Still don't know if this is a correct answer...
+		if(source.clip != null && source.clip == clip) return clip;
+
+		if(mixer != null && (source.clip != null && source.clip != clip))
+		{ /// If there is an AudioMixer and there is a current AudioClip being played on the selected source that is not this Clip, fade the prior one before playing the new one.
+
 			/// Fade-Out last piece -> Set new piece -> Fade-In new piece.
 			Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 0.0f, 
 			()=>
 			{
-				_source.PlaySound(clip, _loop);
+				source.PlaySound(clip, _loop);
 				Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 1.0f, 
 				()=>
 				{
@@ -127,9 +145,7 @@ public class AudioController : Singleton<AudioController>
 
 			}), ref Instance.volumeFading);
 		}
-		else _source.PlaySound(clip, _loop);
-
-		lastLoopIndex = _index;
+		else source.PlaySound(clip, _loop);
 
 		return clip;
 	}
@@ -140,40 +156,61 @@ public class AudioController : Singleton<AudioController>
 	/// <returns>Playing AudioClip.</returns>
 	public static AudioClip Play(int _index, bool _loop = false)
 	{
-		return Play(Instance.audioSource, _index, _loop);
+		return Play(SourceType.Default, 0, _index, _loop);
 	}
 
 	/// <summary>Plays FiniteStateAudioClip's Loop on the selected AudioSource.</summary>
-	/// <param name="_loopSourceIndex">Index of the AudioSource that will play this FSM's AudioClip.</param>
+	/// <param name="_sourceIndex">Index of the AudioSource that will play this FSM's AudioClip.</param>
 	/// <param name="_index">FSM's AudioClip's Index.</param>
 	/// <param name="_loop">Loop the FSM's AudioClip? True by default.</param>
-	public static AudioClip PlayFSMLoop(int _loopSourceIndex, int _index, bool _loop = true)
+	public static AudioClip PlayFSMLoop(int _sourceIndex, int _index, bool _loop = true)
 	{
-		if(_index == lastLoopIndex) return null;
-
-		AudioSource source = loopSources[_loopSourceIndex];
+		AudioSource source = loopSources[_sourceIndex];
 		FiniteStateAudioClip FSMClip = Game.data.FSMLoops[_index];
 		AudioClip clip = FSMClip.clip;
 		AudioMixer mixer = source.outputAudioMixerGroup.audioMixer;
 
-		if(mixer != null && lastLoopIndex > -1)
-		{
+#if UNITY_EDITOR
+		StringBuilder builder = new StringBuilder();
+		builder.AppendLine("PlayFSM()'s Report: ");
+		builder.Append("Source's Index: ");
+		builder.AppendLine(_sourceIndex.ToString());
+		builder.Append("FSM AudioClip's Index: ");
+		builder.AppendLine(_index.ToString());
+		builder.AppendLine();
+		builder.Append("FSM's AudioClip: ");
+		builder.AppendLine(FSMClip.ToString());
+		builder.Append("Source's current AudioClip: ");
+		builder.Append(source.clip != null ? source.clip.name : "NONE");
+
+		Debug.Log(builder.ToString());
+#endif
+
+		if(mixer != null && (source.clip != null && source.clip != clip))
+		{ /// If there is an AudioMixer and there is a current AudioClip being played on the selected source that is not this Clip, fade the prior one before playing the new one.
+
+			float mixerVolume = 0.0f;
+			mixer.GetFloat(Instance.exposedVolumeParameterName, out mixerVolume);
+
 			/// Fade-Out last piece -> Set new piece -> Fade-In new piece.
-			Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 0.0f, 
+			/*if(mixerVolume > 0.0f) */Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 0.0f, 
 			()=>
 			{
-				Instance.PlayFSMAudioClip(source, FSMClip, ref Instance.loopFSMCoroutines[_loopSourceIndex], _loop, false, null);
+				Instance.PlayFSMAudioClip(source, FSMClip, ref Instance.loopFSMCoroutines[_sourceIndex], _loop, false, null);
 				Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 1.0f, 
 				()=>
 				{
-					Instance.DispatchCoroutine(ref Instance.volumeFading);
+					Instance.DispatchCoroutine(ref Instance.loopVolumeFadings[_sourceIndex]);
 				}));
 
-			}), ref Instance.volumeFading);
+			}), ref Instance.loopVolumeFadings[_sourceIndex]);
+			/*else
+			{
+				mixer.SetFloat(Instance.exposedVolumeParameterName, 1.0f);
+				Instance.PlayFSMAudioClip(source, FSMClip, ref Instance.loopFSMCoroutines[_sourceIndex], _loop, false, null);
+			}*/
 		}
-		else Instance.PlayFSMAudioClip(source, FSMClip, ref Instance.loopFSMCoroutines[_loopSourceIndex], _loop, false, null);
-
-		lastLoopIndex = _index;
+		else Instance.PlayFSMAudioClip(source, FSMClip, ref Instance.loopFSMCoroutines[_sourceIndex], _loop, false, null);
 
 		return clip;
 	}
@@ -181,51 +218,70 @@ public class AudioController : Singleton<AudioController>
 	/// <summary>Stops AudioSource, Fades-Out if there is an AudioMixer.</summary>
 	/// <param name="_source">AudioSource to Stop.</param>
 	/// <param name="onStopEnds">Optional callback invoked when the stop process reaches itrs end [null by default].</param>
-	public static void Stop(AudioSource _source, Action onStopEnds = null)
+	public static void Stop(SourceType _type, int _sourceIndex, Action onStopEnds = null)
 	{
-		if(_source.clip == null || !_source.isPlaying) return;
+		AudioSource source = GetAudioSource(_type, _sourceIndex);
 
-		AudioMixer mixer = _source.outputAudioMixerGroup.audioMixer;
+		if(source.clip == null || !source.isPlaying) return;
+
+		AudioMixer mixer = source.outputAudioMixerGroup.audioMixer;
+		//lastLoopIndex = -1;
 
 		if(mixer != null)
 		{
 			Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 0.0f,
 			()=>
 			{
-				_source.Stop();
+				source.Stop();
+				source.clip = null;
+				mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
+				source.time = 0.0f;
 				if(onStopEnds != null) onStopEnds();
-			}));
+
+			}), ref Instance.loopVolumeFadings[_sourceIndex]);
 		}
 		else
 		{
-			_source.Stop();
+			source.Stop();
+			source.clip = null;
+			mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
+			source.time = 0.0f;
 			if(onStopEnds != null) onStopEnds();
 		}
 	}
 
 	/// <summary>Stops FSM's AudioClip Loop on the given AudioSource [if it is playing].</summary>
-	/// <param name="_loopSourceIndex">Index of the AudioSource.</param>
+	/// <param name="_sourceIndex">Index of the AudioSource.</param>
 	/// <param name="onStopEnds">Optional callback invoked after the stop ends [null by default].</param>
-	public static void StopFSMLoop(int _loopSourceIndex, Action onStopEnds = null)
+	public static void StopFSMLoop(int _sourceIndex, Action onStopEnds = null)
 	{
-		AudioSource source = loopSources[_loopSourceIndex];
+		AudioSource source = loopSources[_sourceIndex];
 
 		if(source.clip == null || !source.isPlaying) return;
 
 		AudioMixer mixer = source.outputAudioMixerGroup.audioMixer;
+		Instance.DispatchCoroutine(ref Instance.loopFSMCoroutines[_sourceIndex]);
 
 		if(mixer != null)
 		{
 			Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 0.0f,
 			()=>
 			{
-				Instance.StopFSMAudioClip(source, ref Instance.loopFSMCoroutines[_loopSourceIndex]);
+				source.clip = null;
+				//Instance.StopFSMAudioClip(source, ref Instance.loopFSMCoroutines[_sourceIndex]);
+				source.Stop();
+				mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
+				source.time = 0.0f;
 				if(onStopEnds != null) onStopEnds();
 			}));
 		}
 		else
 		{
-			Instance.StopFSMAudioClip(source, ref Instance.loopFSMCoroutines[_loopSourceIndex]);
+			source.clip = null;
+			//Instance.StopFSMAudioClip(source, ref Instance.loopFSMCoroutines[_sourceIndex]);
+			source.Stop();
+			mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
+			source.time = 0.0f;
 			if(onStopEnds != null) onStopEnds();
 		}
 	}
@@ -235,10 +291,10 @@ public class AudioController : Singleton<AudioController>
 	/// <param name="_indeex">AudioClip's index on the Game's Data to play.</param>
 	/// <param name="_volumeScale">Normalized Volume's Scale [1.0f by default].</param>
 	/// <returns>Playing AudioClip.</returns>
-	public static AudioClip PlayOneShot(AudioSource _source, int _index, float _volumeScale = 1.0f)
+	public static AudioClip PlayOneShot(SourceType _type, int _sourceIndex, int _index, float _volumeScale = 1.0f)
 	{
 		AudioClip clip = Game.data.soundEffects[_index];
-		_source.PlayOneShot(clip, _volumeScale);
+		GetAudioSource(_type, _sourceIndex).PlayOneShot(clip, _volumeScale);
 
 		return clip;
 	}
@@ -249,7 +305,7 @@ public class AudioController : Singleton<AudioController>
 	/// <returns>Playing AudioClip.</returns>
 	public static AudioClip PlayOneShot(int _index, float _volumeScale = 1.0f)
 	{
-		return PlayOneShot(Instance.audioSource, _index, _volumeScale);
+		return PlayOneShot(SourceType.Default, 0, _index, _volumeScale);
 	}
 }
 }

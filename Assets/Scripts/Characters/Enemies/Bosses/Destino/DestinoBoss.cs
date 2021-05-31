@@ -272,7 +272,7 @@ public class DestinoBoss : Boss
 		{
 			case RotationEvent.BuildUpBegins:
 			scythe.ActivateHitBoxes(false);
-			AudioController.PlayOneShot(buildUpSoundIndex);
+			AudioController.PlayOneShot(SourceType.SFX, 0, buildUpSoundIndex);
 			break;
 
 			case RotationEvent.BuildUpEnds:
@@ -281,7 +281,7 @@ public class DestinoBoss : Boss
 
 			case RotationEvent.SwingBegins:
 			scythe.ActivateHitBoxes(true);
-			AudioController.PlayOneShot(swingSoundIndex);
+			AudioController.PlayOneShot(SourceType.SFX, 0, swingSoundIndex);
 			break;
 
 			case RotationEvent.SwingEnds:

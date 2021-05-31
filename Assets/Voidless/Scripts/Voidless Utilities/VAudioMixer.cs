@@ -8,6 +8,16 @@ namespace Voidless
 {
 public static class VAudioMixer
 {
+	/// <summary>Sets AudioMixer's Volume.</summary>
+	/// <param name="_mixer">AudioMixer to modify.</param>
+	/// <param name="_parameter">Exposed parameter to modify.</param>
+	/// <param name="_volume">Desired volume [on a normalized range].</param>
+	public static void SetVolume(this AudioMixer _mixer, string _parameter, float _volume)
+	{
+		float v = 0.0f;
+		_mixer.SetFloat(_parameter, Mathf.Log10(_volume) * 20.0f);
+	}
+
 	/// \TODO Understand what is going on. Link: https://gamedevbeginner.com/how-to-fade-audio-in-unity-i-tested-every-method-this-ones-the-best/
 	/// <summary>Fades AudioMixer's volume to desired value.</summary>
 	/// <param name="_mixer">AudioMixer's reference.</param>

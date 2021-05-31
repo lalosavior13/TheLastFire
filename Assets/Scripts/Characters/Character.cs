@@ -127,7 +127,7 @@ public class Character : PoolGameObject, IStateMachine
 
 	public void EmitSoundEffect(CollectionIndex _index, int _source = 0, float _volumeScale = 1.0f)
 	{
-		AudioController.PlayOneShot(AudioController.GetSoundEffectSource(_source), _index, _volumeScale);
+		AudioController.PlayOneShot(SourceType.SFX, _source, _index, _volumeScale);
 	}
 }
 }

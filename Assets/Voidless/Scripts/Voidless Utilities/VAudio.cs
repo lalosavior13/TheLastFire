@@ -85,15 +85,26 @@ public static class VAudio
 
 		if(_resetState) _FSMClip.ResetState();
 
+		float duration = _FSMClip.clip.length;
+
+		_FSMClip.SetStateToCurrentTime();
+
 		_audioSource.Stop();
 		_audioSource.clip = _FSMClip.clip;
-		_audioSource.time = _FSMClip.GetCurrentStateTime();
+		_audioSource.time = _FSMClip.time;
 		_audioSource.Play();
 		_audioSource.loop = _loop;
 
 		while(true)
 		{ /// Just change FSM Clip's time value each frame, that's pretty much it...
 			_FSMClip.time += Time.deltaTime;
+
+			if(_FSMClip.time >= duration)
+			{
+				if(!_audioSource.loop) break;
+				_FSMClip.time = 0.0f;
+			}
+
 			yield return null;
 		}
 

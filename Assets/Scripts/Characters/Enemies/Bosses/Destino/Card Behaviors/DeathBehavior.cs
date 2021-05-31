@@ -187,12 +187,12 @@ public class DeathBehavior : DestinoScriptableCoroutine
 
 			    case AnimationCommandState.Startup:
 			    scythe.ActivateHitBoxes(false);
-			    AudioController.PlayOneShot(boss.buildUpSoundIndex);
+			    AudioController.PlayOneShot(SourceType.SFX, 0, boss.buildUpSoundIndex);
 			    break;
 
 			    case AnimationCommandState.Active:
 			    scythe.ActivateHitBoxes(true);
-			    AudioController.PlayOneShot(boss.swingSoundIndex);
+			    AudioController.PlayOneShot(SourceType.SFX, 0, boss.swingSoundIndex);
 			    break;
 
 			    case AnimationCommandState.Recovery:

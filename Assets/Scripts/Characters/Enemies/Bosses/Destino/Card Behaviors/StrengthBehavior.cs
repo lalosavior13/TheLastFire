@@ -242,7 +242,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 	/// <param name="boss">Destino's reference.</param>
 	private IEnumerator DrumsticksRoutine(DestinoBoss boss)
 	{
-		AudioClip clip = AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), boss.reFaNoteIndex);
+		AudioClip clip = AudioController.PlayOneShot(SourceType.SFX, 1, boss.reFaNoteIndex);
 		ContactWeapon leftDrumstick = boss.leftDrumstick;
 		ContactWeapon rightDrumstick = boss.rightDrumstick;
 		Animator drumstickAnimator = rightDrumstick.GetComponent<Animator>();
@@ -310,7 +310,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 				break;
 
 			    case AnimationCommandState.Startup:
-			    AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), drumstickSoundIndex);
+			    AudioController.PlayOneShot(SourceType.SFX, 1, drumstickSoundIndex);
 			    break;
 
 			    case AnimationCommandState.Active:
@@ -372,7 +372,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 	/// <param name="boss">Destino's reference.</param>
 	private IEnumerator TrumpetRoutine(DestinoBoss boss)
 	{
-		AudioClip clip = AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), boss.laReNoteIndex);
+		AudioClip clip = AudioController.PlayOneShot(SourceType.SFX, 1, boss.laReNoteIndex);
 		ContactWeapon trumpet = boss.trumpet;
 		Animator trumpetAnimator = trumpet.GetComponent<Animator>();
 		AnimationAttacksHandler trumpetAttacksHandler = trumpet.GetComponent<AnimationAttacksHandler>();
@@ -391,7 +391,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 			switch(_state)
 			{
 				case AnimationCommandState.Startup:
-				AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), trumpetSoundIndex);
+				AudioController.PlayOneShot(SourceType.SFX, 1, trumpetSoundIndex);
 				break;
 
 				case AnimationCommandState.Active:
@@ -420,7 +420,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 		while(wait.MoveNext()) yield return null;
 
 		trumpetAnimator.SetTrigger(activateTrumpetCredential);
-		AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), trumpetSoundIndex);
+		AudioController.PlayOneShot(SourceType.SFX, 1, trumpetSoundIndex);
 
 		while(!trumpetAttackFinished) yield return null;
 
@@ -459,7 +459,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 	/// <param name="boss">Boss' reference.</param>
 	private IEnumerator CymbalsRoutine(DestinoBoss boss)
 	{
-		AudioClip clip = AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), boss.siMiNoteIndex);
+		AudioClip clip = AudioController.PlayOneShot(SourceType.SFX, 1, boss.siMiNoteIndex);
 		ContactWeapon cymbals = boss.cymbals;
 		Animator cymbalsAnimator = cymbals.GetComponent<Animator>();
 		AnimationAttacksHandler cymbalsAttacksHandler = cymbals.GetComponent<AnimationAttacksHandler>();
@@ -472,7 +472,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 				case AnimationCommandState.Startup:
 				cymbals.gameObject.SetActive(true);
 				cymbals.ActivateHitBoxes(false);
-				AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), cymbalSoundIndex);
+				AudioController.PlayOneShot(SourceType.SFX, 1, cymbalSoundIndex);
 				break;
 
 				case AnimationCommandState.Active:
@@ -502,7 +502,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 		while(wait.MoveNext()) yield return null;
 
 		cymbalsAnimator.SetTrigger(activateCymbalsCredential);
-		AudioController.PlayOneShot(AudioController.GetSoundEffectSource(1), cymbalSoundIndex);
+		AudioController.PlayOneShot(SourceType.SFX, 1, cymbalSoundIndex);
 
 		while(!cymbalAttackEnded) yield return null;
 

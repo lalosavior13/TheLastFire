@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec1d95277122c7e4996d5b9b2704595c, type: 3}
   m_Name: FSMLoop_DestinoTheme(WithVoice)
   m_EditorClassIdentifier: 
-  _clip: {fileID: 8300000, guid: 395070aeb38f86940aaa8852782be0dc, type: 3}
+  _clip: {fileID: 8300000, guid: 4228c095c17596242ad05f92330dec2f, type: 3}
   _statesRanges:
   - value: 52
   - value: 68

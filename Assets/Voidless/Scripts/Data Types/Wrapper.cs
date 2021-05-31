@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +34,19 @@ public class Wrapper<T> where T : struct
 	public Wrapper(T _value = default(T))
 	{
 		value = _value;
+	}
+
+	/// <returns>String representing the value contained within the Wrapper.</returns>
+	public override string ToString()
+	{
+		StringBuilder builder = new StringBuilder();
+
+		builder.Append("Wrapper <");
+		builder.Append(typeof(T).Name);
+		builder.Append(">: ");
+		builder.Append(value.ToString());
+
+		return builder.ToString();
 	}
 }
 

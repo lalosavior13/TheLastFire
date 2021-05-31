@@ -373,7 +373,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 		while(signDisplacement.MoveNext()) yield return null;
 
-		AudioClip clip = AudioController.Play(AudioController.GetLoopSource(), fireShowPieceIndex, false);
+		AudioClip clip = AudioController.Play(SourceType.Loop, 0, fireShowPieceIndex, false);
 		wait.waitDuration = clip.length;
 		wait.waitDuration = clip.length;
 		targetsPerRound = fireShowTargetsPerRound.Random();
@@ -395,7 +395,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		Debug.Log("[JudgementBehavior] Clip reached its end...");
 		wait.Reset();
 
-		AudioController.Stop(AudioController.GetLoopSource());
+		AudioController.Stop(SourceType.Loop, 0);
 
 		foreach(Projectile target in targets)
 		{
@@ -454,7 +454,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 		/*for(int i = 0; i < rounds; i++)
 		{*/
-			AudioClip clip = AudioController.Play(AudioController.GetLoopSource(), swordShowPieceIndex, false);
+			AudioClip clip = AudioController.Play(SourceType.Loop, 0, swordShowPieceIndex, false);
 			wait.waitDuration = clip.length;
 			targetsPerRound = swordShowTargetsPerRound.Random();
 			float fTargetsPerRound = (float)targetsPerRound;
@@ -522,7 +522,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 		while(signDisplacement.MoveNext()) yield return null;
 
-		AudioClip clip = AudioController.Play(AudioController.GetLoopSource(), danceShowPieceIndex, false);
+		AudioClip clip = AudioController.Play(SourceType.Loop, 0, danceShowPieceIndex, false);
 		wait.waitDuration = clip.length;
 
 		for(int i = 0; i < rounds; i++)
@@ -564,7 +564,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 				ring = rings[j];
 
 				Vector2 extents = ring.renderer.bounds.extents;
-				y = (ySpawnLimits.Min() + extents.y) + (Random.Range(0.0f, maxJumpForce.y) - extents.y);
+				y = Random.Range((ySpawnLimits.Min() + extents.y),  (maxJumpForce.y - extents.y));
 				x += extents.x;
 				Vector3 spawnPosition = new Vector3(x, y, 0.0f);
 
@@ -602,8 +602,11 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 		while(showJudgement.MoveNext()) yield return null;
 
-		AudioController.PlayFSMLoop(0, DestinoSceneController.Instance.mainLoopIndex);
-		AudioController.PlayFSMLoop(1, DestinoSceneController.Instance.mainLoopVoiceIndex);
+		AudioController.Stop(SourceType.Loop, 0, ()=>
+		{
+			AudioController.PlayFSMLoop(0, DestinoSceneController.Instance.mainLoopIndex);
+			AudioController.PlayFSMLoop(1, DestinoSceneController.Instance.mainLoopVoiceIndex);
+		});
 	}
 
 	/// <summary>Evaluates show.</summary>
@@ -619,7 +622,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		if(ratio >= _achievePercentageForSuccess)
 		{
 			/// Here yo play the cheer sounds:
-			AudioController.PlayOneShot(AudioController.GetScenarioSource(), applauseSoundIndex);
+			AudioController.PlayOneShot(SourceType.Scenario, 0, applauseSoundIndex);
 
 			SecondsDelayWait wait = new SecondsDelayWait(0.0f);
 			int rounds = trashProjectilesPerRound.Random();
@@ -640,7 +643,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		}
 		else
 		{
-			AudioController.PlayOneShot(AudioController.GetScenarioSource(), booingSoundIndex);
+			AudioController.PlayOneShot(SourceType.Scenario, 0, booingSoundIndex);
 
 			SecondsDelayWait wait = new SecondsDelayWait(0.0f);
 			int rounds = trashProjectilesPerRound.Random();

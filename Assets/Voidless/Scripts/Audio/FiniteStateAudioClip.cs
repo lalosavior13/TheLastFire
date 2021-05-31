@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Voidless
 public class FiniteStateAudioClip : ScriptableObject
 {
 	[SerializeField] private AudioClip _clip; 				/// <summary>AudioClip's reference.</summary>
-	[HideInInspector] public FloatWrapper[] _statesRanges; 					/// <summary>States' Time Ranges.</summary>
+	[HideInInspector] public FloatWrapper[] _statesRanges; 	/// <summary>States' Time Ranges.</summary>
 	private float _time; 									/// <summary>Current's Time.</summary>
 
 	/// <summary>Gets and Sets clip property.</summary>
@@ -75,10 +76,73 @@ public class FiniteStateAudioClip : ScriptableObject
 		time = _index == 0 ? 0.0f : statesRanges[_index - 1];
 	}
 
+	/// <summary>Sets State to the current time.</summary>
+	public void SetStateToCurrentTime()
+	{
+		int state = GetCurrentStateIndex();
+		ChangeState(state);
+
+#if UNITY_EDITOR
+		StringBuilder builder = new StringBuilder();
+
+		/*builder.Append("Current Game Time: ");
+		builder.AppendLine(Time.time.ToString());*/
+		builder.Append("Clip: ");
+		builder.AppendLine(clip.name);
+		builder.Append("Current Time: ");
+		builder.Append(time.ToString());
+
+		Debug.Log(builder.ToString());
+#endif
+	}
+
 	/// <summary>Resets state's index and internal time.</summary>
 	public void ResetState()
 	{
 		ChangeState(0);
+	}
+
+	/// <returns>String representign this FiniteStateAudioClip.</returns>
+	public override string ToString()
+	{
+		if(clip == null) return string.Empty;
+
+		StringBuilder builder = new StringBuilder();
+
+		builder.Append("AudioClip: " );
+		builder.AppendLine(clip.name);
+		builder.Append("AudioClip's Duration (Seconds): ");
+		builder.AppendLine(clip.length.ToString());
+		
+		if(statesRanges != null)
+		{
+			float min = 0.0f;
+
+			builder.AppendLine("States' Ranges: ");
+			
+			for(int i = 0; i < statesRanges.Length; i++)
+			{
+				builder.Append("State ");
+				builder.Append(i.ToString());
+				builder.Append(": ");
+				builder.Append(" { ");
+				builder.Append(min);
+				builder.Append(", ");
+				builder.Append(statesRanges[i].value.ToString());
+				builder.AppendLine(" }");
+
+				min = statesRanges[i];
+			}
+
+			builder.AppendLine();
+		}
+
+		builder.Append("Current Time: ");
+		builder.AppendLine(time.ToString());
+		builder.Append("Current State: ");
+		builder.Append(GetCurrentStateIndex().ToString());
+
+		return builder.ToString();
 	}
 }
 }

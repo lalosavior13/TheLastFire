@@ -61,7 +61,7 @@ public class RingMadnessSceneController : Singleton<RingMadnessSceneController>
 		int index = particleEffectIndex;
 		Vector3 point = _collider.transform.position;
 		Vector3 direction =  _collider.transform.position;
-		AudioController.PlayOneShot(40);
+		AudioController.PlayOneShot(SourceType.Scenario, 0, 40);
 		ParticleEffect particleEffect = PoolManager.RequestParticleEffect(index, point, VQuaternion.RightLookRotation(direction));
 		if(ringsScore >= rings.Length) OnRingScoreCompleted();
 		if(ringsScoreText != null) ringsScoreText.text = ringsScore.ToString();
@@ -71,7 +71,7 @@ public class RingMadnessSceneController : Singleton<RingMadnessSceneController>
 	private void OnRingScoreCompleted()
 	{
 		int index = soundEffectIndex;
-		AudioController.PlayOneShot(index);
+		AudioController.PlayOneShot(SourceType.Scenario, 0, index);
 		Debug.Log("[RingMadnessSceneController] Score completed, bring *Out* the umbrellas, I am wet.");
 		/// Do what it must be made in order for the players (a.k.a. Rodo's friends) know they are champs.
 	}

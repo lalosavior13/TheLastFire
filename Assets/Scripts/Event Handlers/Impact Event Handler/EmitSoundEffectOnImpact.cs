@@ -43,7 +43,7 @@ public class EmitSoundEffectOnImpact : ImpactEventListener
 			}
 		}
 
-		AudioController.PlayOneShot(index);
+		AudioController.PlayOneShot(SourceType.SFX, 0, index);
 	}
 }
 }
