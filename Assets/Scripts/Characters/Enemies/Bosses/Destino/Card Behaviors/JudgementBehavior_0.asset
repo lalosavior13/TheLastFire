@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: JudgementBehavior_0
   m_EditorClassIdentifier: 
   drawGizmos: 1
-  _run: 0
+  _run: 1
   _fireShowPieceIndex:
     index: 2
     objectIndex: 0
