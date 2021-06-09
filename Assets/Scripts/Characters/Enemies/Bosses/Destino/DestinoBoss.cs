@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +6,28 @@ using Voidless;
 
 namespace Flamingo
 {
+/* States' IDs:
+ 0: Idle
+ 1: Laugh
+ 2: Chant State
+ 3: Lala
+ 4: Laaa
+*/
+
 [RequireComponent(typeof(SteeringSnake))]
 public class DestinoBoss : Boss
 {
 	public const int ID_EVENT_NONE = 0; 								/// <summary>Null Event's ID.</summary>
+	public const int ID_STATE_IDLE_NORMAL = 0; 							/// <summary>Normal Idle's State ID on the AnimatorController.</summary>
+	public const int ID_STATE_IDLE_LAUGH = 1; 							/// <summary>Laugh Idle's State ID on the AnimatorController.</summary>
+	public const int ID_STATE_CHANT = 2; 								/// <summary>Chant's State ID on the AnimatorController.</summary>
+	public const int ID_STATE_NOTE_LALA = 3; 							/// <summary>Lala Note's State ID on the AnimatorController.</summary>
+	public const int ID_STATE_NOTE_LAAA = 4; 							/// <summary>Laaa Note's State ID on the AnimatorController.</summary>
+	public const int ID_STATE_DEAD = 5; 								/// <summary>Dead's State ID on the AnimatorController.</summary>
 
+	[SerializeField] private AnimatorCredential _stateIDCredential; 	/// <summary>State ID's Credential.</summary>
 	[Header("Heads' Attributes:")]
-	[SerializeField] private Transform _headPivot; 	/// <summary>Head's Pivot [for both Heads].</summary>
+	[SerializeField] private Transform _headPivot; 						/// <summary>Head's Pivot [for both Heads].</summary>
 	[SerializeField] private Transform _rigHead; 						/// <summary>Destino's Rig Head.</summary>
 	[SerializeField] private Transform _removableHead; 					/// <summary>Destino's Removable Head.</summary>
 	[SerializeField] private HitCollider2D _headHurtBox; 				/// <summary>Removable Head's HutrBox.</summary>
@@ -61,6 +76,9 @@ public class DestinoBoss : Boss
 	private Coroutine fallenTolerance; 									/// <summary>Removable Head's Fallen Tolerance Coroutine reference.</summary>
 
 #region Getters/Setters:
+	/// <summary>Gets stateIDCredential property.</summary>
+	public AnimatorCredential stateIDCredential { get { return _stateIDCredential; } }
+
 	/// <summary>Gets and Sets headPivot property.</summary>
 	public Transform headPivot
 	{
@@ -212,7 +230,9 @@ public class DestinoBoss : Boss
 	protected override void OnAwake()
 	{
 		base.OnAwake();
-		
+			
+		animator.SetInteger(stateIDCredential, ID_STATE_IDLE_NORMAL);
+
 		if(scythe != null) scythe.gameObject.SetActive(false);
 		if(leftDrumstick != null) leftDrumstick.gameObject.SetActive(false);
 		if(rightDrumstick != null) rightDrumstick.gameObject.SetActive(false);
@@ -415,7 +435,7 @@ public class DestinoBoss : Boss
 		float inverseRotationDuration = 1.0f / _card.rotationDuration;
 		float inverseSlashDuration = 1.0f / _card.slashDuration;
 		float t = 0.0f;
-		float minDistance = 0.7f * 0.7f;
+		float minDistance = _card.distance;
 		float distance = 0.0f;
 		bool activatedEvent = false;
 
@@ -439,6 +459,21 @@ public class DestinoBoss : Boss
 		}
 
 		_card.gameObject.SetActive(false);
+	}
+
+	/// <summary>Death's Routine.</summary>
+	/// <param name="onDeathRoutineEnds">Callback invoked when the routine ends.</param>
+	protected override IEnumerator DeathRoutine(Action onDeathRoutineEnds)
+	{
+		animator.SetInteger(stateIDCredential, ID_STATE_DEAD);
+
+		yield return null;
+
+		AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+		SecondsDelayWait wait = new SecondsDelayWait(info.length);
+
+		while(wait.MoveNext()) yield return null;
+		yield return base.DeathRoutine(onDeathRoutineEnds);
 	}
 }
 }

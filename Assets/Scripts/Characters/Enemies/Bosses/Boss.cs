@@ -113,8 +113,8 @@ public class Boss : Enemy
 	[SerializeField] private float[] _healthDistribution; 					/// <summary>Health Distribution across the Stages.</summary>
 	[SerializeField] private BossCommand[] _commands; 						/// <summary>Commands.</summary>
 	[SerializeField] private RandomDistributionSystem _distributionSystem; 	/// <summary>Distribution System.</summary>
+	[SerializeField] private Animator _animator; 							/// <summary>Animator's Component.</summary>
 	private int _currentStage; 
-	private Animator _animator; 											/// <summary>Animator's Component.</summary>
 
 	/// <summary>Gets and Sets stages property.</summary>
 	public int stages
@@ -199,7 +199,7 @@ public class Boss : Enemy
 	/// <summary>Callback invoked after the Death's routine ends.</summary>
 	protected virtual void OnDeathRoutineEnds()
 	{
-		OnObjectDeactivation();
+		//OnObjectDeactivation();
 		if(onIDEvent != null) onIDEvent(ID_EVENT_BOSS_DEATHROUTINE_ENDS);
 	} 
 

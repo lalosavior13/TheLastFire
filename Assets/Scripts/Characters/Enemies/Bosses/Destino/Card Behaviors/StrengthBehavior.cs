@@ -4,15 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Voidless;
 
+
+using Random = UnityEngine.Random;
+
 namespace Flamingo
 {
 [CreateAssetMenu]
 public class StrengthBehavior : DestinoScriptableCoroutine
 {
 	[Space(5f)]
+	[SerializeField] private IntRange _setSizeRange; 							/// <summary>Set Size's Range.</summary>
+	[Space(5f)]
 	[Header("Drumsticks' Attributes:")]
 	[SerializeField] private CollectionIndex _drumstickSoundIndex; 				/// <summary>Drumsticks Sound's Index.</summary>
-	[SerializeField] private AnimatorCredential _drumstickPhaseCredential; 	/// <summary>Activate Drumstick's Animator Credential.</summary>
+	[SerializeField] private AnimatorCredential _drumstickPhaseCredential; 		/// <summary>Activate Drumstick's Animator Credential.</summary>
 	[SerializeField] private IntRange _drumBeatsSequence; 						/// <summary>Drumstickes' beats sequence's range.</summary>
 	[SerializeField] private Vector3 _leftDrumstickSpawnPoint; 					/// <summary>Left Drumstick's Spawn Position.</summary>
 	[SerializeField] private Vector3 _rightDrumstickSpawnPoint; 				/// <summary>Right Drumstick's Spawn Position.</summary>
@@ -63,6 +68,9 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 #endif
 
 #region Getters:
+	/// <summary>Gets setSizeRange property.</summary>
+	public IntRange setSizeRange { get { return _setSizeRange; } }
+
 	/// <summary>Gets drumBeatsSequence property.</summary>
 	public IntRange drumBeatsSequence { get { return _drumBeatsSequence; } }
 
@@ -205,13 +213,13 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 			yield break;
 		}
 		
-		IEnumerator[] routines = new IEnumerator[3];
-		int[] routinesIndices = VMath.GetUniqueRandomSet(3);
-		int i = 0;
+		int setSize = setSizeRange.Random();
+		IEnumerator[] routines = new IEnumerator[setSize];
 
-		foreach(int index in routinesIndices)
+		for(int i = 0; i < setSize; i++)
 		{
 			IEnumerator routine = null;
+			int index = Random.Range(0, 3);
 
 			switch(index)
 			{
@@ -221,18 +229,15 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 			}
 
 			routines[i] = routine;
-			i++;
 		}
 
 		/// Temp for mere Testing:
-		routines = new IEnumerator[1] { DrumsticksRoutine(boss) };
+		//routines = new IEnumerator[1] { DrumsticksRoutine(boss) };
 
 		foreach(IEnumerator routine in routines)
 		{
 			while(routine.MoveNext()) yield return null;
 		}
-
-		Debug.Log("[StrengthBehavior] This Shit Came to an End...");
 
 		yield return null;
 		InvokeCoroutineEnd();
@@ -336,11 +341,15 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 			Debug.Log("[StrengthBehavior] Animation Attack Event for Drumstick: " + _state.ToString());
 		};
 
+		boss.animator.SetInteger(boss.stateIDCredential, DestinoBoss.ID_STATE_NOTE_LALA);
+
 		drumstickAttacksHandler.onAnimationAttackEvent -= onAnimationAttackEvent;
 		drumstickAttacksHandler.onAnimationAttackEvent += onAnimationAttackEvent;
 
 		SecondsDelayWait wait = new SecondsDelayWait(clip.length);
 		while(wait.MoveNext()) yield return null;
+
+		boss.animator.SetInteger(boss.stateIDCredential, DestinoBoss.ID_STATE_IDLE_NORMAL);
 
 		wait.ChangeDurationAndReset(cooldownAfterSoundNote);
 		while(wait.MoveNext()) yield return null;
@@ -349,6 +358,16 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 		rightDrumstick.SetActive(true);
 		drumstickAnimator.SetInteger(drumstickPhaseCredential, drumstickCombo[index]);
 		index++;
+
+		yield return null;
+
+		AnimatorStateInfo info = drumstickAnimator.GetCurrentAnimatorStateInfo(0);
+		clip = AudioController.PlayOneShot(SourceType.SFX, 1, drumstickSoundIndex);
+		
+		/// Decide the duration of the next wait based on the Max between the note and the animation, so there is assurance that both will end before this routine does.
+		wait.ChangeDurationAndReset(Mathf.Max(info.length, clip.length));
+
+		while(wait.MoveNext()) yield return null;
 
 		/*for(int i = 0; i < sequence.Length; i++)
 		{
@@ -362,7 +381,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 			while(rotateRoutine.MoveNext()) yield return null;
 		}*/
 
-		while(!drumstickAttackFinished) yield return null;
+		//while(!drumstickAttackFinished) yield return null;
 	
 		//leftDrumstick.SetActive(false);
 		rightDrumstick.SetActive(false);
@@ -410,11 +429,14 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 			Debug.Log("[StrengthBehavior] Animation attack Event for Trumpet: " + _state.ToString());
 		};
 
+		boss.animator.SetInteger(boss.stateIDCredential, DestinoBoss.ID_STATE_NOTE_LALA);
 		trumpetAttacksHandler.onAnimationAttackEvent -= onAnimationAttackEvent;
 		trumpetAttacksHandler.onAnimationAttackEvent += onAnimationAttackEvent;
 
 		wait.ChangeDurationAndReset(clip.length);
 		while(wait.MoveNext()) yield return null;
+
+		boss.animator.SetInteger(boss.stateIDCredential, DestinoBoss.ID_STATE_IDLE_NORMAL);
 
 		wait.ChangeDurationAndReset(cooldownAfterSoundNote);
 		while(wait.MoveNext()) yield return null;
@@ -422,7 +444,17 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 		trumpetAnimator.SetTrigger(activateTrumpetCredential);
 		AudioController.PlayOneShot(SourceType.SFX, 1, trumpetSoundIndex);
 
-		while(!trumpetAttackFinished) yield return null;
+		yield return null;
+
+		AnimatorStateInfo info = trumpetAnimator.GetCurrentAnimatorStateInfo(0);
+		clip = AudioController.PlayOneShot(SourceType.SFX, 1, trumpetSoundIndex);
+		
+		/// Decide the duration of the next wait based on the Max between the note and the animation, so there is assurance that both will end before this routine does.
+		wait.ChangeDurationAndReset(Mathf.Max(info.length, clip.length));
+
+		while(wait.MoveNext()) yield return null;
+
+		//while(!trumpetAttackFinished) yield return null;
 
 #region Before:
 		/*while(t < 1.0f)
@@ -491,6 +523,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 			}
 		};
 
+		boss.animator.SetInteger(boss.stateIDCredential, DestinoBoss.ID_STATE_NOTE_LALA);
 		cymbalsAttacksHandler.onAnimationAttackEvent -= onAnimationAttackEvent;
 		cymbalsAttacksHandler.onAnimationAttackEvent += onAnimationAttackEvent;
 
@@ -498,13 +531,25 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 
 		while(wait.MoveNext()) yield return null;
 
+		boss.animator.SetInteger(boss.stateIDCredential, DestinoBoss.ID_STATE_IDLE_NORMAL);
+
 		wait.ChangeDurationAndReset(cooldownAfterSoundNote);
 		while(wait.MoveNext()) yield return null;
 
 		cymbalsAnimator.SetTrigger(activateCymbalsCredential);
 		AudioController.PlayOneShot(SourceType.SFX, 1, cymbalSoundIndex);
 
-		while(!cymbalAttackEnded) yield return null;
+		yield return null;
+
+		AnimatorStateInfo info = cymbalsAnimator.GetCurrentAnimatorStateInfo(0);
+		clip = AudioController.PlayOneShot(SourceType.SFX, 1, cymbalSoundIndex);
+		
+		/// Decide the duration of the next wait based on the Max between the note and the animation, so there is assurance that both will end before this routine does.
+		wait.ChangeDurationAndReset(Mathf.Max(info.length, clip.length));
+
+		while(wait.MoveNext()) yield return null;
+
+		//while(!cymbalAttackEnded) yield return null;
 
 #region Before:
 		/*int count = 2;

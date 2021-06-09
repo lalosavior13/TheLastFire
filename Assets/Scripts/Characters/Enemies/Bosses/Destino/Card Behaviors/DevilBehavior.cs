@@ -125,9 +125,19 @@ public class DevilBehavior : DestinoScriptableCoroutine
 		{
 			switch(_event)
 			{
-				case HealthEvent.FullyReplenished:
+				case HealthEvent.FullyDepleted:
 				_health.gameObject.SetActive(false);
 				count--;
+
+				/// BEGIN Rather quick solution:
+				Vector3 destiny = Vector3.zero;
+
+				if(_health == ceiling) destiny = ceilingSpawnPoint;
+				if(_health == leftTower) destiny = leftTowerSpawnPoint;
+				if(_health == rightTower) destiny = rightTowerSpawnPoint;
+				/// END Rather quick solution...
+
+				boss.StartCoroutine(_health.transform.DisplaceToPosition(destiny, towerInterpolationDuration));
 				break;
 			}
 		};

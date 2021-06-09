@@ -6,10 +6,13 @@ using UnityEngine;
 
 namespace Voidless
 {
+/// <summary>Animation Frame-Rates' Enumerator.</summary>
 public enum AnimationFrameRate
 {
-	_30,
-	_60
+	_24 = 24,
+	_30 = 30,
+	_60 = 60,
+	_120 = 120
 }
 
 public static class VAnimator
@@ -17,12 +20,7 @@ public static class VAnimator
 	/// <returns>AnimationFrameRate's enum into frame rate [as integer].</returns>
 	public static int ToFrameRate(this AnimationFrameRate _frameRate)
 	{
-		switch(_frameRate)
-		{
-			case AnimationFrameRate._30: 	return 30;
-			case AnimationFrameRate._60: 	return 60;
-			default: 							return 0;
-		}
+		return (int)_frameRate;
 	}
 
 	/// <summary>Subscribes IAnimationStateListener into Animator's AnimationStateSenders.</summary>

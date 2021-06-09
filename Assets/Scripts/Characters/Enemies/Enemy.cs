@@ -121,7 +121,7 @@ public class Enemy : PoolGameObject, IStateMachine
 		{
 			case HealthEvent.FullyDepleted:
 			this.RemoveStates(ID_STATE_ALIVE);
-			OnObjectDeactivation();
+			//OnObjectDeactivation();
 			break;
 		}
 	}

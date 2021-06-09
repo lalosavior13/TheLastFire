@@ -34,6 +34,7 @@ public class DestinoCard : MonoBehaviour
 	[SerializeField] private float _fallenDuration; 				/// <summary>Fallen tolerance's duration.</summary>
 	[Space(2.5f)]
 	[Header("Towards Destino's Head:")]
+	[SerializeField] private Distance _distance; 					/// <summary>Minimum Distance for Card to Slash Destino's Head.</summary>
 	[SerializeField] private float _rotationDuration; 				/// <summary>Duration to rotate so the card can slash Destino's Head.</summary>
 	[SerializeField] private float _slashDuration; 					/// <summary>Slash's Duration.</summary>
 	[SerializeField] private float _slashSpeed; 					/// <summary>Slash's Speed.</summary>
@@ -76,6 +77,9 @@ public class DestinoCard : MonoBehaviour
 
 	/// <summary>Gets slashSpeed property.</summary>
 	public float slashSpeed { get { return _slashSpeed; } }
+
+	/// <summary>Gets distance property.</summary>
+	public Distance distance { get { return _distance; } }
 
 	/// <summary>Draws Gizmos on Editor mode.</summary>
 	private void OnDrawGizmos()
@@ -127,6 +131,7 @@ public class DestinoCard : MonoBehaviour
 	/// <summary>Callback invoked when the Fallen tolerance finishes.</summary>
 	private void OnFallenToleranceFinished()
 	{
+		Debug.Log("[DestinoCard] Card " + behavior.name + " disobeyed your orders");
 		hurtBox.Activate(false);
 		if(onCardEvent != null) onCardEvent(this, DestinoCardEvent.FallenToleranceFinished);
 	}

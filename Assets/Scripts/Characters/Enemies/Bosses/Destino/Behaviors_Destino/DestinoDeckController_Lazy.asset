@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d529db533bdb03e46ab55f7d342b7646, type: 3}
-  m_Name: DestinoDeckController_0
+  m_Name: DestinoDeckController_Lazy
   m_EditorClassIdentifier: 
   drawGizmos: 1
   _run: 0
@@ -20,22 +20,22 @@ MonoBehaviour:
   _faceDownRotation:
     _eulerAngles: {x: 0, y: 180, z: 0}
     _rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  _rotationDuration: 2
+  _rotationDuration: 0.1
   _selectedCardPoint: {x: 0, y: 10, z: 2}
-  _selectedCardDuration: 2
+  _selectedCardDuration: 0.01
   _deckPoint: {x: 0, y: 5, z: 3}
   _cardOffset: 0.15
-  _positioningDuration: 1.7
+  _positioningDuration: 0.1
   _presentationPoint: {x: 0, y: 7, z: 2}
   _cardSpacing: 3.5
-  _deckPositioningDuration: 2
-  _presentationDuration: 2
-  _storeDuration: 2
+  _deckPositioningDuration: 0.00001
+  _presentationDuration: 0.00001
+  _storeDuration: 0.00001
   _shufflingDuration: 0.00001
   _shufflingRadius: 0.7
   _shufflingSpeed: 5
   _shufflingCycles: 4
-  _orbitDuration: 2
+  _orbitDuration: 0.00001
   _orbitRadius: 7
   _orbitSpeed: 15
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}
