@@ -131,7 +131,6 @@ public class DestinoCard : MonoBehaviour
 	/// <summary>Callback invoked when the Fallen tolerance finishes.</summary>
 	private void OnFallenToleranceFinished()
 	{
-		Debug.Log("[DestinoCard] Card " + behavior.name + " disobeyed your orders");
 		hurtBox.Activate(false);
 		if(onCardEvent != null) onCardEvent(this, DestinoCardEvent.FallenToleranceFinished);
 	}

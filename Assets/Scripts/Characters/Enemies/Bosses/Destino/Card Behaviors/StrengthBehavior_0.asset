@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StrengthBehavior_0
   m_EditorClassIdentifier: 
   drawGizmos: 1
-  _run: 1
+  _run: 0
   _setSizeRange:
     _min: 5
     _max: 5
@@ -116,6 +116,7 @@ MonoBehaviour:
   _trumpetShakeDuration: 2
   _trumpetShakeSpeed: 10
   _trumpetShakeMagnitude: 2
+  _cymbalsSpawnPosition: {x: 0, y: 9, z: 0}
   _cymbalSoundIndex:
     index: 34
     objectIndex: 0

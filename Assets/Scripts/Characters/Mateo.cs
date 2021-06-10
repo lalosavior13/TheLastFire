@@ -646,19 +646,19 @@ public class Mateo : Character
 #region TESTs:
 	public void Hurt()
 	{
-		Debug.Log("[Mateo] Take Damage Astro Boy!");
 		health.GiveDamage(0.5f);
+		Debug.Log("[Mateo] Take Damage Astro Boy! Health's Information: " + health.ToString());
 	}
 
 	public void Kill()
 	{
-		Debug.Log("[Mateo] Die Astro Boy!");
+		Debug.Log("[Mateo] Die Astro Boy! Health's Information: " + health.ToString());
 		health.GiveDamage(Mathf.Infinity);
 	}
 
 	public void Revive()
 	{
-		Debug.Log("[Mateo] I forgive you Astro Boy, come back");
+		Debug.Log("[Mateo] I forgive you Astro Boy, come back! Health's Information: " + health.ToString());
 		health.ReplenishHealth(Mathf.Infinity);
 	}
 #endregion

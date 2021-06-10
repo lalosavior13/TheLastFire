@@ -83,7 +83,7 @@ public class FlashWhenReceivingDamage : HealthEventReceiver
 
 		for(int i = 0; i < length; i++)
 		{
-			materials[i] = renderers[i].sharedMaterials;
+			materials[i] = renderers[i].materials;
 			colors[i] = new Color[materials[i].Length];
 
 			for(int j = 0; j < colors[i].Length; j++)
