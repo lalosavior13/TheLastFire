@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public enum ArrowProjectileState
 	Incrusted
 }
 
+[RequireComponent(typeof(LineRenderer))]
 public class ArrowProjectile : Projectile
 {
 	[Space(5f)]
@@ -22,8 +24,11 @@ public class ArrowProjectile : Projectile
 	[SerializeField] private LayerMask _repelMask; 			/// <summary>Repel's LayerMask.</summary>
 	[SerializeField] private CollectionIndex _chainIndex; 	/// <summary>Chain's PoolGameObject Collection Index.</summary>
 	[SerializeField] private Vector3 _offset; 				/// <summary>Chain's offset from this projectile.</summary>
+	private LineRenderer _lineRenderer; 					/// <summary>LineRenderer's Component.</summary>
+	private Vector3 _spawnPosition; 						/// <summary>Spawn Position.</summary>
 	private PoolGameObject _chain; 							/// <summary>Chain's Pool GameObject.</summary>
 	private ArrowProjectileState _state; 					/// <summary>Arrow Projectile's State.</summary>
+	private bool inverted;
 
 	/// <summary>Gets tipHitBox property.</summary>
 	public HitCollider2D tipHitBox { get { return _tipHitBox; } }
@@ -54,6 +59,23 @@ public class ArrowProjectile : Projectile
 		set { _state = value; }
 	}
 
+	/// <summary>Gets lineRenderer Component.</summary>
+	public LineRenderer lineRenderer
+	{ 
+		get
+		{
+			if(_lineRenderer == null) _lineRenderer = GetComponent<LineRenderer>();
+			return _lineRenderer;
+		}
+	}
+
+	/// <summary>Gets and Sets spawnPosition property.</summary>
+	public Vector3 spawnPosition
+	{
+		get { return _spawnPosition; }
+		set { _spawnPosition = value; }
+	}
+
 	/// <summary>Updates ArrowProjectile's instance at each frame.</summary>
 	private void Update()
 	{
@@ -63,7 +85,7 @@ public class ArrowProjectile : Projectile
 	/// <summary>Callback internally invoked insided Update.</summary>
 	protected override void OnUpdate()
 	{
-		//base.OnUpdate();
+		base.OnUpdate();
 
 		switch(state)
 		{
@@ -77,6 +99,9 @@ public class ArrowProjectile : Projectile
 			TickLifespan();
 			break;
 		}
+
+		lineRenderer.SetPosition(0, spawnPosition);
+		lineRenderer.SetPosition(1, transform.position);
 	}
 
 	/// <summary>Callback internally invoked insided FixedUpdate.</summary>
@@ -99,15 +124,22 @@ public class ArrowProjectile : Projectile
 
 		if((repelMask | layer) == repelMask)
 		{
-			Debug.Log("[ArrowProjectile] I ought to repel...");
+			if(inverted)
+			{
+				//Debug.Log("[ArrowProjectile] It was already inverted");
+				return;
+			}
+
+			//Debug.Log("[ArrowProjectile] I ought to repel..." + GetInstanceID());
 			direction *= -1.0f;
 			accumulatedVelocity *= - 1.0f;
 			tipHitBox.Activate(false);
 			state = ArrowProjectileState.NotIntersectedWithIncrustable;
+			inverted = true;
 		}
 		else
 		{
-			Debug.Log("[ArrowProjectile] Not on Repel Layer...");
+			//Debug.Log("[ArrowProjectile] Not on Repel Layer...");
 			base.OnImpactEvent(_info);
 		}
 	}
@@ -118,7 +150,18 @@ public class ArrowProjectile : Projectile
 	/// <param name="_hitColliderID">Optional ID of the HitCollider2D.</param>
 	public override void OnHitColliderTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _hitColliderID = 0)
 	{
-		if(state != ArrowProjectileState.Incrusted) return;
+#region Debug:
+		StringBuilder builder = new StringBuilder();
+
+		builder.Append("OnHitColliderTriggerEvent2D invoked to class ");
+		builder.AppendLine(name);
+		builder.Append("State: ");
+		builder.Append(state.ToString());
+
+		Debug.Log(builder.ToString());
+#endregion
+
+		if(state == ArrowProjectileState.Incrusted) return;
 
 		base.OnHitColliderTriggerEvent2D(_collider, _eventType, _hitColliderID);
 		
@@ -141,6 +184,8 @@ public class ArrowProjectile : Projectile
 				tipHitBox.SetTrigger(false);
 				break;
 			}
+
+			Debug.Log("[ArrowProjectile] Interacted with uncrustable object, new state: " + state.ToString());
 		}
 	}
 
@@ -148,9 +193,11 @@ public class ArrowProjectile : Projectile
 	public override void OnObjectReset()
 	{
 		base.OnObjectReset();
+		spawnPosition = transform.position;
 		state = ArrowProjectileState.NotIntersectedWithIncrustable;
 		tipHitBox.SetTrigger(true);
 		chain = PoolManager.RequestPoolGameObject(chainIndex, GetOffsetedPositionForChain(), transform.rotation);
+		inverted = false;
 	}
 
 	/// <summary>Callback invoked when the object is deactivated.</summary>
@@ -170,7 +217,7 @@ public class ArrowProjectile : Projectile
 	/// <returns>Chain's position relative to this projectile.</returns>
 	private Vector3 GetOffsetedPositionForChain()
 	{
-		return (Vector3)rigidbody.position + (transform.rotation * offset);
+		return transform.position + (transform.rotation * offset);
 	}
 }
 }

@@ -47,6 +47,7 @@ public abstract class HealthEventReceiver : MonoBehaviour
 	/// <param name="_amount">Amount of health that changed [0.0f by default].</param>
 	private void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
 	{
+		Debug.Log("[HealthEventReceiver] " + name + " Invoked Health Event: " + _event.ToString() + ", With Amount: " + _amount.ToString());
 		if(_event == invokeAt) this.StartCoroutine(Routine(), ref routine);
 	}
 

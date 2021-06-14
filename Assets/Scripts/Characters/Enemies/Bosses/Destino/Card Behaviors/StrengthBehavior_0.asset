@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StrengthBehavior_0
   m_EditorClassIdentifier: 
   drawGizmos: 1
-  _run: 0
+  _run: 1
   _setSizeRange:
     _min: 5
     _max: 5

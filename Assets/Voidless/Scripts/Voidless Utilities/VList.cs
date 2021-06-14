@@ -3,11 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Random = UnityEngine.Random;
+
 namespace Voidless
 {
 public static class VList
 {
-#region Lists:
+	/// <returns>Random element from given List.</returns>
+	public static T Random<T>(this List<T> _list)
+	{
+		return _list != null ? _list[UnityEngine.Random.Range(0, _list.Count)] : default(T);
+	}
+
 	public static int GetListsMaxLength<T>(params List<T>[] _lists)
 	{
 		int maxSize = 0;
@@ -155,6 +162,5 @@ public static class VList
 
 		return _fromList;
 	}
-#endregion
 }
 }

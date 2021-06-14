@@ -117,7 +117,7 @@ public class Health : MonoBehaviour, IStateMachine
     /// <summary>Resets Health's instance to its default values.</summary>
     public void Reset()
     {
-        OnInvincibilityCooldownEnds();
+        if(this.HasStates(ID_STATE_ONINVINCIBILITY)) OnInvincibilityCooldownEnds();
         hp = maxHP;
     }
 

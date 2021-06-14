@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System;
+using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 using Voidless;
@@ -186,6 +187,15 @@ public class Projectile : ContactWeapon
 	/// <param name="_hitColliderID">Optional ID of the HitCollider2D.</param>
 	public override void OnHitColliderTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _hitColliderID = 0)
 	{
+#region Debug:
+		StringBuilder builder = new StringBuilder();
+
+		builder.Append("OnHitColliderTriggerEvent2D invoked to class ");
+		builder.Append(name);
+
+		Debug.Log(builder.ToString());
+#endregion
+
 		base.OnHitColliderTriggerEvent2D(_collider, _eventType, _hitColliderID);
 
 		GameObject obj = _collider.gameObject;
@@ -239,7 +249,7 @@ public class Projectile : ContactWeapon
 		{
 			currentLifeTime += Time.deltaTime;
 
-		} else InvokeDeactivationEvent(DeactivationCause.Impacted);
+		} else InvokeDeactivationEvent(DeactivationCause.LifespanOver);
 	}
 
 	/// <returns>Displacement acoording to the Projectile's Type.</returns>

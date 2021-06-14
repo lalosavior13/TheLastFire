@@ -523,6 +523,15 @@ public class Mateo : Character
 	{
 		Vector2 direction = wallEvaluator.GetWallHitInfo().point - (Vector2)transform.position;
 
+		/* Move If:
+			- Mateo is not hurt
+			- Mateo is not landing.
+			- Mateo is not attacking while grounded.
+			- Mateo is not dashing.
+			- Mateo is not bouncing.
+			- Mateo is not walled and not trying to walk towards the wall.
+			- Mateo is not on its initial pose.
+		*/
 		if(this.HasStates(ID_STATE_HURT)
 		|| jumpAbility.HasStates(JumpAbility.STATE_ID_LANDING)
 		|| (jumpAbility.grounded && attacksHandler.state != AttackState.None)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -120,6 +121,7 @@ public class ContactWeapon : PoolGameObject
 		if(hitBoxesInfo != null)
 		foreach(HitColliderInfo hitBoxInfo in hitBoxesInfo)
 		{
+			hitBoxInfo.hitCollider.SetTrigger(true);
 			hitBoxInfo.hitCollider.Activate(_activate);
 		}
 	}
@@ -130,6 +132,23 @@ public class ContactWeapon : PoolGameObject
 	/// <param name="_hitColliderID">Optional ID of the HitCollider2D.</param>
 	public virtual void OnHitColliderTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _hitColliderID = 0)
 	{
+#region Debug:
+		StringBuilder builder = new StringBuilder();
+
+		builder.Append("OnHitColliderTriggerEvent2D invoked to class ");
+		builder.AppendLine(name);
+		builder.Append("Triggered with: ");
+		builder.AppendLine(_collider.gameObject.name);
+		builder.Append("Tag: ");
+		builder.AppendLine(_collider.gameObject.tag);
+		builder.Append("Layer: ");
+		builder.AppendLine(_collider.gameObject.layer.ToString());
+		builder.Append("Event Type: ");
+		builder.AppendLine(_eventType.ToString());
+
+		Debug.Log(builder.ToString());
+#endregion
+
 		HitColliderInfo hitBoxInfo = _hitColliderID >= 0 ? hitBoxesInfo[_hitColliderID] : null;
 		int layer = _collider.gameObject.layer;
 		int mask = 1 << layer;
@@ -148,6 +167,7 @@ public class ContactWeapon : PoolGameObject
 
 			if(health != null)
 			{
+				Debug.Log("[ContactWeapon] " + name + " should apply damage to " + health.name);
 				float damageApplied = damage * (hitBoxInfo != null ? hitBoxInfo.damageScale : 1.0f);
 				health.GiveDamage(damageApplied);
 			}

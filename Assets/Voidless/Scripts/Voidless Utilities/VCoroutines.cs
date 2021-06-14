@@ -822,6 +822,19 @@ public static class VCoroutines
 			yield return null;
 		}
 	}
+
+	/// \TODO Well....do it...
+	/* Sources:
+		- https://answers.unity.com/questions/628200/get-length-of-animator-statetransition.html
+		- https://docs.unity3d.com/ScriptReference/Animator.GetCurrentAnimatorClipInfo.html
+		- https://docs.unity3d.com/ScriptReference/AnimatorClipInfo.html
+	*/
+	public static IEnumerator WaitForAnimatorState(this Animator _animator, float _additionalWait = 0.0f)
+	{
+		yield return null;
+
+
+	}
 #endregion
 
 }

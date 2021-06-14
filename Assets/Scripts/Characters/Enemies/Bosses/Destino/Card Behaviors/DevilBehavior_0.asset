@@ -18,6 +18,9 @@ MonoBehaviour:
     index: 2
     objectIndex: 0
     collectionIndex: 1
+  _rounds:
+    _min: 0
+    _max: 0
   _limits:
     _min: 5
     _max: 15
@@ -28,25 +31,45 @@ MonoBehaviour:
     - {x: 20, y: 16, z: 0}
     _floorWaypoints: []
     _leftWallWaypoints:
-    - {x: -25, y: 12, z: 0}
-    - {x: -25, y: 7, z: 0}
-    - {x: -25, y: 2, z: 0}
+    - {x: -25, y: 15, z: 0}
+    - {x: -25, y: 11.5, z: 0}
+    - {x: -25, y: 7.5, z: 0}
     _rightWallWaypoints:
-    - {x: 25, y: 12, z: 0}
-    - {x: 25, y: 7, z: 0}
-    - {x: 25, y: 2, z: 0}
+    - {x: 25, y: 15, z: 0}
+    - {x: 25, y: 11.5, z: 0}
+    - {x: 25, y: 7.5, z: 0}
     color: {r: 0, g: 1, b: 1, a: 1}
     radius: 0.25
   _projectilesSpawnRates:
   - 0.55
   - 0.4
-  - 3
-  _ceilingSpawnPoint: {x: 0, y: 28, z: 5}
-  _ceilingDestinyPoint: {x: 0, y: 17, z: 5}
-  _leftTowerSpawnPoint: {x: -29, y: 1, z: 5}
-  _rightTowerSpawnPoint: {x: 29, y: 1, z: 5}
-  _leftTowerDestinyPoint: {x: -20, y: 1, z: 5}
-  _rightTowerDestinyPoint: {x: 20, y: 1, z: 5}
+  - 0.3
+  _projectionTime: 1
+  _roundCooldown: 2
+  _devilArrowWaypoints:
+  - {x: -13.2, y: 18, z: 0}
+  - {x: 0, y: 18, z: 0}
+  - {x: 13.2, y: 18, z: 0}
+  _leftTowerArrowWaypoints:
+  - {x: -25, y: 15, z: 0}
+  - {x: -25, y: 11.5, z: 0}
+  - {x: -25, y: 7.5, z: 0}
+  _rightTowerArrowWaypoints:
+  - {x: 25, y: 15, z: 0}
+  - {x: 25, y: 11.5, z: 0}
+  - {x: 25, y: 7.5, z: 0}
+  _floorWaypoints:
+  - {x: -20, y: 0, z: 0}
+  - {x: -10, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 10, y: 0, z: 0}
+  - {x: 20, y: 0, z: 0}
+  _ceilingSpawnPoint: {x: 0, y: 28, z: 0}
+  _ceilingDestinyPoint: {x: 0, y: 17, z: 0}
+  _leftTowerSpawnPoint: {x: -20, y: 30, z: 0}
+  _rightTowerSpawnPoint: {x: 20, y: 30, z: 0}
+  _leftTowerDestinyPoint: {x: -20, y: 1, z: 0}
+  _rightTowerDestinyPoint: {x: 20, y: 1, z: 0}
   _towerInterpolationDuration: 0.7
   _towerShakeDuration: 0.3
   _towerShakeSpeed: 2.1
