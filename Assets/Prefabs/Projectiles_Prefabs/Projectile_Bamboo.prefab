@@ -362,7 +362,7 @@ MonoBehaviour:
   _trailRenderers: []
   _speedMode: 1
   _speed: 9.81
-  _lifespan: 5
+  _lifespan: 3.5
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
   dontDeactivateOnImpact: 0

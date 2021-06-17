@@ -269,10 +269,11 @@ public static class VCoroutines
 	/// <param name="_components">Set of Components to rotate around.</param>
 	/// <param name="_around">Transform to rotate the Components around.</param>
 	/// <param name="axes">Rotation's axes.</param>
+	/// <param name="o">Additional offset.</param>
 	/// <param name="a">Angular speed.</param>
 	/// <param name="r">Separation's Radius.</param>
 	/// <param name="condition">Condition that defines whether the rotation keeps being done.</param>
-	public static IEnumerator RotateAroundTransform(Component[] _components, Transform _around, Vector3 axes, float a, float r, Func<bool> condition)
+	public static IEnumerator RotateAroundTransform(Component[] _components, Transform _around, Vector3 axes, Vector3 o, float a, float r, Func<bool> condition)
 	{
 		int length = _components.Length;
 		Quaternion currentRotation = Quaternion.identity;
@@ -281,7 +282,7 @@ public static class VCoroutines
 
 		for(int i = 0; i < length; i++)
 		{
-			localPositions[i] = (_components[i].transform.position - _around.position).normalized * r;
+			localPositions[i] = (_components[i].transform.position - (_around.position + o)).normalized * r;
 		}
 
 		while(condition())
@@ -289,7 +290,7 @@ public static class VCoroutines
 			for(int i = 0; i < length; i++)
 			{
 				currentRotation *= Quaternion.Euler(rotationAxes * Time.deltaTime);
-				_components[i].transform.position = _around.position +  ((_around.rotation * currentRotation) * localPositions[i]);
+				_components[i].transform.position = (_around.position + o) +  ((_around.rotation * currentRotation) * localPositions[i]);
 			}
 
 			yield return null;

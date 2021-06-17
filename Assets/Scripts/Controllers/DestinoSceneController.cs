@@ -21,6 +21,9 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 	[Header("Scenario's Attributes:")]
 	[Space(5f)]
 	[Header("Curtain's Settings:")]
+	[Space(5f)]
+	[SerializeField]
+	[Range(0.0f, 1.0f)] private float _openingClipPercentage; 				/// <summary>Opening Clip's duration percentage that takes for the curtain to open [at the beginning of the scene].</summary>
 	[SerializeField]
 	[Range(0.0f, 100.0f)] private float _stage1CurtainClosure; 				/// <summary>Curtain's Closure's Percentage on Stage 1.</summary>
 	[SerializeField]
@@ -71,6 +74,7 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 	[SerializeField] private float rayLength; 								/// <summary>Ray's Length.</summary>
 #endif
 	private Vector2 mateoSpotLightVelocity; 								/// <summary>Mateo Spot Light's Velocity reference.</summary>
+	private bool _deckPresented; 											/// <summary>Was the deck already presented tomm the Player?.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets destino property.</summary>
@@ -93,6 +97,9 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 
 	/// <summary>Gets destinoSpotLight property.</summary>
 	public Light destinoSpotLight { get { return _destinoSpotLight; } }
+
+	/// <summary>Gets openingClipPercentage property.</summary>
+	public float openingClipPercentage { get { return _openingClipPercentage; } }
 
 	/// <summary>Gets cooldownBeforeReleasingPlayerControl property.</summary>
 	public float cooldownBeforeReleasingPlayerControl { get { return _cooldownBeforeReleasingPlayerControl; } }
@@ -156,6 +163,13 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 
 	/// <summary>Gets curtainOpeningSoundIndex property.</summary>
 	public CollectionIndex curtainOpeningSoundIndex { get { return _curtainOpeningSoundIndex; } }
+
+	/// <summary>Gets and Sets deckPresented property.</summary>
+	public bool deckPresented
+	{
+		get { return _deckPresented; }
+		set { _deckPresented = value; }
+	}
 #endregion
 	
 #if UNITY_EDITOR
@@ -170,6 +184,8 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 	/// <summary>Callback called on Awake if this Object is the Singleton's Instance.</summary>
    	protected override void OnAwake()
 	{
+		deckPresented = false;
+
 		/// Deactivate Scenery Objects:
 		devilCeiling.gameObject.SetActive(false);
 		leftDevilTower.gameObject.SetActive(false);
@@ -258,7 +274,7 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 		{
 			case Mateo.ID_EVENT_INITIALPOSE_ENDED:
 			AudioClip openingClip = AudioController.PlayOneShot(SourceType.Scenario, 0, curtainOpeningSoundIndex);
-			CloseCurtainsWithWeight(stage1CurtainClosure, /*openingClip.length*/0.0f, ()=>
+			CloseCurtainsWithWeight(stage1CurtainClosure, openingClip.length * openingClipPercentage, ()=>
 			{
 				AudioController.PlayFSMLoop(0, mainLoopIndex, true);
 				AudioController.PlayFSMLoop(1, mainLoopVoiceIndex, true);

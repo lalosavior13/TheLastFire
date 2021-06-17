@@ -33,6 +33,9 @@ public class FiniteStateAudioClip : ScriptableObject
 		set { _time = value; }
 	}
 
+	/// <summary>Gets normalizedTime property.</summary>
+	public float normalizedTime { get { return clip != null ? time / clip.length : 1.0f; } }
+
 	/// <summary>Resets FiniteStateAudioClip's instance to its default values.</summary>
 	public void Reset()
 	{
@@ -139,6 +142,8 @@ public class FiniteStateAudioClip : ScriptableObject
 
 		builder.Append("Current Time: ");
 		builder.AppendLine(time.ToString());
+		builder.Append("Normalized Time: ");
+		builder.AppendLine(normalizedTime.ToString());
 		builder.Append("Current State: ");
 		builder.Append(GetCurrentStateIndex().ToString());
 

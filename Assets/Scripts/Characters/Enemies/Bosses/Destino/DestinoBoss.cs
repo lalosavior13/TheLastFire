@@ -354,6 +354,14 @@ public class DestinoBoss : Boss
 		this.StartCoroutine(_card.behavior.Routine(this), ref cardRoutine);
 	}
 
+	/// <summary>Makes Destino Sing.</summary>
+	public void Sing()
+	{
+		FiniteStateAudioClip clip = Game.data.FSMLoops[DestinoSceneController.Instance.mainLoopVoiceIndex];
+		animator.SetInteger(stateIDCredential, ID_STATE_CHANT);
+		animator.Play("Song_Full", 0, clip.normalizedTime);
+	}
+
 	/// <summary>Callback invoked when the fallen's tolerance duration of a card reached its end.</summary>
 	/// <param name="_card">Card's reference.</param>
 	/// <param name="_event">Event Type.</param>
@@ -439,7 +447,7 @@ public class DestinoBoss : Boss
 		float distance = 0.0f;
 		bool activatedEvent = false;
 
-		while(t < 1.0f)
+		while(true)
 		{
 			distance = (rigHead.position - _card.transform.position).sqrMagnitude;
 			lookRotation = Quaternion.LookRotation(rigHead.up);

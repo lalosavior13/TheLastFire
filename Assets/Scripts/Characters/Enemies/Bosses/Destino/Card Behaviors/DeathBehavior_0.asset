@@ -186,6 +186,6 @@ MonoBehaviour:
   buildUpColor: {r: 0, g: 0, b: 1, a: 0.11764706}
   swingColor: {r: 1, g: 0, b: 0, a: 0.11764706}
   gizmosRadius: 5
-  testDebugIndex: 1
+  testDebugIndex: 0
   debugIndex: 1
   debugSubIndex: 0

@@ -14,9 +14,15 @@ public enum ArrowProjectileState
 	Incrusted
 }
 
+/// <summary>Event invoked when the arrow is inverted.</summary>
+/// <param name="_projectile">ArrowProjectile that was inverted.</param>
+public delegate void OnInverted(ArrowProjectile _projectile);
+
 [RequireComponent(typeof(LineRenderer))]
 public class ArrowProjectile : Projectile
 {
+	public event OnInverted onInverted; 					/// <summary>OnInverted's event delegate.</summary>
+
 	[Space(5f)]
 	[Header("Arrow Projectile's Attributes:")]
 	[SerializeField] private HitCollider2D _tipHitBox; 		/// <summary>Tip's HitBox.</summary>
@@ -136,6 +142,7 @@ public class ArrowProjectile : Projectile
 			tipHitBox.Activate(false);
 			state = ArrowProjectileState.NotIntersectedWithIncrustable;
 			inverted = true;
+			if(onInverted != null) onInverted(this);
 		}
 		else
 		{

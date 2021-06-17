@@ -20,21 +20,27 @@ MonoBehaviour:
   _faceDownRotation:
     _eulerAngles: {x: 0, y: 180, z: 0}
     _rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  _rotationDuration: 2
+  _rotationDuration: 1
   _selectedCardPoint: {x: 0, y: 10, z: 2}
-  _selectedCardDuration: 2
+  _selectedCardDuration: 1
   _deckPoint: {x: 0, y: 5, z: 3}
-  _cardOffset: 0.15
-  _positioningDuration: 1.7
+  _cardOffset: 0.2
+  _positioningDuration: 0.5
+  _spawnEffectIndex:
+    index: 7
+    objectIndex: 0
+    collectionIndex: 8
   _presentationPoint: {x: 0, y: 7, z: 2}
   _cardSpacing: 3.5
-  _deckPositioningDuration: 2
-  _presentationDuration: 2
-  _storeDuration: 2
-  _shufflingDuration: 0.00001
-  _shufflingRadius: 0.7
-  _shufflingSpeed: 5
-  _shufflingCycles: 4
+  _deckPositioningDuration: 0.5
+  _presentationDuration: 0.5
+  _storeDuration: 0.5
+  _zOffset: 0.2
+  _shufflingDuration: 0.5
+  _shufflingRadius: 1
+  _shufflingSpeed: 7
+  _shufflingCycles: 1.5
+  _yOffset: 3
   _orbitDuration: 2
   _orbitRadius: 7
   _orbitSpeed: 15

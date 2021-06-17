@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c755b7a6b6de948899fdefe9a71b99, type: 3}
   m_Name: DevilBehavior_0
   m_EditorClassIdentifier: 
-  drawGizmos: 1
+  drawGizmos: 0
   _run: 1
   _arrowProjectileIndex:
     index: 2

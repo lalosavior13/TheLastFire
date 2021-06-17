@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344df28c5af059a4a96e7d4c421f42d8, type: 3}
   m_Name: StrengthBehavior_0
   m_EditorClassIdentifier: 
-  drawGizmos: 1
+  drawGizmos: 0
   _run: 1
   _setSizeRange:
     _min: 5

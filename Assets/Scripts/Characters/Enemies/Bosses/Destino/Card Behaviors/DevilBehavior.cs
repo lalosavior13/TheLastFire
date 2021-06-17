@@ -155,7 +155,7 @@ public class DevilBehavior : DestinoScriptableCoroutine
 		}
 		
 		int length = limits.Random();
-		int count = 3; // For left and right tower and the ceiling.
+		int count = 1; // For left and right tower and the ceiling.
 		float spawnRate = projectilesSpawnRates[Mathf.Clamp(boss.currentStage, 0, projectilesSpawnRates.Length)];
 		float t = 0.0f;
 		float inverseDuration = 1.0f / towerInterpolationDuration;
@@ -199,6 +199,10 @@ public class DevilBehavior : DestinoScriptableCoroutine
 				Debug.Log("[DevilBehavior] GameObject " + _health.name + "'s Health was depleted.");
 				break;
 			}
+		};
+		OnInverted onInverted = (_arrowProjectile)=>
+		{
+			ceiling.GiveDamage(_arrowProjectile.damage);
 		};
 
 		// Invoke Ceiling & Towers:
@@ -262,6 +266,9 @@ public class DevilBehavior : DestinoScriptableCoroutine
 
 				Projectile arrowProjectile = PoolManager.RequestProjectile(Faction.Enemy, arrowProjectileIndex, ray.origin, direction);
 				arrowProjectile.transform.rotation = VQuaternion.RightLookRotation(direction);
+				ArrowProjectile arrow = arrowProjectile as ArrowProjectile;
+				arrow.onInverted -= onInverted;
+				arrow.onInverted += onInverted;
 				/*arrowProjectile.onPoolObjectDeactivation -= onPoolObjectDeactivation;
 				arrowProjectile.onPoolObjectDeactivation += onPoolObjectDeactivation;*/
 

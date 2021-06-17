@@ -284,16 +284,19 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 		/// If you wanna test all:
 #region SignsShowcase:
-		IEnumerator[] routines = VArray.RandomSet(/*FireShowRoutine(boss), SwordShowRoutine(boss), */DanceShowRoutine(boss));
+		IEnumerator[] routines = VArray.RandomSet(FireShowRoutine(boss), SwordShowRoutine(boss), DanceShowRoutine(boss));
 		/*IEnumerator[] routines = new IEnumerator[3];
 		routines[0] = FireShowRoutine(boss);
 		routines[1] = SwordShowRoutine(boss);
 		routines[2] = DanceShowRoutine(boss);*/
 
-		foreach(IEnumerator routine in routines)
+		/*foreach(IEnumerator routine in routines)
 		{
 			while(routine.MoveNext()) yield return null;
-		}
+		}*/
+
+		IEnumerator fuckU = routines[0];
+		while(fuckU.MoveNext()) yield return null;
 #endregion
 
 		yield return null;
@@ -306,7 +309,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 	/// <param name="_destinyPoint">Destiny.</param>
 	private IEnumerator DisplayAndHideSign(Transform _sign, Vector3 _spawnPoint, Vector3 _destinyPoint)
 	{
-		_sign.SetActive(true);
+		_sign.gameObject.SetActive(true);
 		_sign.position = _spawnPoint;
 
 		SecondsDelayWait wait = new SecondsDelayWait(signIdleDuration);
@@ -318,6 +321,8 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		displacement = _sign.DisplaceToPosition(_spawnPoint, signExitDuration);
 
 		while(displacement.MoveNext()) yield return null;
+
+		//_sign.gameObject.SetActive(false);
 	}
 
 	/// <summary>Fire Show's Routine.</summary>
@@ -347,6 +352,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		SecondsDelayWait wait = new SecondsDelayWait(fireShowRoundDuration);
 		int rounds = fireShowRounds.Random();
 		int targetsPerRound = 0;
+		int count = 0;
 		float targetsDestroyed = 0.0f;
 		OnDeactivated onTargetDeactivation = (projectile, cause, info)=>
 		{
@@ -354,6 +360,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			{
 				case DeactivationCause.Destroyed:
 				targetsDestroyed++;
+				count++;
 				break;
 
 				case DeactivationCause.LeftBoundaries:
@@ -391,7 +398,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			targets[j] = p;
 		}
 
-		while(wait.MoveNext() && targetsDestroyed < targetsPerRound) yield return null;
+		while(wait.MoveNext() && count < targetsPerRound) yield return null;
 		Debug.Log("[JudgementBehavior] Clip reached its end...");
 		wait.Reset();
 
@@ -414,6 +421,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		AudioController.GetLoopSource(1).UnPause();*/
 		AudioController.PlayFSMLoop(0, DestinoSceneController.Instance.mainLoopIndex);
 		AudioController.PlayFSMLoop(1, DestinoSceneController.Instance.mainLoopVoiceIndex);
+		DestinoSceneController.Instance.fireShowSign.SetActive(false);
 	}
 
 	/// <summary>Sword Show's Routine.</summary>
@@ -439,6 +447,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		SecondsDelayWait wait = new SecondsDelayWait(swordShowRoundDuration);
 		int rounds = swordShowRounds.Random();
 		int targetsPerRound = 0;
+		int count = 0;
 		float targetsDestroyed = 0.0f;
 		OnDeactivated onTargetDeactivation = (projectile, cause, info)=>
 		{
@@ -446,6 +455,12 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			{
 				case DeactivationCause.Destroyed:
 				targetsDestroyed++;
+				count++;
+				break;
+
+				case DeactivationCause.LeftBoundaries:
+				case DeactivationCause.LifespanOver:
+				count++;
 				break;
 			}
 		};
@@ -457,6 +472,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			AudioClip clip = AudioController.Play(SourceType.Loop, 0, swordShowPieceIndex, false);
 			wait.waitDuration = clip.length;
 			targetsPerRound = swordShowTargetsPerRound.Random();
+			count = 0;
 			float fTargetsPerRound = (float)targetsPerRound;
 			targetsDestroyed = 0.0f;
 			Projectile[] targets = new Projectile[targetsPerRound];
@@ -485,7 +501,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 				p.activated = true;
 			}
 
-			while(wait.MoveNext() && targetsDestroyed < targetsPerRound) yield return null;
+			while(wait.MoveNext() && count < targetsPerRound) yield return null;
 			wait.Reset();
 
 			foreach(Projectile target in targets)
@@ -501,6 +517,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 		AudioController.PlayFSMLoop(0, DestinoSceneController.Instance.mainLoopIndex);
 		AudioController.PlayFSMLoop(1, DestinoSceneController.Instance.mainLoopVoiceIndex);
+		DestinoSceneController.Instance.swordShowSign.SetActive(false);
 	}
 
 	/// <summary>Dance Show's Routine.</summary>
@@ -607,6 +624,8 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			AudioController.PlayFSMLoop(0, DestinoSceneController.Instance.mainLoopIndex);
 			AudioController.PlayFSMLoop(1, DestinoSceneController.Instance.mainLoopVoiceIndex);
 		});
+
+		DestinoSceneController.Instance.danceShowSign.SetActive(false);
 	}
 
 	/// <summary>Evaluates show.</summary>
