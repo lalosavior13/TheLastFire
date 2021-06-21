@@ -522,6 +522,7 @@ public class DestinoDeckController : DestinoScriptableCoroutine
 		foreach(DestinoCard card in deck)
 		{
 			card.transform.position = boss.transform.position;
+			card.transform.rotation = faceUpRotation;
 		}
 
 		while(t < 1.0f)

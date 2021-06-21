@@ -181,6 +181,9 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 	}
 #endif
 
+	public bool test;
+	public int testLoopState;
+
 	/// <summary>Callback called on Awake if this Object is the Singleton's Instance.</summary>
    	protected override void OnAwake()
 	{
@@ -276,9 +279,18 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 			AudioClip openingClip = AudioController.PlayOneShot(SourceType.Scenario, 0, curtainOpeningSoundIndex);
 			CloseCurtainsWithWeight(stage1CurtainClosure, openingClip.length * openingClipPercentage, ()=>
 			{
+#region TEST_DESTINO_SINGING
+				if(test)
+				{
+					Game.data.FSMLoops[mainLoopIndex].ChangeState(testLoopState);
+					Game.data.FSMLoops[mainLoopVoiceIndex].ChangeState(testLoopState);
+					destino.Sing();
+				}
+#endregion
+
 				AudioController.PlayFSMLoop(0, mainLoopIndex, true);
 				AudioController.PlayFSMLoop(1, mainLoopVoiceIndex, true);
-				destino.RequestCard();
+				//destino.RequestCard();
 			});
 			break;
 		}

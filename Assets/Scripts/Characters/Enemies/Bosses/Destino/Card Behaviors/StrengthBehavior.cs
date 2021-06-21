@@ -221,6 +221,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 		int setSize = setSizeRange.Random();
 		IEnumerator[] routines = new IEnumerator[setSize];
 
+		boss.animator.SetInteger(boss.stateIDCredential, DestinoBoss.ID_STATE_IDLE_NORMAL);
 		AudioController.StopFSMLoop(0);
 		AudioController.StopFSMLoop(1);
 
@@ -250,6 +251,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 
 		AudioController.PlayFSMLoop(0, DestinoSceneController.Instance.mainLoopIndex);
 		AudioController.PlayFSMLoop(1, DestinoSceneController.Instance.mainLoopVoiceIndex);
+		boss.Sing();
 
 		InvokeCoroutineEnd();
 	}

@@ -2351,6 +2351,16 @@ PrefabInstance:
       propertyPath: _openingClipPercentage
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 6454213616821555350, guid: bdb24498052e900489a206c3c27edc8f,
+        type: 3}
+      propertyPath: test
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6454213616821555350, guid: bdb24498052e900489a206c3c27edc8f,
+        type: 3}
+      propertyPath: testLoopState
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6454213616821555351, guid: bdb24498052e900489a206c3c27edc8f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18322,6 +18332,9 @@ MonoBehaviour:
   _distributionSystem:
     _probabilityRanges: []
   _animator: {fileID: 438765898}
+  _laughFrequency:
+    _min: 0
+    _max: 0
   _stateIDCredential:
     _tag: StateID
     _ID: 1106997947

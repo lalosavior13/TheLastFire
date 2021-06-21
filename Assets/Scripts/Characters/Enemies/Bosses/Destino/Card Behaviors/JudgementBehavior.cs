@@ -282,6 +282,8 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			yield break;
 		}
 
+		boss.animator.SetInteger(boss.stateIDCredential, DestinoBoss.ID_STATE_IDLE_NORMAL);
+
 		/// If you wanna test all:
 #region SignsShowcase:
 		IEnumerator[] routines = VArray.RandomSet(FireShowRoutine(boss), SwordShowRoutine(boss), DanceShowRoutine(boss));
@@ -300,6 +302,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 #endregion
 
 		yield return null;
+		boss.Sing();
 		InvokeCoroutineEnd();
 	}
 

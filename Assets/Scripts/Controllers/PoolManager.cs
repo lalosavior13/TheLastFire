@@ -14,7 +14,9 @@ public class PoolManager : Singleton<PoolManager>
 	private GameObjectPool<ParabolaProjectile>[] _enemyParabolaProjectilesPools; 	/// <summary>Pool of Enemy's Parabola Projectiles.</summary>
 	private GameObjectPool<PoolGameObject>[] _gameObjectsPools; 					/// <summary>PoolGameObjects' Pools.</summary>
 	private GameObjectPool<ParticleEffect>[] _particleEffectsPools; 				/// <summary>Pools of Particle's Effects.</summary>
+	private GameObjectPool<Explodable>[] _explodablesPools; 						/// <summary>Pools of Explodables.</summary>
 
+#region Getters/Setters:
 	/// <summary>Gets and Sets playerProjectilesPools property.</summary>
 	public GameObjectPool<Projectile>[] playerProjectilesPools
 	{
@@ -57,6 +59,14 @@ public class PoolManager : Singleton<PoolManager>
 		set { _particleEffectsPools = value; }
 	}
 
+	/// <summary>Gets and Sets explodablesPools property.</summary>
+	public GameObjectPool<Explodable>[] explodablesPools
+	{
+		get { return _explodablesPools; }
+		set { _explodablesPools = value; }
+	}
+#endregion
+
 	/// <summary>PoolManager's instance initialization.</summary>
 	protected override void OnAwake()
 	{
@@ -66,6 +76,7 @@ public class PoolManager : Singleton<PoolManager>
 		enemyParabolaProjectilesPools = GameObjectPool<ParabolaProjectile>.PopulatedPools(Game.data.enemyParabolaProjectiles);
 		gameObjectsPools = GameObjectPool<PoolGameObject>.PopulatedPools(Game.data.poolObjects);
 		particleEffectsPools = GameObjectPool<ParticleEffect>.PopulatedPools(Game.data.particleEffects);
+		explodablesPools = GameObjectPool<Explodable>.PopulatedPools(Game.data.explodables);
 	}
 
 	/// <summary>Gets a Projectile from the Projectiles' Pools.</summary>
@@ -140,6 +151,18 @@ public class PoolManager : Singleton<PoolManager>
 	public static ParticleEffect RequestParticleEffect(int _index, Vector3 _position, Quaternion _rotation)
 	{
 		return Instance.particleEffectsPools[_index].Recycle(_position, _rotation);
+	}
+
+	/// <summary>Gets a Explodable from the Explodables' Pools.</summary>
+	/// <param name="_index">Explodable's index on the pools.</param>
+	/// <param name="_position">Spawn's Position.</param>
+	/// <param name="_rotation">Spawn's Rotation.</param>
+	/// <param name="onExplosionEnds">Optional Callback invoked when the explosion ends.</param>
+	public static Explodable RequestExplodable(int _index, Vector3 _position, Quaternion _rotation, Action onExplosionEnds = null)
+	{
+		Explodable explodable = Instance.explodablesPools[_index].Recycle(_position, _rotation);
+		explodable.Explode(onExplosionEnds);
+		return explodable;
 	}
 }
 }

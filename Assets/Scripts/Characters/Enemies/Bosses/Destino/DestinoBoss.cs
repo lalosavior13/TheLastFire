@@ -25,6 +25,7 @@ public class DestinoBoss : Boss
 	public const int ID_STATE_NOTE_LAAA = 4; 							/// <summary>Laaa Note's State ID on the AnimatorController.</summary>
 	public const int ID_STATE_DEAD = 5; 								/// <summary>Dead's State ID on the AnimatorController.</summary>
 
+	[SerializeField] private FloatRange _laughFrequency; 				/// <summary>Laughing's Frequency.</summary>
 	[SerializeField] private AnimatorCredential _stateIDCredential; 	/// <summary>State ID's Credential.</summary>
 	[Header("Heads' Attributes:")]
 	[SerializeField] private Transform _headPivot; 						/// <summary>Head's Pivot [for both Heads].</summary>
@@ -76,6 +77,9 @@ public class DestinoBoss : Boss
 	private Coroutine fallenTolerance; 									/// <summary>Removable Head's Fallen Tolerance Coroutine reference.</summary>
 
 #region Getters/Setters:
+	/// <summary>Gets laughFrequency property.</summary>
+	public FloatRange laughFrequency { get { return _laughFrequency; } }
+
 	/// <summary>Gets stateIDCredential property.</summary>
 	public AnimatorCredential stateIDCredential { get { return _stateIDCredential; } }
 
@@ -354,6 +358,12 @@ public class DestinoBoss : Boss
 		this.StartCoroutine(_card.behavior.Routine(this), ref cardRoutine);
 	}
 
+	/// <summary>Makes Destino Laugh.</summary>
+	public void Laugh()
+	{
+		animator.SetInteger(stateIDCredential, ID_STATE_IDLE_LAUGH);
+	}
+
 	/// <summary>Makes Destino Sing.</summary>
 	public void Sing()
 	{
@@ -482,6 +492,33 @@ public class DestinoBoss : Boss
 
 		while(wait.MoveNext()) yield return null;
 		yield return base.DeathRoutine(onDeathRoutineEnds);
+	}
+
+	/// <summary>Idle's Routine [normal idle and random laughs].</summary>
+	protected IEnumerator IdleRoutine()
+	{
+		animator.SetInteger(stateIDCredential, ID_STATE_IDLE_NORMAL);
+
+		yield return null;
+
+		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
+		AnimatorStateInfo info = default(AnimatorStateInfo);
+
+		while(true)
+		{
+			wait.ChangeDurationAndReset(laughFrequency.Random());
+			while(wait.MoveNext()) yield return null;
+
+			animator.SetInteger(stateIDCredential, ID_STATE_IDLE_LAUGH);
+			info = animator.GetCurrentAnimatorStateInfo(0);
+			yield return null;
+
+			wait.ChangeDurationAndReset(info.length);
+			while(wait.MoveNext()) yield return null;
+
+			animator.SetInteger(stateIDCredential, ID_STATE_IDLE_NORMAL);
+			yield return null;
+		}
 	}
 }
 }

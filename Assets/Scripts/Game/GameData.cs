@@ -34,6 +34,9 @@ public class GameData : ScriptableObject
 	[Space(5f)]
 	[Header("Particle Effects:")]
 	[SerializeField] private ParticleEffect[] _particleEffects; 				/// <summary>Particle Effects.</summary>
+	[Space(5f)]
+	[Header("Explodables:")]
+	[SerializeField] private Explodable[] _explodables; 						/// <summary>Explodables.</summary>
 #endregion
 	private float _idealDeltaTime; 												/// <summary>Ideal delta time.</summary>
 
@@ -80,6 +83,9 @@ public class GameData : ScriptableObject
 
 	/// <summary>Gets particleEffects property.</summary>
 	public ParticleEffect[] particleEffects { get { return _particleEffects; } }
+
+	/// <summary>Gets explodables property.</summary>
+	public Explodable[] explodables { get { return _explodables; } }
 #endregion
 
 	/// This finally fixed the camera issues: https://docs.unity3d.com/ScriptReference/Time-maximumDeltaTime.html
