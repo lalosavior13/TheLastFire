@@ -7,13 +7,12 @@ using UnityEngine;
 /// \TODO Update the position as transform.position + GetFocusDirection()
 namespace Voidless
 {
-public class CameraDisplacementFollow : CameraFollow
+public class VCameraDisplacementFollow : VCameraFollow
 {
 	[Space(5f)]
 	[Header("Displacement Following's Attributes:")]
 	[SerializeField] private NormalizedVector3 _displacementOffset; 	/// <summary>Displacement's Offset.</summary>
 	protected Vector3 followVelocity;  									/// <summary>Following's Velocity.</summary>
-	protected Vector3 _destinyPosition; 								/// <summary>Destinty's Position at tf.</summary>
 
 	/// <summary>Gets and Sets displacementOffset property.</summary>
 	public NormalizedVector3 displacementOffset
@@ -22,32 +21,25 @@ public class CameraDisplacementFollow : CameraFollow
 		set { _displacementOffset = value; }
 	}
 
-	/// <summary>Gets and Sets destinyPosition property.</summary>
-	public Vector3 destinyPosition
-	{
-		get { return _destinyPosition; }
-		protected set { _destinyPosition = value; }
-	}
-
 	/// <summary>Follows target Smoothly towards given target [overrides Target's transform].</summary>
-	/// <param name="_from">Origin's Point.</param>
 	/// <param name="_target">Target to follow.</param>
-	public override void FollowTarget(Vector3 _from, Vector3 _target)
+	public override void FollowTarget(Vector3 _target)
 	{
-		vCamera.rigidbody.MovePosition(GetDesiredTarget(_from, _target)/* + (!viewportOffset.IsNaN() ? viewportOffset : Vector3.zero)*/);
-		Debug.DrawRay(position, viewportOffset);
+		transform.position = GetDesiredTarget(_target);
 		EvaluateTargetProximity();
 	}
 
-	/// \TODO TEMPORAL SHIT:
-	public Vector3 GetDesiredTarget(Vector3 _from, Vector3 _target)
+	/// <summary>Gets Desired Displacement towards given Target.</summary>
+	/// <param name="_target">Target.</param>
+	/// <returns>Desired displacement's position towards Target.</returns>
+	public Vector3 GetDesiredTarget(Vector3 _target)
 	{
 		float deltaTime = vCamera.GetDeltaTime();
 		Vector3 position = Vector3.zero;
 		viewportOffset = GetCenterFocusDirection();
 		
 		viewportOffset = !viewportOffset.IsNaN() ? viewportOffset : Vector3.zero;
-		GetFollowingDirection(_from, _target);
+		GetFollowingDirection(_target);
 
 		switch(followMode)
 		{
@@ -71,21 +63,21 @@ public class CameraDisplacementFollow : CameraFollow
 	}
 
 	/// <returns>Following's Direction.</returns>
-	/// <param name="_from">Observer's Point.</param>
-	/// <param name="_to">Target's Point.</param>
+	/// <param name="_target">Target's Point.</param>
 	/// <returns>Following direction from given origin towards target's point.</returns>
-	protected override Vector3 GetFollowingDirection(Vector3 _from, Vector3 _to)
+	protected override Vector3 GetFollowingDirection(Vector3 _target)
 	{
-		Axes3D axesInside = vCamera.GetAxesWhereTargetIsWithin(_to);
-		Vector3 offsetPosition = GetOffsetPositionRelativeToTarget(_to);
+		Axes3D axesInside = vCamera.GetAxesWhereTargetIsWithin(_target);
+		Vector3 offsetPosition = GetOffsetPositionRelativeToTarget(_target);
+		Vector3 position = transform.position;
 
 		desiredNonIgnoredDirection = offsetPosition;
 
 		offsetPosition += viewportOffset;
 
-		if(ignoreAxes.HasFlag(Axes3D.X) && axesInside.HasFlag(Axes3D.X)) offsetPosition.x = _from.x;
-		if(ignoreAxes.HasFlag(Axes3D.Y) && axesInside.HasFlag(Axes3D.Y)) offsetPosition.y = _from.y;
-		if(ignoreAxes.HasFlag(Axes3D.Z) && axesInside.HasFlag(Axes3D.Z)) offsetPosition.z = _from.z;
+		if(ignoreAxes.HasFlag(Axes3D.X) && axesInside.HasFlag(Axes3D.X)) offsetPosition.x = position.x;
+		if(ignoreAxes.HasFlag(Axes3D.Y) && axesInside.HasFlag(Axes3D.Y)) offsetPosition.y = position.y;
+		if(ignoreAxes.HasFlag(Axes3D.Z) && axesInside.HasFlag(Axes3D.Z)) offsetPosition.z = position.z;
 
 		followingDirection = offsetPosition;
 
@@ -102,8 +94,8 @@ public class CameraDisplacementFollow : CameraFollow
 	/// <returns>Offseted position from target's position.</returns>
 	protected virtual Vector3 GetOffsetPositionRelativeToTarget(Vector3 _target)
 	{
-		Vector3 scaledOffset = (displacementOffset.normalized * vCamera.distance);
-		Vector3 point = _target + (relativeToTarget ? (vCamera.GetTargetRotation() * scaledOffset) : scaledOffset);
+		Vector3 scaledOffset = (displacementOffset.normalized * vCamera.distanceAdjuster.distance);
+		Vector3 point = _target + (relativeToTarget ? (vCamera.targetRetriever.GetTargetRotation() * scaledOffset) : scaledOffset);
 
 		return point;
 	}

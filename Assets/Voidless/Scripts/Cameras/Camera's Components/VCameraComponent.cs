@@ -3,6 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*============================================================
+**
+** Class:  VCameraComponent
+**
+** Purpose: Component that contains a reference to a VCamera's Component.
+** Used for all VCamera's functionalities.
+**
+**
+** Author: Lîf Gwaethrakindo
+**
+==============================================================*/
+
 namespace Voidless
 {
 [RequireComponent(typeof(VCamera))]
@@ -19,5 +31,8 @@ public abstract class VCameraComponent : MonoBehaviour
 			return _vCamera;
 		}
 	}
+
+	/// <summary>Method called when this instance is created.</summary>
+	protected virtual void Awake() { /*...*/ }
 }
 }

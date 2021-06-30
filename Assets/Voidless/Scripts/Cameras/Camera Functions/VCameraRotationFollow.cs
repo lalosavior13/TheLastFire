@@ -14,25 +14,36 @@ using UnityEditor;
 /// \TODO Fix the Smoothie
 namespace Voidless
 {
-public class CameraRotationFollow : CameraFollow
+public class VCameraRotationFollow : VCameraFollow
 {
+	public const float ANGLE_LOOK_AT_EACH_OTHER = 180.0f; 	/// <summary>Look at each other's angle.</summary>
+
 	[Space(5f)]
 	[Header("Rotation Following's Attributes:")]
-	[SerializeField] private EulerRotation _rotationOffset; 	/// <summary>Rotation's Offset.</summary>
+	[SerializeField]
+	[Range(0.0f, 90.0f)] private float _angleTolerance; 	/// <summary>Tolerance of degrees if the Third Person Character is heading towards the camera.</summary>
+	[SerializeField] private EulerRotation _rotationOffset; /// <summary>Rotation's Offset.</summary>
 #if UNITY_EDITOR
 	[Space(5f)]
-	[Header("Gizmos' Attributes:")]
-	[SerializeField] private float gizmosRadius; 				/// <summary>Gizmos' Radius.</summary>
+	[Header("Gizmos' Attributes (Rotation Follow Component):")]
+	[SerializeField] private float gizmosRadius; 			/// <summary>Gizmos' Radius.</summary>
 	[SerializeField]
-	[Range(0.0f, 1.0f)] private float colorAlpha; 				/// <summary>Color's Alpha.</summary>
+	[Range(0.0f, 1.0f)] private float colorAlpha; 			/// <summary>Color's Alpha.</summary>
 #endif
-	protected float angularSpeed; 								/// <summary>Angular Speed's Reference.</summary>
+	protected float angularSpeed; 							/// <summary>Angular Speed's Reference.</summary>
 
 	/// <summary>Gets and Sets rotationOffset property.</summary>
 	public EulerRotation rotationOffset
 	{
 		get { return _rotationOffset; }
 		set { _rotationOffset = value; }
+	}
+
+	/// <summary>Gets and Sets angleTolerance property.</summary>
+	public float angleTolerance
+	{
+		get { return _angleTolerance; }
+		set { _angleTolerance = Mathf.Clamp(0.0f, 90.0f, value); }
 	}
 
 #if UNITY_EDITOR
@@ -64,17 +75,16 @@ public class CameraRotationFollow : CameraFollow
 
 	/// <summary>Follows Target [takes into account component's parameters, but target overrides the Target's Transform].</summary>
 	/// <param name="_target">Target to follow.</param>
-	/// <param name="_target">Target to follow.</param>
-	public override void FollowTarget(Vector3 _from, Vector3 _target)
+	public override void FollowTarget(Vector3 _target)
 	{
 		/// if instant, the rotation won't change.
-		GetFollowingDirection(_from, _target);
+		GetFollowingDirection(_target);
 		Quaternion rotation = Quaternion.LookRotation(followingDirection) * rotationOffset;
 
 		switch(followMode)
 		{
 			case FollowMode.Smooth:
-			float deltaAngle = Quaternion.Angle(vCamera.rigidbody.rotation, rotation);
+			float deltaAngle = Quaternion.Angle(vCamera.transform.rotation, rotation);
 
 			if(deltaAngle > 0.0f)
 			{
@@ -89,22 +99,21 @@ public class CameraRotationFollow : CameraFollow
 				);
 				t = (1.0f - (t / deltaAngle));
 
-				rotation = Quaternion.Lerp(vCamera.rigidbody.rotation, rotation, t);
+				rotation = Quaternion.Lerp(vCamera.transform.rotation, rotation, t);
 			}
 			break;
 		}
 		
-		vCamera.rigidbody.MoveRotation(rotation);
+		vCamera.transform.rotation = (rotation);
 		EvaluateTargetProximity();
 	}
 
 	/// <summary>Gets Following's Direction.</summary>
-	/// <param name="_from">Observer's Point.</param>
-	/// <param name="_to">Target's Point.</param>
+	/// <param name="_target">Target's Point.</param>
 	/// <returns>Following direction from given origin towards target's point.</returns>
-	protected override Vector3 GetFollowingDirection(Vector3 _from, Vector3 _to)
+	protected override Vector3 GetFollowingDirection(Vector3 _target)
 	{
-		Vector3 direction = (_to - _from);
+		Vector3 direction = (_target - transform.position);
 
 		desiredNonIgnoredDirection = direction;
 	
@@ -120,7 +129,18 @@ public class CameraRotationFollow : CameraFollow
 	/// <summary>Evaluates Target's Proximity.</summary>
 	protected override void EvaluateTargetProximity()
 	{
-		reachedTarget = Vector3.Dot(vCamera.rigidbody.transform.forward, followingDirection) >= reachTolerance;
+		reachedTarget = Vector3.Dot(vCamera.transform.forward, followingDirection) >= reachTolerance;
+	}
+
+	/// <returns>True if camera and target are faceing each other, considering the tolerance angle, false otherwise or if there is no target.</returns>
+	public virtual bool CameraAndTargetLookingAtEachOther()
+	{
+		//if(target != null)
+		{
+			/*float angle = Vector3.Angle(transform.forward, target.forward);
+			return ((angle <= ANGLE_LOOK_AT_EACH_OTHER) && (angle >= ANGLE_LOOK_AT_EACH_OTHER - angleTolerance));*/
+		}
+		/*else */return false;
 	}
 }
 }

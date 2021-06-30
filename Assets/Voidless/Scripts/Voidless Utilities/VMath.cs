@@ -475,6 +475,28 @@ public static class VMath
 		return SpatialRelationship.Undefined;
 	}
 
+	/// \TODO Finish function:
+	public static SpatialRelationship Get2DSpatialRelationship(Vector2 aMin, Vector2 aMax, Vector2 bMin, Vector2 bMax)
+	{
+		SpatialRelationship x = Get1DSpatialRelationship(aMin.x, aMax.x, bMin.x, bMax.x);
+		SpatialRelationship y = Get1DSpatialRelationship(aMin.y, aMax.y, bMin.y, bMax.y);
+		Vector2 xA = new Vector2(aMin.x, aMax.y);
+		Vector2 xB = new Vector2(aMax.x, aMin.y);
+		Vector2 yA = new Vector2(bMin.x, bMax.y);
+		Vector2 yB = new Vector2(bMax.x, bMin.y);
+
+		/// A Contains B:
+		/*if(xA.x < 
+		)*/
+
+		if(x == SpatialRelationship.Intersection && y == SpatialRelationship.Intersection) return SpatialRelationship.Intersection;
+		if(x == SpatialRelationship.AContainsB && y == SpatialRelationship.AContainsB) return SpatialRelationship.AContainsB;
+		if(x == SpatialRelationship.BContainsA && y == SpatialRelationship.BContainsA) return SpatialRelationship.BContainsA;
+
+		/// Shouldn't reach here:
+		return SpatialRelationship.Undefined;
+	}
+
 	/// <summary>Gets size of segment that fits two given segments.</summary>
 	/// <param name="aMin">Segment A's minimum value.</param>
 	/// <param name="aMax">Segment A's maximum value.</param>

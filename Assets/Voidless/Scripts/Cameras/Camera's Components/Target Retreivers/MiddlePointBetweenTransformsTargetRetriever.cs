@@ -5,60 +5,159 @@ using UnityEngine;
 
 namespace Voidless
 {
-public class MiddlePointBetweenTransformsTargetRetriever : CameraTargetRetriever
+public class MiddlePointBetweenTransformsTargetRetriever : VCameraTargetRetriever
 {
-	private Dictionary<int, Transform> _targetTransforms; 	/// <summary>Targets' Transforms.</summary>
+#if UNITY_EDITOR
+	[Space(5f)]
+	[Header("Gizmos' Attributes:")]
+	[SerializeField] private Color gizmosColor; 				/// <summary>Gizmos' Color.</summary>
+#endif
+	private Dictionary<int, VCameraTarget> _targets; 	/// <summary>Targets' Transforms.</summary>
 
-	/// <summary>Gets and Sets targetTransforms property.</summary>
-	public Dictionary<int, Transform> targetTransforms
+	/// <summary>Gets and Sets target property.</summary>
+	public override VCameraTarget target
 	{
-		get { return _targetTransforms; }
-		private set { _targetTransforms = value; }
+		get { return _target; }
+		set
+		{
+			_target = value;
+			
+			if(targets == null) targets = new Dictionary<int, VCameraTarget>();
+
+			int ID = _target.GetInstanceID();
+			bool contains = targets.ContainsKey(ID);
+
+			if(_target != null && !contains)
+			{
+				targets.Add(ID, _target);
+			
+			} else if(_target == null && contains)
+			{
+				targets.Remove(ID);
+			}
+		}
 	}
 
-	/// <summary>MiddlePointBetweenTransformsTargetRetriever's instance initialization.</summary>
-	private void Awake()
+	/// <summary>Gets and Sets targets property.</summary>
+	public Dictionary<int, VCameraTarget> targets
 	{
-		if(targetTransforms == null) targetTransforms = new Dictionary<int, Transform>();
+		get { return _targets; }
+		private set { _targets = value; }
+	}
+
+#if UNITY_EDITOR
+	/// <summary>Draws Gizmos on Editor mode.</summary>
+	private void OnDrawGizmos()
+	{
+		if(!Application.isPlaying) return;
+		
+		Gizmos.color = gizmosColor;
+		Bounds bounds = GetTargetBounds();
+		VGizmos.DrawBounds(bounds);
+
+		Vector3 p1 = new Vector3(
+			bounds.min.x,
+			bounds.min.y + bounds.extents.y,
+			bounds.center.z
+		);
+		Vector3 p2 = new Vector3(
+			bounds.max.x,
+			bounds.min.y + bounds.extents.y,
+			bounds.center.z
+		);
+		Vector3 p3 = new Vector3(
+			bounds.min.x + bounds.extents.x,
+			bounds.min.y,
+			bounds.center.z
+		);
+		Vector3 p4 = new Vector3(
+			bounds.min.x + bounds.extents.x,
+			bounds.max.y,
+			bounds.center.z
+		);
+		Gizmos.DrawLine(p1, p2);
+		Gizmos.DrawLine(p3, p4);
+	}
+#endif
+
+	/// <summary>MiddlePointBetweenTransformsTargetRetriever's instance initialization.</summary>
+	protected override void Awake()
+	{
+		if(targets == null) targets = new Dictionary<int, VCameraTarget>();
+
+		if(target == null) return;
+
+		int ID = target.GetInstanceID();
+
+		if(!targets.ContainsKey(ID)) targets.Add(ID, target);
 	}
 
 	/// <summary>Adds Target's Transform into the internal dictionary.</summary>
-	/// <param name="_targetTransform">Target Transform to add.</param>
-	public void AddTargetTransform(Transform _targetTransform)
+	/// <param name="_target">Target Transform to add.</param>
+	public void AddTarget(VCameraTarget _target)
 	{
-		int instanceID = _targetTransform.GetInstanceID();
+		if(_target == null) return;
 
-		if(!targetTransforms.ContainsKey(instanceID))
-		targetTransforms.Add(instanceID, _targetTransform);
+		int instanceID = _target.GetInstanceID();
+
+		if(!targets.ContainsKey(instanceID))
+		targets.Add(instanceID, _target);
 	}
 
 	/// <summary>Removes Target's Transform into the internal dictionary.</summary>
-	/// <param name="_targetTransform">Target Transform to add.</param>
-	public void RemoveTargetTransform(Transform _targetTransform)
+	/// <param name="_target">Target Transform to add.</param>
+	public void RemoveTarget(VCameraTarget _target)
 	{
-		int instanceID = _targetTransform.GetInstanceID();
+		if(_target == null) return;
+		
+		int instanceID = _target.GetInstanceID();
 
-		if(targetTransforms.ContainsKey(instanceID))
-		targetTransforms.Remove(instanceID);
+		if(targets.ContainsKey(instanceID))
+		targets.Remove(instanceID);
 	}
 
 	/// <returns>Camera's Target.</returns>
-	public override Vector3 GetTarget()
+	public override Vector3 GetTargetPosition()
 	{
+		if(targets == null) return Vector3.zero;
+
 		Vector3 positions = Vector3.zero;
 		float count = 0.0f;
 
-		foreach(Transform targetTransform in targetTransforms.Values)
+		foreach(VCameraTarget target in targets.Values)
 		{
-			if(targetTransform == null || !targetTransform.gameObject.activeSelf) continue;
+			if(target == null || !target.gameObject.activeSelf) continue;
 
-			positions += targetTransform.position;
+			positions += target.GetPosition();
 			count++;
 		}
 
 		if(count == 0.0f) positions = transform.position;
 
 		return count > 1.0f ? positions / count : positions;
+	}
+
+	/// <returns>Target's Rotation.</returns>
+	public override Quaternion GetTargetRotation()
+	{
+		return Quaternion.identity;
+	}
+
+	/// <returns>Target's Bounds.</returns>
+	public override Bounds GetTargetBounds()
+	{
+		if(targets == null) return target != null ? target.GetBounds() : default(Bounds);
+
+		Bounds[] targetsBounds = new Bounds[targets.Count];
+		int i = 0;
+
+		foreach(VCameraTarget target in targets.Values)
+		{
+			targetsBounds[i] = target.GetBounds();
+			i++;
+		}
+
+		return VBounds.GetBoundsToFitSet(targetsBounds);
 	}
 }
 }

@@ -24,8 +24,9 @@ public class ThirdPersonCameraOffsetSetterInspector : Editor
 		DrawDefaultInspector();
 		if(GUILayout.Button(LABEL_TEST_CAMERA))
 		{
-			if(ThirdPersonCamera.Instance != null)
-			thirdPersonCameraOffsetSetter.TestCamera(ThirdPersonCamera.Instance);
+			/*if(ThirdPersonCamera.Instance != null)
+			thirdPersonCameraOffsetSetter.TestCamera(ThirdPersonCamera.Instance);*/
+			Debug.LogError("[ThirdPersonCameraOffsetSetterInspector] CHECK THE SCRIPT LIF...");
 		}
 	}
 }

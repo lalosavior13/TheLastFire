@@ -61,7 +61,7 @@ public class Game : Singleton<Game>
 
 	private void Start()
 	{
-		if(mateo != null) AddTargetTransformToCamera(mateo.transform);
+		if(mateo != null) AddTargetToCamera(mateo.cameraTarget);
 	}
 
 #region TEMPORAL
@@ -104,18 +104,18 @@ public class Game : Singleton<Game>
 		return _allJumps ? mateo.jumpAbility.PredictForces() : mateo.jumpAbility.PredictForce(0);
 	}
 
-	/// <summary>Adds Target's Transform into the Camera.</summary>
-	/// <param name="_transform">Transform to Add.</param>
-	public static void AddTargetTransformToCamera(Transform _transform)
+	/// <summary>Adds Target's VCameraTarget into the Camera.</summary>
+	/// <param name="_target">VCameraTarget to Add.</param>
+	public static void AddTargetToCamera(VCameraTarget _target)
 	{
-		if(cameraController != null) cameraController.middlePointTargetRetriever.AddTargetTransform(_transform);
+		if(cameraController != null) cameraController.middlePointTargetRetriever.AddTarget(_target);
 	}
 
-	/// <summary>Removes Target's Transform into the Camera.</summary>
-	/// <param name="_transform">Transform to Remove.</param>
-	public static void RemoveTargetTransformToCamera(Transform _transform)
+	/// <summary>Removes Target's VCameraTarget into the Camera.</summary>
+	/// <param name="_target">VCameraTarget to Remove.</param>
+	public static void RemoveTargetToCamera(VCameraTarget _target)
 	{
-		if(cameraController != null) cameraController.middlePointTargetRetriever.RemoveTargetTransform(_transform);
+		if(cameraController != null) cameraController.middlePointTargetRetriever.RemoveTarget(_target);
 	}
 
 	/// <summary>Loads Scene.</summary>

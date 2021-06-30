@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Voidless
 {
-public class CameraOrbitedDisplacementFollow : CameraDisplacementFollow
+public class VCameraOrbitedDisplacementFollow : VCameraDisplacementFollow
 {
 	[Space(5f)]
 	[Header("Orbit Following's Attributes:")]
@@ -147,8 +147,8 @@ public class CameraOrbitedDisplacementFollow : CameraDisplacementFollow
 	{
 		AdjustScalar();
 
-		Vector3 scaledOffset = (displacementOffset.normalized * vCamera.distance * distanceScalar.y);
-		Vector3 point = _target + (orbitRotation.rotation * (relativeToTarget ? (vCamera.GetTargetRotation() * scaledOffset) : scaledOffset));
+		Vector3 scaledOffset = (displacementOffset.normalized * vCamera.distanceAdjuster.distance * distanceScalar.y);
+		Vector3 point = _target + (orbitRotation.rotation * (relativeToTarget ? (vCamera.targetRetriever.GetTargetRotation() * scaledOffset) : scaledOffset));
 
 		return point;
 	}

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Voidless
 {
-public class CameraOcclusionHandler : VCameraComponent
+public class VCameraOcclusionHandler : VCameraDistanceCalculator
 {
 	[SerializeField] private LayerMask _hitMask; 		/// <summary>Hit's Layer Mask.</summary>
 	[Space(5f)]
@@ -55,7 +55,7 @@ public class CameraOcclusionHandler : VCameraComponent
 			Gizmos.color = rayOriginColor;
 			CameraViewportPlane nearPlane = vCamera.viewportHandler.NearPlane;
 
-			Gizmos.DrawWireSphere(vCamera.position, radius);
+			Gizmos.DrawWireSphere(vCamera.transform.position, radius);
 
 			foreach(Vector3 point in vCamera.viewportHandler)
 			{
@@ -136,10 +136,10 @@ public class CameraOcclusionHandler : VCameraComponent
 		return false;
 	}
 
-	/// <summary>Calculates adjusted distance between target point and viewport's collision points.</summary>
-	/// <param name="_point">Origin point from where the adjusted distance will be calculated.</param>
-	/// <returns>Adjusted distance.</returns>
-	public float CalculateAdjustedDistance(Vector3 _point)
+	/// <summary>Gets Calculated distance towards given target.</summary>
+	/// <param name="_target">Target.</param>
+	/// <returns>Calculated distance towards given target.</returns>
+	public override float GetCalculatedDistance(Vector3 _target)
 	{
 		CameraViewportPlane nearPlane = vCamera.viewportHandler.NearPlane;
 		Ray ray = default(Ray);
@@ -150,8 +150,8 @@ public class CameraOcclusionHandler : VCameraComponent
 
 		foreach(Vector3 point in vCamera.viewportHandler)
 		{
-			direction = (Vector3.LerpUnclamped(vCamera.viewportHandler.gridAttributes.center, point, pointRatio) - _point);
-			ray = new Ray(_point, direction);
+			direction = (Vector3.LerpUnclamped(vCamera.viewportHandler.gridAttributes.center, point, pointRatio) - _target);
+			ray = new Ray(_target, direction);
 
 			if(Physics.Raycast(ray, out hit, hitMask))
 			{
@@ -166,7 +166,7 @@ public class CameraOcclusionHandler : VCameraComponent
 			}
 		}
 
-		if(Physics.SphereCast(vCamera.position, radius, transform.forward, out hit, radius, hitMask)) distance -= radius;
+		if(Physics.SphereCast(vCamera.transform.position, radius, transform.forward, out hit, radius, hitMask)) distance -= radius;
 
 		return distance;
 	}

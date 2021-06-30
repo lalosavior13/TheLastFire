@@ -13,38 +13,24 @@ public enum LoopType
 }
 
 [RequireComponent(typeof(Camera))]
-[RequireComponent(typeof(CameraViewportHandler))]
-[RequireComponent(typeof(CameraOcclusionHandler))]
+[RequireComponent(typeof(VCameraViewportHandler))]
 [RequireComponent(typeof(OrientationNormalAdjuster))]
-[RequireComponent(typeof(Rigidbody))]
-public abstract class VCamera : Singleton<VCamera>
+public abstract class VCamera : MonoBehaviour
 {
-	public const float ANGLE_LOOK_AT_EACH_OTHER = 180.0f; 					/// <summary>Look at each other's angle.</summary>
-
-	[SerializeField] private LoopType _updateCameraAt; 						/// <summary>Loop to update the camera at.</summary>
+	[SerializeField] private LoopType _updateCameraAt; 		/// <summary>Loop to update the camera at.</summary>
+	[SerializeField] protected Axes3D _ignoreFocusAxes; 	/// <summary>Center's Focus Axes to ignore when following.</summary>
+	private Dictionary<int, VCameraDelimiter> _delimiters; 	/// <summary>Camera's Delimiters.</summary>
+	private VCameraTargetRetriever _targetRetriever; 		/// <summary>VCameraTargetRetriever's Component.</summary>
+	private VCameraViewportHandler _viewportHandler; 		/// <summary>VCameraViewportHandler's Component.</summary>
+	private VCameraDistanceAdjuster _distanceAdjuster; 		/// <summary>VCameraDistanceAdjuster's Component.</summary>
+	private OrientationNormalAdjuster _normalAdjuster; 		/// <summary>OrientationNormalAdjuster's Component.</summary>
+	private Camera _camera; 								/// <summary>Camera's Component.</summary>
+	private Vector3 _centerFocusDirection; 					/// <summary>Center Focus' Direction.</summary>
+	protected CameraViewportPlane boundariesPlane; 			/// <summary>Camera Boundaries' Plane.</summary>
+#if UNITY_EDITOR
 	[Space(5f)]
-	[Header("Camera's Attributes:")]
-	[SerializeField] private Transform _target; 							/// <summary>Camera's Focus Point.</summary>
-	[SerializeField] private Rigidbody _physicsTarget; 						/// <summary>Physics' Target as a Rigidbody.</summary>
-	[SerializeField] private FloatRange _distanceRange; 					/// <summary>Distance between camera and target's Range.</summary>
-	[SerializeField]
-	[Range(0.0f, 90.0f)] private float _angleTolerance; 					/// <summary>Tolerance of degrees if the Third Person Character is heading towards the camera.</summary>
-	[Space(5f)]
-	[Header("Distance's Attributes:")]
-	[SerializeField] private bool _limitDistanceChangeSpeed; 				/// <summary>Limit Distance's Change Speed?.</summary>
-	[SerializeField]
-	[Range(0.1f, 1.0f)] private float _distanceChangeDuration; 				/// <summary>Distance Change's Duration.</summary>
-	[SerializeField] private float _maxDistanceChangeSpeed; 				/// <summary>Maximum Distance's Change Speed.</summary>
-	private CameraViewportHandler _viewportHandler; 						/// <summary>CameraViewportHandler's Component.</summary>
-	private CameraOcclusionHandler _occlusionHandler; 						/// <summary>CameraOcclusionHandler's Component.</summary>
-	private OrientationNormalAdjuster _orientationNormalAdjuster; 			/// <summary>OrientationNormalAdjuster's Component.</summary>
-	private Rigidbody _rigidbody; 											/// <summary>Rigidbody's Component.</summary>
-	private Behavior _cameraEffect; 										/// <summary>Coroutine controller for the actual Camera's effect.</summary>
-	private Camera _camera; 												/// <summary>Camera's Component.</summary>
-	private TransformData _targetData;
-	private Vector3 _centerFocusDirection; 									/// <summary>Center Focus' Direction.</summary>
-	private float _distance; 												/// <summary>Actual distance between camera and target.</summary>
-	protected float currentDistance; 										/// <summary>Current Distance's Reference.</summary>
+	[SerializeField] protected Color gizmosColor; 			/// <summary>Gizmos' Color.</summary>
+#endif
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets updateCameraAt property.</summary>
@@ -54,67 +40,18 @@ public abstract class VCamera : Singleton<VCamera>
 		protected set { _updateCameraAt = value; }
 	}
 
-	/// <summary>Gets and Sets target property.</summary>
-	public Transform target
+	/// <summary>Gets and Sets ignoreFocusAxes property.</summary>
+	public Axes3D ignoreFocusAxes
 	{
-		get { return _target; }
-		set { _target = value; }
+		get { return _ignoreFocusAxes; }
+		set { _ignoreFocusAxes = value; }
 	}
 
-	/// <summary>Gets and Sets physicsTarget property.</summary>
-	public Rigidbody physicsTarget
+	/// <summary>Gets and Sets delimiters property.</summary>
+	public Dictionary<int, VCameraDelimiter> delimiters
 	{
-		get { return _physicsTarget; }
-		set { _physicsTarget = value; }
-	}
-
-	/// <summary>Gets and Sets targetData property.</summary>
-	public TransformData targetData
-	{
-		get { return _targetData; }
-		set { _targetData = value; }
-	}
-
-	/// <summary>Gets and Sets distanceRange property.</summary>
-	public FloatRange distanceRange
-	{
-		get { return _distanceRange; }
-		set { _distanceRange = value; }
-	}
-
-	/// <summary>Gets and Sets angleTolerance property.</summary>
-	public float angleTolerance
-	{
-		get { return _angleTolerance; }
-		set { _angleTolerance = Mathf.Clamp(0.0f, 90.0f, value); }
-	}
-
-	/// <summary>Gets and Sets distanceChangeDuration property.</summary>
-	public float distanceChangeDuration
-	{
-		get { return _distanceChangeDuration; }
-		set { _distanceChangeDuration = value; }
-	}
-
-	/// <summary>Gets and Sets maxDistanceChangeSpeed property.</summary>
-	public float maxDistanceChangeSpeed
-	{
-		get { return limitDistanceChangeSpeed ? _maxDistanceChangeSpeed : Mathf.Infinity; }
-		set { _maxDistanceChangeSpeed = value; }
-	}
-
-	/// <summary>Gets and Sets distance property.</summary>
-	public float distance
-	{
-		get { return _distance; }
-		set { _distance = Mathf.Clamp(value, distanceRange.Min(), distanceRange.Max()); }
-	}
-
-	/// <summary>Gets and Sets limitDistanceChangeSpeed property.</summary>
-	public bool limitDistanceChangeSpeed
-	{
-		get { return _limitDistanceChangeSpeed; }
-		set { _limitDistanceChangeSpeed = value; }
+		get { return _delimiters; }
+		protected set { _delimiters = value; }
 	}
 	
 	/// <summary>Gets and Sets centerFocusDirection property.</summary>
@@ -124,11 +61,14 @@ public abstract class VCamera : Singleton<VCamera>
 		set { _centerFocusDirection = value; }
 	}
 
-	/// <summary>Gets and Sets cameraEffect property.</summary>
-	public Behavior cameraEffect
-	{
-		get { return _cameraEffect; }
-		set { _cameraEffect = value; }
+	/// <summary>Gets targetRetriever Component.</summary>
+	public VCameraTargetRetriever targetRetriever
+	{ 
+		get
+		{
+			if(_targetRetriever == null) _targetRetriever = GetComponent<VCameraTargetRetriever>();
+			return _targetRetriever;
+		}
 	}
 
 	/// <summary>Gets and Sets camera Component.</summary>
@@ -142,82 +82,32 @@ public abstract class VCamera : Singleton<VCamera>
 	}
 
 	/// <summary>Gets and Sets viewportHandler Component.</summary>
-	public CameraViewportHandler viewportHandler
+	public VCameraViewportHandler viewportHandler
 	{ 
 		get
 		{
-			if(_viewportHandler == null) _viewportHandler = GetComponent<CameraViewportHandler>();
+			if(_viewportHandler == null) _viewportHandler = GetComponent<VCameraViewportHandler>();
 			return _viewportHandler;
 		}
 	}
 
-	/// <summary>Gets and Sets occlusionHandler Component.</summary>
-	public CameraOcclusionHandler occlusionHandler
+	/// <summary>Gets distanceAdjuster Component.</summary>
+	public VCameraDistanceAdjuster distanceAdjuster
 	{ 
 		get
 		{
-			if(_occlusionHandler == null) _occlusionHandler = GetComponent<CameraOcclusionHandler>();
-			return _occlusionHandler;
+			if(_distanceAdjuster == null) _distanceAdjuster = GetComponent<VCameraDistanceAdjuster>();
+			return _distanceAdjuster;
 		}
 	}
 
-	/// <summary>Gets and Sets orientationNormalAdjuster Component.</summary>
-	public OrientationNormalAdjuster orientationNormalAdjuster
+	/// <summary>Gets and Sets normalAdjuster Component.</summary>
+	public OrientationNormalAdjuster normalAdjuster
 	{ 
 		get
 		{
-			if(_orientationNormalAdjuster == null) _orientationNormalAdjuster = GetComponent<OrientationNormalAdjuster>();
-			return _orientationNormalAdjuster;
-		}
-	}
-
-	/// <summary>Gets rigidbody Component.</summary>
-	public Rigidbody rigidbody
-	{ 
-		get
-		{
-			if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody>();
-			return _rigidbody;
-		}
-	}
-
-	/// <summary>Gets and Sets position property.</summary>
-	public Vector3 position
-	{
-		get { return updateCameraAt == LoopType.FixedUpdate ? rigidbody.position : transform.position; }
-		set
-		{
-			switch(updateCameraAt)
-			{
-				case LoopType.Update:
-				case LoopType.LateUpdate:
-				transform.position = value;
-				break;
-
-				case LoopType.FixedUpdate:
-				rigidbody.position = value;
-				break;
-			}
-		}
-	}
-
-	/// <summary>Gets and Sets rotation property.</summary>
-	public Quaternion rotation
-	{
-		get { return updateCameraAt == LoopType.FixedUpdate ? rigidbody.rotation : transform.rotation; }
-		set
-		{
-			switch(updateCameraAt)
-			{
-				case LoopType.Update:
-				case LoopType.LateUpdate:
-				transform.rotation = value;
-				break;
-
-				case LoopType.FixedUpdate:
-				rigidbody.rotation = value;
-				break;
-			}
+			if(_normalAdjuster == null) _normalAdjuster = GetComponent<OrientationNormalAdjuster>();
+			return _normalAdjuster;
 		}
 	}
 
@@ -225,20 +115,28 @@ public abstract class VCamera : Singleton<VCamera>
 	public static implicit operator Camera(VCamera _baseCamera) { return _baseCamera.camera; }
 #endregion
 
-#region UnityMethods:
 	/// <summary>Draws Gizmos on Editor mode.</summary>
-	private void OnDrawGizmos()
+	protected virtual void OnDrawGizmos()
 	{
-		//Gizmos.DrawRay(transform.position, centerFocusDirection);
+#if UNITY_EDITOR
+		Gizmos.color = gizmosColor;
+
+		Gizmos.DrawRay(transform.position, centerFocusDirection);
+		Gizmos.DrawRay(transform.position, centerFocusDirection);
+
+		if(!Application.isPlaying) return;
+
+		boundariesPlane.DrawGizmos();
+#endif
 	}
 
 	/// <summary>Resets Component.</summary>
-	private void Reset()
+	protected virtual void Reset()
 	{
-		currentDistance = 0.0f;
-		rigidbody.isKinematic = true;
-		rigidbody.useGravity = false;
-		rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+		ignoreFocusAxes = Axes3D.None;
+#if UNITY_EDITOR
+		gizmosColor = Color.white;
+#endif
 	}
 	
 	/// <summary>VCamera's tick at the end of each frame.</summary>
@@ -249,7 +147,7 @@ public abstract class VCamera : Singleton<VCamera>
 			case LoopType.Update:
 			case LoopType.LateUpdate:
 			OnUpdate();
-			UpdateCamera();
+			CameraUpdate();
 			break;
 		}
 	}
@@ -261,25 +159,24 @@ public abstract class VCamera : Singleton<VCamera>
 		{
 			case LoopType.FixedUpdate:
 			OnUpdate();
-			FixedUpdateCamera();
+			CameraFixedUpdate();
 			break;
 		}
 	}
-#endregion
 
 	/// <summary>Callback called on either LateUpdate or FixedUpdate.</summary>
 	protected virtual void OnUpdate()
 	{
-		UpdateDistance();
+		distanceAdjuster.UpdateDistance();
 		UpdateCenterFocusDirection();
-		UpdateTargetData();
+		VCameraViewportHandler.UpdateViewportPlane(camera, distanceAdjuster.distance, ref boundariesPlane);
 	}
 
 	/// <summary>Updates Camera.</summary>
-	protected abstract void UpdateCamera();
+	protected abstract void CameraUpdate();
 
 	/// <summary>Updates Camera on Physics' Thread.</summary>
-	protected abstract void FixedUpdateCamera();
+	protected abstract void CameraFixedUpdate();
 
 	/// <summary>Calculates an adjusted direction given direction's axes.</summary>
 	/// <param name="_x">Axis X.</param>
@@ -287,53 +184,7 @@ public abstract class VCamera : Singleton<VCamera>
 	/// <returns>Adjusted Direction.</returns>
 	public virtual Vector3 GetAdjustedDirection(float _x, float _y)
 	{
-		return (transform.right * _x) + (orientationNormalAdjuster.forward * _y);
-	}
-
-	/// <returns>Target's Position.</returns>
-	public virtual Vector3 GetTargetPosition()
-	{
-		if(updateCameraAt == LoopType.FixedUpdate && physicsTarget != null)
-		{
-			return physicsTarget.position;
-		
-		} else if(target != null)
-		{
-			return target.position;
-		}
-		else return targetData.position;
-	}
-
-	/// <returns>Target's Rotation.</returns>
-	public virtual Quaternion GetTargetRotation()
-	{
-		if(updateCameraAt == LoopType.FixedUpdate && physicsTarget != null)
-		{
-			return physicsTarget.rotation;
-		
-		} else if(target != null)
-		{
-			return target.rotation;
-		}
-		else return targetData.rotation;
-	}
-
-	/// <returns>True if camera and target are faceing each other, considering the tolerance angle, false otherwise or if there is no target.</returns>
-	public virtual bool CameraAndTargetLookingAtEachOther()
-	{
-		if(target != null)
-		{
-			float angle = Vector3.Angle(transform.forward, target.forward);
-			return ((angle <= ANGLE_LOOK_AT_EACH_OTHER) && (angle >= ANGLE_LOOK_AT_EACH_OTHER - angleTolerance));
-		}
-		else return false;
-	}
-
-	/// <summary>Updates Target's Transform Data.</summary>
-	protected virtual void UpdateTargetData()
-	{
-		_targetData.position = GetTargetPosition();
-		_targetData.rotation = GetTargetRotation();
+		return (transform.right * _x) + (normalAdjuster.forward * _y);
 	}
 
 	/// <summery>Sets Direction between Focus Center and Target's Position.</summery>
@@ -341,7 +192,7 @@ public abstract class VCamera : Singleton<VCamera>
 	{
 		Ray viewportRay = camera.ViewportPointToRay(new Vector3(viewportHandler.gridAttributes.centerX, viewportHandler.gridAttributes.centerY, 0.0f));
 		Ray centerRay = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0.0f));
-		Vector3 scaledViewportDirection = viewportRay.direction * distance;
+		Vector3 scaledViewportDirection = viewportRay.direction * distanceAdjuster.distance;
 		Vector3 centerProjection = VVector3.VectorProjection(scaledViewportDirection, centerRay.direction);
 		centerFocusDirection = (centerProjection - (scaledViewportDirection));
 		
@@ -352,44 +203,16 @@ public abstract class VCamera : Singleton<VCamera>
 			centerFocusDirection = transform.TransformVector(shift);
 		}
 
-		/*Debug.DrawRay(viewportRay.origin, scaledViewportDirection, Color.cyan);
-		Debug.DrawRay(centerRay.origin, centerProjection, Color.magenta);
-		Debug.DrawRay(position, centerFocusDirection, Color.yellow);*/
+#if UNITY_EDITOR
+		Debug.DrawRay(viewportRay.origin, scaledViewportDirection, gizmosColor);
+		Debug.DrawRay(centerRay.origin, centerProjection, gizmosColor);
+#endif
 	}
 
-	/// <summary>Updates Distance defined by occlusion's handling.</summary>
-	public virtual void UpdateDistance()
+	/// <returns>Boundaries' Viewport Plane.</returns>
+	public CameraViewportPlane GetBoundariesPlane()
 	{
-		float bestDistance = occlusionHandler.CalculateAdjustedDistance(GetTargetPosition());
-
-		distance = Mathf.SmoothDamp(
-			distance,
-			Mathf.Clamp(bestDistance, distanceRange.Min(), distanceRange.Max()),
-			ref currentDistance,
-			distanceChangeDuration,
-			limitDistanceChangeSpeed ? maxDistanceChangeSpeed : Mathf.Infinity,
-			GetDeltaTime()
-		);
-	}
-
-	/// <summary>Sets New Target.</summary>
-	/// <param name="_target">Target's Transform.</param>
-	public void SetTarget(Transform _target)
-	{
-		target = _target;
-	}
-
-	/// <summary>Sets New Target.</summary>
-	/// <param name="_target">Target's Rigidbody.</param>
-	public void SetTarget(Rigidbody _target)
-	{
-		if(_target == null) return;
-
-		rigidbody.isKinematic = true;
-		_target.interpolation = RigidbodyInterpolation.Interpolate;
-		rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
-		target = _target.transform;
-		physicsTarget = _target;
+		return boundariesPlane;
 	}
 
 	/// <returns>Axes where the target is currently within.</returns>
@@ -397,6 +220,12 @@ public abstract class VCamera : Singleton<VCamera>
 	public Axes3D GetAxesWhereTargetIsWithin(Vector3 _point)
 	{
 		return viewportHandler.Axes3DWithinGridFocusArea(_point);
+	}
+
+	/// <returns>Focus' Direction, ignoring the flagged axes.</returns>
+	public Vector3 GetCenterFocusDirection()
+	{
+		return transform.IgnoreVectorAxes(centerFocusDirection, ignoreFocusAxes, true);
 	}
 
 	/// <returns>Gets Delta Time according to the Loop Type.</returns>
@@ -409,6 +238,31 @@ public abstract class VCamera : Singleton<VCamera>
 			case LoopType.FixedUpdate: 	return Time.fixedDeltaTime;
 			default: 					return Time.smoothDeltaTime;
 		}
+	}
+
+	/// <summary>Adds VCameraDelimiter's reference.</summary>
+	/// <param name="_delimiter">Calculator to add to dictionary.</param>
+	public void AddDelimiter(VCameraDelimiter _delimiter)
+	{
+		if(_delimiter == null) return;
+
+		int ID = _delimiter.GetInstanceID();
+
+		if(delimiters == null) delimiters = new Dictionary<int, VCameraDelimiter>();
+		if(!delimiters.ContainsKey(ID)) delimiters.Add(ID, _delimiter);
+	}
+
+	/// <summary>Removes VCameraDelimiter's reference.</summary>
+	/// <param name="_delimiter">Calculator to add to dictionary.</param>
+	public void RemoveDelimiter(VCameraDelimiter _delimiter)
+	{
+		if(_delimiter == null) return;
+
+		int ID = _delimiter.GetInstanceID();
+
+		if(delimiters == null) return;
+		
+		if(delimiters.ContainsKey(ID)) delimiters.Remove(ID);
 	}
 }
 }

@@ -25,7 +25,7 @@ public class BouncingBall : MonoBehaviour
 	/// <summary>BouncingBall's starting actions before 1st Update frame.</summary>
 	private void Start ()
 	{
-		//Game.AddTargetTransformToCamera(transform);
+		//Game.AddTargetToCamera(transform);
 	}
 #endregion
 

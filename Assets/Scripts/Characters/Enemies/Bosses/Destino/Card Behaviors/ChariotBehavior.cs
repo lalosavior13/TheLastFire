@@ -102,7 +102,8 @@ public class ChariotBehavior : DestinoScriptableCoroutine
 		OnPoolObjectDeactivation onPoolObjectDeactivation = (poolObject)=>
 		{
 			PoolGameObject obj = poolObject as PoolGameObject;
-			Game.RemoveTargetTransformToCamera(obj.transform);
+			Projectile proj = obj.GetComponent<Projectile>();
+			Game.RemoveTargetToCamera(proj.cameraTarget);
 		};
 
 		for(int i = 0; i < sequenceLength; i++)
@@ -132,7 +133,7 @@ public class ChariotBehavior : DestinoScriptableCoroutine
 
 				sphere.onPoolObjectDeactivation -= onPoolObjectDeactivation;
 				sphere.onPoolObjectDeactivation += onPoolObjectDeactivation;
-				Game.AddTargetTransformToCamera(sphere.transform);
+				Game.AddTargetToCamera(sphere.cameraTarget);
 			}
 
 			sphere.gameObject.name += ("_" + i);

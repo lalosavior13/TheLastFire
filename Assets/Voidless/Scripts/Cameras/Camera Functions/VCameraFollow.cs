@@ -7,12 +7,12 @@ namespace Voidless
 {
 public enum FollowMode 													/// <summary>Follow Modes.</summary>
 {
-	Instant, 															/// <summary>Instant's Follow Mode.</summary>
 	Smooth, 															/// <summary>Smooth's Follow Mode.</summary>
-	//PhysicsSmooth 														/// <summary>Physics-Smooth's Follow Mode.</summary>
+	Instant, 															/// <summary>Instant's Follow Mode.</summary>
+	//PhysicsSmooth 													/// <summary>Physics-Smooth's Follow Mode.</summary>
 }
 
-public abstract class CameraFollow : VCameraComponent
+public abstract class VCameraFollow : VCameraComponent
 {
 	protected const float SMOOTH_TIME_INSTANT = 0.1f; 					/// <summary>Instant's Smooth Time.</summary>
 
@@ -21,7 +21,6 @@ public abstract class CameraFollow : VCameraComponent
 	[SerializeField] private bool _relativeToTarget; 					/// <summary>Make the following relative to the target?.</summary>
 	[SerializeField] private bool _limitFollowingSpeed; 				/// <summary>Limit Maximum Following's Speed.</summary>
 	[SerializeField] protected Axes3D _ignoreAxes; 						/// <summary>Axes to ignore when following.</summary>
-	[SerializeField] protected Axes3D _ignoreFocusAxes; 				/// <summary>Center's Focus Axes to ignore when following.</summary>
 	[SerializeField]
 	[Range(0.1f, 1.0f)] private float _followDuration; 					/// <summary>Follow's Duration.</summary>
 	[SerializeField] private float _maxFollowSpeed; 					/// <summary>Maximum's Following Speed.</summary>
@@ -68,13 +67,6 @@ public abstract class CameraFollow : VCameraComponent
 		set { _ignoreAxes = value; }
 	}
 
-	/// <summary>Gets and Sets ignoreFocusAxes property.</summary>
-	public Axes3D ignoreFocusAxes
-	{
-		get { return _ignoreFocusAxes; }
-		set { _ignoreFocusAxes = value; }
-	}
-
 	/// <summary>Gets and Sets followDuration property.</summary>
 	public float followDuration
 	{
@@ -112,49 +104,8 @@ public abstract class CameraFollow : VCameraComponent
 		get { return _viewportOffset; }
 		set { _viewportOffset = value; }
 	}
-
-	/// <summary>Gets and Sets position property.</summary>
-	public Vector3 position
-	{
-		get { return vCamera.updateCameraAt == LoopType.FixedUpdate ? vCamera.rigidbody.position : transform.position; }
-		set
-		{
-			switch(vCamera.updateCameraAt)
-			{
-				case LoopType.Update:
-				case LoopType.LateUpdate:
-				transform.position = value;
-				break;
-
-				case LoopType.FixedUpdate:
-				vCamera.rigidbody.position = value;
-				break;
-			}
-		}
-	}
-
-	/// <summary>Gets and Sets rotation property.</summary>
-	public Quaternion rotation
-	{
-		get { return vCamera.updateCameraAt == LoopType.FixedUpdate ? vCamera.rigidbody.rotation : transform.rotation; }
-		set
-		{
-			switch(vCamera.updateCameraAt)
-			{
-				case LoopType.Update:
-				case LoopType.LateUpdate:
-				transform.rotation = value;
-				break;
-
-				case LoopType.FixedUpdate:
-				vCamera.rigidbody.rotation = value;
-				break;
-			}
-		}
-	}
 #endregion
 
-#region UnityMethods:
 	/// <summary>Resets Component.</summary>
 	protected virtual void Reset()
 	{
@@ -162,72 +113,31 @@ public abstract class CameraFollow : VCameraComponent
 		relativeToTarget = true;
 		limitFollowingSpeed = true;
 		ignoreAxes = Axes3D.None;
-		ignoreFocusAxes = Axes3D.None;
 		followDuration = 1.0f;
 		maxFollowSpeed = 100.0f;
 	}
-	
-	/// <summary>Callback called at end of each frame.</summary>
-	public void OnLateUpdate()
-	{
-		//UpdateFollowingDirection();
-		FollowTarget();
-		EvaluateTargetProximity();
-	}
 
-	/// <summary>Updates CameraFollow's instance at each Physics Thread's frame.</summary>
-	public void OnFixedUpdate()
-	{
-		//UpdateFollowingDirection();
-		FollowTarget();
-		EvaluateTargetProximity();
-	}
-#endregion
-
-#region FollowTargetOverrides:
 	/// <summary>Follows target.</summary>
 	public void FollowTarget()
 	{
-		if(vCamera.target == null) return;
-		
-		FollowTarget(position, vCamera.GetTargetPosition());
+		FollowTarget(vCamera.targetRetriever.GetTargetPosition());
 	}
 
 	/// <summary>Follows target [overrides Target's transform].</summary>
 	/// <param name="_target">Target to follow.</param>
-	public void FollowTarget(Vector3 _target)
-	{	
-		FollowTarget(position, _target);
-	}
+	public abstract void FollowTarget(Vector3 _target);
 
-	/// <summary>Follows target [overrides Target's transform].</summary>
-	/// <param name="_from">Origin's Point.</param>
-	/// <param name="_target">Target to follow.</param>
-	public abstract void FollowTarget(Vector3 _from, Vector3 _to);
-#endregion
-
-#region GetFollowingDirectionOverrides:
 	/// <summary>Gets Following's Direction.</summary>
 	/// <param name="_target">Target to follow.</param>
 	/// <returns>Following direction from camera's position towards target's point.</returns>
 	protected Vector3 GetFollowingDirection()
 	{
-		return GetFollowingDirection(position, vCamera.target != null ? vCamera.GetTargetPosition() : Vector3.zero);
+		return GetFollowingDirection(vCamera.targetRetriever.GetTargetPosition());
 	}
 
 	/// <summary>Gets Following's Direction.</summary>
 	/// <returns>Following direction from camera's position towards target's point.</returns>
-	protected Vector3 GetFollowingDirection(Vector3 _target)
-	{
-		return GetFollowingDirection(position, _target);
-	}
-
-	/// <summary>Gets Following's Direction.</summary>
-	/// <param name="_from">Observer's Point.</param>
-	/// <param name="_to">Target's Point.</param>
-	/// <returns>Following direction from given origin towards target's point.</returns>
-	protected abstract Vector3 GetFollowingDirection(Vector3 _from, Vector3 _to);
-#endregion
+	protected abstract Vector3 GetFollowingDirection(Vector3 _target);
 
 	/// <summary>Evaluates Target's Proximity.</summary>
 	protected abstract void EvaluateTargetProximity();
@@ -235,12 +145,12 @@ public abstract class CameraFollow : VCameraComponent
 	/// <returns>Focus' Direction, ignoring the flagged axes.</returns>
 	public Vector3 GetCenterFocusDirection()
 	{
-		return transform.IgnoreVectorAxes(vCamera.centerFocusDirection, ignoreFocusAxes, true);
+		return vCamera.GetCenterFocusDirection();
 	}
 
-	/// <summary>Copies this componen's stats into another CameraFollow component.</summary>
+	/// <summary>Copies this componen's stats into another VCameraFollow component.</summary>
 	/// <param name="_cameraFollow">Component that will have the same stats as this component.</param>
-	public void CopyStatsTo(CameraFollow _cameraFollow)
+	public void CopyStatsTo(VCameraFollow _cameraFollow)
 	{
 		_cameraFollow.followMode = followMode;
 		_cameraFollow.limitFollowingSpeed = limitFollowingSpeed;

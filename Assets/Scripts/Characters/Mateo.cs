@@ -22,6 +22,7 @@ namespace Flamingo
 [RequireComponent(typeof(WallEvaluator))]
 [RequireComponent(typeof(AnimationAttacksHandler))]
 [RequireComponent(typeof(SlopeEvaluator))]
+[RequireComponent(typeof(VCameraTarget))]
 public class Mateo : Character
 {
 	public const int ID_STATE_INITIALPOSE = 1 << 4; 							/// <summary>Initial Pose's State ID.</summary>
@@ -86,6 +87,7 @@ public class Mateo : Character
 	private WallEvaluator _wallEvaluator; 										/// <summary>WallEvaluator's Component.</summary>
 	private AnimationAttacksHandler _attacksHandler; 							/// <summary>AnimationAttacksHandler's Component.</summary>
 	private SlopeEvaluator _slopeEvaluator; 									/// <summary>SlopeEvaluator's Component.</summary>
+	private VCameraTarget _cameraTarget; 										/// <summary>VCameraTarget's Component.</summary>
 	private Vector3 _orientation; 												/// <summary>Mateo's Orientation.</summary>
 	private Vector2 _leftAxes; 													/// <summary>Left Axes' Value.</summary>
 	private Cooldown _postInitialPoseCooldown; 									/// <summary>Post-Meditation's Cooldown.</summary>
@@ -290,6 +292,16 @@ public class Mateo : Character
 		{
 			if(_slopeEvaluator == null) _slopeEvaluator = GetComponent<SlopeEvaluator>();
 			return _slopeEvaluator;
+		}
+	}
+
+	/// <summary>Gets cameraTarget Component.</summary>
+	public VCameraTarget cameraTarget
+	{ 
+		get
+		{
+			if(_cameraTarget == null) _cameraTarget = GetComponent<VCameraTarget>();
+			return _cameraTarget;
 		}
 	}
 

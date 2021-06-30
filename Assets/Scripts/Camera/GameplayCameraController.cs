@@ -6,53 +6,35 @@ using Voidless;
 
 namespace Flamingo
 {
-[RequireComponent(typeof(CameraDisplacementFollow))]
-[RequireComponent(typeof(CameraTargetRetriever))]
+[RequireComponent(typeof(VCameraDisplacementFollow))]
+[RequireComponent(typeof(Boundaries2DDelimiter))]
+[RequireComponent(typeof(MiddlePointBetweenTransformsTargetRetriever))]
+[RequireComponent(typeof(VCamera2DBoundariesContainer))]
 public class GameplayCameraController : VCamera
 {
-	[SerializeField] private Vector3 _minLimits; 										/// <summary>Camera's Minimum Limits.</summary>
-	[SerializeField] private Vector3 _maxLimits; 										/// <summary>Camera's Max Limits.</summary>
-	private CameraDisplacementFollow _displacementFollow; 								/// <summary>CameraDisplacementFollow's Component.</summary>
-	private CameraViewportPlane _boundariesPlane; 										/// <summary>Camera Boundaries' Plane.</summary>
-	private CameraTargetRetriever _targetRetriever; 									/// <summary>CameraTargetRetriever's Component.</summary>
+	private VCameraDisplacementFollow _displacementFollow; 								/// <summary>VCameraDisplacementFollow's Component.</summary>
+	private Boundaries2DDelimiter _boundariesDelimiter; 								/// <summary>Boundaries2DDelimiter's Component.</summary>
 	private MiddlePointBetweenTransformsTargetRetriever _middlePointTargetRetriever; 	/// <summary>MiddlePointBetweenTransformsTargetRetriever's Component.</summary>
-#if UNITY_EDITOR
-	[Space(5f)]
-	[Header("Gizmos' Attributes:")]
-	[SerializeField] private Color gizmosColor; 			/// <summary>Gizmos' Color.</summary>
-#endif
+	private VCamera2DBoundariesContainer _boundariesContainer; 							/// <summary>VCamera2DBoundariesContainer's Component.</summary>
 
-	/// <summary>Gets and Sets minLimits property.</summary>
-	public Vector3 minLimits
-	{
-		get { return _minLimits; }
-		set { _minLimits = value; }
-	}
-
-	/// <summary>Gets and Sets maxLimits property.</summary>
-	public Vector3 maxLimits
-	{
-		get { return _maxLimits; }
-		set { _maxLimits = value; }
-	}
-
+#region Getters/Setters:
 	/// <summary>Gets displacementFollow Component.</summary>
-	public CameraDisplacementFollow displacementFollow
+	public VCameraDisplacementFollow displacementFollow
 	{ 
 		get
 		{
-			if(_displacementFollow == null) _displacementFollow = GetComponent<CameraDisplacementFollow>();
+			if(_displacementFollow == null) _displacementFollow = GetComponent<VCameraDisplacementFollow>();
 			return _displacementFollow;
 		}
 	}
 
-	/// <summary>Gets targetRetriever Component.</summary>
-	public CameraTargetRetriever targetRetriever
+	/// <summary>Gets boundariesDelimiter Component.</summary>
+	public Boundaries2DDelimiter boundariesDelimiter
 	{ 
 		get
 		{
-			if(_targetRetriever == null) _targetRetriever = GetComponent<CameraTargetRetriever>();
-			return _targetRetriever;
+			if(_boundariesDelimiter == null) _boundariesDelimiter = GetComponent<Boundaries2DDelimiter>();
+			return _boundariesDelimiter;
 		}
 	}
 
@@ -66,74 +48,36 @@ public class GameplayCameraController : VCamera
 		}
 	}
 
-	/// <summary>Gets and Sets boundariesPlane property.</summary>
-	public CameraViewportPlane boundariesPlane
-	{
-		get { return _boundariesPlane; }
-		private set { _boundariesPlane = value; }
+	/// <summary>Gets boundariesContainer Component.</summary>
+	public VCamera2DBoundariesContainer boundariesContainer
+	{ 
+		get
+		{
+			if(_boundariesContainer == null) _boundariesContainer = GetComponent<VCamera2DBoundariesContainer>();
+			return _boundariesContainer;
+		}
 	}
-
-	/// <summary>Draws Gizmos on Editor mode.</summary>
-	private void OnDrawGizmos()
-	{
-#if UNITY_EDITOR
-		Gizmos.color = gizmosColor;
-
-		/// Draw Boundary's Limits:
-		Vector3 bottomLeftPoint = minLimits;
-		Vector3 bottomRightPoint = new Vector3(maxLimits.x, minLimits.y, minLimits.z);
-		Vector3 topLeftPoint = new Vector3(minLimits.x, maxLimits.y, minLimits.z);
-		Vector3 topRightPoint = maxLimits;
-		
-		Gizmos.DrawLine(bottomLeftPoint, bottomRightPoint);
-		Gizmos.DrawLine(bottomLeftPoint, topLeftPoint);
-		Gizmos.DrawLine(topLeftPoint, topRightPoint);
-		Gizmos.DrawLine(bottomRightPoint, topRightPoint);
-
-		if(!Application.isPlaying) return;
-
-		/// Draw Projected's Viewport Plane:
-		Gizmos.DrawLine(boundariesPlane.bottomLeftPoint, boundariesPlane.bottomRightPoint);
-		Gizmos.DrawLine(boundariesPlane.bottomLeftPoint, boundariesPlane.topLeftPoint);
-		Gizmos.DrawLine(boundariesPlane.topLeftPoint, boundariesPlane.topRightPoint);
-		Gizmos.DrawLine(boundariesPlane.bottomRightPoint, boundariesPlane.topRightPoint);
-#endif
-	}
-
-/*#region UnityMethods:
-	/// <summary>GameplayCameraController's instance initialization.</summary>
-	private void Awake()
-	{
-		
-	}
-
-	/// <summary>GameplayCameraController's starting actions before 1st Update frame.</summary>
-	private void Start ()
-	{
-		
-	}
-	
-	/// <summary>GameplayCameraController's tick at each frame.</summary>
-	private void Update ()
-	{
-		
-	}
-#endregion*/
+#endregion
 
 	/// <summary>Updates Camera.</summary>
-	protected override void UpdateCamera()
+	protected override void CameraUpdate()
 	{
-		CameraViewportHandler.UpdateViewportPlane(camera, distance, ref _boundariesPlane);
-		Vector3 target = targetRetriever.GetTarget();
-		Vector3 desiredTarget = displacementFollow.GetDesiredTarget(transform.position, target);
+		Vector3 target = targetRetriever.GetTargetPosition();
 
-		rigidbody.MovePosition(desiredTarget);
+		if(delimiters != null) foreach(VCameraDelimiter delimiter in delimiters.Values)
+		{
+			target = delimiter.Delimited(target);
+		}
+
+		Vector3 desiredTarget = displacementFollow.GetDesiredTarget(target);
+
+		transform.position = desiredTarget;
 	}
 
 	/// <summary>Updates Camera on Physics' Thread.</summary>
-	protected override void FixedUpdateCamera()
+	protected override void CameraFixedUpdate()
 	{
-		displacementFollow.OnFixedUpdate();
+		CameraUpdate();
 	}
 }
 }

@@ -40,6 +40,7 @@ public enum DeactivationCause
 public delegate void OnDeactivated(Projectile _projectile, DeactivationCause _cause, Trigger2DInformation _info);
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(VCameraTarget))]
 public class Projectile : ContactWeapon
 {
 	public event OnDeactivated onDeactivated; 				/// <summary>OnDeactivated's Event Delegate.</summary>
@@ -55,6 +56,7 @@ public class Projectile : ContactWeapon
 	private bool _activated; 								/// <summary>Can the projectile be activated?.</summary>
 	private float _currentLifeTime; 						/// <summary>Current Life Time.</summary>
 	private Rigidbody2D _rigidbody; 						/// <summary>Rigidbody2D's Component.</summary>
+	private VCameraTarget _cameraTarget; 					/// <summary>VCameraTarget's Component.</summary>
 	private Vector3 _direction; 							/// <summary>Projectilwe's direction that determines its displacement.</summary>
 	private Vector3 _accumulatedVelocity; 					/// <summary>Accumulated Velocity.</summary>
 
@@ -115,6 +117,16 @@ public class Projectile : ContactWeapon
 		{
 			if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody2D>();
 			return _rigidbody;
+		}
+	}
+
+	/// <summary>Gets cameraTarget Component.</summary>
+	public VCameraTarget cameraTarget
+	{ 
+		get
+		{
+			if(_cameraTarget == null) _cameraTarget = GetComponent<VCameraTarget>();
+			return _cameraTarget;
 		}
 	}
 

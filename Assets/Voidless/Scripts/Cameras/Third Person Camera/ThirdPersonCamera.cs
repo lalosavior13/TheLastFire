@@ -11,66 +11,47 @@ public enum InterpolateOrigin
 	FirstWaypoint
 }
 
-[RequireComponent(typeof(CameraOrbitedDisplacementFollow))]
-[RequireComponent(typeof(CameraRotationFollow))]
+[RequireComponent(typeof(VCameraOrbitedDisplacementFollow))]
+[RequireComponent(typeof(VCameraRotationFollow))]
 public class ThirdPersonCamera : VCamera
 {
-	private static ThirdPersonCamera _Instance; 			/// <summary>Third person camera's instance.</summary>
-
-	private CameraOrbitedDisplacementFollow _orbitFollow; 	/// <summary>CameraOrbitedDisplacementFollow's Component.</summary>
-	private CameraRotationFollow _rotationFollow; 			/// <summary>CameraRotationFollow's Component.</summary>
+	private VCameraOrbitedDisplacementFollow _orbitFollow; 	/// <summary>VCameraOrbitedDisplacementFollow's Component.</summary>
+	private VCameraRotationFollow _rotationFollow; 			/// <summary>VCameraRotationFollow's Component.</summary>
 
 #region Getters/Setters:
-	/// <summary>Gets and Sets Instance property.</summary>
-	public new static ThirdPersonCamera Instance
-	{
-		get
-		{
-			if (_Instance == null) {
-				_Instance = (ThirdPersonCamera)FindObjectOfType(typeof(ThirdPersonCamera));
-
-				if (_Instance == null) {
-					Debug.LogError("An Instance of " + typeof(ThirdPersonCamera) + " is needed in the scene, but there is none.");
-				}
-			}
-			return _Instance;
-		}
-		private set { _Instance = value; }
-	}
-
 	/// <summary>Gets and Sets orbitFollow Component.</summary>
-	public CameraOrbitedDisplacementFollow orbitFollow
+	public VCameraOrbitedDisplacementFollow orbitFollow
 	{ 
 		get
 		{
-			if(_orbitFollow == null) _orbitFollow = GetComponent<CameraOrbitedDisplacementFollow>();
+			if(_orbitFollow == null) _orbitFollow = GetComponent<VCameraOrbitedDisplacementFollow>();
 			return _orbitFollow;
 		}
 	}
 
 	/// <summary>Gets and Sets rotationFollow Component.</summary>
-	public CameraRotationFollow rotationFollow
+	public VCameraRotationFollow rotationFollow
 	{ 
 		get
 		{
-			if(_rotationFollow == null) _rotationFollow = GetComponent<CameraRotationFollow>();
+			if(_rotationFollow == null) _rotationFollow = GetComponent<VCameraRotationFollow>();
 			return _rotationFollow;
 		}
 	}
 #endregion
 
 	/// <summary>Updates Camera.</summary>
-	protected override void UpdateCamera()
+	protected override void CameraUpdate()
 	{
-		orbitFollow.OnLateUpdate();
-		rotationFollow.OnLateUpdate();
+		/// \TODO Update this
+		/*orbitFollow.OnLateUpdate();
+		rotationFollow.OnLateUpdate();*/
 	}
 
 	/// <summary>Updates Camera on Physics' Thread.</summary>
-	protected override void FixedUpdateCamera()
+	protected override void CameraFixedUpdate()
 	{
-		orbitFollow.OnFixedUpdate();
-		rotationFollow.OnFixedUpdate();
+		CameraUpdate();
 	}
 }
 }

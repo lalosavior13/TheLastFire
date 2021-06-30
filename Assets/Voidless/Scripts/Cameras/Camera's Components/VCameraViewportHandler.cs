@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Voidless
 {
-public class CameraViewportHandler : VCameraComponent, IEnumerable<Vector3>
+public class VCameraViewportHandler : VCameraComponent, IEnumerable<Vector3>
 {
 	private const float PLANE_NEAR_EPSILON = 0.0001f; 		/// <summary>Additional Epsilon for the Plane's Z.</summary>
 
@@ -194,7 +194,7 @@ public class CameraViewportHandler : VCameraComponent, IEnumerable<Vector3>
 			Vector3.Lerp(nearPlane.topLeftPoint, nearPlane.topRightPoint, gridAttributes.centerX),
 			Vector3.Lerp(nearPlane.bottomLeftPoint, nearPlane.bottomRightPoint, gridAttributes.centerX));
 
-		Axes2D axesInside = Axes2DWithinGridFocusArea(vCamera.GetTargetPosition());
+		Axes2D axesInside = Axes2DWithinGridFocusArea(vCamera.targetRetriever.GetTargetPosition());
 
 		Gizmos.color = axesInside.HasFlag(Axes2D.X) ? onRangeColor : offRangeColor;
 		/// Horizontal Left Line:

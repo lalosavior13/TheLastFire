@@ -33,5 +33,36 @@ public struct CameraViewportPlane
 
 	/// <summary>Maximum Point [Top-Right].</summary>
 	public Vector3 Max() { return topRightPoint; }
+
+	/// <returns>Viewport Plane's Size.</returns>
+	public Vector2 Size()
+	{
+		return new Vector2(
+			Mathf.Abs(topRightPoint.x - topLeftPoint.x),
+			Mathf.Abs(topRightPoint.y - bottomRightPoint.y)
+		); 
+	}
+
+	/// <summary>Displaces ViewportPlane.</summary>
+	/// <param name="_displacement">Displacement.</param>
+	public void Displace(Vector3 _displacement)
+	{
+		centerPoint += _displacement;
+		topLeftPoint += _displacement;
+		topRightPoint += _displacement;
+		bottomLeftPoint += _displacement;
+		bottomRightPoint += _displacement;
+	}
+
+	/// <summary>Draws Viewport Plane on Gizmos' Mode.</summary>
+	public void DrawGizmos()
+	{
+#if UNITY_EDITOR
+		Gizmos.DrawLine(bottomLeftPoint, bottomRightPoint);
+		Gizmos.DrawLine(bottomLeftPoint, topLeftPoint);
+		Gizmos.DrawLine(topLeftPoint, topRightPoint);
+		Gizmos.DrawLine(bottomRightPoint, topRightPoint);
+#endif
+	}
 }
 }
