@@ -290,7 +290,7 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 
 				AudioController.PlayFSMLoop(0, mainLoopIndex, true);
 				AudioController.PlayFSMLoop(1, mainLoopVoiceIndex, true);
-				//destino.RequestCard();
+				destino.RequestCard();
 			});
 			break;
 		}
