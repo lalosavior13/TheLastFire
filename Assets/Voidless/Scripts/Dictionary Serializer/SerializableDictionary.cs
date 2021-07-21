@@ -59,16 +59,16 @@ public class SerializableDictionary<K, V> : Dictionary<K, V>, ISerializationCall
 	/// <summary>Implement this method to receive a callback before Unity serializes your object.</summary>
 	/// <summary>Saves Dictionary to both Lists.</summary>
 	public void OnBeforeSerialize()
-    {
-    	keysList.Clear();
-    	valuesList.Clear();
-
-    	foreach(KeyValuePair<K, V> pair in this)
     	{
-    		keysList.Add(pair.Key);
-    		valuesList.Add(pair.Value);
+	    	keysList.Clear();
+	    	valuesList.Clear();
+
+	    	foreach(KeyValuePair<K, V> pair in this)
+	    	{
+	    		keysList.Add(pair.Key);
+	    		valuesList.Add(pair.Value);
+	    	}
     	}
-    }
 
     /// <summary>Implement this method to receive a callback after Unity deserializes your object.</summary>
     public void OnAfterDeserialize()
@@ -109,20 +109,20 @@ public class SerializableDictionary<K, V> : Dictionary<K, V>, ISerializationCall
 #if UNITY_EDITOR
         /// <summary>Populates a SerializationInfo with the data needed to serialize the target object.</summary>
         public override void GetObjectData( SerializationInfo _info, StreamingContext _context)
-    {
-        foreach(KeyValuePair<K, V> pair in this)
-        {
-            _info.AddValue(pair.Key.ToString(), pair.Value);
-        }
-    }
+	{
+	        foreach(KeyValuePair<K, V> pair in this)
+		{
+	            _info.AddValue(pair.Key.ToString(), pair.Value);
+	        }
+	}
 #endif
 
         /// <param name="_repeatedKey">Repeated Key's Reference.</param>
         /// <returns>Random temporal key.</returns>
         protected virtual K ProvideTemporalKey(K _repeatedKey) { return default(K); }
 
-    /// <returns>String representing this Dictionary's Entries.</returns>
-    public override string ToString()
+    	/// <returns>String representing this Dictionary's Entries.</returns>
+    	public override string ToString()
 	{
 		StringBuilder builder = new StringBuilder();
 
@@ -164,4 +164,7 @@ public class SerializableDictionary<K, V> : Dictionary<K, V>, ISerializationCall
 [Serializable] public class FloatStringDictionary : SerializableDictionary<float, string> { /*...*/ }
 [Serializable] public class FloatIntDictionary : SerializableDictionary<float, int> { /*...*/ }
 [Serializable] public class IntFloatDictionary : SerializableDictionary<int, float> { /*...*/ }
+[Serializable] public class TagIndexDictionary : SerializableDictionary<GameObjectTag, CollectionIndex> { /*...*/ }
+[Serializable] public class TagIntDictionary : SerializableDictionary<GameObjectTag, int> { /*...*/ }
+[Serializable] public class TagCollectionIndexDictionary : SerializableDictionary<GameObjectTag, CollectionIndex> { /*...*/ }
 }

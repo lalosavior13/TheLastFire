@@ -7,92 +7,6 @@ using Voidless;
 
 namespace Flamingo
 {
-
-#region TESTs:
-	[CreateAssetMenu(menuName = "Flamingo / Scriptable Coroutines / Boss")]
-	public class ScriptableBossCoroutine : ScriptableCoroutine<Boss>
-	{
-		/// <summary>Coroutine's IEnumerator.</summary>
-		/// <param name="obj">Object of type T's argument.</param>
-		public override IEnumerator Routine(Boss obj)
-		{
-			yield return null;
-		}
-
-		/// <summary>Finishes the Routine.</summary>
-		/// <param name="obj">Object of type T's argument.</param>
-		public override void FinishRoutine(Boss obj)
-		{
-
-		}
-	}
-
-	[CreateAssetMenu(menuName = "Flamingo / Scriptable Coroutines / Boss / Simon Says")]
-	public class SimonSaysScriptableBossCoroutine : ScriptableBossCoroutine
-	{
-		[SerializeField] private string text; 	/// <summary>Text.</summary>
-
-		/// <summary>Coroutine's IEnumerator.</summary>
-		/// <param name="obj">Object of type T's argument.</param>
-		public override IEnumerator Routine(Boss obj)
-		{
-			Debug.Log("[Boss] Simon Says: " + text);
-			yield return null;
-		}
-
-		/// <summary>Finishes the Routine.</summary>
-		/// <param name="obj">Object of type T's argument.</param>
-		public override void FinishRoutine(Boss obj)
-		{
-
-		}
-	}
-
-	[CreateAssetMenu(menuName = "Flamingo / Scriptable Coroutines / Boss / Move")]
-	public class MoveScriptableBossCoroutine : ScriptableBossCoroutine
-	{
-		[SerializeField] private Vector3[] directions; 	/// <summary>Movement Directions.</summary>
-		[SerializeField] private float speed; 			/// <summary>Speed.</summary>
-		[SerializeField] private float duration; 		/// <summary>Movement Duration.</summary>
-
-		/// <summary>Coroutine's IEnumerator.</summary>
-		/// <param name="obj">Object of type T's argument.</param>
-		public override IEnumerator Routine(Boss obj)
-		{
-			SecondsDelayWait wait = new SecondsDelayWait(duration);
-
-			foreach(Vector3 direction in directions)
-			{
-				while(wait.MoveNext())
-				{
-					obj.transform.position += (direction.normalized * speed * Time.deltaTime);
-					yield return null;
-				}
-				wait.Reset();
-			}
-		}
-
-		/// <summary>Finishes the Routine.</summary>
-		/// <param name="obj">Object of type T's argument.</param>
-		public override void FinishRoutine(Boss obj)
-		{
-
-		}
-	}
-
-	[Serializable]
-	public class BossCommand : Command<Boss, ScriptableBossCoroutine>
-	{
-		/// <summary>Command default constructor.</summary>
-		/// <param name="_routines">Command's Routines.</param>
-		/// <param name="_probabilityInterval">Probability of the command to happen.</param>
-		/// <param name="_cooldownInterval">Cooldown's interval after the routines are done.</param>
-		public BossCommand(ScriptableBossCoroutine[] _routines, FloatRange _probabilityInterval, FloatRange _cooldownInterval) : base(_routines, _probabilityInterval, _cooldownInterval)
-		{
-		}
-	}
-#endregion
-
 [RequireComponent(typeof(Animator))]
 public class Boss : Enemy
 {
@@ -111,7 +25,6 @@ public class Boss : Enemy
 	[Header("Boss' Attributes:")]
 	[SerializeField] private int _stages; 									/// <summary>Boss' Stages.</summary>
 	[SerializeField] private float[] _healthDistribution; 					/// <summary>Health Distribution across the Stages.</summary>
-	[SerializeField] private BossCommand[] _commands; 						/// <summary>Commands.</summary>
 	[SerializeField] private RandomDistributionSystem _distributionSystem; 	/// <summary>Distribution System.</summary>
 	[SerializeField] private Animator _animator; 							/// <summary>Animator's Component.</summary>
 	private int _currentStage; 
@@ -157,16 +70,17 @@ public class Boss : Enemy
 	}
 
 	/// <summary>Callback internally called right after Awake.</summary>
-	protected override void OnAwake()
+	protected override void Awake()
 	{
+		base.Awake();
 		currentStage = 0;
 		AdvanceStage();
 	}
 
 	/// <summary>Callback internally called right after Start.</summary>
-	protected override void OnStart()
+	protected override void Start()
 	{
-		StartCoroutine(ProcessCommands());
+		base.Start();
 	}
 #endregion
 
@@ -229,33 +143,6 @@ public class Boss : Enemy
 		builder.Append(currentStage.ToString());
 
 		return builder.ToString();
-	}
-
-	/// <summary>Proceses the Boss's Commands.</summary>
-	protected virtual IEnumerator ProcessCommands()
-	{
-		if(_commands == null) yield break;
-
-		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
-		IEnumerator routine = null;
-
-		while(true)
-		{
-			BossCommand command = _commands[_distributionSystem.GetRandomIndex()];
-			//foreach(BossCommand command in _commands)
-			//{
-				wait.ChangeDurationAndReset(command.cooldownInterval.Random());
-
-				foreach(ScriptableBossCoroutine coroutine in command.routines)
-				{
-					routine = coroutine.Routine(this);
-
-					while(routine.MoveNext()) yield return null;
-				}
-
-				while(wait.MoveNext()) yield return null;
-			//}
-		}
 	}
 
 	/// <summary>Death's Routine.</summary>

@@ -26,6 +26,7 @@ public class ShootChargedProjectile : ShootProjectile
 	private float _currentCharge; 												/// <summary>Current Charge's Value.</summary>
 	private CollectionIndex _ID; 												/// <summary>Current Projectile's ID.</summary>
 
+#region Getters/Setters:
 	/// <summary>Gets and Sets chargedProjectileID property.</summary>
 	public CollectionIndex chargedProjectileID
 	{
@@ -81,6 +82,7 @@ public class ShootChargedProjectile : ShootProjectile
 		get { return _ID; }
 		set { _ID = value; }
 	}
+#endregion
 
 	/// <summary>Gets fullyCharged property.</summary>
 	public bool fullyCharged { get { return currentCharge >= chargeDuration; } }
@@ -144,6 +146,7 @@ public class ShootChargedProjectile : ShootProjectile
 		projectile = PoolManager.RequestProjectile(faction, ID, muzzle.position, Vector3.zero);
 		projectile.transform.parent = muzzle;
 		projectile.activated = false;
+		projectile.ActivateHitBoxes(false);
 	}
 
 	/// <summary>Callback invoked when this shot must be discharged.</summary>

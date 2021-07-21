@@ -74,12 +74,12 @@ public class MotionProjectile : Projectile
 		space = Space.Self;
 	}
 
-	/// <summary>Callback internally invoked insided FixedUpdate.</summary>
-	protected override void OnFixedUpdate()
+	/// <summary>Callback internally invoked inside FixedUpdate.</summary>
+	protected override void FixedUpdate()
 	{
-		base.OnFixedUpdate();
+		base.FixedUpdate();
 
-		if(!activated || hitBoxesInfo == null) return;
+		if(!activated || impactEventHandler.hitBoxes == null) return;
 
 		time = time < (360.0f * motionSpeed) ? time + (Time.fixedDeltaTime * motionSpeed) : 0.0f;
 
@@ -88,10 +88,8 @@ public class MotionProjectile : Projectile
 		Vector3 motionAxis = axes.normalized;
 		Vector3 motion = space == Space.Self ? Vector3.Cross(direction, Vector3.forward) : motionAxis;
 		
-		foreach(HitColliderInfo info in hitBoxesInfo)
+		foreach(HitCollider2D hitBox in impactEventHandler.hitBoxes)
 		{
-			HitCollider2D hitBox = info.hitCollider;
-
 			if(hitBox == null) continue;
 
 			childPosition = position;

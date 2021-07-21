@@ -25,9 +25,8 @@ public class ArrowProjectile : Projectile
 
 	[Space(5f)]
 	[Header("Arrow Projectile's Attributes:")]
+	[SerializeField] private GameObjectTag[] _incrustTags; 	/// <summary>Tags of GameObjects that can be incrusted by the Arrow Projectile.</summary>
 	[SerializeField] private HitCollider2D _tipHitBox; 		/// <summary>Tip's HitBox.</summary>
-	[SerializeField] private LayerMask _incrustMask; 		/// <summary>Incrust's Layer Mask.</summary>
-	[SerializeField] private LayerMask _repelMask; 			/// <summary>Repel's LayerMask.</summary>
 	[SerializeField] private CollectionIndex _chainIndex; 	/// <summary>Chain's PoolGameObject Collection Index.</summary>
 	[SerializeField] private Vector3 _offset; 				/// <summary>Chain's offset from this projectile.</summary>
 	private LineRenderer _lineRenderer; 					/// <summary>LineRenderer's Component.</summary>
@@ -36,14 +35,15 @@ public class ArrowProjectile : Projectile
 	private ArrowProjectileState _state; 					/// <summary>Arrow Projectile's State.</summary>
 	private bool inverted;
 
+	/// <summary>Gets and Sets incrustTags property.</summary>
+	public GameObjectTag[] incrustTags
+	{
+		get { return _incrustTags; }
+		set { _incrustTags = value; }
+	}
+
 	/// <summary>Gets tipHitBox property.</summary>
 	public HitCollider2D tipHitBox { get { return _tipHitBox; } }
-
-	/// <summary>Gets incrustMask property.</summary>
-	public LayerMask incrustMask { get { return _incrustMask; } }
-
-	/// <summary>Gets repelMask property.</summary>
-	public LayerMask repelMask { get { return _repelMask; } }
 
 	/// <summary>Gets chainIndex property.</summary>
 	public CollectionIndex chainIndex { get { return _chainIndex; } }
@@ -82,16 +82,10 @@ public class ArrowProjectile : Projectile
 		set { _spawnPosition = value; }
 	}
 
-	/// <summary>Updates ArrowProjectile's instance at each frame.</summary>
-	private void Update()
+	/// <summary>Callback internally invoked inside Update.</summary>
+	protected override void Update()
 	{
-		OnUpdate();
-	}
-
-	/// <summary>Callback internally invoked insided Update.</summary>
-	protected override void OnUpdate()
-	{
-		base.OnUpdate();
+		//base.Update(); /// Don't wanna tick its lifespan here...
 
 		switch(state)
 		{
@@ -110,57 +104,28 @@ public class ArrowProjectile : Projectile
 		lineRenderer.SetPosition(1, transform.position);
 	}
 
-	/// <summary>Callback internally invoked insided FixedUpdate.</summary>
-	protected override void OnFixedUpdate()
+	/// <summary>Callback internally invoked inside FixedUpdate.</summary>
+	protected override void FixedUpdate()
 	{
 		if(state == ArrowProjectileState.Incrusted) return;
 
-		base.OnFixedUpdate();
+		base.FixedUpdate();
 
 		if(chain == null) return;
 
 		chain.transform.position = GetOffsetedPositionForChain();
 	}
 
-	/// <summary>Event invoked when an impact is received.</summary>
+	/// <summary>Event invoked when a Collision2D intersection is received.</summary>
 	/// <param name="_info">Trigger2D's Information.</param>
-	public override void OnImpactEvent(Trigger2DInformation _info)
-	{
-		int layer = (1 << _info.collider.gameObject.layer);
-
-		if((repelMask | layer) == repelMask)
-		{
-			if(inverted)
-			{
-				//Debug.Log("[ArrowProjectile] It was already inverted");
-				return;
-			}
-
-			//Debug.Log("[ArrowProjectile] I ought to repel..." + GetInstanceID());
-			direction *= -1.0f;
-			accumulatedVelocity *= - 1.0f;
-			tipHitBox.Activate(false);
-			state = ArrowProjectileState.NotIntersectedWithIncrustable;
-			inverted = true;
-			if(onInverted != null) onInverted(this);
-		}
-		else
-		{
-			//Debug.Log("[ArrowProjectile] Not on Repel Layer...");
-			base.OnImpactEvent(_info);
-		}
-	}
-
-	/// <summary>Event invoked when this Hit Collider2D hits a GameObject.</summary>
-	/// <param name="_collider">Collider2D that was involved on the Hit Event.</param>
 	/// <param name="_eventType">Type of the event.</param>
-	/// <param name="_hitColliderID">Optional ID of the HitCollider2D.</param>
-	public override void OnHitColliderTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _hitColliderID = 0)
+	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
+	public virtual void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
 #region Debug:
 		StringBuilder builder = new StringBuilder();
 
-		builder.Append("OnHitColliderTriggerEvent2D invoked to class ");
+		builder.Append("OnTriggerEvent invoked to class ");
 		builder.AppendLine(name);
 		builder.Append("State: ");
 		builder.Append(state.ToString());
@@ -170,29 +135,32 @@ public class ArrowProjectile : Projectile
 
 		if(state == ArrowProjectileState.Incrusted) return;
 
-		base.OnHitColliderTriggerEvent2D(_collider, _eventType, _hitColliderID);
+		Collider2D collider = _info.collider;
+
+		base.OnTriggerEvent(_info, _eventType, _ID);
 		
-		GameObject obj = _collider.gameObject;
+		GameObject obj = collider.gameObject;
 
 		if(chain != null && chain.gameObject == obj) return;
 
-		int layerMask = 1 << obj.layer;
-
-		if((incrustMask | layerMask) == incrustMask)
+		if(incrustTags != null) foreach(GameObjectTag tag in incrustTags)
 		{
-			switch(state)
+			if(obj.CompareTag(tag))
 			{
-				case ArrowProjectileState.NotIntersectedWithIncrustable:
-				state = ArrowProjectileState.IntersectedWithFirstIncrustable;
-				break;
+				switch(state)
+				{
+					case ArrowProjectileState.NotIntersectedWithIncrustable:
+					state = ArrowProjectileState.IntersectedWithFirstIncrustable;
+					break;
 
-				case ArrowProjectileState.IntersectedWithFirstIncrustable:
-				state = ArrowProjectileState.Incrusted;
-				tipHitBox.SetTrigger(false);
-				break;
+					case ArrowProjectileState.IntersectedWithFirstIncrustable:
+					state = ArrowProjectileState.Incrusted;
+					tipHitBox.SetTrigger(false);
+					break;
+				}
+
+				Debug.Log("[ArrowProjectile] Interacted with uncrustable object, new state: " + state.ToString());
 			}
-
-			Debug.Log("[ArrowProjectile] Interacted with uncrustable object, new state: " + state.ToString());
 		}
 	}
 
@@ -203,7 +171,11 @@ public class ArrowProjectile : Projectile
 		spawnPosition = transform.position;
 		state = ArrowProjectileState.NotIntersectedWithIncrustable;
 		tipHitBox.SetTrigger(true);
+		lineRenderer.enabled = true;
 		chain = PoolManager.RequestPoolGameObject(chainIndex, GetOffsetedPositionForChain(), transform.rotation);
+		///BEGINS TEMPORAL:
+		chain.gameObject.SetActive(false);
+		/// ENDS TEMPORAL.
 		inverted = false;
 	}
 
@@ -218,6 +190,7 @@ public class ArrowProjectile : Projectile
 
 		state = ArrowProjectileState.NotIntersectedWithIncrustable;
 		tipHitBox.SetTrigger(true);
+		lineRenderer.enabled = false;
 		base.OnObjectDeactivation();
 	}
 

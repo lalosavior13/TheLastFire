@@ -5,32 +5,25 @@ using UnityEngine;
 
 namespace Voidless
 {
-/// <summary>Event invoked when this FOV Sight enters with another collider.</summary>
-/// <param name="_collider">Collider sighted.</param>
-public delegate void OnSightEnter2D(Collider2D _collider);
-
-/// <summary>Event invoked when this FOV Sight stay with another collider.</summary>
-/// <param name="_collider">Collider sighted.</param>
-public delegate void OnSightStay2D(Collider2D _collider);
-
 /// <summary>Event invoked when this FOV Sight leaves another collider.</summary>
 /// <param name="_collider">Collider sighted.</param>
-public delegate void OnSightExit2D(Collider2D _collider);
+/// <param name="_eventType">Type of interaction.</param>
+public delegate void OnSightEvent2D(Collider2D _collider, HitColliderEventTypes _eventType);
 
 [RequireComponent(typeof(PolygonCollider2D))]
 public class FOVSight2D : MonoBehaviour
 {
-	public event OnSightEnter2D onSightEnter; 					/// <summary>OnSightEnter2D subscription delegate.</summary>	
-	public event OnSightStay2D onSightStay; 					/// <summary>OnSightStay2D subscription delegate.</summary>	
-	public event OnSightExit2D onSightExit; 					/// <summary>OnSightExit2D subscription delegate.</summary>	
+	public event OnSightEvent2D onSightEvent; 					/// <summary>OnSightEnter2D subscription delegate.</summary>		
 
 	[Header("Events' Attributes:")]
 	[SerializeField] private HitColliderEventTypes _eventType; 	/// <summary>Trigger Event Types.</summary>
 	[SerializeField] private LayerMask _visibleLayers; 			/// <summary>Visible Layer Mask's Objects.</summary>
 	[Space(5f)]
 	[Header("FOV's Attributes:")]
-	[SerializeField] private float _nearPlane; 					/// <summary>Near Plane's Dimension.</summary>
-	[SerializeField] private float _FOVAngle; 					/// <summary>Field of View's Angle.</summary>
+	[SerializeField]
+	[Range(0.0f, Mathf.Infinity)] private float _nearPlane; 	/// <summary>Near Plane's Dimension.</summary>
+	[SerializeField]
+	[Range(0.0f, 180.0f)] private float _FOVAngle; 				/// <summary>Field of View's Angle.</summary>
 	[SerializeField] private float _length; 					/// <summary>Sight's Length.</summary>
 	private PolygonCollider2D _polygonCollider; 				/// <summary>PolygonCollider2D's Component.</summary>
 
@@ -106,25 +99,26 @@ public class FOVSight2D : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D _collider)
 	{
 		if(!eventType.HasFlag(HitColliderEventTypes.Enter)) return;
-		if(_collider.gameObject.layer == visibleLayers && onSightEnter != null) onSightEnter(_collider);
+		if((visibleLayers | _collider.gameObject.layer) == visibleLayers  && onSightEvent != null) onSightEvent(_collider, HitColliderEventTypes.Enter);
 	}
 
 	private void OnTriggerStay2D(Collider2D _collider)
 	{
 		if(!eventType.HasFlag(HitColliderEventTypes.Stays)) return;
-		if(_collider.gameObject.layer == visibleLayers && onSightStay != null) onSightStay(_collider);
+		if((visibleLayers | _collider.gameObject.layer) == visibleLayers  && onSightEvent != null) onSightEvent(_collider, HitColliderEventTypes.Stays);
 	}
 
 	private void OnTriggerExit2D(Collider2D _collider)
 	{
 		if(!eventType.HasFlag(HitColliderEventTypes.Exit)) return;
-		if(_collider.gameObject.layer == visibleLayers && onSightExit != null) onSightExit(_collider);
+		if((visibleLayers | _collider.gameObject.layer) == visibleLayers  && onSightEvent != null) onSightEvent(_collider, HitColliderEventTypes.Exit);
 	}
 #endregion
 
 	/// <summary>Updates FOV's Sight.</summary>
 	private void UpdateFOVSight()
 	{
+		EulerRotation rotation = new EulerRotation(0.0f, 0.0f, 90.0f);
 		float halfAngle = (FOVAngle * 0.5f  * Mathf.Deg2Rad);
 		float nearX = Mathf.Tan(halfAngle);
 		float x = Mathf.Cos(halfAngle);
@@ -135,10 +129,10 @@ public class FOVSight2D : MonoBehaviour
 
 		Vector2[] newPoints = new Vector2[]
 		{
-			new Vector3(-nearX, -nearPlane),
-			new Vector3(nearX, -nearPlane),
-			new Vector3(farX, -y),
-			new Vector3(-farX, -y)
+			rotation * new Vector3(-nearX, -nearPlane),
+			rotation * new Vector3(nearX, -nearPlane),
+			rotation * new Vector3(farX, -y),
+			rotation * new Vector3(-farX, -y)
 		};
 
 		polygonCollider.isTrigger = true;

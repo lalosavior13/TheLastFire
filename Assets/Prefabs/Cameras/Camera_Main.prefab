@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 292381604}
   - component: {fileID: 292381609}
   - component: {fileID: 292381610}
+  - component: {fileID: 292381600}
   m_Layer: 0
   m_Name: Camera_Main
   m_TagString: MainCamera
@@ -194,7 +195,7 @@ MonoBehaviour:
   centerColor: {r: 1, g: 1, b: 1, a: 1}
   onRangeColor: {r: 0, g: 1, b: 0, a: 1}
   offRangeColor: {r: 1, g: 0, b: 0, a: 1}
-  drawGrid: 1
+  drawGrid: 0
 --- !u!114 &292381602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +235,7 @@ MonoBehaviour:
     _min: 15
     _max: 30
   _limitDistanceChangeSpeed: 0
-  _distanceChangeDuration: 0.2
+  _distanceChangeDuration: 0.1
   _maxDistanceChangeSpeed: 0.25
 --- !u!114 &292381609
 MonoBehaviour:
@@ -248,8 +249,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08ff56841f52f9448a6c76198a9fa65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minLimits: {x: -22, y: -8, z: 0}
-  _maxLimits: {x: 22, y: 15, z: 0}
 --- !u!114 &292381610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,6 +261,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cee06bb23b4dae4d8d19e614dfdbf94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minLimits: {x: -22, y: -8, z: 0}
-  _maxLimits: {x: 22, y: 15, z: 0}
-  gizmosColor: {r: 1, g: 0, b: 0, a: 1}
+  gizmosColor: {r: 1, g: 0.4914296, b: 0, a: 1}
+--- !u!114 &292381600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709398814249193393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc36a56da2aaa2049b6a61cd5818c3ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _space: 0
+  _size: {x: 44, y: 30, z: 0}
+  _center: {x: 0, y: 2.4, z: 0}
+  color: {r: 1, g: 1, b: 1, a: 1}

@@ -92,9 +92,10 @@ GameObject:
   - component: {fileID: 2306116881200870646}
   - component: {fileID: -2791383928529050341}
   - component: {fileID: 1192488905715508995}
-  m_Layer: 10
+  - component: {fileID: 999230284542871205}
+  m_Layer: 0
   m_Name: Projectile_ChainedArrow
-  m_TagString: Untagged
+  m_TagString: Projectile/Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,30 +150,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableMask:
-    serializedVersion: 2
-    m_Bits: 32768
-  _impactAffectableMask:
-    serializedVersion: 2
-    m_Bits: 4096
+  _healthAffectableTags:
+  - _tag: Player
+    index: 5
   _damage: 2
-  _hitBoxesInfo:
-  - _hitCollider: {fileID: 8593723572869265329}
-    _damageScale: 1
+  _damageScales:
+  - 1
+  _impactTags: []
   _trailRenderers: []
+  _repelTags:
+  - _tag: Weapon/Player
+    index: 9
   _speedMode: 1
   _speed: 2
   _lifespan: 7
-  _cooldownDuration: 0.25
+  _cooldownDuration: 1
   _rotateTowardsDirection: 0
   dontDeactivateOnImpact: 0
+  _impactParticleEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _destroyedParticleEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _impactSoundEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _destroyedSoundEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _incrustTags:
+  - _tag: Surface/Floor
+    index: 13
+  - _tag: Surface/Wall
+    index: 14
   _tipHitBox: {fileID: 8593723572869265329}
-  _incrustMask:
-    serializedVersion: 2
-    m_Bits: 24832
-  _repelMask:
-    serializedVersion: 2
-    m_Bits: 4096
   _chainIndex:
     index: 0
     objectIndex: 0
@@ -190,6 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes:
+  - {fileID: 8593723572869265329}
+  _impactTags: []
 --- !u!120 &1192488905715508995
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -287,6 +306,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &999230284542871205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2306116881200870641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899837e1dcbe69941a6219b841471233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
 --- !u!1 &5797233557790692728
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,9 +332,9 @@ GameObject:
   - component: {fileID: 8593723572869265329}
   - component: {fileID: 800665522206241354}
   - component: {fileID: 5432239462134262486}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: HitCollider2D_Tip
-  m_TagString: Untagged
+  m_TagString: Projectile/Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -356,10 +388,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 57600
-  _affectedTags: []
 --- !u!60 &800665522206241354
 PolygonCollider2D:
   m_ObjectHideFlags: 0

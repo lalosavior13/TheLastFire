@@ -9,13 +9,13 @@ namespace Flamingo
 [RequireComponent(typeof(VCameraDisplacementFollow))]
 [RequireComponent(typeof(Boundaries2DDelimiter))]
 [RequireComponent(typeof(MiddlePointBetweenTransformsTargetRetriever))]
-[RequireComponent(typeof(VCamera2DBoundariesContainer))]
+[RequireComponent(typeof(Boundaries2DContainer))]
 public class GameplayCameraController : VCamera
 {
 	private VCameraDisplacementFollow _displacementFollow; 								/// <summary>VCameraDisplacementFollow's Component.</summary>
 	private Boundaries2DDelimiter _boundariesDelimiter; 								/// <summary>Boundaries2DDelimiter's Component.</summary>
 	private MiddlePointBetweenTransformsTargetRetriever _middlePointTargetRetriever; 	/// <summary>MiddlePointBetweenTransformsTargetRetriever's Component.</summary>
-	private VCamera2DBoundariesContainer _boundariesContainer; 							/// <summary>VCamera2DBoundariesContainer's Component.</summary>
+	private Boundaries2DContainer _boundariesContainer; 							/// <summary>Boundaries2DContainer's Component.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets displacementFollow Component.</summary>
@@ -49,11 +49,11 @@ public class GameplayCameraController : VCamera
 	}
 
 	/// <summary>Gets boundariesContainer Component.</summary>
-	public VCamera2DBoundariesContainer boundariesContainer
+	public Boundaries2DContainer boundariesContainer
 	{ 
 		get
 		{
-			if(_boundariesContainer == null) _boundariesContainer = GetComponent<VCamera2DBoundariesContainer>();
+			if(_boundariesContainer == null) _boundariesContainer = GetComponent<Boundaries2DContainer>();
 			return _boundariesContainer;
 		}
 	}

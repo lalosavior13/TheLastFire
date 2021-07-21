@@ -10,8 +10,15 @@ namespace Voidless
 /// <param name="_hitColliderID">Optional ID of the HitCollider2D.</param>
 public delegate void OnTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _hitColliderID = 0);
 
-/// <summary>Event invoked when this Hit Collider2D collidees with another GameObject.</summary>
-/// <param name="_collider">Collider2D that was involved on the Hit Event.</param>
+/// <summary>Event invoked when this Hit Collider2D intersects with another GameObject.</summary>
+/// <param name="a">Collider2D A that sent Hit Event.</param>
+/// <param name="b">Collider2D B that was involved on the Hit Event.</param>
+/// <param name="_eventType">Type of the event.</param>
+/// <param name="_hitColliderID">Optional ID of the HitCollider2D.</param>
+public delegate void OnTriggerInstanceEvent2D(Collider2D a, Collider2D b, HitColliderEventTypes _eventType, int _hitColliderID = 0);
+
+/// <summary>Event invoked when this Hit Collider2D collides with another GameObject.</summary>
+/// <param name="_collision">Collision's Data.</param>
 /// <param name="_eventType">Type of the event.</param>
 /// <param name="_hitColliderID">Optional ID of the HitCollider2D.</param>
 public delegate void OnCollisionEvent2D(Collision2D _collision, HitColliderEventTypes _eventType, int _hitColliderID = 0);
@@ -20,12 +27,11 @@ public delegate void OnCollisionEvent2D(Collision2D _collision, HitColliderEvent
 public class HitCollider2D : MonoBehaviour
 {
 	public event OnTriggerEvent2D onTriggerEvent2D; 						/// <summary>OnTriggerEvent2D event delegate.</summary>
+	public event OnTriggerInstanceEvent2D onTriggerInstanceEvent2D; 		/// <summary>OnTriggerInstanceEvent2D event delegate.</summary>
 	public event OnCollisionEvent2D onCollisionEvent2D; 					/// <summary>OnCollisionEvent2D event delegate.</summary>
 
 	[SerializeField] private int _ID; 										/// <summary>Hit Collider's ID.</summary>
 	[SerializeField] private HitColliderEventTypes _detectableHitEvents; 	/// <summary>Detectablie Hit's Events.</summary>
-	[SerializeField] private LayerMask _affectedLayer;  					/// <summary>Affected LayerMasks.</summary>
-	[SerializeField] private string[] _affectedTags;  						/// <summary>Affected Tags.</summary>
 	private Collider2D _collider; 											/// <summary>Collider2D's Component.</summary>
 	private Rigidbody2D _rigidbody; 										/// <summary>Rigidbody's Component.</summary>
 
@@ -42,20 +48,6 @@ public class HitCollider2D : MonoBehaviour
 	{
 		get { return _detectableHitEvents; }
 		set { _detectableHitEvents = value; }
-	}
-
-	/// <summary>Gets and Sets affectedLayer property.</summary>
-	public LayerMask affectedLayer
-	{
-		get { return _affectedLayer; }
-		set { _affectedLayer = value; }
-	}
-
-	/// <summary>Gets and Sets affectedTags property.</summary>
-	public string[] affectedTags
-	{
-		get { return _affectedTags; }
-		set { _affectedTags = value; }
 	}
 
 	/// <summary>Gets and Sets collider Component.</summary>
@@ -109,19 +101,8 @@ public class HitCollider2D : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D col)
 	{
 		if(!detectableHitEvents.HasFlag(HitColliderEventTypes.Enter)) return;
-
-		GameObject obj = col.gameObject;
-	
-		if(obj.IsInLayerMask(affectedLayer) && (onTriggerEvent2D != null)) onTriggerEvent2D(col, HitColliderEventTypes.Enter, ID);
-		else
-		{
-			if(affectedTags != null)
-			for(int i = 0; i < affectedTags.Length; i++)
-			{
-				if(obj.CompareTag(affectedTags[i]))
-				if(onTriggerEvent2D != null) onTriggerEvent2D(col, HitColliderEventTypes.Enter, ID);
-			}
-		}
+		if(onTriggerEvent2D != null) onTriggerEvent2D(col, HitColliderEventTypes.Enter, ID);
+		if(onTriggerInstanceEvent2D != null) onTriggerInstanceEvent2D(collider, col, HitColliderEventTypes.Enter, ID);
 	}
 
 	/// <summary>Event triggered when this Collider2D stays with another Collider2D trigger.</summary>
@@ -129,19 +110,8 @@ public class HitCollider2D : MonoBehaviour
 	private void OnTriggerStay2D(Collider2D col)
 	{
 		if(!detectableHitEvents.HasFlag(HitColliderEventTypes.Stays)) return;
-		
-		GameObject obj = col.gameObject;
-	
-		if(obj.IsInLayerMask(affectedLayer) && (onTriggerEvent2D != null)) onTriggerEvent2D(col, HitColliderEventTypes.Stays, ID);
-		else
-		{
-			if(affectedTags != null)
-			for(int i = 0; i < affectedTags.Length; i++)
-			{
-				if(obj.CompareTag(affectedTags[i]))
-				if(onTriggerEvent2D != null) onTriggerEvent2D(col, HitColliderEventTypes.Stays, ID);
-			}
-		}
+		if(onTriggerEvent2D != null) onTriggerEvent2D(col, HitColliderEventTypes.Stays, ID);
+		if(onTriggerInstanceEvent2D != null) onTriggerInstanceEvent2D(collider, col, HitColliderEventTypes.Stays, ID);
 	}
 
 	/// <summary>Event triggered when this Collider2D exits another Collider2D trigger.</summary>
@@ -149,19 +119,8 @@ public class HitCollider2D : MonoBehaviour
 	private void OnTriggerExit2D(Collider2D col)
 	{
 		if(!detectableHitEvents.HasFlag(HitColliderEventTypes.Exit)) return;
-
-		GameObject obj = col.gameObject;
-	
-		if(obj.IsInLayerMask(affectedLayer) && (onTriggerEvent2D != null)) onTriggerEvent2D(col, HitColliderEventTypes.Exit, ID);
-		else
-		{
-			if(affectedTags != null)
-			for(int i = 0; i < affectedTags.Length; i++)
-			{
-				if(obj.CompareTag(affectedTags[i]))
-				if(onTriggerEvent2D != null) onTriggerEvent2D(col, HitColliderEventTypes.Exit, ID);
-			}
-		}
+		if(onTriggerEvent2D != null) onTriggerEvent2D(col, HitColliderEventTypes.Exit, ID);
+		if(onTriggerInstanceEvent2D != null) onTriggerInstanceEvent2D(collider, col, HitColliderEventTypes.Exit, ID);
 	}
 #endregion
 
@@ -171,19 +130,7 @@ public class HitCollider2D : MonoBehaviour
 	private void OnCollisionEnter2D(Collision2D col)
 	{
 		if(!detectableHitEvents.HasFlag(HitColliderEventTypes.Enter)) return;
-
-		GameObject obj = col.gameObject;
-	
-		if(obj.IsInLayerMask(affectedLayer) && (onCollisionEvent2D != null)) onCollisionEvent2D(col, HitColliderEventTypes.Enter, ID);
-		else
-		{
-			if(affectedTags != null)
-			for(int i = 0; i < affectedTags.Length; i++)
-			{
-				if(obj.CompareTag(affectedTags[i]))
-				if(onCollisionEvent2D != null) onCollisionEvent2D(col, HitColliderEventTypes.Enter, ID);
-			}
-		}
+		if(onCollisionEvent2D != null) onCollisionEvent2D(col, HitColliderEventTypes.Enter, ID);
 	}
 
 	/// <summary>Event triggered when this Collider/Rigidbody begun having contact with another Collider/Rigidbody.</summary>
@@ -191,19 +138,7 @@ public class HitCollider2D : MonoBehaviour
 	private void OnCollisionStay2D(Collision2D col)
 	{
 		if(!detectableHitEvents.HasFlag(HitColliderEventTypes.Stays)) return;
-		
-		GameObject obj = col.gameObject;
-	
-		if(obj.IsInLayerMask(affectedLayer) && (onCollisionEvent2D != null)) onCollisionEvent2D(col, HitColliderEventTypes.Stays, ID);
-		else
-		{
-			if(affectedTags != null)
-			for(int i = 0; i < affectedTags.Length; i++)
-			{
-				if(obj.CompareTag(affectedTags[i]))
-				if(onCollisionEvent2D != null) onCollisionEvent2D(col, HitColliderEventTypes.Stays, ID);
-			}
-		}
+		if(onCollisionEvent2D != null) onCollisionEvent2D(col, HitColliderEventTypes.Stays, ID);
 	}
 
 	/// <summary>Event triggered when this Collider/Rigidbody began having contact with another Collider/Rigidbody.</summary>
@@ -211,19 +146,7 @@ public class HitCollider2D : MonoBehaviour
 	private void OnCollisionExit2D(Collision2D col)
 	{
 		if(!detectableHitEvents.HasFlag(HitColliderEventTypes.Exit)) return;
-
-		GameObject obj = col.gameObject;
-	
-		if(obj.IsInLayerMask(affectedLayer) && (onCollisionEvent2D != null)) onCollisionEvent2D(col, HitColliderEventTypes.Exit, ID);
-		else
-		{
-			if(affectedTags != null)
-			for(int i = 0; i < affectedTags.Length; i++)
-			{
-				if(obj.CompareTag(affectedTags[i]))
-				if(onCollisionEvent2D != null) onCollisionEvent2D(col, HitColliderEventTypes.Exit, ID);
-			}
-		}
+		if(onCollisionEvent2D != null) onCollisionEvent2D(col, HitColliderEventTypes.Exit, ID);
 	}
 #endregion
 }

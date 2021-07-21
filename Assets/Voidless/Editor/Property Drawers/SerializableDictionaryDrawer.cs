@@ -93,7 +93,10 @@ public class SerializableDictionaryDrawer : VPropertyDrawer
 
 			for(int i = 0; i < keys.arraySize; i++)
 			{
-				height += SPACE_VERTICAL;
+				height += Mathf.Max(
+					EditorGUI.GetPropertyHeight(keys, true),
+					EditorGUI.GetPropertyHeight(values, true)
+				);
 			}
 
 			height += SPACE_VERTICAL;

@@ -19,16 +19,16 @@ public class BombParabolaProjectile : ParabolaProjectile
 	[Space(5f)]
 	[Header("Bomb's Attributes:")]
 	[SerializeField] private CollectionIndex _expodableIndex; 	/// <summary>Explodable's Index on the PoolManager.</summary>
-	[SerializeField] private LayerMask _flamableMask; 			/// <summary>Mask that contains GameObjects considered Flamable.</summary>
+	[SerializeField] private GameObjectTag[] _flamableTags; 	/// <summary>Tags of GameObjects that are considered flamable.</summary>
 	private BombState _state; 									/// <summary>Current Bomb's State.</summary>
 	private BouncingBall _bouncingBall; 						/// <summary>BouncingBall's Component.</summary>
 
 #region Getters/Setters:
-	/// <summary>Gets and Sets flamableMask property.</summary>
-	public LayerMask flamableMask
+	/// <summary>Gets and Sets flamableTags property.</summary>
+	public GameObjectTag[] flamableTags
 	{
-		get { return _flamableMask; }
-		set { _flamableMask = value; }
+		get { return _flamableTags; }
+		set { _flamableTags = value; }
 	}
 
 	/// <summary>Gets and Sets state property.</summary>
@@ -63,23 +63,18 @@ public class BombParabolaProjectile : ParabolaProjectile
 		state = BombState.WickOff;
 	}
 
-	/// <summary>Event invoked when this Hit Collider2D hits a GameObject.</summary>
-	/// <param name="_collider">Collider2D that was involved on the Hit Event.</param>
+	/// <summary>Event invoked when a Collision2D intersection is received.</summary>
+	/// <param name="_info">Trigger2D's Information.</param>
 	/// <param name="_eventType">Type of the event.</param>
-	/// <param name="_hitColliderID">Optional ID of the HitCollider2D.</param>
-	public override void OnHitColliderTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _hitColliderID = 0)
+	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
+	public virtual void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
-		GameObject obj = _collider.gameObject;
-		int layer = 1 << obj.layer;
+		Collider2D collider = _info.collider;
+		GameObject obj = collider.gameObject;
 
-		if((flamableMask | layer) == flamableMask && state == BombState.WickOff)
-		{
-			state = BombState.WickOn;
-		}
-
-		base.OnHitColliderTriggerEvent2D(_collider, _eventType, _hitColliderID);
+		base.OnTriggerEvent(_info, _eventType, _ID);
 	
-		if((healthAffectableMask | layer) == healthAffectableMask)
+		/*if((healthAffectableMask | layer) == healthAffectableMask)
 		{
 			state = BombState.Exploding;
 			/*explodable.Explode(
@@ -87,6 +82,15 @@ public class BombParabolaProjectile : ParabolaProjectile
 			{
 				state = BombState.WickOff;
 			});*/
+		//}*/
+
+		foreach(GameObjectTag tag in flamableTags)
+		{
+			if(obj.CompareTag(tag))
+			{
+				state = BombState.WickOn;
+				break;
+			}
 		}
 	}
 }

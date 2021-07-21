@@ -68,10 +68,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 2048
-  _affectedTags: []
 --- !u!58 &7968693563084695661
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -100,6 +96,8 @@ GameObject:
   - component: {fileID: 5885582393921514351}
   - component: {fileID: 8271858034072766596}
   - component: {fileID: 7212728250861050264}
+  - component: {fileID: -1795885555357988256}
+  - component: {fileID: -7637375313922933284}
   m_Layer: 17
   m_Name: Projectile_Fire_1
   m_TagString: Untagged
@@ -158,17 +156,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableMask:
-    serializedVersion: 2
-    m_Bits: 2048
-  _impactAffectableMask:
-    serializedVersion: 2
-    m_Bits: 2048
+  _healthAffectableTags: []
   _damage: 1
-  _hitBoxesInfo:
-  - _hitCollider: {fileID: 6018926314240788814}
-    _damageScale: 1
+  _damageScales: []
+  _impactTags: []
   _trailRenderers: []
+  _repelTags: []
   _speedMode: 0
   _speed: 12
   _lifespan: 2
@@ -187,6 +180,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
+  _impactTags: []
+--- !u!114 &-1795885555357988256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761920166692264650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899837e1dcbe69941a6219b841471233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7637375313922933284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4761920166692264650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef852ac5d6ee0047b3ff3d23f972637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ID: 32
+  _particleEffectsMatrix:
+  - ID: 1
+    index:
+      index: 6
+      objectIndex: 0
+      collectionIndex: 8
+  - ID: 2
+    index:
+      index: 9
+      objectIndex: 0
+      collectionIndex: 8
+  - ID: 16
+    index:
+      index: 10
+      objectIndex: 0
+      collectionIndex: 8
+  _soundEffectsMatrix:
+  - ID: 1
+    index:
+      index: 36
+      objectIndex: 0
+      collectionIndex: 7
+  - ID: 2
+    index:
+      index: 42
+      objectIndex: 0
+      collectionIndex: 7
+  - ID: 16
+    index:
+      index: 40
+      objectIndex: 0
+      collectionIndex: 7
+  _eventsHandler: {fileID: 0}
 --- !u!1 &8490937518067898087
 GameObject:
   m_ObjectHideFlags: 0

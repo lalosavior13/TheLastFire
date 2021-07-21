@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2820567389141206707}
   - component: {fileID: 5278712921402561579}
   - component: {fileID: 8382966526915367829}
+  - component: {fileID: -1051444887920067093}
   m_Layer: 0
   m_Name: Projectile_Ring_45Degrees
   m_TagString: Untagged
@@ -77,6 +78,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-1051444887920067093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508937575161781952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899837e1dcbe69941a6219b841471233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6706877511127452273
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,10 +158,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 5
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 32768
-  _affectedTags: []
 --- !u!70 &6418600666519427462
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

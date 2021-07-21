@@ -13,9 +13,18 @@ public enum Faction
 	Enemy
 }
 
-/// <summary>Event invoked when an ID event occurs.</summary>
-/// <param name="_ID">Event's ID.</param>
-public delegate void OnIDEvent(int _ID);
+[Flags]
+public enum SurfaceType
+{
+	Floor  = 1,
+	Wall = 2,
+	Ceiling = 4,
+
+	FloorAndWall = Floor | Wall,
+	FloorAndCeiling = Floor | Ceiling,
+	WallAndCeiling = Wall | Ceiling,
+	All = Floor | Wall | Ceiling
+}
 
 public class Game : Singleton<Game>
 {
@@ -131,6 +140,14 @@ public class Game : Singleton<Game>
 	{
 		Scene scene = SceneManager.GetActiveScene();
 		LoadScene(scene.name);
+	}
+
+	/// <summary>Evaluates Surface Type.</summary>
+	/// <param name="u">Up's Normal.</param>
+	/// <param name="n">Face's Normal.</param>
+	public static SurfaceType EvaluateSurfaceType(Vector3 u, Vector3 n)
+	{
+		return default(SurfaceType);
 	}
 }
 }

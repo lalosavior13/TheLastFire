@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,19 +6,122 @@ using Voidless;
 
 namespace Flamingo
 {
-/// <summary>Event invoked when an impact is received.</summary>
-/// <param name="_info">Trigger2D's Information.</param>
-public delegate void OnImpactEvent(Trigger2DInformation _info);
-
+[RequireComponent(typeof(EventsHandler))]
 public class ImpactEventHandler : MonoBehaviour
 {
-	public event OnImpactEvent onImpactEvent; 	/// <summary>OnImpactEvent's delegate.</summary>
+	[SerializeField] private HitCollider2D[] _hitBoxes; 	/// <summary>HitBoxes' Array.</summary>
+	[SerializeField] private GameObjectTag[] _impactTags; 	/// <summary>Tags of GameObjects affected by impact.</summary>
+	private EventsHandler _eventsHandler; 					/// <summary>EventsHandler's Component.</summary>
 
-	/// <summary>Invokes Impact's Event.</summary>
-	/// <param name="_info">Trigger2D's Information.</param>
-	public void InvokeImpactEvent(Trigger2DInformation _info)
+	/// <summary>Gets and Sets hitBoxes property.</summary>
+	public HitCollider2D[] hitBoxes
 	{
-		if(onImpactEvent != null) onImpactEvent(_info);
+		get { return _hitBoxes; }
+		set { _hitBoxes = value; }
+	}
+
+	/// <summary>Gets and Sets impactTags property.</summary>
+	public GameObjectTag[] impactTags
+	{
+		get { return _impactTags; }
+		set { _impactTags = value; }
+	}
+
+	/// <summary>Gets eventsHandler Component.</summary>
+	public EventsHandler eventsHandler
+	{ 
+		get
+		{
+			if(_eventsHandler == null) _eventsHandler = GetComponent<EventsHandler>();
+			return _eventsHandler;
+		}
+	}
+
+	/// <summary>ImpactEventHandler's instance initialization when loaded [Before scene loads].</summary>
+	private void Awake()
+	{
+		SubscribeToHitCollidersEvents(true);
+	}
+
+	/// <summary>Callback invoked when ImpactEventHandler's instance is going to be destroyed and passed to the Garbage Collector.</summary>
+	private void OnDestroy()
+	{
+		SubscribeToHitCollidersEvents(false);
+	}
+
+	/// <summary>Activates HitBoxes contained within ContactWeapon.</summary>
+	/// <param name="_activate">Activate? [true by default].</param>
+	public virtual void ActivateHitBoxes(bool _activate = true)
+	{
+		if(hitBoxes != null)
+		foreach(HitCollider2D hitBox in hitBoxes)
+		{
+			hitBox.SetTrigger(true);
+			hitBox.Activate(_activate);
+		}
+	}
+
+	/// <summary>Subscribes to HitColliders' Events.</summary>
+	/// <param name="_subscribe">Subscribe? true by default.</param>
+	private void SubscribeToHitCollidersEvents(bool _subscribe = true)
+	{
+		if(hitBoxes == null) return;
+
+		int i = 0;
+
+		foreach(HitCollider2D hitBox in hitBoxes)
+		{
+			switch(_subscribe)
+			{
+				case true:
+				hitBox.onTriggerEvent2D += OnHitColliderTriggerEvent2D;
+				hitBox.ID = i;
+				break;
+
+				case false:
+				hitBox.onTriggerEvent2D -= OnHitColliderTriggerEvent2D;
+				break;
+			}
+
+			i++;
+		}
+	}
+
+	/// <summary>Event invoked when this Hit Collider2D hits a GameObject.</summary>
+	/// <param name="_collider">Collider2D that was involved on the Hit Event.</param>
+	/// <param name="_eventType">Type of the event.</param>
+	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
+	public void OnHitColliderTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _ID = 0)
+	{
+		//if(impactTags == null) return;
+
+		GameObject obj = _collider.gameObject;
+		Collider2D collider = hitBoxes[_ID].collider;
+
+#region Debug:
+		/*Debug.Log(
+			"[ImpactEventHandler]"
+			+ gameObject.name 
+			+ " Had Interaction with "
+			+ obj.name
+			+ ", with tag: "
+			+ obj.tag
+			+ ", Event's ID: "
+			+ _ID
+			+ "."
+		);*/
+#endregion
+		
+		/// \TODO Decide whether to delegate the evaluation of impactable tags to this class instead to each particular listener class...
+		/*foreach(GameObjectTag tag in impactTags)
+		{
+			if(obj.CompareTag(tag))
+			{*/
+				Trigger2DInformation info = new Trigger2DInformation(collider, _collider);
+				eventsHandler.InvokeTriggerEvent(info, _eventType, _ID);
+				return;
+			/*}
+		}*/
 	}
 }
 }

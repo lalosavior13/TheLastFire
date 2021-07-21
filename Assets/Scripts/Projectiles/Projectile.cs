@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System;
 using System.Text;
 using System.Collections.Generic;
@@ -20,47 +20,60 @@ public enum SpeedMode
 	Accelerating
 }
 
-[Flags]
-public enum DeactivationCause
-{
-	Impacted = 1,
-	Destroyed = 2,
-	LifespanOver = 4,
-	Other = 8,
-	LeftBoundaries = Other,
+/*
+Events:
+ - Deactivated
+ - Inverted
+ - Impacted
+ - etc.
+*/
 
-	ImpactedAndDestroyed = Impacted | Destroyed,
-	ImpactedAndLifespanOver = Impacted | LifespanOver,
-	All = Impacted | Destroyed | LifespanOver
-}
-
-/// <summary>Event invoked when the projectile is deactivated.</summary>
-/// <param name="_cause">Cause of the deactivation.</param>
-/// <param name="_info">Additional Trigger2D's information.</param>
-public delegate void OnDeactivated(Projectile _projectile, DeactivationCause _cause, Trigger2DInformation _info);
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(VCameraTarget))]
+[RequireComponent(typeof(ProjectileEventsHandler))]
 public class Projectile : ContactWeapon
 {
-	public event OnDeactivated onDeactivated; 				/// <summary>OnDeactivated's Event Delegate.</summary>
+	public const int ID_EVENT_REPELLED = 0; 									/// <summary>Repelled's Event ID.</summary>
+
+	public event OnDeactivated onDeactivated; 									/// <summary>OnDeactivated's Event Delegate.</summary>
 
 	[Space(5f)]
 	[Header("Projectile's Attributes:")]
-	[SerializeField] private SpeedMode _speedMode; 			/// <summary>Speed's Mode.</summary>
-	[SerializeField] private float _speed; 					/// <summary>Projectile's Speed.</summary>
-	[SerializeField] private float _lifespan; 				/// <summary>Projectile's Lifespan.</summary>
-	[SerializeField] private float _cooldownDuration; 		/// <summary>Cooldown's Duration.</summary>
-	[SerializeField] private bool _rotateTowardsDirection; 	/// <summary>Make Projectile Rotate towards direction?.</summary>
-	[SerializeField] private bool dontDeactivateOnImpact; 	/// <summary>TEMP.</summary>
-	private bool _activated; 								/// <summary>Can the projectile be activated?.</summary>
-	private float _currentLifeTime; 						/// <summary>Current Life Time.</summary>
-	private Rigidbody2D _rigidbody; 						/// <summary>Rigidbody2D's Component.</summary>
-	private VCameraTarget _cameraTarget; 					/// <summary>VCameraTarget's Component.</summary>
-	private Vector3 _direction; 							/// <summary>Projectilwe's direction that determines its displacement.</summary>
-	private Vector3 _accumulatedVelocity; 					/// <summary>Accumulated Velocity.</summary>
+	[SerializeField] private GameObjectTag[] _repelTags; 						/// <summary>Tags of GameObjects that can repel this projectile on impact.</summary>
+	[SerializeField] private SpeedMode _speedMode; 								/// <summary>Speed's Mode.</summary>
+	[SerializeField] private float _speed; 										/// <summary>Projectile's Speed.</summary>
+	[SerializeField] private float _lifespan; 									/// <summary>Projectile's Lifespan.</summary>
+	[SerializeField] private float _cooldownDuration; 							/// <summary>Cooldown's Duration.</summary>
+	[SerializeField] private bool _rotateTowardsDirection; 						/// <summary>Make Projectile Rotate towards direction?.</summary>
+	[SerializeField] private bool dontDeactivateOnImpact; 						/// <summary>TEMP.</summary>
+	[Space(5f)]
+	[Header("Particle Effects' Attributes:")]
+	[SerializeField] private CollectionIndex _impactParticleEffectIndex; 		/// <summary>Index of ParticleEffect to emit when the projectile impacts.</summary>
+	[SerializeField] private CollectionIndex _destroyedParticleEffectIndex; 	/// <summary>Index of ParticleEffect to emit when the projectile is destroyed.</summary>
+	[Space(5f)]
+	[Header("Sound Effects' Attributes:")]
+	[SerializeField] private CollectionIndex _impactSoundEffectIndex; 			/// <summary>Index of Sound Effect to emit when the projectile impacts.</summary>
+	[SerializeField] private CollectionIndex _destroyedSoundEffectIndex; 		/// <summary>Index of Sound Effect to emit when the projectile is destroyed.</summary>
+	private bool _activated; 													/// <summary>Can the projectile be activated?.</summary>
+	private float _currentLifeTime; 											/// <summary>Current Life Time.</summary>
+	private Rigidbody2D _rigidbody; 											/// <summary>Rigidbody2D's Component.</summary>
+	private VCameraTarget _cameraTarget; 										/// <summary>VCameraTarget's Component.</summary>
+	private ProjectileEventsHandler _projectileEventsHandler; 					/// <summary>ProjectileEventsHandler's Component.</summary>
+	private Vector3 _direction; 												/// <summary>Projectilwe's direction that determines its displacement.</summary>
+	private Vector3 _accumulatedVelocity; 										/// <summary>Accumulated Velocity.</summary>
 
 #region Getters/Setters:
+	/// <summary>Gets type property.</summary>
+	public virtual ProjectileType type { get { return ProjectileType.Normal; } }
+
+	/// <summary>Gets and Sets repelTags property.</summary>
+	public GameObjectTag[] repelTags
+	{
+		get { return _repelTags; }
+		set { _repelTags = value; }
+	}
+
 	/// <summary>Gets and Sets speedMode property.</summary>
 	public SpeedMode speedMode
 	{
@@ -110,6 +123,34 @@ public class Projectile : ContactWeapon
 		set { _activated = value; }
 	}
 
+	/// <summary>Gets and Sets impactParticleEffectIndex property.</summary>
+	public CollectionIndex impactParticleEffectIndex
+	{
+		get { return _impactParticleEffectIndex; }
+		set { _impactParticleEffectIndex = value; }
+	}
+
+	/// <summary>Gets and Sets destroyedParticleEffectIndex property.</summary>
+	public CollectionIndex destroyedParticleEffectIndex
+	{
+		get { return _destroyedParticleEffectIndex; }
+		set { _destroyedParticleEffectIndex = value; }
+	}
+
+	/// <summary>Gets and Sets impactSoundEffectIndex property.</summary>
+	public CollectionIndex impactSoundEffectIndex
+	{
+		get { return _impactSoundEffectIndex; }
+		set { _impactSoundEffectIndex = value; }
+	}
+
+	/// <summary>Gets and Sets destroyedSoundEffectIndex property.</summary>
+	public CollectionIndex destroyedSoundEffectIndex
+	{
+		get { return _destroyedSoundEffectIndex; }
+		set { _destroyedSoundEffectIndex = value; }
+	}
+
 	/// <summary>Gets rigidbody Component.</summary>
 	public Rigidbody2D rigidbody
 	{
@@ -117,6 +158,16 @@ public class Projectile : ContactWeapon
 		{
 			if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody2D>();
 			return _rigidbody;
+		}
+	}
+
+	/// <summary>Gets projectileEventsHandler Component.</summary>
+	public ProjectileEventsHandler projectileEventsHandler
+	{ 
+		get
+		{
+			if(_projectileEventsHandler == null) _projectileEventsHandler = GetComponent<ProjectileEventsHandler>();
+			return _projectileEventsHandler;
 		}
 	}
 
@@ -149,88 +200,72 @@ public class Projectile : ContactWeapon
 	}
 #endregion
 
-#region UnityCallbacks:
 	/// <summary>Updates Projectile's instance at each frame.</summary>
-	private void Update()
-	{
-		OnUpdate();
-	}
-
-	/// <summary>Callback called each Physics' Time Step.</summary>
-	private void FixedUpdate()
-	{
-		OnFixedUpdate();
-	}
-
-	/*/// <summary>Callback when a trigger event happens between a trigger attached to this GameObject and another one.</summary>
-	/// <param name="_collider">Collider that this trigger intersected with.</param>
-	private void OnTriggerEnter2D(Collider2D _collider)
-	{
-		GameObject obj = _collider.gameObject;
-		int layerMask = 1 << obj.layer;
-
-		if((affectable.value & layerMask) == layerMask)
-		{
-			Health health = obj.GetComponent<Health>();
-			if(health != null) health.GiveDamage(damage);
-			InvokeDeactivationEvent(DeactivationCause.Impacted, _collider);
-		}
-	}*/
-#endregion
-
-#region Callbacks:
-	/// <summary>Callback internally invoked insided Update.</summary>
-	protected virtual void OnUpdate()
+	protected virtual void Update()
 	{
 		TickLifespan();
 	}
 
-	/// <summary>Callback internally invoked insided FixedUpdate.</summary>
-	protected virtual void OnFixedUpdate()
+	/// <summary>Callback called each Physics' Time Step.</summary>
+	protected virtual void FixedUpdate()
 	{
 		if(!activated) return;
 
 		rigidbody.MovePosition(rigidbody.position + CalculateDisplacement());
 	}
 
-	/// <summary>Event invoked when this Hit Collider2D hits a GameObject.</summary>
-	/// <param name="_collider">Collider2D that was involved on the Hit Event.</param>
+#region Callbacks:
+	/// <summary>Event invoked when a Collision2D intersection is received.</summary>
+	/// <param name="_info">Trigger2D's Information.</param>
 	/// <param name="_eventType">Type of the event.</param>
-	/// <param name="_hitColliderID">Optional ID of the HitCollider2D.</param>
-	public override void OnHitColliderTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _hitColliderID = 0)
+	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
+	public override void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
 #region Debug:
 		StringBuilder builder = new StringBuilder();
 
-		builder.Append("OnHitColliderTriggerEvent2D invoked to class ");
+		builder.Append("OnTriggerEvent invoked to class ");
 		builder.Append(name);
 
 		Debug.Log(builder.ToString());
 #endregion
 
-		base.OnHitColliderTriggerEvent2D(_collider, _eventType, _hitColliderID);
+		base.OnTriggerEvent(_info, _eventType, _ID);
 
-		GameObject obj = _collider.gameObject;
-		int layerMask = 1 << obj.layer;
+		GameObject obj = _info.collider.gameObject;
 
-		/*if((healthAffectableMask | layerMask) == healthAffectableMask)
-		{
-			Trigger2DInformation info = Trigger2DInformation.CreateTriggerInformation(hitBoxesInfo[_hitColliderID].hitCollider.collider, _collider);
-			InvokeDeactivationEvent(DeactivationCause.Impacted, info);
-		}*/
- 		if((impactAffectableMask | layerMask) == impactAffectableMask)
-		{
-			Trigger2DInformation info = Trigger2DInformation.CreateTriggerInformation(hitBoxesInfo[_hitColliderID].hitCollider.collider, _collider);
-			InvokeDeactivationEvent(DeactivationCause.Impacted, info);
-		}
-
+#region OutOfBoundsShiat:
+		/*int layerMask = 1 << obj.layer;
 		int outOfBoundsMask = Game.data.outOfBoundsLayer.ToLayerMask();
 		
+		/// \TODO Make an Out of Bounds Module...
 		if((outOfBoundsMask | layerMask) == outOfBoundsMask)
 		{
 			Trigger2DInformation info = default(Trigger2DInformation);
 			InvokeDeactivationEvent(DeactivationCause.LeftBoundaries, info);
+		}*/
+#endregion
+
+		/// Evaluate for repelment:
+		if(repelTags != null) foreach(GameObjectTag tag in repelTags)
+		{
+			if(obj.CompareTag(tag))
+			{
+				float inversion = -1.0f;
+
+				direction *= inversion;
+				accumulatedVelocity *= inversion;
+				//InvokeProjectileEvent(ID_EVENT_REPELLED);
+			}
 		}
+	}
+
+	/// <summary>Callback internally called when there was an impact.</summary>
+	/// <param name="_info">Trigger2D's Information.</param>
+	/// <param name="_ID">ID of the HitCollider2D.</param>
+	protected override void OnImpact(Trigger2DInformation _info, int _ID = 0)
+	{
+		InvokeDeactivationEvent(DeactivationCause.Impacted, _info);
 	}
 
 	/// <summary>Event invoked when an impact is received.</summary>
@@ -290,8 +325,22 @@ public class Projectile : ContactWeapon
 	public virtual void InvokeDeactivationEvent(DeactivationCause _cause, Trigger2DInformation _info = default(Trigger2DInformation))
 	{
 		Debug.Log("[Projectile] " + gameObject.name + " Deactivation Event. Cause: " + _cause.ToString());
+
+		switch(_cause)
+		{
+			case DeactivationCause.Impacted:
+			PoolManager.RequestParticleEffect(impactParticleEffectIndex, transform.position, Quaternion.identity);
+			AudioController.PlayOneShot(SourceType.SFX, 0, impactSoundEffectIndex);
+			break;
+
+			case DeactivationCause.Destroyed:
+			PoolManager.RequestParticleEffect(destroyedParticleEffectIndex, transform.position, Quaternion.identity);
+			AudioController.PlayOneShot(SourceType.SFX, 0, destroyedSoundEffectIndex);
+			break;
+		}
+
 		if(!dontDeactivateOnImpact) OnObjectDeactivation();
-		if(onDeactivated != null) onDeactivated(this, _cause, _info);
+		projectileEventsHandler.InvokeProjectileDeactivationEvent(this, _cause, _info);
 	}
 }
 }

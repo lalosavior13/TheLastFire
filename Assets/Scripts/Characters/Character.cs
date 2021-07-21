@@ -49,30 +49,22 @@ public class Character : PoolGameObject, IStateMachine
 	}
 
 	/// <summary>Callback invoked when Enemy's script is instantiated.</summary>
-	private void Awake()
+	protected virtual void Awake()
 	{
 		health.onHealthEvent += OnHealthEvent;
-
-		OnAwake();
 	}
 
 	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>
-	private void Start()
+	protected virtual void Start()
 	{
-		OnStart();
+
 	}
 
 	/// <summary>Callback invoked when Enemy's instance is going to be destroyed and passed to the Garbage Collector.</summary>
-	private void OnDestroy()
+	protected virtual void OnDestroy()
 	{
 		health.onHealthEvent -= OnHealthEvent;
 	}
-
-	/// <summary>Callback internally called right after Awake.</summary>
-	protected virtual void OnAwake(){ /*...*/ }
-
-	/// <summary>Callback internally called right after Start.</summary>
-	protected virtual void OnStart(){ /*...*/ }
 
 #region IFiniteStateMachine:
 	/// <summary>Enters int State.</summary>

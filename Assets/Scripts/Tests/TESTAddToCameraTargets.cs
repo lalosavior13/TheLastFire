@@ -8,7 +8,8 @@ using Voidless;
 [RequireComponent(typeof(VCameraTarget))]
 public class TESTAddToCameraTargets : MonoBehaviour
 {
-	private VCameraTarget _cameraTarget; 	/// <summary>VCameraTarget's Component.</summary>
+	[SerializeField] private GameObjectTag testTag; 	/// <summary>Test's Tag.</summary>
+	private VCameraTarget _cameraTarget; 				/// <summary>VCameraTarget's Component.</summary>
 
 	/// <summary>Gets cameraTarget Component.</summary>
 	public VCameraTarget cameraTarget
@@ -36,6 +37,7 @@ public class TESTAddToCameraTargets : MonoBehaviour
 	/// <summary>TESTAddToCameraTargets's starting actions before 1st Update frame.</summary>
 	private void Start ()
 	{
+		gameObject.tag = testTag;
 		Game.AddTargetToCamera(cameraTarget);
 	}
 }

@@ -82,6 +82,7 @@ public class ShootProjectile : MonoBehaviour
 		
 		projectile.direction = _direction;
 		projectile.activated = true;
+		projectile.ActivateHitBoxes(true);
 		//projectile.transform.right = _direction.normalized;
 
 		float cooldownDuration = projectile.cooldownDuration;

@@ -21,6 +21,7 @@ public class HomingProjectile : Projectile
 	private Vector3 _lastPosition; 								/// <summary>Last Position reference [for the Steering Snake].</summary>
 	private Vector2 velocity; 									/// <summary>Velocity's Vector.</summary>
 
+#region Getters/Setters:
 	/// <summary>Gets and Sets maxSteeringForce property.</summary>
 	public float maxSteeringForce
 	{
@@ -55,6 +56,7 @@ public class HomingProjectile : Projectile
 		get { return _lastPosition; }
 		set { _lastPosition = value; }
 	}
+#endregion
 
 #if UNITY_EDITOR
 	/// <summary>Draws Gizmos on Editor mode.</summary>
@@ -65,8 +67,8 @@ public class HomingProjectile : Projectile
 	}
 #endif
 
-	/// <summary>Callback internally invoked insided FixedUpdate.</summary>
-	protected override void OnFixedUpdate()
+	/// <summary>Callback internally invoked inside FixedUpdate.</summary>
+	protected override void FixedUpdate()
 	{
 		if(!activated) return;
 		

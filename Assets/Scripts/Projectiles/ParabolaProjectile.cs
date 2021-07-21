@@ -8,9 +8,12 @@ namespace Flamingo
 {
 public class ParabolaProjectile : Projectile
 {
+	/// <summary>Gets type property.</summary>
+	public override ProjectileType type { get { return ProjectileType.Parabola; } }
+
 	/// \TODO FIX THIS (Rigidbody2D.MovePosition(Vector2) does not displace the Z's axis...)
-	/// <summary>Callback internally invoked insided FixedUpdate.</summary>
-	protected override void OnFixedUpdate()
+	/// <summary>Callback internally invoked inside FixedUpdate.</summary>
+	protected override void FixedUpdate()
 	{
 		if(!activated) return;
 

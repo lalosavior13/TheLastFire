@@ -7,19 +7,52 @@ using Voidless;
 namespace Flamingo
 {
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(ImpactEventHandler))]
 public class BouncingBall : MonoBehaviour
 {
-	public float upForce;
-	public float force;
-	public HitCollider2D hitBox;
-	private Rigidbody2D rigidbody;
+	[SerializeField] private GameObjectTag[] _impactTags; 	/// <summary>Impacts' Tags.</summary>
+	[SerializeField] private Vector3 _force; 				/// <summary>Extra Force Applied when impacting.</summary>
+	private Rigidbody2D _rigidbody; 						/// <summary>Rigidbody's Component.</summary>
+	private ImpactEventHandler _impactHandler; 				/// <summary>ImpactEventHandler's Component.</summary>
 
-#region UnityMethods:
+	/// <summary>Gets and Sets impactTags property.</summary>
+	public GameObjectTag[] impactTags
+	{
+		get { return _impactTags; }
+		set { _impactTags = value; }
+	}
+
+	/// <summary>Gets and Sets force property.</summary>
+	public Vector3 force
+	{
+		get { return _force; }
+		set { _force = value; }
+	}
+
+	/// <summary>Gets rigidbody Component.</summary>
+	public Rigidbody2D rigidbody
+	{ 
+		get
+		{
+			if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody2D>();
+			return _rigidbody;
+		}
+	}
+
+	/// <summary>Gets impactHandler Component.</summary>
+	public ImpactEventHandler impactHandler
+	{ 
+		get
+		{
+			if(_impactHandler == null) _impactHandler = GetComponent<ImpactEventHandler>();
+			return _impactHandler;
+		}
+	}
+
 	/// <summary>BouncingBall's instance initialization.</summary>
 	private void Awake()
 	{
-		rigidbody = GetComponent<Rigidbody2D>();
-		hitBox.onTriggerEvent2D += OnTriggerEvent2D;
+		impactHandler.eventsHandler.onTriggerEvent += OnImpactEvent;
 	}
 
 	/// <summary>BouncingBall's starting actions before 1st Update frame.</summary>
@@ -27,14 +60,25 @@ public class BouncingBall : MonoBehaviour
 	{
 		//Game.AddTargetToCamera(transform);
 	}
-#endregion
 
-	private void OnTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _hitColliderID = 0)
+	/// <summary>Event invoked when a Collision2D intersection is received.</summary>
+	/// <param name="_info">Trigger2D's Information.</param>
+	/// <param name="_eventType">Type of the event.</param>
+	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
+	private void OnImpactEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
-		Trigger2DInformation info = Trigger2DInformation.CreateTriggerInformation(hitBox.collider, _collider);
-		Vector2 direction =  transform.position - info.contactPoint;
+		if(impactTags == null || impactTags.Length == 0) return;
 
-		rigidbody.AddForce((Vector2.up * upForce) + (direction.normalized * force), ForceMode2D.Impulse);
+		GameObject obj = _info.collider.gameObject;
+
+		foreach(GameObjectTag tag in impactTags)
+		{
+			if(obj.CompareTag(tag))
+			{
+				rigidbody.AddForce(Vector2.Scale(-_info.direction.normalized, force), ForceMode2D.Impulse);
+				break;
+			}
+		}
 	}
 }
 }

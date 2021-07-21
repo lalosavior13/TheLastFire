@@ -9,19 +9,19 @@ namespace Flamingo
 {
 public class TrainingGroundController : Singleton<TrainingGroundController>
 {
-	[SerializeField] private CollectionIndex _soundEffectIndex; 	/// <summary>Particle Effect's Index on the Game's Data.</summary>
-	[SerializeField] private Mateo _mateo; 									/// <summary>Mateo's Reference.</summary>
-	[SerializeField] private DestroyOnImpact[] _targetImpactHandlers; 		/// <summary>Target's DestroyOnImpacts' Components.</summary>
-	[SerializeField] private DestroyOnImpact[] _marbleImpactHandlers; 		/// <summary>Marble's DestroyOnImpacts' Components.</summary>
-	[SerializeField] private DestroyOnImpact[] _petrolImpactHandlers; 		/// <summary>Petrol's DestroyOnImpacts' Components.</summary>
+	[SerializeField] private CollectionIndex _soundEffectIndex; 		/// <summary>Particle Effect's Index on the Game's Data.</summary>
+	[SerializeField] private Mateo _mateo; 								/// <summary>Mateo's Reference.</summary>
+	[SerializeField] private EventsHandler[] _targetImpactHandlers; 	/// <summary>Target's EventsHandlers' Components.</summary>
+	[SerializeField] private EventsHandler[] _marbleImpactHandlers; 	/// <summary>Marble's EventsHandlers' Components.</summary>
+	[SerializeField] private EventsHandler[] _petrolImpactHandlers; 	/// <summary>Petrol's EventsHandlers' Components.</summary>
 	[Space(5f)]
 	[Header("UI:")]
-	[SerializeField] private Text _targetsScoreText; 						/// <summary>Targets' Score's Text.</summary>
-	[SerializeField] private Text _marblesScoreText; 						/// <summary>Marbles' Score's Text.</summary>
-	[SerializeField] private Text _petrolsScoreText; 						/// <summary>Petrols' Score's Text.</summary>
-	[SerializeField] private int _targetsScore; 												/// <summary>Targets' Score.</summary>
-	private int _marblesScore; 												/// <summary>Marbles' Score.</summary>
-	[SerializeField] private int _petrolsScore; 												/// <summary>Petrols' Score.</summary>
+	[SerializeField] private Text _targetsScoreText; 					/// <summary>Targets' Score's Text.</summary>
+	[SerializeField] private Text _marblesScoreText; 					/// <summary>Marbles' Score's Text.</summary>
+	[SerializeField] private Text _petrolsScoreText; 					/// <summary>Petrols' Score's Text.</summary>
+	[SerializeField] private int _targetsScore; 						/// <summary>Targets' Score.</summary>
+	private int _marblesScore; 											/// <summary>Marbles' Score.</summary>
+	[SerializeField] private int _petrolsScore; 						/// <summary>Petrols' Score.</summary>
 
 
 public void Cheer()
@@ -51,13 +51,13 @@ void Cheer2()
 	}
 
 	/// <summary>Gets targetImpactHandlers property.</summary>
-	public DestroyOnImpact[] targetImpactHandlers { get { return _targetImpactHandlers; } }
+	public EventsHandler[] targetImpactHandlers { get { return _targetImpactHandlers; } }
 
 	/// <summary>Gets marbleImpactHandlers property.</summary>
-	public DestroyOnImpact[] marbleImpactHandlers { get { return _marbleImpactHandlers; } }
+	public EventsHandler[] marbleImpactHandlers { get { return _marbleImpactHandlers; } }
 
 	/// <summary>Gets petrolImpactHandlers property.</summary>
-	public DestroyOnImpact[] petrolImpactHandlers { get { return _petrolImpactHandlers; } }
+	public EventsHandler[] petrolImpactHandlers { get { return _petrolImpactHandlers; } }
 
 	/// <summary>Gets and Sets targetsScore property.</summary>
 	public int targetsScore
@@ -114,19 +114,22 @@ void Cheer2()
 		//mateo.PerformInitialPose(true);
 		//mateo.StareTowards(StareTarget.Player);
 
-		if(targetImpactHandlers != null) foreach(DestroyOnImpact handler in targetImpactHandlers)
+		if(targetImpactHandlers != null) foreach(EventsHandler handler in targetImpactHandlers)
 		{
-			handler.onDestroyed += OnTargetImpactEvent;
+			if(handler == null) continue;
+			handler.onDeactivated += OnTargetImpactEvent;
 		}
 
-		if(marbleImpactHandlers != null) foreach(DestroyOnImpact handler in marbleImpactHandlers)
+		if(marbleImpactHandlers != null) foreach(EventsHandler handler in marbleImpactHandlers)
 		{
-			handler.onDestroyed += OnMarbleImpactEvent;
+			if(handler == null) continue;
+			handler.onDeactivated += OnMarbleImpactEvent;
 		}
 
-		if(petrolImpactHandlers != null) foreach(DestroyOnImpact handler in petrolImpactHandlers)
+		if(petrolImpactHandlers != null) foreach(EventsHandler handler in petrolImpactHandlers)
 		{
-			handler.onDestroyed += OnPetrolImpactEvent;
+			if(handler == null) continue;
+			handler.onDeactivated += OnPetrolImpactEvent;
 		}
 
 		_targetsScore = 32;
@@ -134,23 +137,26 @@ void Cheer2()
 	}
 
 	/// <summary>Event invoked when an impact is received.</summary>
-	/// <param name="_info">Trigger2D's Information.</param>
-	private void OnTargetImpactEvent(/*Trigger2DInformation _info*/)
+	/// <param name="_cause">Cause of the deactivation.</param>
+	/// <param name="_info">Additional Trigger2D's information.</param>
+	private void OnTargetImpactEvent(DeactivationCause _cause, Trigger2DInformation _info)
 	{
 		targetsScore--;
 		Cheer();
 	}
 
 	/// <summary>Event invoked when an impact is received.</summary>
-	/// <param name="_info">Trigger2D's Information.</param>
-	private void OnMarbleImpactEvent(/*Trigger2DInformation _info*/)
+	/// <param name="_cause">Cause of the deactivation.</param>
+	/// <param name="_info">Additional Trigger2D's information.</param>
+	private void OnMarbleImpactEvent(DeactivationCause _cause, Trigger2DInformation _info)
 	{
 		marblesScore--;
 	}
 
 	/// <summary>Event invoked when an impact is received.</summary>
-	/// <param name="_info">Trigger2D's Information.</param>
-	private void OnPetrolImpactEvent(/*Trigger2DInformation _info*/)
+	/// <param name="_cause">Cause of the deactivation.</param>
+	/// <param name="_info">Additional Trigger2D's information.</param>
+	private void OnPetrolImpactEvent(DeactivationCause _cause, Trigger2DInformation _info)
 	{
 		petrolsScore--;
 		Cheer2();

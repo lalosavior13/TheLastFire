@@ -4,8 +4,15 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - FxTemporaire
   - Ball
+  - Enemy
+  - Weapon/Player
+  - Weapon/Enemy
+  - Projectile/Player
+  - Projectile/Enemy
+  - Surface/Floor
+  - Surface/Wall
+  - Surface/Ceiling
   layers:
   - Default
   - TransparentFX
@@ -15,18 +22,18 @@ TagManager:
   - UI
   - 
   - 
-  - Jumpable
-  - Enemy
-  - SwordAffectable
-  - FireAffectable
-  - Sword
-  - Ceiling
+  - Floor
   - Wall
-  - Player
-  - Projectile_Enemy
-  - Projectile_Player
-  - Walkable
-  - OutOfBounds
+  - Ceiling
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 

@@ -16,6 +16,7 @@ namespace Flamingo
 [RequireComponent(typeof(RigidbodyMovementAbility))]
 [RequireComponent(typeof(JumpAbility))]
 [RequireComponent(typeof(DashAbility))]
+[RequireComponent(typeof(RotationAbility))]
 [RequireComponent(typeof(ShootChargedProjectile))]
 [RequireComponent(typeof(TransformDeltaCalculator))]
 [RequireComponent(typeof(SensorSystem2D))]
@@ -60,6 +61,7 @@ public class Mateo : Character
 	[Range(0.0f, 1.0f)] private float _dashXThreshold; 							/// <summary>Minimum left axis' X [absolute] value to be able to perform dash.</summary>
 	[Space(5f)]
 	[Header("Animator's Attributes:")]
+	[SerializeField] private Transform _animatorParent; 						/// <summary>Animator's Parent.</summary>
 	[SerializeField] private Animator _animator; 								/// <summary>Animator's Component.</summary>
 	[SerializeField] private AnimatorCredential _initialPoseCredential; 		/// <summary>Initial Pose's Credential.</summary>
 	[SerializeField] private AnimatorCredential _initialPoseIDCredential; 		/// <summary>Initial Pose Id's Credential.</summary>
@@ -79,6 +81,7 @@ public class Mateo : Character
 	[SerializeField] private AnimatorCredential _walledCredential; 				/// <summary>Walled's Animator Credential.</summary>
 	[SerializeField] private AnimatorCredential _impactedWithWallCredential; 	/// <summary>Impacted w/ Wall's Animator Credential.</summary>
 	private RigidbodyMovementAbility _movementAbility; 							/// <summary>RigidbodyMovementAbility's Component.</summary>
+	private RotationAbility _rotationAbility; 									/// <summary>RotationAbility's Component.</summary>
 	private JumpAbility _jumpAbility; 											/// <summary>JumpAbility's Component.</summary>
 	private ShootChargedProjectile _shootProjectile; 							/// <summary>ShootChargedProjectile's Component.</summary>
 	private DashAbility _dashAbility; 											/// <summary>DashAbility's Component.</summary>
@@ -104,6 +107,9 @@ public class Mateo : Character
 
 	/// <summary>Gets rightHand property.</summary>
 	public Transform rightHand { get { return _rightHand; } }
+
+	/// <summary>Gets animatorParent property.</summary>
+	public Transform animatorParent { get { return _animatorParent; } }
 
 	/// <summary>Gets sword property.</summary>
 	public Sword sword { get { return _sword; } }
@@ -202,6 +208,16 @@ public class Mateo : Character
 		{
 			if(_movementAbility == null) _movementAbility = GetComponent<RigidbodyMovementAbility>();
 			return _movementAbility;
+		}
+	}
+
+	/// <summary>Gets rotationAbility Component.</summary>
+	public RotationAbility rotationAbility
+	{ 
+		get
+		{
+			if(_rotationAbility == null) _rotationAbility = GetComponent<RotationAbility>();
+			return _rotationAbility;
 		}
 	}
 
@@ -328,8 +344,10 @@ public class Mateo : Character
 #endregion
 
 	/// <summary>Mateo's instance initialization when loaded [Before scene loads].</summary>
-	protected override void OnAwake()
+	protected override void Awake()
 	{
+		base.Awake();
+
 		orientation = Vector3.right;
 		sword.ActivateHitBoxes(false);
 
@@ -344,10 +362,29 @@ public class Mateo : Character
 	/// <summary>Updates Mateo's instance at each frame.</summary>
 	private void Update()
 	{
+		if(leftAxes.x != 0.0f) rotationAbility.RotateTowardsDirection(animatorParent, Vector3.right * leftAxes.x);
+		else rotationAbility.RotateTowards(animatorParent, stareAtPlayerRotation);
+
+		// TEST
+		///rotationAbility.RotateTowardsDirection(animatorParent, Vector3.right * leftAxes.x);
+
+		Debug.DrawRay(transform.position, Vector3.right * leftAxes.x * 5.0f, Color.magenta);
+		Debug.DrawRay(transform.position, Quaternion.LookRotation(Vector3.right * leftAxes.x) * Vector3.forward * 8.0f, Color.yellow);
+
 		if(animator == null) return;
 
 		animator.SetBool(walledCredential, wallEvaluator.walled);
 		animator.SetBool(brakingCredential, movementAbility.braking);
+	}
+
+	/// <summary>Callback for setting up animation IK (inverse kinematics).</summary>
+	/// <param name="_layer">The index of the layer on which the IK solver is called.</param>
+	private void OnAnimatorIK(int _layer)
+	{
+		if(animator == null) return;
+
+		/*if(leftAxes.x > 0.0f) rotationAbility.RotateTowardsDirection(animator, Vector3.right * leftAxes.x);
+		else rotationAbility.RotateTowards(animator, stareAtPlayerRotation);*/
 	}
 
 #region Callbacks:

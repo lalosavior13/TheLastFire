@@ -42,7 +42,7 @@ public class Health : MonoBehaviour, IStateMachine
     private float _hp;                                          /// <summary>Current HP.</summary>
     private int _state;                                         /// <summary>Health's Current State.</summary>
     private int _previousState;                                 /// <summary>Health's Previous State.</summary>
-    public int ignoreResetMask { get; set; }       /// <summary>Mask that selectively contains state to ignore resetting if they were added again [with AddState's method]. As it is 0 by default, it won't ignore resetting any state [~0 = 11111111]</summary>
+    public int ignoreResetMask { get; set; }                    /// <summary>Mask that selectively contains state to ignore resetting if they were added again [with AddState's method]. As it is 0 by default, it won't ignore resetting any state [~0 = 11111111]</summary>
 
 #region Getters/Setters:
     /// <summary>Gets and Sets maxHP property.</summary>

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5331431299568190518}
   - component: {fileID: 4726841204741414268}
   - component: {fileID: 833371320415400953}
+  - component: {fileID: -335396640550982576}
   m_Layer: 11
   m_Name: Projectile_Target_FireShow_Sinusoidal
   m_TagString: Untagged
@@ -85,17 +86,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableMask:
-    serializedVersion: 2
-    m_Bits: 0
-  _impactAffectableMask:
-    serializedVersion: 2
-    m_Bits: 0
+  _healthAffectableTags: []
+  _impactTags: []
   _damage: 0
-  _hitBoxesInfo:
-  - _hitCollider: {fileID: 287322113}
-    _damageScale: 1
+  _damageScales: []
   _trailRenderers: []
+  _repelTags: []
   _speedMode: 0
   _speed: 2.5
   _lifespan: 10
@@ -120,6 +116,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitBoxes: []
+  _impactTags: []
+--- !u!114 &-335396640550982576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980982915052507435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899837e1dcbe69941a6219b841471233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!50 &287322114
@@ -173,10 +183,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 524288
-  _affectedTags: []
 --- !u!1001 &3465886262227397670
 PrefabInstance:
   m_ObjectHideFlags: 0

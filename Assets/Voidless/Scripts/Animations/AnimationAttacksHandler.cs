@@ -26,7 +26,6 @@ public enum AttackState
 /// <param name="_state">Animation Attack's Event/State.</param>
 public delegate void OnAnimationAttackEvent(AnimationCommandState _state);
 
-[RequireComponent(typeof(Animator))]	
 public class AnimationAttacksHandler : MonoBehaviour, IAnimationCommandListener
 {
 	public event OnAnimationAttackEvent onAnimationAttackEvent; 	/// <summary>OnAnimationAttackState event delegate.</summary>

@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7890409840708403002}
   - component: {fileID: 7890409840708402997}
   - component: {fileID: 7807340246942760897}
+  - component: {fileID: -8338976305958156496}
   m_Layer: 15
   m_Name: Projectile_Parabola_Bomb_Shanty
   m_TagString: Untagged
@@ -137,6 +138,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _test:
+    _keysList: []
+    _valuesList: []
   _materialIDindexPairs: []
   _particleEffectIndex:
     index: 9
@@ -186,6 +190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
+  _impactTags: []
 --- !u!114 &7807340246942760897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,17 +205,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableMask:
-    serializedVersion: 2
-    m_Bits: 32768
-  _impactAffectableMask:
-    serializedVersion: 2
-    m_Bits: 0
+  _healthAffectableTags: []
+  _impactTags: []
   _damage: 1
-  _hitBoxesInfo:
-  - _hitCollider: {fileID: 7890409840483429500}
-    _damageScale: 1
+  _damageScales: []
   _trailRenderers: []
+  _repelTags: []
   _speedMode: 0
   _speed: 5
   _lifespan: 5
@@ -220,9 +221,23 @@ MonoBehaviour:
     index: 0
     objectIndex: 0
     collectionIndex: 9
-  _flamableMask:
-    serializedVersion: 2
-    m_Bits: 131072
+  _flamableTags:
+  - _tag: Respawn
+    index: 1
+  - _tag: FxTemporaire
+    index: 7
+--- !u!114 &-8338976305958156496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7807340246942760902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899837e1dcbe69941a6219b841471233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7890409840392654944
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,10 +398,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 167936
-  _affectedTags: []
 --- !u!58 &7890409840483429501
 CircleCollider2D:
   m_ObjectHideFlags: 0

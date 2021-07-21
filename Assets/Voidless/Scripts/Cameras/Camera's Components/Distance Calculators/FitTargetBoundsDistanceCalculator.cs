@@ -6,17 +6,17 @@ using UnityEngine;
 namespace Voidless
 {
 // Camera's Frustum -Maths: https://docs.unity3d.com/es/2018.4/Manual/FrustumSizeAtDistance.html
-[RequireComponent(typeof(VCamera2DBoundariesContainer))]
+[RequireComponent(typeof(Boundaries2DContainer))]
 public class FitTargetBoundsDistanceCalculator : VCameraDistanceCalculator
 {
-	private VCamera2DBoundariesContainer _boundariesContainer; 	/// <summary>VCamera2DBoundariesContainer's Component.</summary>
+	private Boundaries2DContainer _boundariesContainer; 	/// <summary>Boundaries2DContainer's Component.</summary>
 
 	/// <summary>Gets boundariesContainer Component.</summary>
-	public VCamera2DBoundariesContainer boundariesContainer
+	public Boundaries2DContainer boundariesContainer
 	{ 
 		get
 		{
-			if(_boundariesContainer == null) _boundariesContainer = GetComponent<VCamera2DBoundariesContainer>();
+			if(_boundariesContainer == null) _boundariesContainer = GetComponent<Boundaries2DContainer>();
 			return _boundariesContainer;
 		}
 	}

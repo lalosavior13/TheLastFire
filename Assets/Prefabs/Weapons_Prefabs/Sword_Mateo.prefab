@@ -68,10 +68,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 1280
-  _affectedTags: []
 --- !u!61 &28453698037766450
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -303,10 +299,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 1280
-  _affectedTags: []
 --- !u!61 &3237632136922499140
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -346,8 +338,8 @@ GameObject:
   - component: {fileID: 2990307696944141972}
   - component: {fileID: 1462008669024134930}
   - component: {fileID: -5859031260856870635}
-  - component: {fileID: 4844196507281508755}
-  - component: {fileID: 2386336129403205184}
+  - component: {fileID: 5395243699079717940}
+  - component: {fileID: 2613032804412285686}
   m_Layer: 12
   m_Name: Sword_Mateo
   m_TagString: Untagged
@@ -433,18 +425,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableMask:
-    serializedVersion: 2
-    m_Bits: 1024
-  _impactAffectableMask:
-    serializedVersion: 2
-    m_Bits: 1024
+  _healthAffectableTags:
+  - _tag: Enemy
+    index: 8
   _damage: 5
-  _hitBoxesInfo:
-  - _hitCollider: {fileID: 5078092767350417043}
-    _damageScale: 1
-  - _hitCollider: {fileID: 2912538478691075036}
-    _damageScale: 1.5
+  _damageScales:
+  - 1
+  - 1.5
+  _impactTags: []
   _trailRenderers:
   - {fileID: 7293188787546110638}
 --- !u!114 &-5859031260856870635
@@ -459,7 +447,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4844196507281508755
+  _hitBoxes:
+  - {fileID: 5078092767350417043}
+  - {fileID: 2912538478691075036}
+  _impactTags:
+  - _tag: Enemy
+    index: 8
+--- !u!114 &5395243699079717940
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -468,14 +462,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6947374656432060311}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
+  m_Script: {fileID: 11500000, guid: a0de1b3f35b907f40acd80c31c5e092a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _particleEffectIndex:
-    index: 0
-    objectIndex: 0
-    collectionIndex: 7
---- !u!114 &2386336129403205184
+--- !u!114 &2613032804412285686
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -484,13 +474,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 6947374656432060311}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ef852ac5d6ee0047b3ff3d23f972637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundEffectIndex:
-    index: 3
-    objectIndex: 0
-    collectionIndex: 6
+  _ID: 1
+  _particleEffectsMatrix:
+  - ID: 1
+    index:
+      index: 6
+      objectIndex: 0
+      collectionIndex: 8
+  _soundEffectsMatrix:
+  - ID: 1
+    index:
+      index: 0
+      objectIndex: 0
+      collectionIndex: 7
+  _eventsHandler: {fileID: 5395243699079717940}
 --- !u!1 &7512553631315864296
 GameObject:
   m_ObjectHideFlags: 0

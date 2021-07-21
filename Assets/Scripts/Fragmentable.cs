@@ -127,7 +127,7 @@ public class Fragmentable : MonoBehaviour
 	/// <param name="_hitColliderID">Optional ID of the HitCollider2D.</param>
 	private void OnTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _hitColliderID = 0)
 	{
-		Trigger2DInformation info = Trigger2DInformation.CreateTriggerInformation(pieces[_hitColliderID].collider, _collider);
+		Trigger2DInformation info = new Trigger2DInformation(pieces[_hitColliderID].collider, _collider);
 		//Fragmentate(pieces[_hitColliderID].transform.position - info.contactPoint);
 	}	
 

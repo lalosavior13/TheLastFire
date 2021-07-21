@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 5723318106225429548}
   - component: {fileID: 7381935805205219674}
   - component: {fileID: -886662376399747577}
-  m_Layer: 10
+  - component: {fileID: 2288381669426326840}
+  m_Layer: 0
   m_Name: Projectile_Marble
-  m_TagString: Untagged
+  m_TagString: Projectile/Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,22 +87,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableMask:
-    serializedVersion: 2
-    m_Bits: 32768
-  _impactAffectableMask:
-    serializedVersion: 2
-    m_Bits: 36864
+  _healthAffectableTags:
+  - _tag: Player
+    index: 5
   _damage: 1
-  _hitBoxesInfo:
-  - _hitCollider: {fileID: 6800693875940303784}
-    _damageScale: 1
+  _damageScales:
+  - 1
+  _impactTags:
+  - _tag: Player
+    index: 5
+  - _tag: Weapon/Player
+    index: 9
   _trailRenderers: []
+  _repelTags: []
   _speedMode: 0
   _speed: 7
   _lifespan: 0
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
+  dontDeactivateOnImpact: 0
+  _impactParticleEffectIndex:
+    index: 9
+    objectIndex: 0
+    collectionIndex: 8
+  _destroyedParticleEffectIndex:
+    index: 2
+    objectIndex: 0
+    collectionIndex: 8
+  _impactSoundEffectIndex:
+    index: 31
+    objectIndex: 0
+    collectionIndex: 7
+  _destroyedSoundEffectIndex:
+    index: 35
+    objectIndex: 0
+    collectionIndex: 7
 --- !u!114 &-886662376399747577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,6 +134,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes:
+  - {fileID: 6800693875940303784}
+  _impactTags: []
+--- !u!114 &2288381669426326840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1001964287644889203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899837e1dcbe69941a6219b841471233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
 --- !u!1 &6142866956978619754
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,9 +162,9 @@ GameObject:
   - component: {fileID: 5449795319779986787}
   - component: {fileID: 6800693875940303784}
   - component: {fileID: 5072517244760267237}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: HitCollider2D_Marble
-  m_TagString: Untagged
+  m_TagString: Projectile/Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -182,10 +218,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 37888
-  _affectedTags: []
 --- !u!58 &5072517244760267237
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -213,7 +245,7 @@ GameObject:
   - component: {fileID: 5531656797742353420}
   - component: {fileID: 882101837073303368}
   - component: {fileID: 364685019121766798}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Sphere_Projectile_Marble
   m_TagString: Untagged
   m_Icon: {fileID: 0}

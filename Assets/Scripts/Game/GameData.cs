@@ -13,9 +13,11 @@ public class GameData : ScriptableObject
 	public const string PATH_SCENE_DEFAULT = "Scene_LoadingScreen"; 			/// <summary>Default Scene to Load's Path.</summary>
 	public const string PATH_SCENE_LOADING = "Scene_LoadingScreen"; 			/// <summary>Loading Scene's Path.</summary>
 
-#region Properties:
 	[Header("Configurations:")]
 	[SerializeField] [Range(0, 60)] private int _frameRate; 					/// <summary>Game's Frame rate.</summary>
+	[Space(5f)]
+	[Header("Tags:")]
+	[SerializeField] private GameObjectTag _playerTag; 							/// <summary>Player's Tag.</summary>
 	[Space(5f)]
 	[Header("Layers:")]
 	[SerializeField] private LayerValue _outOfBoundsLayer; 						/// <summary>Out of Bounds's Layer.</summary>
@@ -37,10 +39,28 @@ public class GameData : ScriptableObject
 	[Space(5f)]
 	[Header("Explodables:")]
 	[SerializeField] private Explodable[] _explodables; 						/// <summary>Explodables.</summary>
-#endregion
+	[HideInInspector] public FloatWrapper[] _surfacesAngleThresholds; 			/// <summary>Angle Thresholds for each surface.</summary>
+	[HideInInspector] public FloatWrapper[] _surfacesDotProductThresholds; 		/// <summary>Dot Product Thresholds for each surface.</summary>
 	private float _idealDeltaTime; 												/// <summary>Ideal delta time.</summary>
+#if UNITY_EDITOR
+	[HideInInspector] public bool showDotProducts; 								/// <summary>Enable settings for Dot Products' Thresholds? if false, it will show settings for the Angles' Thresholds.</summary>
+#endif
 
 #region Getters:
+	/// <summary>Gets surfacesAngleThresholds property.</summary>
+	public FloatWrapper[] surfacesAngleThresholds
+	{
+		get { return _surfacesAngleThresholds; }
+		set { _surfacesAngleThresholds = value; }
+	}
+
+	/// <summary>Gets surfacesDotProductThresholds property.</summary>
+	public FloatWrapper[] surfacesDotProductThresholds
+	{
+		get { return _surfacesDotProductThresholds; }
+		set { _surfacesDotProductThresholds = value; }
+	}
+
 	/// <summary>Gets frameRate property.</summary>
 	public int frameRate { get { return _frameRate; } }
 
@@ -53,6 +73,9 @@ public class GameData : ScriptableObject
 			return _idealDeltaTime;
 		}
 	}
+
+	/// <summary>Gets playerTag property.</summary>
+	public GameObjectTag playerTag { get { return _playerTag; } }
 
 	/// <summary>Gets outOfBoundsLayer property.</summary>
 	public LayerValue outOfBoundsLayer { get { return _outOfBoundsLayer; } }
@@ -106,7 +129,7 @@ public class GameData : ScriptableObject
 		builder.Append("Fixed Delta Time: ");
 		builder.Append(Time.fixedDeltaTime);
 
-		Debug.Log(builder.ToString());
+		//Debug.Log(builder.ToString());
 	}
 
 	/// <summary>Resets FSM Loop's States.</summary>

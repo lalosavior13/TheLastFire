@@ -357,7 +357,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		int targetsPerRound = 0;
 		int count = 0;
 		float targetsDestroyed = 0.0f;
-		OnDeactivated onTargetDeactivation = (projectile, cause, info)=>
+		OnProjectileDeactivated onTargetDeactivation = (projectile, cause, info)=>
 		{
 			switch(cause)
 			{
@@ -395,8 +395,8 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		{
 			Ray ray = fireShowWaypoints.GetTargetOriginAndDirection();
 			Projectile p = PoolManager.RequestProjectile(Faction.Enemy, fireTargetIndices.Random(), ray.origin, ray.direction);
-			p.onDeactivated -= onTargetDeactivation;
-			p.onDeactivated += onTargetDeactivation;
+			p.projectileEventsHandler.onProjectileDeactivated -= onTargetDeactivation;
+			p.projectileEventsHandler.onProjectileDeactivated += onTargetDeactivation;
 			p.lifespan = 0.0f; 	/// Make 'em last for ever...
 			targets[j] = p;
 		}
@@ -410,7 +410,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		foreach(Projectile target in targets)
 		{
 			target.OnObjectDeactivation();
-			target.onDeactivated -= onTargetDeactivation;
+			target.projectileEventsHandler.onProjectileDeactivated -= onTargetDeactivation;
 		}
 
 		Debug.Log("[JudgementBehavior] Targets Destroyed: " + targetsDestroyed);
@@ -452,7 +452,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		int targetsPerRound = 0;
 		int count = 0;
 		float targetsDestroyed = 0.0f;
-		OnDeactivated onTargetDeactivation = (projectile, cause, info)=>
+		OnProjectileDeactivated onTargetDeactivation = (projectile, cause, info)=>
 		{
 			switch(cause)
 			{
@@ -488,8 +488,8 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 				Ray ray = new Ray(origin, destiny - origin);
 				Projectile p = PoolManager.RequestProjectile(Faction.Enemy, swordTargetIndices.Random(), ray.origin, ray.direction);
 				p.activated = false;
-				p.onDeactivated -= onTargetDeactivation;
-				p.onDeactivated += onTargetDeactivation;
+				p.projectileEventsHandler.onProjectileDeactivated -= onTargetDeactivation;
+				p.projectileEventsHandler.onProjectileDeactivated += onTargetDeactivation;
 
 				IEnumerator lerp = p.transform.DisplaceToPosition(destiny, swordTargetInterpolationDuration);
 
@@ -509,7 +509,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 			foreach(Projectile target in targets)
 			{
-				target.onDeactivated -= onTargetDeactivation;
+				target.projectileEventsHandler.onProjectileDeactivated -= onTargetDeactivation;
 			}
 
 			Debug.Log("[JudgementBehavior] Targets Destroyed: " + targetsDestroyed);
@@ -708,7 +708,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		int rounds = _rounds.Random();
 		int targetsPerRound = 0;
 		float targetsDestroyed = 0.0f;
-		OnDeactivated onTargetDeactivation = (cause, info)=>
+		OnProjectileDeactivated onTargetDeactivation = (cause, info)=>
 		{
 			switch(cause)
 			{
@@ -733,8 +733,8 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 			{
 				Ray ray = fireShowWaypoints.GetTargetOriginAndDirection();
 				Projectile p = PoolManager.RequestProjectile(Faction.Enemy, _indices.Random(), ray.origin, ray.direction);
-				p.onDeactivated -= onTargetDeactivation;
-				p.onDeactivated += onTargetDeactivation;
+				p.projectileEventsHandler.onProjectileDeactivated -= onTargetDeactivation;
+				p.projectileEventsHandler.onProjectileDeactivated += onTargetDeactivation;
 
 				targets[j] = p;
 			}
@@ -744,7 +744,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 
 			foreach(Projectile target in targets)
 			{
-				target.onDeactivated -= onTargetDeactivation;
+				target.projectileEventsHandler.onProjectileDeactivated -= onTargetDeactivation;
 			}
 
 			Debug.Log("[JudgementBehavior] Targets Destroyed: " + targetsDestroyed);

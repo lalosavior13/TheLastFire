@@ -231,9 +231,9 @@ public class DestinoBoss : Boss
 #endif
 
 	/// <summary>Callback internally called right after Awake.</summary>
-	protected override void OnAwake()
+	protected override void Awake()
 	{
-		base.OnAwake();
+		base.Awake();
 			
 		animator.SetInteger(stateIDCredential, ID_STATE_IDLE_NORMAL);
 
@@ -254,8 +254,10 @@ public class DestinoBoss : Boss
 	}
 
 	/// <summary>DestinoBoss's starting actions before 1st Update frame.</summary>
-	private void Start()
+	protected override void Start()
 	{
+		base.Start();
+
 		int length = cards.Length;
 
 		if(cards == null || length == 0) return;

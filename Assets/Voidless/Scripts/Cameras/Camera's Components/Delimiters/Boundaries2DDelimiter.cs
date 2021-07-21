@@ -5,21 +5,21 @@ using UnityEngine;
 
 namespace Voidless
 {
-[RequireComponent(typeof(VCamera2DBoundariesContainer))]
+[RequireComponent(typeof(Boundaries2DContainer))]
 public class Boundaries2DDelimiter : VCameraDelimiter
 {
 #if UNITY_EDITOR
 	[SerializeField] private Color gizmosColor; 				/// <summary>Gizmos' Color.</summary>
 #endif
-	private VCamera2DBoundariesContainer _boundariesContainer; 	/// <summary>VCamera2DBoundariesContainer's Component.</summary>
+	private Boundaries2DContainer _boundariesContainer; 	/// <summary>Boundaries2DContainer's Component.</summary>
 	private CameraViewportPlane projectedPlane; 				/// <summary>Camera's Projected Plane.</summary>
 
 	/// <summary>Gets boundariesContainer Component.</summary>
-	public VCamera2DBoundariesContainer boundariesContainer
+	public Boundaries2DContainer boundariesContainer
 	{ 
 		get
 		{
-			if(_boundariesContainer == null) _boundariesContainer = GetComponent<VCamera2DBoundariesContainer>();
+			if(_boundariesContainer == null) _boundariesContainer = GetComponent<Boundaries2DContainer>();
 			return _boundariesContainer;
 		}
 	}

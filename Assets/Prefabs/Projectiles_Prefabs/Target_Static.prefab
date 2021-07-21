@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1072178799982049426}
   - component: {fileID: 1072178799982049427}
   - component: {fileID: 1168642533328873389}
+  - component: {fileID: 864114955328983730}
   m_Layer: 11
   m_Name: Target_Static
   m_TagString: Untagged
@@ -65,6 +66,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitBoxes: []
+  _impactTags: []
+--- !u!114 &864114955328983730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072178799982049429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899837e1dcbe69941a6219b841471233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1181030957356478186
@@ -135,10 +150,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  _affectedTags: []
 --- !u!58 &8646152218213206689
 CircleCollider2D:
   m_ObjectHideFlags: 0
