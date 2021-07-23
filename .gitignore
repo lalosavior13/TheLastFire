@@ -52,6 +52,12 @@ Thumbs.db
 *.sln
 *.sublime-project
 *.sublime-workspace
+*.suo
+*.cache
+obj/Debug/
 Library/
 Temp/
 Builds/
+obj/Debug/Assembly-CSharp-Editor.csprojAssemblyReference.cache
+obj/Debug/Assembly-CSharp-Editor.csprojAssemblyReference.cache
+obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
