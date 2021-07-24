@@ -25,6 +25,8 @@ public class AnimationCommandSenderInspector : Editor
 	{	
 		//DrawDefaultInspector();
 		VEditorGUILayout.Spaces(2);
+		DrawFlagsAndIDFields();
+		VEditorGUILayout.Spaces(2);
 		DrawPercentageSliders();
 		VEditorGUILayout.Spaces(2);
 		animationCommandSender.additionalWindow = EditorGUILayout.FloatField("Additional Window", animationCommandSender.additionalWindow);
@@ -34,6 +36,13 @@ public class AnimationCommandSenderInspector : Editor
 		DrawHipotheticalAnimationStateData();
 
 		EditorUtility.SetDirty(animationCommandSender);
+	}
+
+	/// <summary>Draws fields for  the Animation Flags and Sub-ID.</summary>
+	private void DrawFlagsAndIDFields()
+	{
+		animationCommandSender.flags = (AnimationFlags)EditorGUILayout.EnumPopup("Animation Flags", animationCommandSender.flags);
+		animationCommandSender.subID = EditorGUILayout.IntField("Sub-ID", animationCommandSender.subID);
 	}
 
 	/// <summary>Draw Percentages' Sliders.</summary>

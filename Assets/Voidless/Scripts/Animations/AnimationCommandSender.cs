@@ -1,10 +1,49 @@
 using System.Collections;
 using System;
+using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Voidless
 {
+[Flags]
+public enum AnimationFlags
+{
+    Undefined = 0,
+    _0 = 1 << 0,
+    _1 = 1 << 1,
+    _2 = 1 << 2,
+    _3 = 1 << 3,
+    _4 = 1 << 4,
+    _5 = 1 << 5,
+    _6 = 1 << 6,
+    _7 = 1 << 7,
+    _8 = 1 << 8,
+    _9 = 1 << 9,
+    _10 = 1 << 10,
+    _11 = 1 << 11,
+    _12 = 1 << 12,
+    _13 = 1 << 13,
+    _14 = 1 << 14,
+    _15 = 1 << 15,
+    _16 = 1 << 16,
+    _17 = 1 << 17,
+    _18 = 1 << 18,
+    _19 = 1 << 19,
+    _20 = 1 << 20,
+    _21 = 1 << 21,
+    _22 = 1 << 22,
+    _23 = 1 << 23,
+    _24 = 1 << 24,
+    _25 = 1 << 25,
+    _26 = 1 << 26,
+    _27 = 1 << 27,
+    _28 = 1 << 28,
+    _29 = 1 << 29,
+    _30 = 1 << 30,
+    _31 = 1 << 31,
+}
+
 public class AnimationCommandSender : AnimationStateSender
 {
     public const int FLAG_STARTUP = 1 << 0;                                         /// <summary>Startup's Flag.</summary>
@@ -12,6 +51,9 @@ public class AnimationCommandSender : AnimationStateSender
     public const int FLAG_RECOVERY = 1 << 2;                                        /// <summary>Recovery's Flag.</summary>
     public const int FLAG_END = 1 << 4;                                             /// <summary>End's Flag.</summary>
 
+    [SerializeField] private AnimationFlags _flags;                                 /// <summary>Animation's Flags.</summary>
+    [SerializeField] private int _subID;                                            /// <summary>Sub-ID [Additional to the Animation Flags].</summary>
+    [Space(50f)]
     [SerializeField] private FloatWrapper _startupPercentage;                       /// <summary>Startup's Percentage on the Animation.</summary>
     [SerializeField] private FloatWrapper _activePercentage;                        /// <summary>Active's Percentage on the Animation.</summary>
     [SerializeField] private FloatWrapper _recoveryPercentage;                      /// <summary>Recovery's Percentage on the Animation.</summary>
@@ -25,6 +67,20 @@ public class AnimationCommandSender : AnimationStateSender
 #endif
 
 #region Getters/Setters:
+    /// <summary>Gets and Sets flags property.</summary>
+    public AnimationFlags flags
+    {
+        get { return _flags; }
+        set { _flags = value; }
+    }
+
+    /// <summary>Gets and Sets subID property.</summary>
+    public int subID
+    {
+        get { return _subID; }
+        set { _subID = value; }
+    }
+
     /// <summary>Gets and Sets startupPercentage property.</summary>
     public FloatWrapper startupPercentage
     {
@@ -111,7 +167,7 @@ public class AnimationCommandSender : AnimationStateSender
         {
             listener.OnStateEnter(_animator, _stateInfo, _layerID);
             state |= FLAG_STARTUP;
-            if(startupPercentage > 0.0f) listener.OnStartup(_animator, _stateInfo, _layerID);
+            if(startupPercentage > 0.0f) InvokeState(listener, FLAG_STARTUP, _animator, _stateInfo, flags, subID, _layerID);
 
             listener.OnAnimationCommandEnter(
                 _animator,
@@ -154,12 +210,12 @@ public class AnimationCommandSender : AnimationStateSender
         {
             if(!invokeEnd) listener.OnStateUpdate(_animator, _stateInfo, _layerID);
 
-            if(invokeActive) listener.OnActive(_animator, _stateInfo, _layerID);
-            if(invokeRecovery) listener.OnRecovery(_animator, _stateInfo, _layerID);
+            if(invokeActive) InvokeState(listener, FLAG_ACTIVE, _animator, _stateInfo, flags, subID, _layerID);
+            if(invokeRecovery) InvokeState(listener, FLAG_RECOVERY, _animator, _stateInfo, flags, subID, _layerID);
             if(invokeEnd)
             {
-                if(additionalWindow > 0.0f) listener.OnAdditionalWindow(additionalWindow);
-                else listener.OnStateEnd(_animator, _stateInfo, _layerID);
+                if(additionalWindow > 0.0f) listener.OnAdditionalWindow(_animator, _stateInfo, additionalWindow, _flags, _subID, _layerID);
+                else InvokeState(listener, FLAG_END, _animator, _stateInfo, flags, subID, _layerID);
             }
         }
     }
@@ -178,6 +234,62 @@ public class AnimationCommandSender : AnimationStateSender
         {
             listener.OnStateExit(_animator, _stateInfo, _layerID);
         }
+    }
+
+    /// <summary>Invokes Animation Event.</summary>
+    /// <param name="_listener">Listener to invoke the event to.</param>
+    /// <param name="_stateID">State's ID.</param>
+    /// <param name="_animator">Animator's reference.</param>
+    /// <param name="_stateInfo">AnimationState's Information.</param>
+    /// <param name="_flags">Additional Animation's Flags.</param>
+    /// <param name="_subID">Additional Animation's Sub-ID.</param>
+    /// <param name="_layerID">Layer's Index on the State Machine.</param>
+    private void InvokeState(IAnimationCommandListener _listener, int _stateID, Animator _animator, AnimatorStateInfo _stateInfo, AnimationFlags _flags, int _subID, int _layerID)
+    {
+        string state = string.Empty;
+
+        switch(_stateID)
+        {
+            case FLAG_STARTUP:
+            state = "Startup";
+            _listener.OnStartup(_animator, _stateInfo, _flags, _subID, _layerID);
+            break;
+
+            case FLAG_ACTIVE:
+            state = "Active";
+            _listener.OnActive(_animator, _stateInfo, _flags, _subID, _layerID);
+            break;
+
+            case FLAG_RECOVERY:
+            state = "Recovery";
+            _listener.OnRecovery(_animator, _stateInfo, _flags, _subID, _layerID);
+            break;
+
+            case FLAG_END:
+            state = "End";
+            _listener.OnStateEnd(_animator, _stateInfo, _layerID);
+            break;
+        }
+
+#if UNITY_EDITOR
+        StringBuilder builder = new StringBuilder();
+
+        builder.Append("[AnimationCommandSender] Invoking State: ");
+        builder.Append(state);
+        builder.Append(", with the following arguments: { Animator's GameObject = ");
+        builder.Append(_animator != null ? _animator.gameObject.name : "NULL Animator");
+        builder.Append(", AnimatorStateInfo = ");
+        builder.Append(_stateInfo.StateInfoToString());
+        builder.Append(", Animation Flags = ");
+        builder.Append(_flags.ToString());
+        builder.Append(", Sub-ID = ");
+        builder.Append(_subID.ToString());
+        builder.Append(", Layer's Index = ");
+        builder.Append(_layerID.ToString());
+        builder.Append(" }");
+
+        Debug.Log(builder.ToString());
+#endif
     }
 }
 }

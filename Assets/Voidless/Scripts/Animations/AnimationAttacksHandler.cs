@@ -35,6 +35,7 @@ public class AnimationAttacksHandler : MonoBehaviour, IAnimationCommandListener
     public const int FLAG_RECOVERY = 1 << 2;                        /// <summary>Recovery's Flag.</summary>
     public const int FLAG_END = 1 << 4;                             /// <summary>End's Flag.</summary>
 
+    [SerializeField] private AnimationFlags _flags; 				/// <summary>Animation Flags that this listener accepts on events' callbacks.</summary>
 	[SerializeField] private Animator _animator; 					/// <summary>Animator's Component.</summary>
 	[SerializeField] private int[] _comboLimits; 					/// <summary>Combos' Limits.</summary>
 	private int _attackID; 											/// <summary>Current Attacks' ID.</summary>
@@ -44,6 +45,13 @@ public class AnimationAttacksHandler : MonoBehaviour, IAnimationCommandListener
 	private Coroutine attackWindow; 								/// <summary>AttackWindow Coroutine's reference.</summary>						
 
 #region Getters/Setters:
+	/// <summary>Gets and Sets flags property.</summary>
+	public AnimationFlags flags
+	{
+		get { return _flags; }
+		set { _flags = value; }
+	}
+
 	/// <summary>Gets and Sets comboLimits property.</summary>
 	public int[] comboLimits
 	{
@@ -80,12 +88,10 @@ public class AnimationAttacksHandler : MonoBehaviour, IAnimationCommandListener
 	}
 #endregion
 
-	/*TEST: */ string[] names;
 
 	/// <summary>AnimationAttacksHandler's instance initialization when loaded [Before scene loads].</summary>
 	private void Awake()
 	{
-		/*TEST: */ names = new[] { "Attack_Combo_1", "Attack_Combo_2", "Attack_Combo_3" };
 		if(animator != null) animator.SubscribeToAnimationCommandSenders(this);
 		previousComboIndex = -1;
 	}
@@ -215,9 +221,9 @@ public class AnimationAttacksHandler : MonoBehaviour, IAnimationCommandListener
     /// <param name="_layerID">Layer's Index on the State Machine.</param>
     public void OnStateEnd(Animator _animator, AnimatorStateInfo _stateInfo, int _layerID)
     {
-    	/*Debug.Log("[AnimationAttacksHandler] Calling End with ID: " + attackID);
+    	Debug.Log("[AnimationAttacksHandler] Calling End with ID: " + attackID);
     	CancelAttack();
-    	InvokeAnimationAttackEvent(AnimationCommandState.End);*/
+    	InvokeAnimationAttackEvent(AnimationCommandState.End);
     }
 
     /// <summary>OnStateMove is called right after Animator.OnAnimatorMove().</summary>
@@ -235,38 +241,55 @@ public class AnimationAttacksHandler : MonoBehaviour, IAnimationCommandListener
     /// <summary>Callback invoked when a command setup begins.</summary>
     /// <param name="_animator">Animator's reference.</param>
     /// <param name="_stateInfo">AnimationState's Information.</param>
+    /// <param name="_flags">Additional Animation's Flags.</param>
+    /// <param name="_subID">Additional Animation's Sub-ID.</param>
     /// <param name="_layerID">Layer's Index on the State Machine.</param>
-    public void OnStartup(Animator _animator, AnimatorStateInfo _stateInfo, int _layerID)
+    public void OnStartup(Animator _animator, AnimatorStateInfo _stateInfo, AnimationFlags _flags, int  _subID, int _layerID)
     {
-    	//InvokeAnimationAttackEvent(AnimationCommandState.Startup);
+    	if((_flags | flags) != _flags) return;
+
+    	InvokeAnimationAttackEvent(AnimationCommandState.Startup);
     }
 
     /// <summary>Callback invoked whan a command activation begins.</summary>
     /// <param name="_animator">Animator's reference.</param>
     /// <param name="_stateInfo">AnimationState's Information.</param>
+    /// <param name="_flags">Additional Animation's Flags.</param>
+    /// <param name="_subID">Additional Animation's Sub-ID.</param>
     /// <param name="_layerID">Layer's Index on the State Machine.</param>
-    public void OnActive(Animator _animator, AnimatorStateInfo _stateInfo, int _layerID)
+    public void OnActive(Animator _animator, AnimatorStateInfo _stateInfo, AnimationFlags _flags, int  _subID, int _layerID)
     {
-    	//InvokeAnimationAttackEvent(AnimationCommandState.Active);
+    	if((_flags | flags) != _flags) return;
+
+    	InvokeAnimationAttackEvent(AnimationCommandState.Active);
     }
 
     /// <summary>Callback invoked when a command recovery begins.</summary>
     /// <param name="_animator">Animator's reference.</param>
     /// <param name="_stateInfo">AnimationState's Information.</param>
+    /// <param name="_flags">Additional Animation's Flags.</param>
+    /// <param name="_subID">Additional Animation's Sub-ID.</param>
     /// <param name="_layerID">Layer's Index on the State Machine.</param>
-    public void OnRecovery(Animator _animator, AnimatorStateInfo _stateInfo, int _layerID)
+    public void OnRecovery(Animator _animator, AnimatorStateInfo _stateInfo, AnimationFlags _flags, int  _subID, int _layerID)
     {
-    	/*state = AttackState.AttackWindow;
-    	InvokeAnimationAttackEvent(AnimationCommandState.Recovery);*/
+    	if((_flags | flags) != _flags) return;
+
+    	state = AttackState.AttackWindow;
+    	InvokeAnimationAttackEvent(AnimationCommandState.Recovery);
     }
 
     /// <summary>Callback invoked when [and if] the activation window begins.</summary>
+    /// <param name="_animator">Animator's reference.</param>
+    /// <param name="_stateInfo">AnimationState's Information.</param>
     /// <param name="_duration">Window's Duration.</param>
-    public void OnAdditionalWindow(float _duration)
+    /// <param name="_flags">Additional Animation's Flags.</param>
+    /// <param name="_subID">Additional Animation's Sub-ID.</param>
+    /// <param name="_layerID">Layer's Index on the State Machine.</param>
+    public void OnAdditionalWindow(Animator _animator, AnimatorStateInfo _stateInfo, float _duration, AnimationFlags _flags, int _subID, int _layerID)
     {
-    	/*Debug.Log("[AnimationAttacksHandler] Calling Window with ID: " + attackID);
-    	state = AttackState.AttackWindow;*/
-    	//this.StartCoroutine(AttackWindow(_duration, attackID), ref attackWindow);
+    	Debug.Log("[AnimationAttacksHandler] Calling Window with ID: " + attackID);
+    	state = AttackState.AttackWindow;
+    	this.StartCoroutine(AttackWindow(_duration, attackID), ref attackWindow);
     }
 #endregion
 

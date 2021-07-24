@@ -9,18 +9,19 @@ namespace Voidless
 {
 public class TimeConstrainedForceApplier2D
 {
-	private MonoBehaviour _monoBehaviour; 	/// <summary>MonoBehaviour's reference.</summary>
-	private Rigidbody2D _body; 				/// <summary>Rigidbody2D's Reference.</summary>
-	private ForceMode _forceMode; 			/// <summary>Force's Mode.</summary>
-	private Vector2 _force; 				/// <summary>Desired Force.</summary>
-	private Vector2 _velocity; 				/// <summary>Current Velocity.</summary>
-	private float _duration; 				/// <summary>Force's Duration.</summary>
-	private float _cooldownDuration; 		/// <summary>Cooldown's Duration.</summary>
-	private float _timeScale; 				/// <summary>Normalized Time's Scale.</summary>
-	private float _progress; 				/// <summary>Force's Progress.</summary>
-	private UnityEvent onForceEnds; 		/// <summary>Calback invoked whent he force ends.</summary>
-	private Coroutine forceCoroutine; 		/// <summary>Force's Coroutine reference.</summary>
-	private Cooldown _cooldown; 			/// <summary>Cooldown's Reference.</summary>
+	private MonoBehaviour _monoBehaviour; 							/// <summary>MonoBehaviour's reference.</summary>
+	private DisplacementAccumulator2D _displacementAccumulator; 	/// <summary>[Optional] DisplacementAccumulator2D's Reference.</summary>
+	private Rigidbody2D _body; 										/// <summary>Rigidbody2D's Reference.</summary>
+	private ForceMode _forceMode; 									/// <summary>Force's Mode.</summary>
+	private Vector2 _force; 										/// <summary>Desired Force.</summary>
+	private Vector2 _velocity; 										/// <summary>Current Velocity.</summary>
+	private float _duration; 										/// <summary>Force's Duration.</summary>
+	private float _cooldownDuration; 								/// <summary>Cooldown's Duration.</summary>
+	private float _timeScale; 										/// <summary>Normalized Time's Scale.</summary>
+	private float _progress; 										/// <summary>Force's Progress.</summary>
+	private UnityEvent onForceEnds; 								/// <summary>Calback invoked whent he force ends.</summary>
+	private Coroutine forceCoroutine; 								/// <summary>Force's Coroutine reference.</summary>
+	private Cooldown _cooldown; 									/// <summary>Cooldown's Reference.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets monoBehaviour property.</summary>
@@ -28,6 +29,13 @@ public class TimeConstrainedForceApplier2D
 	{
 		get { return _monoBehaviour; }
 		private set { _monoBehaviour = value; }
+	}
+
+	/// <summary>Gets and Sets displacementAccumulator property.</summary>
+	public DisplacementAccumulator2D displacementAccumulator
+	{
+		get { return _displacementAccumulator; }
+		set { _displacementAccumulator = value; }
 	}
 
 	/// <summary>Gets and Sets body property.</summary>
@@ -124,7 +132,7 @@ public class TimeConstrainedForceApplier2D
 		forceMode = _forceMode;
 		timeScale = 1.0f;
 
-		cooldown = new Cooldown(monoBehaviour, cooldownDuration);
+		if(monoBehaviour != null) cooldown = new Cooldown(monoBehaviour, cooldownDuration);
 
 		if(OnForceEnds == null) OnForceEnds = new UnityEvent();
 		foreach(UnityAction action in actions)
@@ -133,36 +141,51 @@ public class TimeConstrainedForceApplier2D
 		}
 	}
 
+	/// <summary>TimeConstrainedForceApplier2D default constructor.</summary>
+	/// <param name="_monoBehaviour">MonoBehaviour's reference.</param>
+	/// <param name="_body">Rigidbody2D to displace.</param>
+	/// <param name="_force">Force's Vector.</param>
+	/// <param name="_duration">Force's Duration.</param>
+	/// <param name="_forceMode">Force Mode [ForceMode.Force by default].</param>
+	/// <param name="actions">Optional callbacks to invoke when the force ends.</param>
+	public TimeConstrainedForceApplier2D(DisplacementAccumulator2D _displacementAccumulator, Vector2 _force, float _duration, ForceMode _forceMode = ForceMode.Force, params UnityAction[] actions) : this(null, null, _force, _duration, _forceMode, actions)
+	{
+		displacementAccumulator = _displacementAccumulator;
+		monoBehaviour = displacementAccumulator;
+		body = displacementAccumulator.rigidbody;
+
+		if(monoBehaviour != null) cooldown = new Cooldown(monoBehaviour, cooldownDuration);
+	}
+
 	/// <summary>Applies Force.</summary>
 	public void ApplyForce()
 	{
-		if(!onCooldown)
+		if(onCooldown) return;
+		
+		switch(forceMode)
 		{
-			switch(forceMode)
-			{
-				case ForceMode.Force:
-				velocity += (force / body.mass) * Time.fixedDeltaTime;
-				break;
+			case ForceMode.Force:
+			velocity += (force / body.mass) * Time.fixedDeltaTime;
+			break;
 
-				case ForceMode.Acceleration:
-				velocity += force * Time.fixedDeltaTime;
-				break;
+			case ForceMode.Acceleration:
+			velocity += force * Time.fixedDeltaTime;
+			break;
 
-				case ForceMode.Impulse:
-				velocity = force / body.mass;
-				break;
+			case ForceMode.Impulse:
+			velocity = force / body.mass;
+			break;
 
-				case ForceMode.VelocityChange:
-				velocity = force;
-				break;
+			case ForceMode.VelocityChange:
+			velocity = force;
+			break;
 
-				default:
-				velocity = force;
-				break;
-			}
-
-			monoBehaviour.StartCoroutine(ApplyForceRoutine(), ref forceCoroutine);
+			default:
+			velocity = force;
+			break;
 		}
+
+		monoBehaviour.StartCoroutine(ApplyForceRoutine(), ref forceCoroutine);
 	}
 
 	/// <summary>Cancels Force.</summary>
@@ -183,7 +206,6 @@ public class TimeConstrainedForceApplier2D
 	/// <summary>Coroutine that applies force.</summary>
 	private IEnumerator ApplyForceRoutine()
 	{
-		//int frames = 0;
 		progress = 0.0f;
 		float inverseDuration = 1.0f / duration;
 		float inverseMass = 1.0f / body.mass;
@@ -222,10 +244,16 @@ public class TimeConstrainedForceApplier2D
 			if(body.mass != previousMass) inverseMass = 1.0f / body.mass;
 			previousMass = body.mass;
 
-			//body.MovePosition(body.position + (velocity * t));
 			progress += (t * inverseDuration);
-			/*frames++;
-			Debug.Log($"Frames: {frames}");*/
+
+			if(displacementAccumulator != null)
+			{
+				displacementAccumulator.AddDisplacement(velocity * timeScale);
+
+			} else if(body != null)
+			{
+				body.velocity = velocity;
+			}
 
 			yield return VCoroutines.WAIT_PHYSICS_THREAD;
 		}

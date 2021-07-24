@@ -142,12 +142,14 @@ public class PlayerController : Singleton<PlayerController>
 			inputFlags &= ~FLAG_INPUT_JUMP;
 		}
 
+/*#region DashIsDead:
 		/// Dash Action:
 		if((inputFlags | FLAG_INPUT_DASH) == inputFlags)
 		{
 			mateo.Dash();
 			inputFlags &= ~FLAG_INPUT_DASH;
 		}
+#endregion*/
 
 		/// Sword Attack Action:
 		if((inputFlags | FLAG_INPUT_ATTACK_SWORD) == inputFlags)

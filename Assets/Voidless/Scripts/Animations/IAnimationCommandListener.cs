@@ -9,24 +9,35 @@ public interface IAnimationCommandListener : IAnimationStateListener
 	/// <summary>Callback invoked when a command setup begins.</summary>
     /// <param name="_animator">Animator's reference.</param>
     /// <param name="_stateInfo">AnimationState's Information.</param>
+    /// <param name="_flags">Additional Animation's Flags.</param>
+    /// <param name="_subID">Additional Animation's Sub-ID.</param>
     /// <param name="_layerID">Layer's Index on the State Machine.</param>
-    void OnStartup(Animator _animator, AnimatorStateInfo _stateInfo, int _layerID);
+    void OnStartup(Animator _animator, AnimatorStateInfo _stateInfo, AnimationFlags _flags, int  _subID, int _layerID);
 
     /// <summary>Callback invoked whan a command activation begins.</summary>
     /// <param name="_animator">Animator's reference.</param>
     /// <param name="_stateInfo">AnimationState's Information.</param>
+    /// <param name="_flags">Additional Animation's Flags.</param>
+    /// <param name="_subID">Additional Animation's Sub-ID.</param>
     /// <param name="_layerID">Layer's Index on the State Machine.</param>
-    void OnActive(Animator _animator, AnimatorStateInfo _stateInfo, int _layerID);
+    void OnActive(Animator _animator, AnimatorStateInfo _stateInfo, AnimationFlags _flags, int  _subID, int _layerID);
 
     /// <summary>Callback invoked when a command recovery begins.</summary>
     /// <param name="_animator">Animator's reference.</param>
     /// <param name="_stateInfo">AnimationState's Information.</param>
+    /// <param name="_flags">Additional Animation's Flags.</param>
+    /// <param name="_subID">Additional Animation's Sub-ID.</param>
     /// <param name="_layerID">Layer's Index on the State Machine.</param>
-    void OnRecovery(Animator _animator, AnimatorStateInfo _stateInfo, int _layerID);
+    void OnRecovery(Animator _animator, AnimatorStateInfo _stateInfo, AnimationFlags _flags, int  _subID, int _layerID);
 
     /// <summary>Callback invoked when [and if] the activation window begins.</summary>
+    /// <param name="_animator">Animator's reference.</param>
+    /// <param name="_stateInfo">AnimationState's Information.</param>
     /// <param name="_duration">Window's Duration.</param>
-    void OnAdditionalWindow(float _duration);
+    /// <param name="_flags">Additional Animation's Flags.</param>
+    /// <param name="_subID">Additional Animation's Sub-ID.</param>
+    /// <param name="_layerID">Layer's Index on the State Machine.</param>
+    void OnAdditionalWindow(Animator _animator, AnimatorStateInfo _stateInfo, float _duration, AnimationFlags _flags, int _subID, int _layerID);
 
     /// <summary>Callback invoked when an animation begins.</summary>
     /// <param name="_animator">Animator's reference.</param>

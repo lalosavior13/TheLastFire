@@ -20,7 +20,7 @@ public delegate void OnWallEvaluatorEvent(WallEvaluationEvent _event);
 
 [RequireComponent(typeof(SensorSystem2D))]
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(DisplacementAccumulator))]
+[RequireComponent(typeof(DisplacementAccumulator2D))]
 public class WallEvaluator : MonoBehaviour
 {
 	public event OnWallEvaluatorEvent onWallEvaluatorEvent; 	/// <summary>OmWallEvaluationEvent's event delegate.</summary>
@@ -34,7 +34,7 @@ public class WallEvaluator : MonoBehaviour
 	private WallEvaluationEvent _state; 						/// <summary>Current's State.</summary>
 	private SensorSystem2D _sensorSystem; 						/// <summary>SensorSystem2D's Component.</summary>
 	private Rigidbody2D _rigidbody; 							/// <summary>Rigidbody2D's Component.</summary>
-	private DisplacementAccumulator _accumulator; 				/// <summary>DisplacementAccumulator's Component.</summary>
+	private DisplacementAccumulator2D _accumulator; 			/// <summary>DisplacementAccumulator2D's Component.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets forceInfo property.</summary>
@@ -100,11 +100,11 @@ public class WallEvaluator : MonoBehaviour
 	}
 
 	/// <summary>Gets accumulator Component.</summary>
-	public DisplacementAccumulator accumulator
+	public DisplacementAccumulator2D accumulator
 	{ 
 		get
 		{
-			if(_accumulator == null) _accumulator = GetComponent<DisplacementAccumulator>();
+			if(_accumulator == null) _accumulator = GetComponent<DisplacementAccumulator2D>();
 			return _accumulator;
 		}
 	}

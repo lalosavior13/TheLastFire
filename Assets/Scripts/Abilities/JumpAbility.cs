@@ -21,7 +21,7 @@ public enum JumpState
 public delegate void OnJumpStateChange(int _stateID, int _jumpLevel);
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(DisplacementAccumulator))]
+[RequireComponent(typeof(DisplacementAccumulator2D))]
 [RequireComponent(typeof(GravityApplier))]
 public class JumpAbility : MonoBehaviour, IStateMachine
 {
@@ -53,7 +53,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	private int _previousState; 								/// <summary>Previous State.</summary>
 	private int _ignoreResetMask; 								/// <summary>Mask that selectively contains state to ignore resetting if they were added again [with AddState's method]. As it is 0 by default, it won't ignore resetting any state [~0 = 11111111]</summary>
 	private Rigidbody2D _rigidbody; 							/// <summary>Rigidbody's Component.</summary>
-	private DisplacementAccumulator _accumulator; 				/// <summary>displacementAccumulator's Component.</summary>
+	private DisplacementAccumulator2D _accumulator; 			/// <summary>displacementAccumulator's Component.</summary>
 	private GravityApplier _gravityApplier; 					/// <summary>GravityApplier's Component.</summary>
 	private Cooldown _landingCooldown; 							/// <summary>Landing Cooldown's reference.</summary>
 
@@ -163,11 +163,11 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	}
 
 	/// <summary>Gets accumulator Component.</summary>
-	public DisplacementAccumulator accumulator
+	public DisplacementAccumulator2D accumulator
 	{ 
 		get
 		{
-			if(_accumulator == null) _accumulator = GetComponent<DisplacementAccumulator>();
+			if(_accumulator == null) _accumulator = GetComponent<DisplacementAccumulator2D>();
 			return _accumulator;
 		}
 	}
@@ -183,7 +183,6 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	}
 #endregion
 
-#region UnityMethods:
 	/// <summary>JumpAbility's instance initialization.</summary>
 	private void Awake()
 	{
@@ -195,16 +194,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	}
 
 	/// <summary>Updates JumpAbility's instance at each Physics Thread's frame.</summary>
-	private void FixedUpdate()
-	{
-		/// \TODO FIX THIS SHIT
-		if(this.HasStates(STATE_ID_JUMPING))
-		{
-			TimeConstrainedForceApplier2D applier = forcesAppliers[currentJumpIndex];
-			accumulator.AddDisplacement(applier.velocity * applier.timeScale);
-		}
-	}
-#endregion
+	private void FixedUpdate(){ /*...*/ }
 
 #region StateMachineCallbacks:
 	/// <summary>Enters int State.</summary>
@@ -215,7 +205,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		{
 			case STATE_ID_GROUNDED:
 			gravityApplier.RequestScaleChange(GetInstanceID(), groundedScale, scaleChangePriority);
-			if(forcesAppliers != null) forcesAppliers[currentJumpIndex].CancelForce();
+			CancelForce(currentJumpIndex);
 			currentJumpIndex = 0;
 			break;
 
@@ -235,7 +225,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 			break;
 		}
 
-		//Debug.Log("[JumpAbility] Entered State with Bit-Chain: " + _state.GetBitChain());
+		//Debug.Log("[JumpAbility] Entrered State: " + _state.GetBitChain());
 	}
 	
 	/// <summary>Leaves int State.</summary>
@@ -276,7 +266,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		switch(_grounded)
 		{
 			case true:
-			this.ChangeState((previousState | STATE_FLAG_FALLING) == previousState ? STATE_ID_LANDING : STATE_ID_GROUNDED);
+			this.ChangeState(STATE_ID_LANDING);
 			break;
 
 			case false:
@@ -307,8 +297,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		{
 			ForceInformation2D forceInfo = forcesInfo[i];
 			forcesAppliers[i] = new TimeConstrainedForceApplier2D(
-				this,
-				rigidbody,
+				accumulator,
 				forceInfo.force,
 				forceInfo.duration,
 				forceInfo.forceMode,
@@ -339,8 +328,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 
 		if(forceApplier == null) return;
 
-		//Debug.Log("[JumpAbility] ForceApplier #" + currentJumpIndex + ": " + forceApplier.ToString());
-
+		gravityApplier.ResetVelocity();
 		forceApplier.ApplyForce();
 		this.ChangeState(STATE_ID_JUMPING);
 	}
@@ -387,6 +375,26 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		}
 
 		return f;
+	}
+
+	/// <summary>Cancels Force at given index.</summary>
+	/// <param name="_index">Force's Index.</param>
+	private void CancelForce(int _index)
+	{
+		if(forcesAppliers == null) return;
+
+		forcesAppliers[Mathf.Clamp(_index, 0, forcesAppliers.Length - 1)].CancelForce();
+	}
+
+	/// <summary>Cancels all forces [all indices].</summary>
+	private void CancelForces()
+	{
+		if(forcesAppliers == null) return;
+
+		for(int i = 0; i < forcesAppliers.Length; i++)
+		{
+			CancelForce(i);
+		}
 	}
 }
 }

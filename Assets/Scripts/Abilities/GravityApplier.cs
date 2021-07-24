@@ -11,7 +11,7 @@ namespace Flamingo
 public delegate void OnBoolStateChange(bool _grounded);
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(DisplacementAccumulator))]
+[RequireComponent(typeof(DisplacementAccumulator2D))]
 [RequireComponent(typeof(SensorSystem2D))]
 public class GravityApplier : MonoBehaviour
 {
@@ -23,7 +23,7 @@ public class GravityApplier : MonoBehaviour
 	[SerializeField] private int _scaleChangePriority; 						/// <summary>Scale Change's Priority.</summary>
 	[SerializeField] private bool _useGravity; 								/// <summary>Use Gravity? true by default.</summary>
 	private Rigidbody2D _rigidbody; 										/// <summary>Rigidbody2D's Component.</summary>
-	private DisplacementAccumulator _accumulator; 							/// <summary>displacementAccumulator's Component.</summary>
+	private DisplacementAccumulator2D _accumulator; 						/// <summary>displacementAccumulator's Component.</summary>
 	private SensorSystem2D _sensorSystem; 									/// <summary>SensorSystem's Component.</summary>
 	private Vector2 _velocity; 												/// <summary>Gravity's Velocity.</summary>
 	private float _bestScale; 												/// <summary>Best Gravity's Scalar.</summary>
@@ -99,11 +99,11 @@ public class GravityApplier : MonoBehaviour
 	}
 
 	/// <summary>Gets accumulator Component.</summary>
-	public DisplacementAccumulator accumulator
+	public DisplacementAccumulator2D accumulator
 	{ 
 		get
 		{
-			if(_accumulator == null) _accumulator = GetComponent<DisplacementAccumulator>();
+			if(_accumulator == null) _accumulator = GetComponent<DisplacementAccumulator2D>();
 			return _accumulator;
 		}
 	}

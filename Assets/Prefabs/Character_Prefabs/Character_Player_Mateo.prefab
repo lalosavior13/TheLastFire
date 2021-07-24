@@ -1241,7 +1241,6 @@ GameObject:
   - component: {fileID: 5122952807910987804}
   - component: {fileID: 5122952807910987806}
   - component: {fileID: 5122952807910987807}
-  - component: {fileID: 5122952807910987793}
   - component: {fileID: 5122952807910987792}
   - component: {fileID: 5122952807910987795}
   - component: {fileID: 5122952807910987794}
@@ -1252,6 +1251,7 @@ GameObject:
   - component: {fileID: 179572640}
   - component: {fileID: 723357240}
   - component: {fileID: 723357241}
+  - component: {fileID: 229302502}
   m_Layer: 0
   m_Name: Character_Player_Mateo
   m_TagString: Player
@@ -1532,18 +1532,6 @@ MonoBehaviour:
   _impactedWithWallCredential:
     _tag: BouncingOffWall
     _ID: 1259035308
---- !u!114 &5122952807910987793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5122952807910987780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63a2c4480380a6e41b59bcca86d65a43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5122952807910987792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1668,8 +1656,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9837f2f9fd0689b429e499f662bb8f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flags: 1
   _animator: {fileID: 8963642933051975932}
-  _comboLimits: 03000000010000000100000001000000
+  _comboLimits: 03000000030000000100000001000000
 --- !u!114 &1271150533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1732,6 +1721,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 360
+--- !u!114 &229302502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5122952807910987780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55825dcae99fc84489e32ae16fd88c0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &3247047401443796436
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -39,7 +39,6 @@ public class DisplacementAccumulator2D : MonoBehaviour
 	private void OnEndOfPhysicsStep()
 	{
 		if(velocity.sqrMagnitude == 0.0f) return;
-		Debug.Log("[DisplacementAccumulator2D] Velocity: " + velocity);
 		rigidbody.MovePosition(rigidbody.position + (velocity * Time.fixedDeltaTime));
 		velocity *= 0.0f;
 	}
@@ -56,8 +55,7 @@ public class DisplacementAccumulator2D : MonoBehaviour
 	{
 		while(true)
 		{
-			//yield return VCoroutines.WAIT_PHYSICS_THREAD;
-			yield return null;
+			yield return VCoroutines.WAIT_PHYSICS_THREAD;
 			OnEndOfPhysicsStep();
 		}
 	}

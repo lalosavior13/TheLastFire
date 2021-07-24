@@ -368,8 +368,8 @@ public class Mateo : Character
 		// TEST
 		///rotationAbility.RotateTowardsDirection(animatorParent, Vector3.right * leftAxes.x);
 
-		Debug.DrawRay(transform.position, Vector3.right * leftAxes.x * 5.0f, Color.magenta);
-		Debug.DrawRay(transform.position, Quaternion.LookRotation(Vector3.right * leftAxes.x) * Vector3.forward * 8.0f, Color.yellow);
+		/*Debug.DrawRay(transform.position, Vector3.right * leftAxes.x * 5.0f, Color.magenta);
+		Debug.DrawRay(transform.position, Quaternion.LookRotation(Vector3.right * leftAxes.x) * Vector3.forward * 8.0f, Color.yellow);*/
 
 		if(animator == null) return;
 
@@ -537,6 +537,7 @@ public class Mateo : Character
 
 			case HealthEvent.FullyDepleted:
 			animator.SetInteger(vitalityIDCredential, STATE_FLAG_DEAD);
+			//animator.SetAllLayersWeight(0.0f);
 			break;
 		}
 	}
@@ -622,6 +623,13 @@ public class Mateo : Character
 	/// <param name="_axes">Left Axes.</param>
 	public void SwordAttack(Vector2 _axes)
 	{
+		/* Attack If Either:
+			- Mateo is not hurt.
+			- Mateo is not already attacking.
+			- Mateo is not on waiting state.
+			- Mateo is not bouncing from a wall.
+			- Mateo is not landing.
+		*/
 		if(this.HasStates(ID_STATE_HURT)
 		|| attacksHandler.state == AttackState.Attacking
 		|| attacksHandler.state == AttackState.Waiting

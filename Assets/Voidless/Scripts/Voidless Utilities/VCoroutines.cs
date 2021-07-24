@@ -830,11 +830,16 @@ public static class VCoroutines
 		- https://docs.unity3d.com/ScriptReference/Animator.GetCurrentAnimatorClipInfo.html
 		- https://docs.unity3d.com/ScriptReference/AnimatorClipInfo.html
 	*/
-	public static IEnumerator WaitForAnimatorState(this Animator _animator, float _additionalWait = 0.0f)
+	public static IEnumerator WaitForAnimatorState(this Animator _animator, int _layerIndex = 0, float _additionalWait = 0.0f, Action onAnimatorStateEnds = null)
 	{
 		yield return null;
 
+		AnimatorStateInfo info = _animator.GetCurrentAnimatorStateInfo(_layerIndex);
+		SecondsDelayWait wait = new SecondsDelayWait(info.length);
 
+		while(wait.MoveNext()) yield return null;
+
+		if(onAnimatorStateEnds != null) onAnimatorStateEnds();
 	}
 #endregion
 

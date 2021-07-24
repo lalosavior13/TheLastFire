@@ -93,6 +93,19 @@ public static class VAnimator
         _animator.SetIKPositionWeight(_IKGoal, _weight);
 	}
 
+	/// <summary>Sets weight to all layers on an Animator.</summary>
+	/// <param name="_animator">Animator's reference.</param>
+	/// <param name="_weight">Desired Weight for all Animator's Layers.</param>
+	public static void SetAllLayersWeight(this Animator _animator, float _weight)
+	{
+		if(_animator == null) return;
+		
+		for(int i = 0; i < _animator.layerCount ; i++)
+		{
+			_animator.SetLayerWeight(i, _weight);
+		}
+	}
+
 	/// <summary>Gets AnimatorStateInfo's name from a set of possible names.</summary>
 	/// <param name="_info">AnimatorState's Information.</param>
 	/// <param name="_names">Set of possible names.</param>

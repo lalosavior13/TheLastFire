@@ -131,7 +131,7 @@ public class ContactWeapon : PoolGameObject
 		int instanceID = obj.GetInstanceID();
 
 /// \TODO Soon to delete (regarding the debugging. I hope at least...)
-#region Debug:
+/*#region Debug:
 		StringBuilder builder = new StringBuilder();
 
 		builder.Append("OnTriggerEvent invoked to class ");
@@ -146,7 +146,7 @@ public class ContactWeapon : PoolGameObject
 		builder.AppendLine(_eventType.ToString());
 
 		Debug.Log(builder.ToString());
-#endregion
+#endregion*/
 
 		/// \TODO Maybe separate into its own DamageApplier class?
 		if(healthAffectableTags != null) foreach(GameObjectTag tag in healthAffectableTags)

@@ -2,24 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Voidless;
 
 namespace Flamingo
 {
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(DisplacementAccumulator))]
+[RequireComponent(typeof(DisplacementAccumulator2D))]
 [RequireComponent(typeof(GravityApplier))]
 public class RigidbodyMovementAbility : MovementAbility
 {
-	private DisplacementAccumulator _accumulator; 	/// <summary>DisplacementAccumulator's Component.</summary>
-	private Rigidbody2D _rigidbody; 				/// <summary>Rigidbpdy2D's Component.</summary>
-	private GravityApplier _gravityApplier; 		/// <summary>GravityApplier's Component.</summary>
+	private DisplacementAccumulator2D _accumulator; 	/// <summary>DisplacementAccumulator2D's Component.</summary>
+	private Rigidbody2D _rigidbody; 					/// <summary>Rigidbpdy2D's Component.</summary>
+	private GravityApplier _gravityApplier; 			/// <summary>GravityApplier's Component.</summary>
 
 	/// <summary>Gets accumulator Component.</summary>
-	public DisplacementAccumulator accumulator
+	public DisplacementAccumulator2D accumulator
 	{ 
 		get
 		{
-			if(_accumulator == null) _accumulator = GetComponent<DisplacementAccumulator>();
+			if(_accumulator == null) _accumulator = GetComponent<DisplacementAccumulator2D>();
 			return _accumulator;
 		}
 	}

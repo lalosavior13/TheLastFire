@@ -18,7 +18,7 @@ public enum DashState
 public delegate void OnDashStateChange(DashState _state);
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(DisplacementAccumulator))]
+[RequireComponent(typeof(DisplacementAccumulator2D))]
 [RequireComponent(typeof(GravityApplier))]
 public class DashAbility : MonoBehaviour, IFiniteStateMachine<DashState>
 {
@@ -34,7 +34,7 @@ public class DashAbility : MonoBehaviour, IFiniteStateMachine<DashState>
 	private DashState _state; 									/// <summary>Current State.</summary>
 	private DashState _previousState; 							/// <summary>Previous State.</summary>
 	private Rigidbody2D _rigidbody; 							/// <summary>Rigidbody's Component.</summary>
-	private DisplacementAccumulator _accumulator; 				/// <summary>displacementAccumulator's Component.</summary>
+	private DisplacementAccumulator2D _accumulator; 			/// <summary>displacementAccumulator's Component.</summary>
 	private GravityApplier _gravityApplier; 					/// <summary>GravityApplier's Comopnent.</summary>
 	private Cooldown _cooldown; 								/// <summary>Cooldown's Reference.</summary>
 	private Vector2 _accumulatedDisplacement; 					/// <summary>Accumulated's Displacement.</summary>
@@ -124,11 +124,11 @@ public class DashAbility : MonoBehaviour, IFiniteStateMachine<DashState>
 	}
 
 	/// <summary>Gets accumulator Component.</summary>
-	public DisplacementAccumulator accumulator
+	public DisplacementAccumulator2D accumulator
 	{ 
 		get
 		{
-			if(_accumulator == null) _accumulator = GetComponent<DisplacementAccumulator>();
+			if(_accumulator == null) _accumulator = GetComponent<DisplacementAccumulator2D>();
 			return _accumulator;
 		}
 	}
@@ -154,8 +154,7 @@ public class DashAbility : MonoBehaviour, IFiniteStateMachine<DashState>
 	private void Awake()
 	{
 		forceApplier = new TimeConstrainedForceApplier2D(
-			this,
-			rigidbody,
+			accumulator,
 			forceInfo.force,
 			forceInfo.duration,
 			forceInfo.forceMode,
@@ -168,12 +167,9 @@ public class DashAbility : MonoBehaviour, IFiniteStateMachine<DashState>
 	/// <summary>Updates DashAbility's instance at each Physics Thread's frame.</summary>
 	private void FixedUpdate()
 	{
-		/// \TODO FIX THIS SHIT
 		if(state == DashState.Dashing)
-		{
-			Vector2 displacement = forceApplier.velocity * forceApplier.timeScale;
-			accumulator.AddDisplacement(displacement);
-			accumulatedDisplacement += (displacement * Time.fixedDeltaTime);
+		{ /// Measure the accumulated Dash's displacement if the current state is Dashing:
+			accumulatedDisplacement = (forceApplier.velocity * forceApplier.timeScale * Time.fixedDeltaTime);
 		}
 
 	}
