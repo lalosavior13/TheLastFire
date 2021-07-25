@@ -145,7 +145,15 @@ public class GravityApplier : MonoBehaviour
 	/// <summary>Updates GravityApplier's instance at each frame.</summary>
 	private void Update()
 	{
-		grounded = sensorSystem.GetSubsystemDetection(groundSensorID);
+		RaycastHit2D hitInfo = default(RaycastHit2D);
+
+		if(sensorSystem.GetSubsystemDetection(groundSensorID, out hitInfo))
+		{
+			SurfaceType surfaceType = Game.EvaluateSurfaceType(hitInfo.normal);
+			grounded = surfaceType == SurfaceType.Floor;
+			Debug.Log("[GravityApplier] Surface Type: " + surfaceType.ToString());
+		}
+		else grounded = false;
 
 		if(grounded != previousGrounded && onGroundedStateChange != null)
 		onGroundedStateChange(grounded);

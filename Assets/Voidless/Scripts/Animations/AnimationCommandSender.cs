@@ -271,7 +271,7 @@ public class AnimationCommandSender : AnimationStateSender
             break;
         }
 
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
         StringBuilder builder = new StringBuilder();
 
         builder.Append("[AnimationCommandSender] Invoking State: ");
@@ -289,7 +289,7 @@ public class AnimationCommandSender : AnimationStateSender
         builder.Append(" }");
 
         Debug.Log(builder.ToString());
-#endif
+#endif*/
     }
 }
 }

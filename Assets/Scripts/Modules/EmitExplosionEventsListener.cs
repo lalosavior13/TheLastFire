@@ -6,12 +6,7 @@ using Voidless;
 
 namespace Flamingo
 {
-/// \TODO Make the F#@*ng SerializableDictionary work with all custom data types...
-[Serializable] public struct IntCollectionIndexPair { public int ID; public CollectionIndex index; }
-[Serializable] public struct TagCollectionIndexPair { public GameObjectTag tag; public CollectionIndex index; }
-[Serializable] public struct DeactivationCauseCollectionIndexPair { public DeactivationCause cause; public CollectionIndex index; }
-
-public class EmitParticleEffectEventsListener : EventsListener
+public class EmitExplosionEventsListener : EventsListener
 {
 	[SerializeField] private IntCollectionIndexPair[] _IDEvents; 							/// <summary>ID Events to subscribe.</summary>
 	[SerializeField] private TagCollectionIndexPair[] _impactEvents; 						/// <summary>Impact Events to subscribe.</summary>
@@ -90,7 +85,7 @@ public class EmitParticleEffectEventsListener : EventsListener
 	{
 		if(!IDEventsDic.ContainsKey(_ID)) return;
 
-		PoolManager.RequestParticleEffect(IDEventsDic[_ID], transform.position, Quaternion.identity);
+		PoolManager.RequestExplodable(IDEventsDic[_ID], transform.position, Quaternion.identity);
 	}
 
 	/// <summary>Callback invoked when a Collision2D intersection is received.</summary>
@@ -103,7 +98,7 @@ public class EmitParticleEffectEventsListener : EventsListener
 
 		if(!impactEventsDic.ContainsKey(tag)) return;
 
-		PoolManager.RequestParticleEffect(impactEventsDic[tag], _info.contactPoint, Quaternion.identity);
+		PoolManager.RequestExplodable(impactEventsDic[tag], _info.contactPoint, Quaternion.identity);
 	}
 
 	/// <summary>Callback invoked when the GameObject is deactivated.</summary>
@@ -113,7 +108,7 @@ public class EmitParticleEffectEventsListener : EventsListener
 	{
 		if(!deactivationEventsDic.ContainsKey(_cause)) return;
 
-		PoolManager.RequestParticleEffect(deactivationEventsDic[_cause], transform.position, Quaternion.identity);
+		PoolManager.RequestExplodable(deactivationEventsDic[_cause], transform.position, Quaternion.identity);
 	}
 }
 }

@@ -50,6 +50,29 @@ public struct GameObjectTag
 		tag = _tag;
 	}
 
+	/// <summary>Compares object to this GameObjectTag.</summary>
+	/// <param name="obj">Object to evaluate.</param>
+	public override bool Equals(object obj)
+	{
+		try
+		{
+			GameObjectTag objTag = (GameObjectTag)obj;
+
+			return tag == objTag;
+		}
+		catch(Exception e)
+		{
+			Debug.LogError("[GameObjectTag] Exception Caught: " + e.Message);
+			return false;
+		}
+	}
+
+	/// <returns>A hash code for the current object.</returns>
+	public override int GetHashCode()
+	{
+		return tag.GetHashCode();
+	}
+
 	/// <returns>GameObject's Tag.</returns>
 	public override string ToString() { return tag; }
 }

@@ -16,6 +16,7 @@ public enum Faction
 [Flags]
 public enum SurfaceType
 {
+	Undefined = 0,
 	Floor  = 1,
 	Wall = 2,
 	Ceiling = 4,
@@ -145,9 +146,20 @@ public class Game : Singleton<Game>
 	/// <summary>Evaluates Surface Type.</summary>
 	/// <param name="u">Up's Normal.</param>
 	/// <param name="n">Face's Normal.</param>
-	public static SurfaceType EvaluateSurfaceType(Vector3 u, Vector3 n)
+	public static SurfaceType EvaluateSurfaceType(Vector2 n)
 	{
-		return default(SurfaceType);
+		if(n.sqrMagnitude != 1.0f) n.Normalize();
+
+		Vector2 g = -Physics2D.gravity.normalized;
+		float d = Vector2.Dot(n, g);
+		float c = data.ceilingDotProductThreshold;
+		float f = data.floorDotProductThreshold;
+
+		if(d >= -1.0f && d < c) return SurfaceType.Ceiling;
+		if(d >= c && d < f) return SurfaceType.Wall;
+		if(d  >= f && d <= 1.0f) return SurfaceType.Floor; 
+
+		return SurfaceType.Undefined;
 	}
 }
 }

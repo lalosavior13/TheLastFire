@@ -40,5 +40,11 @@ public struct CollectionIndex
 	{
 		return index.GetHashCode();
 	}
+
+	/// <returns>String representing this CollectionIndex.</returns>
+	public override string ToString()
+	{
+		return index.ToString();
+	}
 }
 }

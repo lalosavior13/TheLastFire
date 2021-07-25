@@ -126,7 +126,13 @@ public class WallEvaluator : MonoBehaviour
 	/// <summary>WallEvaluator's tick at each frame.</summary>
 	private void Update ()
 	{
-		walled = sensorSystem.GetSubsystemDetection(wallSensorID, out wallInfo);
+		if(sensorSystem.GetSubsystemDetection(wallSensorID, out wallInfo))
+		{
+			SurfaceType surfaceType = Game.EvaluateSurfaceType(wallInfo.normal);
+			walled = surfaceType == SurfaceType.Wall;
+			Debug.Log("[WallEvaluator] SurfaceType: " + surfaceType.ToString());
+		}
+		else walled = false;
 
 		if(walled != previousWalled && onWallEvaluatorEvent != null)
 		onWallEvaluatorEvent(walled ? WallEvaluationEvent.Walled : WallEvaluationEvent.OffWall);

@@ -39,26 +39,42 @@ public class GameData : ScriptableObject
 	[Space(5f)]
 	[Header("Explodables:")]
 	[SerializeField] private Explodable[] _explodables; 						/// <summary>Explodables.</summary>
-	[HideInInspector] public FloatWrapper[] _surfacesAngleThresholds; 			/// <summary>Angle Thresholds for each surface.</summary>
-	[HideInInspector] public FloatWrapper[] _surfacesDotProductThresholds; 		/// <summary>Dot Product Thresholds for each surface.</summary>
+	[HideInInspector] public FloatWrapper _ceilingDotProductThreshold; 				/// <summary>Dot-Product Threshold for the Ceiling.</summary>
+	[HideInInspector] public FloatWrapper _floorDotProductThreshold; 					/// <summary>Dot-Product Threshold for the Floor.</summary>
+	[HideInInspector] public FloatWrapper _ceilingAngleThreshold; 						/// <summary>Angle Threshold for the Ceiling.</summary>
+	[HideInInspector] public FloatWrapper _floorAngleThreshold; 						/// <summary>Angle Threshold for the Floor.</summary>
 	private float _idealDeltaTime; 												/// <summary>Ideal delta time.</summary>
 #if UNITY_EDITOR
 	[HideInInspector] public bool showDotProducts; 								/// <summary>Enable settings for Dot Products' Thresholds? if false, it will show settings for the Angles' Thresholds.</summary>
 #endif
 
 #region Getters:
-	/// <summary>Gets surfacesAngleThresholds property.</summary>
-	public FloatWrapper[] surfacesAngleThresholds
+	/// <summary>Gets and Sets ceilingDotProductThreshold property.</summary>
+	public FloatWrapper ceilingDotProductThreshold
 	{
-		get { return _surfacesAngleThresholds; }
-		set { _surfacesAngleThresholds = value; }
+		get { return _ceilingDotProductThreshold; }
+		set { _ceilingDotProductThreshold = value; }
 	}
 
-	/// <summary>Gets surfacesDotProductThresholds property.</summary>
-	public FloatWrapper[] surfacesDotProductThresholds
+	/// <summary>Gets and Sets floorDotProductThreshold property.</summary>
+	public FloatWrapper floorDotProductThreshold
 	{
-		get { return _surfacesDotProductThresholds; }
-		set { _surfacesDotProductThresholds = value; }
+		get { return _floorDotProductThreshold; }
+		set { _floorDotProductThreshold = value; }
+	}
+
+	/// <summary>Gets and Sets ceilingAngleThreshold property.</summary>
+	public FloatWrapper ceilingAngleThreshold
+	{
+		get { return _ceilingAngleThreshold; }
+		set { _ceilingAngleThreshold = value; }
+	}
+
+	/// <summary>Gets and Sets floorAngleThreshold property.</summary>
+	public FloatWrapper floorAngleThreshold
+	{
+		get { return _floorAngleThreshold; }
+		set { _floorAngleThreshold = value; }
 	}
 
 	/// <summary>Gets frameRate property.</summary>

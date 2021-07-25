@@ -15,17 +15,21 @@ namespace Flamingo
 
 public class Explodable : PoolGameObject
 {
-	[SerializeField] private LayerMask _healthAffectableMask; 	/// <summary>Mask that contains GameObjects affected by the explosion.</summary>
-	[SerializeField] private float _radius; 					/// <summary>Blast's Radius.</summary>
-	[SerializeField] private float _expansionDuration; 			/// <summary>Radius Expansion's Duration.</summary>
-	[SerializeField] private float _maxRadiusDuration; 			/// <summary>How much does the explosion at its maximum radius lasts.</summary>
-	[SerializeField] private float _damage; 					/// <summary>Damage that this explosion applies.</summary>
+	[SerializeField] private LayerMask _healthAffectableMask; 		/// <summary>Mask that contains GameObjects affected by the explosion.</summary>
+	[SerializeField] private GameObjectTag[] _affectableTags; 		/// <summary>Tags of GameObjects potentially affected by the explosion.</summary>
+	[SerializeField] private CollectionIndex _particleEffectIndex; 	/// <summary>Particle Effect's Index.</summary>
+	[SerializeField] private CollectionIndex _soundEffectIndex; 	/// <summary>Sound Effect's Index.</summary>
+	[SerializeField] private float _radius; 						/// <summary>Blast's Radius.</summary>
+	[SerializeField] private float _expansionDuration; 				/// <summary>Radius Expansion's Duration.</summary>
+	[SerializeField] private float _maxRadiusDuration; 				/// <summary>How much does the explosion at its maximum radius lasts.</summary>
+	[SerializeField] private float _damage; 						/// <summary>Damage that this explosion applies.</summary>
+	private float _currentRadius; 									/// <summary>Current Radius' Value.</summary>
 #if UNITY_EDITOR
 	[Space(5f)]
 	[Header("Gizmos' Attributes:")]
-	[SerializeField] private Color gizmosColor; 				/// <summary>Gizmos' Color.</summary>
+	[SerializeField] private Color gizmosColor; 					/// <summary>Gizmos' Color.</summary>
 #endif
-	private Coroutine explosionExpansion; 						/// <summary>Explosion's Coroutine reference.</summary>
+	private Coroutine explosionExpansion; 							/// <summary>Explosion's Coroutine reference.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets healthAffectableMask property.</summary>
@@ -33,6 +37,27 @@ public class Explodable : PoolGameObject
 	{
 		get { return _healthAffectableMask; }
 		set { _healthAffectableMask = value; }
+	}
+
+	/// <summary>Gets and Sets affectableTags property.</summary>
+	public GameObjectTag[] affectableTags
+	{
+		get { return _affectableTags; }
+		set { _affectableTags = value; }
+	}
+
+	/// <summary>Gets and Sets particleEffectIndex property.</summary>
+	public CollectionIndex particleEffectIndex
+	{
+		get { return _particleEffectIndex; }
+		set { _particleEffectIndex = value; }
+	}
+
+	/// <summary>Gets and Sets soundEffectIndex property.</summary>
+	public CollectionIndex soundEffectIndex
+	{
+		get { return _soundEffectIndex; }
+		set { _soundEffectIndex = value; }
 	}
 
 	/// <summary>Gets and Sets radius property.</summary>
@@ -62,14 +87,22 @@ public class Explodable : PoolGameObject
 		get { return _damage; }
 		set { _damage = value; }
 	}
+
+	/// <summary>Gets and Sets currentRadius property.</summary>
+	public float currentRadius
+	{
+		get { return _currentRadius; }
+		set { _currentRadius = value; }
+	}
 #endregion
 
 #if UNITY_EDITOR
-	/// <summary>Draws Gizmos on Editor mode when Explodable's instance is selected.</summary>
-	private void OnDrawGizmosSelected()
+	/// <summary>Draws Gizmos on Editor mode.</summary>
+	private void OnDrawGizmos()
 	{
 		Gizmos.color = gizmosColor;
-		Gizmos.DrawWireSphere(transform.position, radius);
+
+		Gizmos.DrawSphere(transform.position, !Application.isPlaying ? radius : currentRadius);
 	}
 #endif
 
@@ -77,7 +110,10 @@ public class Explodable : PoolGameObject
 	/// <param name="onExplosionEnds">Optional callback invoked when the explosion expansion reaches its end [null by default].</param>
 	public void Explode(Action onExplosionEnds = null)
 	{
-		if(explosionExpansion == null)
+		if(explosionExpansion != null) return;
+
+		PoolManager.RequestParticleEffect(particleEffectIndex, transform.position, transform.rotation);
+		AudioController.PlayOneShot(SourceType.SFX, 0,soundEffectIndex);
 		this.StartCoroutine(ExplosionExpansion(onExplosionEnds), ref explosionExpansion);
 	}
 
@@ -85,9 +121,10 @@ public class Explodable : PoolGameObject
 	public void Reset()
 	{
 #if UNITY_EDITOR
-		gizmosColor = Color.white;
+		gizmosColor = Color.white.WithAlpha(0.2f);
 #endif
 
+		currentRadius = 0.0f;
 		this.DispatchCoroutine(ref explosionExpansion);
 	}
 
@@ -95,23 +132,38 @@ public class Explodable : PoolGameObject
 	/// <param name="r">Current Explosion's Radius.</param>
 	private void Evaluate(float r)
 	{
+		if(affectableTags == null || affectableTags.Length == 0) return;
+
 		Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, r, healthAffectableMask);
 
-		if(colliders != null || colliders.Length == 0) return;
+		if(colliders == null || colliders.Length == 0) return;
 
+		GameObject obj = null;
 		Health health = null;
 
 		foreach(Collider2D collider in colliders)
 		{
-			health = collider.GetComponent<Health>();
+			obj = collider.gameObject;
 
-			if(health == null)
+			foreach(GameObjectTag tag in affectableTags)
 			{
-				HealthLinker linker = collider.GetComponent<HealthLinker>();
-				if(linker != null) health = linker.component;
-			}
+				if(obj.CompareTag(tag))
+				{
+					Debug.Log("[Explodable] Should inflict damage to: " + obj.name);
 
-			if(health != null) health.GiveDamage(damage);
+					health = obj.GetComponentInParent<Health>();
+
+					if(health == null)
+					{
+						HealthLinker linker = collider.GetComponent<HealthLinker>();
+						if(linker != null) health = linker.component;
+					}
+
+					if(health != null) health.GiveDamage(damage);
+
+					return;
+				}
+			}
 		}
 	}
 
@@ -123,14 +175,18 @@ public class Explodable : PoolGameObject
 		{
 			float t = 0.0f;
 			float inverseDuration = 1.0f / expansionDuration;
+			currentRadius = 0.0f;
 
 			while(t < 1.0f)
 			{
-				Evaluate(Mathf.Lerp(0.0f, radius, t));
+				currentRadius = Mathf.Lerp(0.0f, radius, t);
+				Evaluate(currentRadius);
 				t += (Time.deltaTime * inverseDuration);
 				yield return null;
 			}
 		}
+
+		currentRadius = radius;
 
 		if(maxRadiusDuration > 0.0f)
 		{

@@ -773,7 +773,22 @@ public static class VMath
 
 	public static float DotProductAngle(Vector3 a, Vector3 b)
 	{
-		return Mathf.Acos(Vector3.Dot(a, b) / (a.magnitude * b.magnitude));
+		return Mathf.Acos(Vector3.Dot(a, b) / (a.magnitude * b.magnitude)) * RAD_TO_DEG;
+	}
+
+	public static float DotProductToAngle(float d)
+	{
+		return Mathf.Acos(d) * RAD_TO_DEG;
+	}
+	
+	/*
+		- (|A|*|B|) * Cos(a) = Dot(A, B)
+		- a = Acos(Dot(A, B)) / (|A|*|B|)
+		- Dot(A, B) = (|A|*|B|) * Cos(a)
+	*/
+	public static float AngleToDotProduct(float a)
+	{
+		return Mathf.Cos(a * DEG_TO_RAD);
 	}
 
 	/// <summary>Gets interpoilation's t, given an output.</summary>

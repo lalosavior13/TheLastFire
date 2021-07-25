@@ -46,9 +46,22 @@ MonoBehaviour:
   _dontDestroyOnLoad: 0
   _healthAffectableMask:
     serializedVersion: 2
-    m_Bits: 32770
+    m_Bits: 4294967295
+  _affectableTags:
+  - _tag: Player
+    index: 5
+  - _tag: Enemy
+    index: 8
+  _particleEffectIndex:
+    index: 8
+    objectIndex: 0
+    collectionIndex: 8
+  _soundEffectIndex:
+    index: 28
+    objectIndex: 0
+    collectionIndex: 7
   _radius: 2.8
   _expansionDuration: 0.3
   _maxRadiusDuration: 0.4
   _damage: 5
-  gizmosColor: {r: 1, g: 1, b: 1, a: 1}
+  gizmosColor: {r: 1, g: 1, b: 1, a: 0.19607843}

@@ -264,6 +264,35 @@ public static class VString
 		return builder.ToString();
 	}
 
+	/// <summary>Creates a string representing a Dictionary and each of its containing elements.</summary>
+	/// <param name="_dictionary">Dictionary to represent to string.</param>
+	/// <returns>String representing Dictionary.</returns>
+	public static string DictionaryToString<K, V>(this Dictionary<K, V> _dictionary)
+	{
+		StringBuilder builder = new StringBuilder();
+		int index = 0;
+
+		builder.Append("Dictionary<");
+		builder.Append(typeof(K).ToString());
+		builder.Append(", ");
+		builder.Append(typeof(V).ToString());
+		builder.AppendLine(">");
+
+		foreach(KeyValuePair<K, V> pair in _dictionary)
+		{
+			builder.Append("Item ");
+			builder.Append(index.ToString());
+			builder.Append(": { ");
+			builder.Append(pair.Key.ToString());
+			builder.Append(", ");
+			builder.Append(pair.Value.ToString());
+			builder.AppendLine(" }");
+			index++;
+		}
+
+		return builder.ToString();
+	}
+
 	/*/// <summary>Creates a string representing a ICollection of generic type T and each of its containing elements.</summary>
 	/// <param name="_hashSet">ICollection of generic type T to represent to string.</param>
 	/// <returns>String representing ICollection of generic type T.</returns>
