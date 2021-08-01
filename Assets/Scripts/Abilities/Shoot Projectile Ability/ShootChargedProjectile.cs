@@ -92,6 +92,12 @@ public class ShootChargedProjectile : ShootProjectile
 	{
 		currentCharge = 0.0f;
 		ID = projectileID;
+
+		if(projectile != null)
+		{
+			projectile.OnObjectDeactivation();
+			projectile = null;
+		}
 	}
 
 	/// <summary>Callback internally called aftrer Awake.</summary>
@@ -103,7 +109,7 @@ public class ShootChargedProjectile : ShootProjectile
 	/// <summary>Callback invoked when the shot is charging.</summary>
 	/// <param name="_axes">Additional Axes' Argument.</param>
 	/// <returns>State's ID of the charge.</returns>
-	public int OnCharge(Vector2 _axes)
+	public int OnCharge(Vector3 _axes)
 	{
 		if(onCooldown)
 		{
@@ -132,7 +138,7 @@ public class ShootChargedProjectile : ShootProjectile
 			}
 		}
 
-		if(projectile != null) projectile.transform.UpLookAt(projectile.transform.position + (Vector3)_axes);
+		if(projectile != null) projectile.transform.UpLookAt(projectile.transform.position + _axes);
 
 		return fullyCharged ? STATE_ID_CHARGED : STATE_ID_CHARGING;
 	}

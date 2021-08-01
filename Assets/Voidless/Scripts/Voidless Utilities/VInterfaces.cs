@@ -93,13 +93,12 @@ public static class VInterfaces
 	{
 		int states = _sm.state;
 
-		if((states | _states) == states)
-		{
-			_sm.previousState = states;
-			states &= ~_states; /// Remove flags: a & ~b
-			_sm.state = states;
-			_sm.OnStatesRemoved(states & _states); /// Get Removed [previously on] Flags: a & b
-		}
+		_sm.previousState = states;
+		states &= ~_states; /// Remove flags: a & ~b
+		_sm.state = states;
+
+		int removedStates = states & _states;
+		if(removedStates != 0) _sm.OnStatesRemoved(removedStates); /// Get Removed [previously on] Flags: a & b
 	}
 
 	/// <summary>Resets states by a given mask of flags.</summary>

@@ -42,7 +42,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3143841984255774815}
   m_BodyType: 1
-  m_Simulated: 0
+  m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -264,29 +264,40 @@ MonoBehaviour:
   - _tag: Projectile/Player
     index: 11
   _trailRenderers: []
+  _projectileType: 1
   _repelTags: []
   _speedMode: 0
   _speed: 7
   _lifespan: 0
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
-  dontDeactivateOnImpact: 0
+  _maxSteeringForce: 7
+  _distance: 5
+  _motionType: 0
+  _axes:
+    _x: 1
+    _y: 0
+    _z: 0
+  _space: 0
+  _radius: 2
+  _motionSpeed: 2
   _impactParticleEffectIndex:
-    index: 8
+    index: 7
     objectIndex: 0
-    collectionIndex: 8
+    collectionIndex: 6
   _destroyedParticleEffectIndex:
-    index: 2
+    index: 7
     objectIndex: 0
-    collectionIndex: 8
+    collectionIndex: 6
   _impactSoundEffectIndex:
-    index: 20
+    index: 38
     objectIndex: 0
-    collectionIndex: 7
+    collectionIndex: 5
   _destroyedSoundEffectIndex:
     index: 38
     objectIndex: 0
-    collectionIndex: 7
+    collectionIndex: 5
+  gizmosColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1614921204212439701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,9 +312,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hitBoxes:
   - {fileID: 4914631231760126912}
-  _impactTags:
-  - _tag: Weapon_Player
-    index: 11
 --- !u!114 &-9040860490006554968
 MonoBehaviour:
   m_ObjectHideFlags: 0

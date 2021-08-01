@@ -8,6 +8,7 @@ namespace Flamingo
 {
 [RequireComponent(typeof(Boundaries2DContainer))]
 [RequireComponent(typeof(BoxCollider2D))]
+//[ExecuteInEditMode]
 public class Camera2DBoundariesModifier : MonoBehaviour
 {
 	[SerializeField] private GameObjectTag _playerTag; 		/// <summary>Player's Tag.</summary>

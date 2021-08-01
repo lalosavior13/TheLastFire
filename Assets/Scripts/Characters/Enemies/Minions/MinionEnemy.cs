@@ -12,6 +12,7 @@ public class MinionEnemy : Enemy
 	[SerializeField] private Vector3 _muzzlePoint; 				/// <summary>Muzzle's Point.</summary>
 	[SerializeField] private ProjectileType _projectileType; 	/// <summary>Projectile's Type to shoot.</summary>
 	[SerializeField] private CollectionIndex _projectileIndex; 	/// <summary>Projectile's Index.</summary>
+	[SerializeField] private float _projectionTime; 			/// <summary>Parabola Projectile's Projection Time.</summary>
 	[SerializeField] private FOVSight2D _FOVSight; 				/// <summary>FOVSight2D's Component.</summary>
 #if UNITY_EDITOR
 	[Space(5f)]
@@ -41,6 +42,13 @@ public class MinionEnemy : Enemy
 	{
 		get { return _projectileIndex; }
 		set { _projectileIndex = value; }
+	}
+
+	/// <summary>Gets and Sets projectionTime property.</summary>
+	public float projectionTime
+	{
+		get { return _projectionTime; }
+		set { _projectionTime = value; }
 	}
 
 	/// <summary>Gets FOVSight Component.</summary>
@@ -141,29 +149,34 @@ public class MinionEnemy : Enemy
 	}
 
 	/// <summary>Attack's Coroutine.</summary>
-	protected virtual IEnumerator AttackCoroutine()
+	protected   IEnumerator AttackCoroutine()
 	{
 		while(true)
 		{
 			SecondsDelayWait wait = new SecondsDelayWait(0.0f);
 			Vector3 projectedMateoPosition = Game.ProjectMateoPosition(1.0f);
+			Vector3 direction = projectedMateoPosition - muzzlePoint;
 			Projectile projectile = null;
 
 			switch(projectileType)
 			{
 				case ProjectileType.Normal:
-				Vector3 direction = projectedMateoPosition - muzzlePoint;
 				projectile = PoolManager.RequestProjectile(Faction.Enemy, projectileIndex, muzzlePoint, direction);
-				projectile.transform.rotation = VQuaternion.RightLookRotation(direction);
+				projectile.rigidbody.MoveRotation(VQuaternion.RightLookRotation(direction));
+				break;
+
+				case ProjectileType.Homing:
+				projectile = PoolManager.RequestHomingProjectile(Faction.Enemy, projectileIndex, muzzlePoint, direction, Game.GetMateoPosition);
 				break;
 
 				case ProjectileType.Parabola:
-				projectile = PoolManager.RequestParabolaProjectile(Faction.Enemy, projectileIndex, muzzlePoint, projectedMateoPosition, 1.0f);
+				projectile = PoolManager.RequestParabolaProjectile(Faction.Enemy, projectileIndex, muzzlePoint, projectedMateoPosition, projectionTime);
 				break;
 			}
 
 			wait.ChangeDurationAndReset(projectile.cooldownDuration > 0.0f ? projectile.cooldownDuration : 1.0f);
 
+			while(projectile.active) yield return null;
 			while(wait.MoveNext()) yield return null;
 		}
 	}

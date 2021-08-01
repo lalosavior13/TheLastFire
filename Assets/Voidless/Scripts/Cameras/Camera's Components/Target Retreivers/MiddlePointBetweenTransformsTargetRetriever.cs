@@ -41,7 +41,13 @@ public class MiddlePointBetweenTransformsTargetRetriever : VCameraTargetRetrieve
 	/// <summary>Gets and Sets targets property.</summary>
 	public Dictionary<int, VCameraTarget> targets
 	{
-		get { return _targets; }
+		get
+		{
+#if UNITY_EDITOR
+			if(_targets == null) _targets = new Dictionary<int, VCameraTarget>(); 
+#endif
+			return _targets;
+		}
 		private set { _targets = value; }
 	}
 

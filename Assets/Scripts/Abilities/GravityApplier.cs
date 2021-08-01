@@ -10,6 +10,16 @@ namespace Flamingo
 /// <param name="_grounded">New Boolean's State.</param>
 public delegate void OnBoolStateChange(bool _grounded);
 
+/*
+	Scale Change Requests takes Priorities that are registered in a Dictionary<int, VTuple<FloatWrapper, int>>
+
+	Where:
+	 - Key - int:  Instance ID of the requester
+	 - Value:
+	 	- FloatWrapper: Wrapper that contains the scalar  (it is a wrapper so the requester can change the scalar without making another request)
+	 	- int: Priority of the Scalar change, since many other requesters may ask for a scalar change at the same time.
+*/
+
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(DisplacementAccumulator2D))]
 [RequireComponent(typeof(SensorSystem2D))]
@@ -29,7 +39,7 @@ public class GravityApplier : MonoBehaviour
 	private float _bestScale; 												/// <summary>Best Gravity's Scalar.</summary>
 	private bool _grounded; 												/// <summary>Current Grounded's State.</summary>
 	private bool _previousGrounded; 										/// <summary>Previous' Grounded State.</summary>
-	private Dictionary<int, ValueVTuple<float, int>> _scaleChangeRequests; 	/// <summary>HashSet that registers all scale change requests.</summary>
+	private Dictionary<int, VTuple<FloatWrapper, int>> _scaleChangeRequests; 	/// <summary>HashSet that registers all scale change requests.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets gravity property.</summary>
@@ -119,7 +129,7 @@ public class GravityApplier : MonoBehaviour
 	}
 
 	/// <summary>Gets and Sets scaleChangeRequests property.</summary>
-	public Dictionary<int, ValueVTuple<float, int>> scaleChangeRequests
+	public Dictionary<int, VTuple<FloatWrapper, int>> scaleChangeRequests
 	{
 		get { return _scaleChangeRequests; }
 		protected set { _scaleChangeRequests = value; }
@@ -138,7 +148,7 @@ public class GravityApplier : MonoBehaviour
 	/// <summary>GravityApplier's instance initialization when loaded [Before scene loads].</summary>
 	private void Awake()
 	{
-		scaleChangeRequests = new Dictionary<int, ValueVTuple<float, int>>();
+		scaleChangeRequests = new Dictionary<int, VTuple<FloatWrapper, int>>();
 		UpdateBestScale();
 	}
 
@@ -181,8 +191,8 @@ public class GravityApplier : MonoBehaviour
 
 	/// <summary>Requests Scale changes.</summary>
 	/// <param name="_ID">Object's ID.</param>
-	/// <param name="_scaleChangeInfo">ValueVTuple containing the scale change's information.</param>
-	public void RequestScaleChange(int _ID, ValueVTuple<float, int> _scaleChangeInfo)
+	/// <param name="_scaleChangeInfo">VTuple FloatWrapperining the scale change's information.</param>
+	public void RequestScaleChange(int _ID, VTuple<FloatWrapper, int> _scaleChangeInfo)
 	{
 		if(scaleChangeRequests == null) return;
 
@@ -196,9 +206,9 @@ public class GravityApplier : MonoBehaviour
 	/// <param name="_ID">Object's ID.</param>
 	/// <param name="_scale">Requested Gravity's Scale.</param>
 	/// <param name="_priority">Priority's Value.</param>
-	public void RequestScaleChange(int _ID, float _scale, int _priority)
+	public void RequestScaleChange(int _ID, FloatWrapper _scaleWrapper, int _priority)
 	{
-		RequestScaleChange(_ID, new ValueVTuple<float, int>(_scale, _priority));
+		RequestScaleChange(_ID, new VTuple<FloatWrapper, int>(_scaleWrapper, _priority));
 	}
 
 	/// <summary>Rejects Scale Cahnge.</summary>
@@ -215,7 +225,7 @@ public class GravityApplier : MonoBehaviour
 	}
 
 	/// <summary>Updates best scale.</summary>
-	private void UpdateBestScale()
+	public void UpdateBestScale()
 	{
 		if(scaleChangeRequests == null || scaleChangeRequests.Count <= 0)
 		{
@@ -225,12 +235,12 @@ public class GravityApplier : MonoBehaviour
 
 		int highestPriority = int.MinValue;
 
-		foreach(ValueVTuple<float, int> tuple in scaleChangeRequests.Values)
+		foreach(VTuple<FloatWrapper, int> tuple in scaleChangeRequests.Values)
 		{
 			if(tuple.Item2 > highestPriority)
 			{
 				highestPriority = tuple.Item2;
-				bestScale = tuple.Item1;
+				bestScale = tuple.Item1.value;
 			}
 		}
 	}

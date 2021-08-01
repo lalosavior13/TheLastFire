@@ -9,7 +9,6 @@ public static class VTransform
 	/// <param name="_position">New Position.</param>
 	public static void SetPosition(this Transform _transform, Vector3 _position)
 	{
-		Debug.Log("[VTransform] Setting Position...");
 		_transform.position = _position;
 	}
 
@@ -170,6 +169,11 @@ public static class VTransform
 		if((_setParentProperties | TransformProperties.Scale) == _setParentProperties) _transform.localScale = _reorientedParent.transform.localScale;
 	}
 
+	/// <summary>Rotates Transform around given point, axis and angle.</summary>
+	/// <param name="_transform">Transform to rotate.</param>
+	/// <param name="o">Orbit point.</param>
+	/// <param name="axis">Rotation's Axis.</param>
+	/// <param name="r">Separation's Radius.</param>
 	public static void RotateAround(this Transform _transform, Vector3 o, Vector3 axis, float a, float r)
 	{
 		_transform.position = _transform.position.RotatedAround(o, axis, a, r);

@@ -27,8 +27,12 @@ public enum SurfaceType
 	All = Floor | Wall | Ceiling
 }
 
+/// \TODO Update the Camera on Editor Mode
+//[ExecuteInEditMode]
 public class Game : Singleton<Game>
 {
+	[Space(5f)]
+	[Header("Game's Data:")]
 	[SerializeField] private GameData _data; 								/// <summary>Game's Data.</summary>
 	[Space(5f)]
 	[SerializeField] private PlayerController _mateoController; 			/// <summary>Mateo's Controller.</summary>
@@ -67,6 +71,12 @@ public class Game : Singleton<Game>
 	protected override void OnAwake()
 	{
 		data.Initialize();
+
+		if(mateo != null)
+		{
+			Debug.Log("[Game] Adding Mateo to Camera...");
+			AddTargetToCamera(mateo.cameraTarget);
+		}
 	}
 
 	private void Start()
@@ -76,13 +86,21 @@ public class Game : Singleton<Game>
 
 #region TEMPORAL
 	/// <summary>Updates Game's instance at each frame.</summary>
-	private void Update()
+	private void LateUpdate()
 	{
-		if(InputController.InputBegin(6))
+		/*if(InputController.InputBegin(6))
 		{
 			enabled = false;
 			ResetScene();
+		}*/
+
+#if UNITY_EDITOR
+		if(!Application.isPlaying && cameraController != null && mateo != null)
+		{
+			AddTargetToCamera(mateo.cameraTarget);
+			cameraController.TEST_CAMERAUPDATE();
 		}
+#endif
 	}
 #endregion
 

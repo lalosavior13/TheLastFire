@@ -15,7 +15,7 @@ public class GameplayCameraController : VCamera
 	private VCameraDisplacementFollow _displacementFollow; 								/// <summary>VCameraDisplacementFollow's Component.</summary>
 	private Boundaries2DDelimiter _boundariesDelimiter; 								/// <summary>Boundaries2DDelimiter's Component.</summary>
 	private MiddlePointBetweenTransformsTargetRetriever _middlePointTargetRetriever; 	/// <summary>MiddlePointBetweenTransformsTargetRetriever's Component.</summary>
-	private Boundaries2DContainer _boundariesContainer; 							/// <summary>Boundaries2DContainer's Component.</summary>
+	private Boundaries2DContainer _boundariesContainer; 								/// <summary>Boundaries2DContainer's Component.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets displacementFollow Component.</summary>
@@ -76,6 +76,12 @@ public class GameplayCameraController : VCamera
 
 	/// <summary>Updates Camera on Physics' Thread.</summary>
 	protected override void CameraFixedUpdate()
+	{
+		CameraUpdate();
+	}
+
+	/// <summary>Lets CameraUpdate() tu be called publicly.</summary>
+	public void TEST_CAMERAUPDATE()
 	{
 		CameraUpdate();
 	}

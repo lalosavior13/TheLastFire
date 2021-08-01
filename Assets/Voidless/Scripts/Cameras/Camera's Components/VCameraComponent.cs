@@ -18,6 +18,7 @@ using UnityEngine;
 namespace Voidless
 {
 [RequireComponent(typeof(VCamera))]
+[ExecuteInEditMode]
 public abstract class VCameraComponent : MonoBehaviour
 {
 	private VCamera _vCamera; 	/// <summary>vCamera's Component.</summary>

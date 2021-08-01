@@ -57,6 +57,8 @@ public class Mateo : Character
 	[SerializeField] private float _gravityScale; 								/// <summary>Gravity Scale applied when attacking.</summary>
 	[SerializeField] private int _scaleChangePriority; 							/// <summary>Gravity Scale's Change Priority.</summary>
 	[Space(5f)]
+	[SerializeField] private float _jumpingMovementScale; 						/// <summary>Movement's Scale when Mateo is Jumping.</summary>
+	[Space(5f)]
 	[SerializeField]
 	[Range(0.0f, 1.0f)] private float _dashXThreshold; 							/// <summary>Minimum left axis' X [absolute] value to be able to perform dash.</summary>
 	[Space(5f)]
@@ -128,6 +130,9 @@ public class Mateo : Character
 
 	/// <summary>Gets dashXThreshold property.</summary>
 	public float dashXThreshold { get { return _dashXThreshold; } }
+
+	/// <summary>Gets jumpingMovementScale property.</summary>
+	public float jumpingMovementScale { get { return _jumpingMovementScale; } }
 
 	/// <summary>Gets directionalThresholdX property.</summary>
 	public FloatRange directionalThresholdX { get { return _directionalThresholdX; } }
@@ -341,6 +346,9 @@ public class Mateo : Character
 		get { return _postInitialPoseCooldown; }
 		private set { _postInitialPoseCooldown = value; }
 	}
+
+	/// <summary>Gets directionTowardsBackground property.</summary>
+	public Vector3 directionTowardsBackground { get { return stareAtBossRotation * Vector3.forward; } }
 #endregion
 
 	/// <summary>Mateo's instance initialization when loaded [Before scene loads].</summary>
@@ -394,7 +402,8 @@ public class Mateo : Character
 	{
 		animator.SetFloat(leftAxisXCredential, _axes.x);
 		animator.SetFloat(leftAxisYCredential, _axes.y);
-		if(leftAxes.sqrMagnitude == 0.0f && leftAxes == _axes) movementAbility.Stop();
+		if(leftAxes.x == 0.0f && leftAxes == _axes) movementAbility.Stop();
+		if(jumpAbility.HasAnyOfTheStates(JumpAbility.STATE_ID_FALLING)) jumpAbility.AddGravityScalar(_axes.y);
 		leftAxes = _axes;
 	}
 
@@ -492,7 +501,7 @@ public class Mateo : Character
 
 		    case AnimationCommandState.Startup:
 		    sword.ActivateHitBoxes(false);
-		    jumpAbility.gravityApplier.RequestScaleChange(GetInstanceID(), gravityScale, scaleChangePriority);
+		    //jumpAbility.gravityApplier.RequestScaleChange(GetInstanceID(), gravityScale, scaleChangePriority);
 		    break;
 
 		    case AnimationCommandState.Active:
@@ -596,19 +605,22 @@ public class Mateo : Character
 			return;
 		}
 
+		float scale = (jumpAbility.HasStates(JumpAbility.STATE_ID_JUMPING) ? jumpingMovementScale : 1.0f) * _scale;
+
 		//transform.rotation = Quaternion.Euler(0.0f, _axes.x < 0.0f ? 180.0f : 0.0f, 0.0f);
-		movementAbility.Move(slopeEvaluator.normalAdjuster.right.normalized * _axes.magnitude, _scale, Space.World);
+		movementAbility.Move(slopeEvaluator.normalAdjuster.right.normalized * _axes.magnitude, scale, Space.World);
 		slopeEvaluator.normalAdjuster.forward = _axes.x > 0.0f ? Vector3.forward : Vector3.back;
 		orientation = _axes.x > 0.0f ? Vector3.right : Vector3.left;
 	}
 
 	/// <summary>Performs Jump.</summary>
-	public void Jump()
+	/// <param name="_axes">Additional Direction's Axes.</param>
+	public void Jump(Vector2 _axes)
 	{
 		if(this.HasStates(ID_STATE_HURT)
 		|| (jumpAbility.grounded && attacksHandler.state != AttackState.None)) return;
 
-		jumpAbility.Jump();
+		jumpAbility.Jump(_axes);
 	}
 
 	/// <summary>Performs Dash.</summary>
@@ -664,7 +676,7 @@ public class Mateo : Character
 
 	/// <summary>Charges Fire.</summary>
 	/// <param name="_axes">Axes' Argument.</param>
-	public void ChargeFire(Vector2 _axes)
+	public void ChargeFire(Vector3 _axes)
 	{
 		if(this.HasStates(ID_STATE_HURT)) return;
 
@@ -685,7 +697,7 @@ public class Mateo : Character
 
 	/// <summary>Releases Fire.</summary>
 	/// <param name="_axes">Axes' Argument.</param>
-	public void ReleaseFire(Vector2 _axes)
+	public void ReleaseFire(Vector3 _axes)
 	{
 		if(this.HasStates(ID_STATE_HURT)) return;
 

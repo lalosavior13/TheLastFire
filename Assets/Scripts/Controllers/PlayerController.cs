@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +8,10 @@ namespace Flamingo
 {
 public class PlayerController : Singleton<PlayerController>
 {
-	public const int FLAG_INPUT_JUMP = 1 << 1; 						/// <summary>Input flag for the jumping.</summary>	
-	public const int FLAG_INPUT_DASH = 1 << 2; 						/// <summary>Input flag for the dashing.</summary>
-	public const int FLAG_INPUT_ATTACK_SWORD = 1 << 3; 				/// <summary>Input flag for the sword attacking.</summary>
+	public const int FLAG_INPUT_JUMP = 1 << 0; 						/// <summary>Input flag for the jumping.</summary>	
+	public const int FLAG_INPUT_DASH = 1 << 1; 						/// <summary>Input flag for the dashing.</summary>
+	public const int FLAG_INPUT_ATTACK_SWORD = 1 << 2; 				/// <summary>Input flag for the sword attacking.</summary>
+	public const int FLAG_INPUT_CHARGING_FIRE_FRONTAL = 1 << 3; 	/// <summary>Input flag for the frontal fire charging.</summary>
 	public const int FLAG_INPUT_CHARGING_FIRE = 1 << 4; 			/// <summary>Input flag for the fire charging.</summary>
 
 	[SerializeField] private Mateo _mateo; 							/// <summary>Mateo's Reference.</summary>
@@ -19,7 +20,7 @@ public class PlayerController : Singleton<PlayerController>
 	[SerializeField]
 	[Range(0.0f, 0.9f)] private float _movementAxesThreshold; 		/// <summary>Movement axes' threshold that must be passed in order for the player to displace at full speed.</summary>
 	[SerializeField]
-	[Range(0.0f, 0.9f)] private float _chargeFireAxesThreshold; 	/// <summary>Charge Fire axes' threshold that must be passed in order for the player to displace at full speed.</summary>
+	[Range(0.0f, 0.9f)] private float _chargeFireAxesThreshold; 	/// <summary>Charge Fire axes' threshold that must be passed in order for the player to charge the flame.</summary>
 	[SerializeField]
 	[Range(0.0f, 0.9f)] private float _rightDeadZoneThreshold; 		/// <summary>Dead Zone's Threshold.</summary>
 	[Space(5f)]
@@ -27,6 +28,8 @@ public class PlayerController : Singleton<PlayerController>
 	[SerializeField] private int _jumpID; 							/// <summary>Jump's Input ID.</summary>
 	[SerializeField] private int _dashID; 							/// <summary>Dash's Input ID.</summary>
 	[SerializeField] private int _swordAttackID; 					/// <summary>Sword Attack's Input ID.</summary>
+	[SerializeField] private int _frontalFireConjuringID0; 			/// <summary>Frontal Fire Conjuring's Input ID 0.</summary>
+	[SerializeField] private int _frontalFireConjuringID1; 			/// <summary>Frontal Fire Conjuring's Input ID 1.</summary>
 	[Space(5f)]
 	[SerializeField] private float _lowSpeedScalar; 				/// <summary>Low Speed's Scalar.</summary>
 	private int _inputFlags; 										/// <summary>Input Flags.</summary>
@@ -91,6 +94,20 @@ public class PlayerController : Singleton<PlayerController>
 		set { _swordAttackID = value; }
 	}
 
+	/// <summary>Gets and Sets frontalFireConjuringID0 property.</summary>
+	public int frontalFireConjuringID0
+	{
+		get { return _frontalFireConjuringID0; }
+		set { _frontalFireConjuringID0 = value; }
+	}
+
+	/// <summary>Gets and Sets frontalFireConjuringID1 property.</summary>
+	public int frontalFireConjuringID1
+	{
+		get { return _frontalFireConjuringID1; }
+		set { _frontalFireConjuringID1 = value; }
+	}
+
 	/// <summary>Gets and Sets inputFlags property.</summary>
 	public int inputFlags
 	{
@@ -135,10 +152,25 @@ public class PlayerController : Singleton<PlayerController>
 		if(InputController.InputBegin(swordAttackID)) inputFlags |= FLAG_INPUT_ATTACK_SWORD;
 		else inputFlags &= ~FLAG_INPUT_ATTACK_SWORD;
 
+		/// Frontal-Fire Evaluation:
+		if((inputFlags | FLAG_INPUT_CHARGING_FIRE_FRONTAL) != inputFlags
+		&& (InputController.InputBegin(frontalFireConjuringID0) || InputController.InputBegin(frontalFireConjuringID1)))
+		{
+			inputFlags |= FLAG_INPUT_CHARGING_FIRE_FRONTAL;
+		
+		} else if((inputFlags | FLAG_INPUT_CHARGING_FIRE_FRONTAL) == inputFlags
+		&& (InputController.InputEnds(frontalFireConjuringID0) || InputController.InputEnds(frontalFireConjuringID1)))
+		{
+			if(((inputFlags | FLAG_INPUT_CHARGING_FIRE_FRONTAL) == inputFlags) && (rightAxesMagnitude <= rightDeadZoneThreshold))
+			mateo.ReleaseFire(mateo.directionTowardsBackground);
+
+			inputFlags &= ~FLAG_INPUT_CHARGING_FIRE_FRONTAL;
+		}
+
 		/// Jump Action:
 		if((inputFlags | FLAG_INPUT_JUMP) == inputFlags)
 		{
-			mateo.Jump();
+			mateo.Jump(leftAxes);
 			inputFlags &= ~FLAG_INPUT_JUMP;
 		}
 
@@ -165,27 +197,32 @@ public class PlayerController : Singleton<PlayerController>
 			mateo.ChargeFire(rightAxes);
 			
 			previousRightAxes = rightAxes;
-		
 		}
 		else
 		{
-			if((inputFlags | FLAG_INPUT_CHARGING_FIRE) == inputFlags)
+			if((inputFlags | FLAG_INPUT_CHARGING_FIRE_FRONTAL) == inputFlags)
+			{
+				mateo.ChargeFire(mateo.directionTowardsBackground);
+			
+			} else if((inputFlags | FLAG_INPUT_CHARGING_FIRE) == inputFlags)
 			{
 				inputFlags &= ~FLAG_INPUT_CHARGING_FIRE;
 				mateo.ReleaseFire(previousRightAxes.normalized);
-			}
-			else
+			
+			} else if((inputFlags | FLAG_INPUT_CHARGING_FIRE) != inputFlags)
 			{
 				inputFlags &= ~FLAG_INPUT_CHARGING_FIRE;
 				mateo.DischargeFire();
+			
 			}
 		}
 
 		mateo.OnLeftAxesChange(leftAxes);
 		mateo.OnRightAxesChange(rightAxes);
 
+/*#region PreviousFireEvaluation:
 		/// Fire Release Evaluation:
-		/*if((inputFlags | FLAG_INPUT_CHARGING_FIRE) == inputFlags)
+		if((inputFlags | FLAG_INPUT_CHARGING_FIRE) == inputFlags)
 		{
 			float dot = Vector2.Dot(rightAxes.normalized, previousRightAxes);
 		
@@ -201,13 +238,14 @@ public class PlayerController : Singleton<PlayerController>
 			}
 
 			previousRightAxes = rightAxes;
-		}*/
+		}
+#endregion*/
 
-#region TESTs
+/*#region TESTs
 		if(InputController.InputBegin(3)) mateo.Hurt();
 		if(InputController.InputBegin(4)) mateo.Kill();
 		if(InputController.InputBegin(5)) mateo.Revive();
-#endregion
+#endregion*/
 	}
 
 	/// <summary>Updates PlayerController's instance at each Physics Thread's frame.</summary>

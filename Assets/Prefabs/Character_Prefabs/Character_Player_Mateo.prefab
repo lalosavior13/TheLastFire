@@ -1313,7 +1313,7 @@ MonoBehaviour:
   - _relativeTo: 0
     _layerMask:
       serializedVersion: 2
-      m_Bits: 262400
+      m_Bits: 256
     _relativeOrigin:
       _x: 0
       _y: -1
@@ -1358,7 +1358,7 @@ MonoBehaviour:
   - _relativeTo: 0
     _layerMask:
       serializedVersion: 2
-      m_Bits: 16384
+      m_Bits: 256
     _relativeOrigin:
       _x: 0
       _y: 0
@@ -1391,10 +1391,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e9415630e8e6f948aa6155cc0ddfbaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _applyDirectionFromIndex: 1
   _groundedScale: 1
   _jumpingScale: -2
   _fallingScale: 5
-  _scaleChangePriority: 0
+  _additionalScaleRange:
+    _min: 3.5
+    _max: 9
+  _scaleChangePriority: 1
   _progressForExtraJump: 0.6
   _forcesInfo:
   - force: {x: 0, y: 18}
@@ -1403,7 +1407,7 @@ MonoBehaviour:
   - force: {x: 0, y: 20}
     duration: 0.3
     forceMode: 2
-  _landingDuration: 0.001
+  _landingDuration: 0.1
 --- !u!114 &5122952807910987804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1478,6 +1482,7 @@ MonoBehaviour:
     _max: 0.5
   _gravityScale: 1
   _scaleChangePriority: 1
+  _jumpingMovementScale: 1
   _dashXThreshold: 0.5
   _animatorParent: {fileID: 6544736471894580627}
   _animator: {fileID: 8963642933051975932}
@@ -1688,6 +1693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e960790cf5d6edf41afc40f96b50a9c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _angleLimit: 50
   _groundSensorID: 0
   _useNormalAdjusterRight: 0
 --- !u!114 &723357240

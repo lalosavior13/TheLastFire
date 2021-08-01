@@ -72,7 +72,7 @@ public class ShootProjectile : MonoBehaviour
 		if(onCooldown) return false;
 
 		//_direction *= 90.0f;
-		_direction.z = 0.0f;
+		//_direction.z = 0.0f;
 		_origin.z = 0.0f;
 		/*float angle = Vector2.SignedAngle(_origin, _direction);
 		Quaternion rotation = Quaternion.Euler(0.0f, 0.0f, angle /*Mathf.Atan2(_direction.x, _direction.y) * Mathf.Rad2Deg);*/

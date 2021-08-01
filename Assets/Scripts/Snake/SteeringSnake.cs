@@ -11,8 +11,8 @@ public class SteeringSnake : MonoBehaviour
 {
 	[SerializeField] private float _duration; 				/// <summary>Duration.</summary>
 	private float _time; 									/// <summary>Current Time.</summary>
-	private LinkedList<HomingProjectile> _projectilesList; 	/// <summary>HomingProjectiles' LinkedList.</summary>
-	private List<HomingProjectile> _projectiles; 			/// <summary>Projectiles' List.</summary>
+	private LinkedList<Projectile> _projectilesList; 	/// <summary>Projectiles' LinkedList.</summary>
+	private List<Projectile> _projectiles; 			/// <summary>Projectiles' List.</summary>
 	private Func<Vector2> _targetFunction; 					/// <summary>Target's Function.</summary>
 
 	/// <summary>Gets and Sets duration property.</summary>
@@ -30,14 +30,14 @@ public class SteeringSnake : MonoBehaviour
 	}
 
 	/// <summary>Gets and Sets projectilesList property.</summary>
-	public LinkedList<HomingProjectile> projectilesList
+	public LinkedList<Projectile> projectilesList
 	{
 		get { return _projectilesList; }
 		protected set { _projectilesList = value; }
 	}
 
 	/// <summary>Gets and Sets projectiles property.</summary>
-	public List<HomingProjectile> projectiles
+	public List<Projectile> projectiles
 	{
 		get { return _projectiles; }
 		set { _projectiles = value; }
@@ -53,7 +53,7 @@ public class SteeringSnake : MonoBehaviour
 	/// <summary>SteeringSnake's instance initialization when loaded [Before scene loads].</summary>
 	private void Awake()
 	{
-		projectilesList = new LinkedList<HomingProjectile>();
+		projectilesList = new LinkedList<Projectile>();
 	}
 	
 	/// <summary>Snake's tick at each frame.</summary>
@@ -67,16 +67,16 @@ public class SteeringSnake : MonoBehaviour
 
 	/// <summary>Initializes Steering Snake's Behavior.</summary>
 	/// <param name="_projectiles">New set of projectiles that will compose the Steering Snake.</param>
-	public void InitializeLinkedList(Func<Vector2> function, params HomingProjectile[] _projectiles)
+	public void InitializeLinkedList(Func<Vector2> function, params Projectile[] _projectiles)
 	{
 		if(_projectiles == null) return;
 
 		projectiles = _projectiles.ToList();
-		projectilesList = new LinkedList<HomingProjectile>(_projectiles);
+		projectilesList = new LinkedList<Projectile>(_projectiles);
 		targetFunction = function;
-		HomingProjectile p = null;
+		Projectile p = null;
 
-		foreach(HomingProjectile projectile in projectilesList)
+		foreach(Projectile projectile in projectilesList)
 		{
 			if(projectile != projectilesList.First.Value)
 			{
@@ -90,6 +90,7 @@ public class SteeringSnake : MonoBehaviour
 			}
 			
 			projectile.onPoolObjectDeactivation += OnProjectileDeactivated;
+			projectile.projectileType = ProjectileType.Homing;
 			p = projectile;
 		}
 
@@ -101,7 +102,7 @@ public class SteeringSnake : MonoBehaviour
 	{
 		time = _time;
 
-		foreach(HomingProjectile projectile in projectilesList)
+		foreach(Projectile projectile in projectilesList)
 		{
 			projectile.lastPosition = projectile.transform.position;
 		}
@@ -111,18 +112,18 @@ public class SteeringSnake : MonoBehaviour
 	/// <param name="_object">IPoolObject .</param>
 	private void OnProjectileDeactivated(IPoolObject _object)
 	{
-		HomingProjectile projectile = _object as HomingProjectile;
+		Projectile projectile = _object as Projectile;
 		projectile.onPoolObjectDeactivation -= OnProjectileDeactivated;
 
 		if(projectile == null) return;
 
 		projectiles.Remove(projectile);
-		projectilesList = new LinkedList<HomingProjectile>(projectiles);
+		projectilesList = new LinkedList<Projectile>(projectiles);
 		SetLastPositions(time);
 
-		HomingProjectile p = null;
+		Projectile p = null;
 
-		foreach(HomingProjectile proj in projectilesList)
+		foreach(Projectile proj in projectilesList)
 		{
 			if(proj == projectilesList.First.Value)
 			{

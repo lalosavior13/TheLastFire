@@ -36,10 +36,13 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	public const int STATE_ID_FALLING = 1 << 2; 				/// <summary>Falling State's ID.</summary>
 	public const int STATE_ID_LANDING = 1 << 3; 				/// <summary>Landing State's ID.</summary>
 
+	[SerializeField] private int _applyDirectionFromIndex; 	/// <summary>Index from which the jumps can apply additional direction.</summary>
+	[Space(5f)]
 	[Header("Gravity Scales' Settings:")]
 	[SerializeField] private float _groundedScale; 				/// <summary>Gravity's Scale when Grounded.</summary>
 	[SerializeField] private float _jumpingScale; 				/// <summary>Gravity's Scale when Jumping.</summary>
 	[SerializeField] private float _fallingScale; 				/// <summary>Gravity's Scale when Falling.</summary>
+	[SerializeField] private FloatRange _additionalScaleRange; 	/// <summary>Additional Scale [Applied sepparately].</summary>
 	[SerializeField] private int _scaleChangePriority; 			/// <summary>Gravity Scale's Change Priority.</summary>
 	[Space(5f)]
 	[SerializeField]
@@ -48,6 +51,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	[Space(5f)]
 	[SerializeField] private float _landingDuration; 			/// <summary>Landing's Duration.</summary>
 	private TimeConstrainedForceApplier2D[] _forcesAppliers; 	/// <summary>Forces' Appliers.</summary>
+	private FloatWrapper _scalarWrapper; 						/// <summary>Gravity's Scalar Wrapper.</summary>
 	private int _currentJumpIndex; 								/// <summary>Current Jump's Index.</summary>
 	private int _state; 										/// <summary>Current State.</summary>
 	private int _previousState; 								/// <summary>Previous State.</summary>
@@ -91,6 +95,20 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	{
 		get { return _progressForExtraJump; }
 		set { _progressForExtraJump = value; }
+	}
+
+	/// <summary>Gets and Sets additionalScaleRange property.</summary>
+	public FloatRange additionalScaleRange
+	{
+		get { return _additionalScaleRange; }
+		set { _additionalScaleRange = value; }
+	}
+
+	/// <summary>Gets and Sets applyDirectionFromIndex property.</summary>
+	public int applyDirectionFromIndex
+	{
+		get { return _applyDirectionFromIndex; }
+		set { _applyDirectionFromIndex = value; }
 	}
 
 	/// <summary>Gets and Sets scaleChangePriority property.</summary>
@@ -142,6 +160,13 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		set { _forcesAppliers = value; }
 	}
 
+	/// <summary>Gets and Sets scalarWrapper property.</summary>
+	public FloatWrapper scalarWrapper
+	{
+		get { return _scalarWrapper; }
+		set { _scalarWrapper = value; }
+	}
+
 	/// <summary>Gets grounded property.</summary>
 	public bool grounded { get { return this.HasState(STATE_ID_GROUNDED); } }
 
@@ -186,6 +211,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	/// <summary>JumpAbility's instance initialization.</summary>
 	private void Awake()
 	{
+		scalarWrapper = new FloatWrapper(0.0f);
 		this.ChangeState(STATE_ID_GROUNDED);
 		UpdateForcesAppliers();
 		landingCooldown = new Cooldown(this, landingDuration, OnLandingCooldownEnds);
@@ -204,27 +230,34 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		switch(_state)
 		{
 			case STATE_ID_GROUNDED:
-			gravityApplier.RequestScaleChange(GetInstanceID(), groundedScale, scaleChangePriority);
+			scalarWrapper.value = groundedScale;
+			gravityApplier.RequestScaleChange(GetInstanceID(), _scalarWrapper, scaleChangePriority);
 			CancelForce(currentJumpIndex);
 			currentJumpIndex = 0;
+			this.RemoveStates(STATE_ID_JUMPING);
 			break;
 
 			case STATE_ID_JUMPING:
-			gravityApplier.RequestScaleChange(GetInstanceID(), jumpingScale, scaleChangePriority);
+			scalarWrapper.value = jumpingScale;
+			gravityApplier.RequestScaleChange(GetInstanceID(), _scalarWrapper, scaleChangePriority);
 			break;
 
 			case STATE_ID_FALLING:
-			gravityApplier.RequestScaleChange(GetInstanceID(), fallingScale, scaleChangePriority);
+			scalarWrapper.value = fallingScale;
+			gravityApplier.RequestScaleChange(GetInstanceID(), _scalarWrapper, scaleChangePriority);
+			this.RemoveStates(STATE_ID_JUMPING);
 			break;
 
 			case STATE_ID_LANDING:
 			landingCooldown.Begin();
+			this.RemoveStates(STATE_ID_JUMPING);
 			break;
 
 			default:
 			break;
 		}
 
+		//Debug.Log("[JumpAbility] State: " + state.GetBitChain());
 		//Debug.Log("[JumpAbility] Entrered State: " + _state.GetBitChain());
 	}
 	
@@ -266,6 +299,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		switch(_grounded)
 		{
 			case true:
+			this.RemoveStates(STATE_ID_JUMPING);
 			this.ChangeState(STATE_ID_LANDING);
 			break;
 
@@ -288,6 +322,30 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	}
 #endregion
 
+	/// <summary>Adds Gravity Scalar given  an _ax.</summary>
+	public void AddGravityScalar(float _axis)
+	{
+		if(!this.HasStates(STATE_ID_FALLING)) return;
+
+		float scalar = 0.0f;
+
+		if(_axis > 0.0f)
+		{
+			scalar = Mathf.Abs(_axis) * additionalScaleRange.Min();
+		
+		} else if(_axis < 0.0f)
+		{
+			scalar = Mathf.Abs(_axis) * additionalScaleRange.Max();
+		
+		} else if(_axis == 0.0f)
+		{
+			scalar = fallingScale;
+		}
+
+		_scalarWrapper.value = scalar;
+		gravityApplier.UpdateBestScale();
+	}
+
 	/// <summary>Updates Forces' Appliers.</summary>
 	public void UpdateForcesAppliers()
 	{
@@ -307,7 +365,8 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	}
 
 	/// <summary>Performs Jump's Ability.</summary>
-	public void Jump()
+	/// <param name="_axes">Additional Displacement Axes.</param>
+	public void Jump(Vector2 _axes)
 	{
 		if(this.HasStates(STATE_ID_LANDING)) return;
 
@@ -329,6 +388,13 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		if(forceApplier == null) return;
 
 		gravityApplier.ResetVelocity();
+
+		if(currentJumpIndex >= applyDirectionFromIndex && _axes.sqrMagnitude > 0.0f)
+		{
+			forceApplier.force = _axes.normalized * forcesInfo[currentJumpIndex].force.magnitude;
+		}
+		else forceApplier.force = forcesInfo[currentJumpIndex].force;
+
 		forceApplier.ApplyForce();
 		this.ChangeState(STATE_ID_JUMPING);
 	}

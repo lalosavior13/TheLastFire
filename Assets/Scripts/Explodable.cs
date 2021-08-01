@@ -149,7 +149,7 @@ public class Explodable : PoolGameObject
 			{
 				if(obj.CompareTag(tag))
 				{
-					Debug.Log("[Explodable] Should inflict damage to: " + obj.name);
+					//Debug.Log("[Explodable] Should inflict damage to: " + obj.name);
 
 					health = obj.GetComponentInParent<Health>();
 

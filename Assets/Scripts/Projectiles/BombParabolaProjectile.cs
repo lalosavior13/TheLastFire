@@ -14,7 +14,7 @@ public enum BombState
 }
 
 [RequireComponent(typeof(BouncingBall))]
-public class BombParabolaProjectile : ParabolaProjectile
+public class BombParabolaProjectile : Projectile
 {
 	[Space(5f)]
 	[Header("Bomb's Attributes:")]

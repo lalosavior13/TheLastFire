@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,6 +29,24 @@ public struct ValueVTuple<T1, T2> where T1 : struct where T2 : struct
 	public VTuple<T1, T2> ToVTuple()
 	{
 		return new Voidless.VTuple<T1, T2>(Item1, Item2);
+	}
+
+	/// <returns>String representign this VTuple.</returns>
+	public override string ToString()
+	{
+		StringBuilder builder = new StringBuilder();
+
+		builder.Append("ValueVTupple<");
+		builder.Append(typeof(T1).Name);
+		builder.Append(", ");
+		builder.Append(typeof(T2).Name);
+		builder.Append(">: { ");
+		builder.Append(Item1.ToString());
+		builder.Append(", ");
+		builder.Append(Item2.ToString());
+		builder.Append(" }");
+
+		return builder.ToString();
 	}
 }
 }

@@ -10,7 +10,6 @@ namespace Flamingo
 public class ImpactEventHandler : MonoBehaviour
 {
 	[SerializeField] private HitCollider2D[] _hitBoxes; 	/// <summary>HitBoxes' Array.</summary>
-	[SerializeField] private GameObjectTag[] _impactTags; 	/// <summary>Tags of GameObjects affected by impact.</summary>
 	private EventsHandler _eventsHandler; 					/// <summary>EventsHandler's Component.</summary>
 
 	/// <summary>Gets and Sets hitBoxes property.</summary>
@@ -18,13 +17,6 @@ public class ImpactEventHandler : MonoBehaviour
 	{
 		get { return _hitBoxes; }
 		set { _hitBoxes = value; }
-	}
-
-	/// <summary>Gets and Sets impactTags property.</summary>
-	public GameObjectTag[] impactTags
-	{
-		get { return _impactTags; }
-		set { _impactTags = value; }
 	}
 
 	/// <summary>Gets eventsHandler Component.</summary>
@@ -93,8 +85,6 @@ public class ImpactEventHandler : MonoBehaviour
 	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
 	public void OnHitColliderTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _ID = 0)
 	{
-		//if(impactTags == null) return;
-
 		GameObject obj = _collider.gameObject;
 		Collider2D collider = hitBoxes[_ID].collider;
 
@@ -110,18 +100,11 @@ public class ImpactEventHandler : MonoBehaviour
 			+ _ID
 			+ "."
 		);*/
-#endregion
-		
-		/// \TODO Decide whether to delegate the evaluation of impactable tags to this class instead to each particular listener class...
-		/*foreach(GameObjectTag tag in impactTags)
-		{
-			if(obj.CompareTag(tag))
-			{*/
-				Trigger2DInformation info = new Trigger2DInformation(collider, _collider);
-				eventsHandler.InvokeTriggerEvent(info, _eventType, _ID);
-				return;
-			/*}
-		}*/
+#endregion	
+
+		Trigger2DInformation info = new Trigger2DInformation(collider, _collider);
+		eventsHandler.InvokeTriggerEvent(info, _eventType, _ID);
+		return;
 	}
 }
 }

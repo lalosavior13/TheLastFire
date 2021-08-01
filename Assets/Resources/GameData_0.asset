@@ -32,10 +32,6 @@ MonoBehaviour:
   - {fileID: 4726841204741414268, guid: cf5b5f81cb39cc842bd91381d0bc7f66, type: 3}
   - {fileID: 4726841204741414268, guid: 1819bf3f37668224a936551a031eb1c1, type: 3}
   - {fileID: 653572736473320296, guid: 028be9ba5f0684a4cb4619f942c4f6e9, type: 3}
-  _enemyHomingProjectiles:
-  - {fileID: 6563647546888967388, guid: 82af2cdf0b49c01458e88729df941401, type: 3}
-  - {fileID: 6018280101986912862, guid: 05b2c17c0c2fe8e4db53c021e566b853, type: 3}
-  _enemyParabolaProjectiles:
   - {fileID: 449427217695644160, guid: 0dfbc17cfc0cf934a8c089f8df53bb4d, type: 3}
   - {fileID: 449427217695644160, guid: d34c65e5215495749b3c218e3d5a7d4b, type: 3}
   - {fileID: 449427217695644160, guid: bdf44366f21f2ee47bd94b1b19e29f1e, type: 3}
@@ -118,3 +114,12 @@ MonoBehaviour:
   - {fileID: 6306249289954181648, guid: 8fc06027b01064e4f885fd8dd2929310, type: 3}
   _explodables:
   - {fileID: 7757396531229370483, guid: 510f45f4d87997d48933833abca64959, type: 3}
+  _ceilingDotProductThreshold:
+    value: 0
+  _floorDotProductThreshold:
+    value: 0
+  _ceilingAngleThreshold:
+    value: 0
+  _floorAngleThreshold:
+    value: 0
+  showDotProducts: 0

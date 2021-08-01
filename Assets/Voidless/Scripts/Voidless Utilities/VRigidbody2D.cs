@@ -24,6 +24,21 @@ public static class VRigidbody2D
 		_body.simulated = true;
 	}
 
+	/// <summary>Moves Rigidbody2D considering also the Z-Axis.</summary>
+	/// <param name="_rigidbody">Rigidbody to move.</param>
+	/// <param name="d">Displacement Vector3.</param>
+	public static void MoveIn3D(this Rigidbody2D _rigidbody, Vector3 d)
+	{
+		Vector3 tP = _rigidbody.transform.position;
+		Vector3 rP = _rigidbody.position;
+
+		_rigidbody.transform.position = new Vector3(
+			rP.x + d.x,
+			rP.y + d.y,
+			tP.z + d.z
+		);
+	}
+
 #region IVehicle2DSteeringBehaviors:
 	/// <summary>Gets Seek Velocity.</summary>
 	/// <param name="_vehicle">IVehicle2D's implementer.</param>

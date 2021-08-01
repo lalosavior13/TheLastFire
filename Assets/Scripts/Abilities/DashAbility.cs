@@ -30,6 +30,7 @@ public class DashAbility : MonoBehaviour, IFiniteStateMachine<DashState>
 	[SerializeField] private float _cooldownDuration; 			/// <summary>Cooldown's Duration.</summary>
 	[SerializeField] private float _gravityScale; 				/// <summary>Gravity Scale change when the dashing begins.</summary>
 	[SerializeField] private int _scaleChangePriority; 			/// <summary>Gravity Scale's Change Priority.</summary>
+	private FloatWrapper _scaleWrapper; 							/// <summary>Gravity's Scale FloatWrapper.</summary>
 	private TimeConstrainedForceApplier2D _forceApplier; 		/// <summary>Forces' Appliers.</summary>
 	private DashState _state; 									/// <summary>Current State.</summary>
 	private DashState _previousState; 							/// <summary>Previous State.</summary>
@@ -73,6 +74,13 @@ public class DashAbility : MonoBehaviour, IFiniteStateMachine<DashState>
 	{
 		get { return _scaleChangePriority; }
 		set { _scaleChangePriority = value; }
+	}
+
+	/// <summary>Gets and Sets scaleWrapper property.</summary>
+	public FloatWrapper scaleWrapper
+	{
+		get { return _scaleWrapper; }
+		set { _scaleWrapper = value; }
 	}
 
 	/// <summary>Gets and Sets forceApplier property.</summary>
@@ -160,6 +168,7 @@ public class DashAbility : MonoBehaviour, IFiniteStateMachine<DashState>
 			forceInfo.forceMode,
 			OnDashEnds
 		);
+		scaleWrapper = new FloatWrapper(gravityScale);
 		cooldown = new Cooldown(this, cooldownDuration, OnCooldownEnds);
 		this.ChangeState(DashState.Unactive);
 	}
@@ -187,7 +196,7 @@ public class DashAbility : MonoBehaviour, IFiniteStateMachine<DashState>
 
 			case DashState.Dashing:
 			forceApplier.ApplyForce();
-			gravityApplier.RequestScaleChange(GetInstanceID(), gravityScale, scaleChangePriority);
+			gravityApplier.RequestScaleChange(GetInstanceID(), scaleWrapper, scaleChangePriority);
 			break;
 
 			case DashState.OnCooldown:

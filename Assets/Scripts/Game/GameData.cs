@@ -25,8 +25,6 @@ public class GameData : ScriptableObject
 	[Header("Projectiles:")]
 	[SerializeField] private Projectile[] _playerProjectiles; 					/// <summary>Player's Projectiles.</summary>
 	[SerializeField] private Projectile[] _enemyProjectiles; 					/// <summary>Enemy's Projectiles.</summary>
-	[SerializeField] private HomingProjectile[] _enemyHomingProjectiles; 		/// <summary>Enemy's Homing Projectiles.</summary>
-	[SerializeField] private ParabolaProjectile[] _enemyParabolaProjectiles; 	/// <summary>Enemy's Parabola Projectiles.</summary>
 	[SerializeField] private PoolGameObject[] _poolObjects; 					/// <summary>Pool GameObjects.</summary>
 	[Space(5f)]
 	[Header("Audios:")]
@@ -101,12 +99,6 @@ public class GameData : ScriptableObject
 
 	/// <summary>Gets enemyProjectiles property.</summary>
 	public Projectile[] enemyProjectiles { get { return _enemyProjectiles; } }
-
-	/// <summary>Gets enemyHomingProjectiles property.</summary>
-	public HomingProjectile[] enemyHomingProjectiles { get { return _enemyHomingProjectiles; } }
-
-	/// <summary>Gets enemyParabolaProjectiles property.</summary>
-	public ParabolaProjectile[] enemyParabolaProjectiles { get { return _enemyParabolaProjectiles; } }
 
 	/// <summary>Gets poolObjects property.</summary>
 	public PoolGameObject[] poolObjects { get { return _poolObjects; } }

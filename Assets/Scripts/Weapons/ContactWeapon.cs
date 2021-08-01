@@ -176,7 +176,6 @@ public class ContactWeapon : PoolGameObject
 						
 						health.GiveDamage(damageApplied);
 						OnHealthInstanceDamaged(health);
-						return;
 					}
 				}
 				break;
@@ -200,9 +199,5 @@ public class ContactWeapon : PoolGameObject
 	/// <param name="_info">Trigger2D's Information.</param>
 	/// <param name="_ID">ID of the HitCollider2D.</param>
 	protected virtual void OnImpact(Trigger2DInformation _info, int _ID = 0) { /*...*/ }
-
-	/// <summary>Event invoked when an impact is received.</summary>
-	/// <param name="_info">Trigger2D's Information.</param>
-	public virtual void OnImpactEvent(Trigger2DInformation _info) {/*...*/}
 }
 }

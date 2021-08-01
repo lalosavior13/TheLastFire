@@ -25,7 +25,12 @@ public class GameObjectPool<T> : BaseObjectPool<T> where T : MonoBehaviour, IPoo
 	/// <param name="_limit">Pool's Limit.</param>
 	public GameObjectPool(T _referenceObject, int _size = 0, int _limit = int.MaxValue) : base(_referenceObject, _size, _limit)
 	{
-		//...
+		/// \TODO Not very sure yet:
+		/*if(_referenceObject != null)
+		{
+			T poolObject = Recycle(Vector3.zero, Quaternion.identity);
+			poolObject.OnObjectDeactivation();
+		}*/
 	}
 
 	/// <summary>Adds Pool Object.</summary>

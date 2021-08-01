@@ -56,7 +56,7 @@ public class TESTMateoGameBreaker : MonoBehaviour
 		{
 			jumpDuration = jumpInterval.Random();
 			jumpTime = 0.0f;
-			mateo.Jump();
+			mateo.Jump(leftAxes);
 		}
 
 		if(movementTime >= movementDuration)

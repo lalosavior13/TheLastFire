@@ -164,11 +164,12 @@ public class ChariotBehavior : DestinoScriptableCoroutine
 
 		if(order == ShootingOrder.SteeringSnake)
 		{
-			HomingProjectile[] homingProjectiles = new HomingProjectile[spheres.Length];
+			Projectile[] homingProjectiles = new Projectile[spheres.Length];
 
 			for(int i = 0; i < spheres.Length; i++)
 			{
-				homingProjectiles[i] = spheres[i] as HomingProjectile;
+				homingProjectiles[i] = spheres[i];
+				homingProjectiles[i].projectileType = ProjectileType.Homing;
 				homingProjectiles[i].activated = true;
 				homingProjectiles[i].ActivateHitBoxes(true);
 			}
