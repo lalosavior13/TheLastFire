@@ -144,6 +144,8 @@ public class PlayerController : Singleton<PlayerController>
 		if(InputController.InputBegin(jumpID)) inputFlags |= FLAG_INPUT_JUMP;
 		else inputFlags &= ~FLAG_INPUT_JUMP;
 
+		if(InputController.InputEnds(jumpID)) mateo.CancelJump();
+
 		/// Dash Evaluation:
 		if(InputController.InputBegin(dashID)) inputFlags |= FLAG_INPUT_DASH;
 		else inputFlags &= ~FLAG_INPUT_DASH;

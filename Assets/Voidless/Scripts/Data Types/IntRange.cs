@@ -41,6 +41,16 @@ public struct IntRange : IRange<int>, ISerializationCallbackReceiver
 	/// <param name="_value">Same minimum and maximum's value for the IntRange.</param>
 	public IntRange(int _value) : this(_value, _value) { /*...*/ }
 
+	/// <param name="t">Normalized Time t.</param>
+	/// <returns>Interpolation between the Minimum and Maximum Value.</returns>
+	public int Lerp(float t)
+	{
+		int m = Min();
+		int M = Max();
+		
+		return m + (int)((M - m) * t);
+	}
+
 	/// <returns>Range's Median.</returns>
 	public int GetMedian()
 	{

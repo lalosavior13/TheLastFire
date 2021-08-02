@@ -399,6 +399,15 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		this.ChangeState(STATE_ID_JUMPING);
 	}
 
+	/// <summary>Cancels Jump.</summary>
+	public void CancelJump()
+	{
+		if(currentJumpIndex >= applyDirectionFromIndex) return;
+
+		TimeConstrainedForceApplier2D forceApplier = forcesAppliers[currentJumpIndex];
+		if(forceApplier != null) forceApplier.EndForce();
+	}
+
 	/// <summary>Advances Jump's Index.</summary>
 	public void AdvanceJumpIndex()
 	{

@@ -623,6 +623,12 @@ public class Mateo : Character
 		jumpAbility.Jump(_axes);
 	}
 
+	/// <summary>Cancels Jump.</summary>
+	public void CancelJump()
+	{
+		jumpAbility.CancelJump();
+	}
+
 	/// <summary>Performs Dash.</summary>
 	public void Dash()
 	{

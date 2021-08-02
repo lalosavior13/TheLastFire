@@ -455,9 +455,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &9565205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,11 +467,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &9565206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,6 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &9565207
 Rigidbody2D:
   serializedVersion: 4
@@ -520,11 +513,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1001 &10256023
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -800,9 +788,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 1941679444}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!58 &13138123
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -874,11 +861,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &13138128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -891,6 +873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1001 &15403240
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1640,11 +1623,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &33065452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1657,11 +1635,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &33065453
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1690,9 +1663,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &33065455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1705,6 +1675,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &33065456
 Rigidbody2D:
   serializedVersion: 4
@@ -2251,9 +2222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &67483130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2266,11 +2234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &67483131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2283,6 +2246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &67483132
 Rigidbody2D:
   serializedVersion: 4
@@ -2316,11 +2280,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &71477576 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e3ed316fa74b2bb45a263198de3417e0,
@@ -2551,9 +2510,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &84291280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2566,11 +2522,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &84291281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2583,6 +2534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &84291282
 Rigidbody2D:
   serializedVersion: 4
@@ -2616,11 +2568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1001 &85433005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3570,9 +3517,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &107366725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3585,6 +3529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &107366726
 Rigidbody2D:
   serializedVersion: 4
@@ -3618,11 +3563,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &107366728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3635,11 +3575,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &109250869
 GameObject:
   m_ObjectHideFlags: 0
@@ -5287,10 +5222,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!58 &177767780
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6829,10 +6760,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!50 &225860973
 Rigidbody2D:
   serializedVersion: 4
@@ -7455,11 +7382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &253000932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7472,11 +7394,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &253000933
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -7505,9 +7422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &253000935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7520,6 +7434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &253000936
 Rigidbody2D:
   serializedVersion: 4
@@ -7701,9 +7616,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &260819202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7716,11 +7628,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &260819203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7733,6 +7640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &260819204
 Rigidbody2D:
   serializedVersion: 4
@@ -7766,11 +7674,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &265601795
 GameObject:
   m_ObjectHideFlags: 0
@@ -7836,9 +7739,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &265601799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7851,11 +7751,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &265601800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7868,6 +7763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &265601801
 Rigidbody2D:
   serializedVersion: 4
@@ -7901,11 +7797,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &268050207
 GameObject:
   m_ObjectHideFlags: 0
@@ -8158,9 +8049,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &285794818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8173,11 +8061,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &285794819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8190,6 +8073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &285794820
 Rigidbody2D:
   serializedVersion: 4
@@ -8223,11 +8107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &290723028
 GameObject:
   m_ObjectHideFlags: 0
@@ -8261,10 +8140,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 4096
-  _affectedTags: []
 --- !u!50 &290723030
 Rigidbody2D:
   serializedVersion: 4
@@ -8901,10 +8776,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!58 &310515871
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -9393,10 +9264,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!50 &324091132
 Rigidbody2D:
   serializedVersion: 4
@@ -9642,9 +9509,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 888351903}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!4 &331046063 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 133246958218871028, guid: 2f08a03d9c7f12b4a8d8f47e72b3783e,
@@ -9663,11 +9529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &331046065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9680,6 +9541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1 &331269961
 GameObject:
   m_ObjectHideFlags: 0
@@ -10187,9 +10049,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &355093684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10202,11 +10061,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &355093685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10219,6 +10073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &355093686
 Rigidbody2D:
   serializedVersion: 4
@@ -10252,11 +10107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &357915934
 GameObject:
   m_ObjectHideFlags: 0
@@ -10491,9 +10341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &363810776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10506,11 +10353,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &363810777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10523,6 +10365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &363810778
 Rigidbody2D:
   serializedVersion: 4
@@ -10556,11 +10399,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &364275130
 GameObject:
   m_ObjectHideFlags: 0
@@ -10710,9 +10548,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &367427885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10725,11 +10560,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &367427886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10742,6 +10572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &367427887
 Rigidbody2D:
   serializedVersion: 4
@@ -10775,11 +10606,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1001 &371450562
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11274,6 +11100,16 @@ PrefabInstance:
       propertyPath: _mateo
       value: 
       objectReference: {fileID: 1828663012}
+    - target: {fileID: 6949216351417802185, guid: ca388cd831d93ae49be405220b8958e2,
+        type: 3}
+      propertyPath: _frontalFireConjuringID0
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6949216351417802185, guid: ca388cd831d93ae49be405220b8958e2,
+        type: 3}
+      propertyPath: _frontalFireConjuringID1
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6949216351417802186, guid: ca388cd831d93ae49be405220b8958e2,
         type: 3}
       propertyPath: m_Name
@@ -12814,9 +12650,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 1024854098}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!4 &444355335 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 133246958218871028, guid: 2f08a03d9c7f12b4a8d8f47e72b3783e,
@@ -12835,11 +12670,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &444355337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12852,6 +12682,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1 &445364189
 GameObject:
   m_ObjectHideFlags: 0
@@ -12980,11 +12811,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &448058207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12997,11 +12823,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &448058208
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -13030,9 +12851,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &448058210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13045,6 +12863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &448058211
 Rigidbody2D:
   serializedVersion: 4
@@ -13225,9 +13044,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &452712191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13240,11 +13056,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &452712192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13257,6 +13068,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &452712193
 Rigidbody2D:
   serializedVersion: 4
@@ -13290,11 +13102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &458175118 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e3ed316fa74b2bb45a263198de3417e0,
@@ -13366,10 +13173,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 4096
-  _affectedTags: []
 --- !u!50 &458536272
 Rigidbody2D:
   serializedVersion: 4
@@ -13879,11 +13682,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &475387436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13896,11 +13694,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &475387437
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -13929,9 +13722,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &475387439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13944,6 +13734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &475387440
 Rigidbody2D:
   serializedVersion: 4
@@ -14795,11 +14586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &514652113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14812,11 +14598,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &514652114
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -14845,9 +14626,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &514652116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14860,6 +14638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &514652117
 Rigidbody2D:
   serializedVersion: 4
@@ -15023,10 +14802,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!50 &515070534
 Rigidbody2D:
   serializedVersion: 4
@@ -15967,11 +15742,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &544865626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15984,11 +15754,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &544865627
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -16017,9 +15782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &544865629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16032,6 +15794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &544865630
 Rigidbody2D:
   serializedVersion: 4
@@ -16778,9 +16541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &563494973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16793,11 +16553,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &563494974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16810,6 +16565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &563494975
 Rigidbody2D:
   serializedVersion: 4
@@ -16843,11 +16599,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &563494977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16860,11 +16611,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 0
-    objectIndex: 0
-    collectionIndex: 0
 --- !u!1 &567208076
 GameObject:
   m_ObjectHideFlags: 0
@@ -16914,11 +16660,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &567208079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16931,11 +16672,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &567208080
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -16964,9 +16700,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &567208082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16979,6 +16712,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &567208083
 Rigidbody2D:
   serializedVersion: 4
@@ -18265,9 +17999,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &619223023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18280,6 +18011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &619223024
 Rigidbody2D:
   serializedVersion: 4
@@ -18313,11 +18045,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &619223026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18330,11 +18057,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!1001 &619329250
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18569,11 +18291,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &625360473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18586,11 +18303,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!58 &625360474
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -18619,9 +18331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &625360476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18634,6 +18343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &625360477
 Rigidbody2D:
   serializedVersion: 4
@@ -18896,9 +18606,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 225860972}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!114 &643650169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18911,11 +18620,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &643650170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18928,6 +18632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1 &648207827 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e3ed316fa74b2bb45a263198de3417e0,
@@ -19572,9 +19277,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &680002165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19587,11 +19289,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &680002166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19604,6 +19301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &680002167
 Rigidbody2D:
   serializedVersion: 4
@@ -19637,11 +19335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!4 &683140691 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fabe010b1b8aced47932579bf1948f7b,
@@ -19960,9 +19653,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &694541531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19975,11 +19665,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &694541532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19992,6 +19677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &694541533
 Rigidbody2D:
   serializedVersion: 4
@@ -20025,11 +19711,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &694743955
 GameObject:
   m_ObjectHideFlags: 0
@@ -21202,9 +20883,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &726165902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21217,6 +20895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &726165903
 Rigidbody2D:
   serializedVersion: 4
@@ -21250,11 +20929,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &726165905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21267,11 +20941,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!1 &727251467
 GameObject:
   m_ObjectHideFlags: 0
@@ -21738,11 +21407,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &745842894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21755,11 +21419,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!58 &745842895
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -21788,9 +21447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &745842897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21803,6 +21459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &745842898
 Rigidbody2D:
   serializedVersion: 4
@@ -22656,9 +22313,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &790895378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22671,6 +22325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &790895379
 Rigidbody2D:
   serializedVersion: 4
@@ -22704,11 +22359,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &790895381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22721,11 +22371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &797453787
 GameObject:
   m_ObjectHideFlags: 0
@@ -23204,9 +22849,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 1386608947}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!114 &814318804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23219,11 +22863,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &814318805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23236,6 +22875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1 &814701465
 GameObject:
   m_ObjectHideFlags: 0
@@ -24773,9 +24413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 1879859205}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!114 &858554363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24788,11 +24427,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &858554364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24805,6 +24439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1 &866258417
 GameObject:
   m_ObjectHideFlags: 0
@@ -24901,9 +24536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &866591969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24916,6 +24548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &866591970
 Rigidbody2D:
   serializedVersion: 4
@@ -24949,11 +24582,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &866591972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24966,11 +24594,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!1 &866822398 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e3ed316fa74b2bb45a263198de3417e0,
@@ -25366,10 +24989,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!58 &888351904
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -25646,9 +25265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 1407394650}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!114 &890633912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25661,11 +25279,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &890633913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25678,6 +25291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1 &891704158
 GameObject:
   m_ObjectHideFlags: 0
@@ -26120,9 +25734,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &900885143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26135,11 +25746,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &900885144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26152,6 +25758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &900885145
 Rigidbody2D:
   serializedVersion: 4
@@ -26185,11 +25792,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1001 &901413933
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26737,9 +26339,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &922618286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26752,11 +26351,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &922618287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26769,6 +26363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &922618288
 Rigidbody2D:
   serializedVersion: 4
@@ -26802,11 +26397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &929046896 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e3ed316fa74b2bb45a263198de3417e0,
@@ -27550,11 +27140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &955353244
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27567,11 +27152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &955353245
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -27600,9 +27180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &955353247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27615,6 +27192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &955353248
 Rigidbody2D:
   serializedVersion: 4
@@ -28062,9 +27640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &967930242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28077,11 +27652,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &967930243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28094,6 +27664,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &967930244
 Rigidbody2D:
   serializedVersion: 4
@@ -28127,11 +27698,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &969213862
 GameObject:
   m_ObjectHideFlags: 0
@@ -28730,9 +28296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &992586247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28745,11 +28308,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &992586248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28762,6 +28320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &992586249
 Rigidbody2D:
   serializedVersion: 4
@@ -28795,11 +28354,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1001 &994804349
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29772,9 +29326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1018994195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29787,6 +29338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1018994196
 Rigidbody2D:
   serializedVersion: 4
@@ -29820,11 +29372,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1018994198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29837,11 +29384,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1001 &1019466286
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30001,11 +29543,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &1019894048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30018,11 +29555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 39
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &1019894049
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -30051,9 +29583,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1019894051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30066,6 +29595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1019894052
 Rigidbody2D:
   serializedVersion: 4
@@ -30299,10 +29829,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!58 &1024854099
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -30388,9 +29914,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 458536271}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!50 &1028960385
 Rigidbody2D:
   serializedVersion: 4
@@ -32240,11 +31765,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &1083747221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32257,11 +31777,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &1083747222
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -32290,9 +31805,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1083747224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32305,6 +31817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1083747225
 Rigidbody2D:
   serializedVersion: 4
@@ -32344,9 +31857,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 177767779}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!4 &1084598791 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 133246958218871028, guid: 2f08a03d9c7f12b4a8d8f47e72b3783e,
@@ -32365,11 +31877,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1084598793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32382,6 +31889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1 &1092564601
 GameObject:
   m_ObjectHideFlags: 0
@@ -33055,11 +32563,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &1106815888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33072,11 +32575,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &1106815889
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -33105,9 +32603,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1106815891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33120,6 +32615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1106815892
 Rigidbody2D:
   serializedVersion: 4
@@ -33698,9 +33194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 515070533}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!114 &1123110683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33713,11 +33208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1123110684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33730,6 +33220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!4 &1125378146 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4207494918386133592, guid: 99c9e500d274b7045b1f5965304636f1,
@@ -35054,9 +34545,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1187538217
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35069,6 +34557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1187538218
 Rigidbody2D:
   serializedVersion: 4
@@ -35102,11 +34591,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &1187538220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35119,11 +34603,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!1 &1188282489 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e3ed316fa74b2bb45a263198de3417e0,
@@ -35909,11 +35388,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1211412146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35926,11 +35400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!58 &1211412147
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -35959,9 +35428,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1211412149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35974,6 +35440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1211412150
 Rigidbody2D:
   serializedVersion: 4
@@ -36161,11 +35628,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &1214505887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36178,11 +35640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &1214505888
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -36211,9 +35668,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1214505890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36226,6 +35680,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1214505891
 Rigidbody2D:
   serializedVersion: 4
@@ -36521,9 +35976,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 4096
 --- !u!1 &1229466339
 GameObject:
   m_ObjectHideFlags: 0
@@ -37014,9 +36466,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1254106151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37029,11 +36478,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1254106152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37046,6 +36490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1254106153
 Rigidbody2D:
   serializedVersion: 4
@@ -37079,11 +36524,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1255839989
 GameObject:
   m_ObjectHideFlags: 0
@@ -37322,9 +36762,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1261897136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37337,6 +36774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1261897137
 Rigidbody2D:
   serializedVersion: 4
@@ -37370,11 +36808,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1261897139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37387,11 +36820,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1262487188
 GameObject:
   m_ObjectHideFlags: 0
@@ -37534,10 +36962,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!50 &1263870866
 Rigidbody2D:
   serializedVersion: 4
@@ -37570,11 +36994,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Character_Player_Mateo
-      objectReference: {fileID: 0}
-    - target: {fileID: 5122952807910987794, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
-        type: 3}
-      propertyPath: _chargedProjectileID.index
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5122952807910987803, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
         type: 3}
@@ -37630,6 +37049,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122952807910987805, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
+        type: 3}
+      propertyPath: _jumpingScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122952807910987805, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
+        type: 3}
+      propertyPath: _upwardsScalarMultiplier
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122952807910987805, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
+        type: 3}
+      propertyPath: _forcesInfo.Array.data[0].duration
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122952807910987805, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
+        type: 3}
+      propertyPath: _additionalScaleRange._min
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122952807910987805, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
+        type: 3}
+      propertyPath: _additionalScaleRange._max
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
@@ -39648,9 +39092,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 310515870}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!4 &1363233805 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 133246958218871028, guid: 2f08a03d9c7f12b4a8d8f47e72b3783e,
@@ -39669,11 +39112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1363233807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39686,6 +39124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1 &1363848681
 GameObject:
   m_ObjectHideFlags: 0
@@ -40836,10 +40275,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!50 &1386608948
 Rigidbody2D:
   serializedVersion: 4
@@ -41429,10 +40864,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!50 &1407010390
 Rigidbody2D:
   serializedVersion: 4
@@ -41517,10 +40948,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!50 &1407394651
 Rigidbody2D:
   serializedVersion: 4
@@ -41701,9 +41128,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1413642857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41716,11 +41140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1413642858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41733,6 +41152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1413642859
 Rigidbody2D:
   serializedVersion: 4
@@ -41766,11 +41186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1414217335
 GameObject:
   m_ObjectHideFlags: 0
@@ -42644,9 +42059,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1454138741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42659,11 +42071,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1454138742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42676,6 +42083,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1454138743
 Rigidbody2D:
   serializedVersion: 4
@@ -42709,11 +42117,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1455142599
 GameObject:
   m_ObjectHideFlags: 0
@@ -43993,9 +43396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 1610025343}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!114 &1523662247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44008,11 +43410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1523662248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44025,6 +43422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1 &1523692793
 GameObject:
   m_ObjectHideFlags: 0
@@ -45004,9 +44402,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 324091131}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!114 &1561003351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45019,11 +44416,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1561003352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45036,6 +44428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1001 &1562774687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46983,9 +46376,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1603077999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46998,11 +46388,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1603078000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47015,6 +46400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1603078001
 Rigidbody2D:
   serializedVersion: 4
@@ -47048,11 +46434,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1604304602
 GameObject:
   m_ObjectHideFlags: 0
@@ -47325,10 +46706,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!50 &1610025344
 Rigidbody2D:
   serializedVersion: 4
@@ -47537,9 +46914,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1620123207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47552,11 +46926,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1620123208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47569,6 +46938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1620123209
 Rigidbody2D:
   serializedVersion: 4
@@ -47602,11 +46972,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1621831211
 GameObject:
   m_ObjectHideFlags: 0
@@ -48732,11 +48097,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &1655446506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48749,11 +48109,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &1655446507
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -48782,9 +48137,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1655446509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48797,6 +48149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1655446510
 Rigidbody2D:
   serializedVersion: 4
@@ -50155,9 +49508,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 1407010389}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!114 &1694617974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50170,11 +49522,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1694617975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50187,6 +49534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1001 &1698847365
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50686,11 +50034,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &1726816467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50703,11 +50046,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &1726816468
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -50736,9 +50074,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1726816470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50751,6 +50086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1726816471
 Rigidbody2D:
   serializedVersion: 4
@@ -52010,9 +51346,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 1263870865}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!114 &1762557171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52025,11 +51360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 35
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1762557172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52042,6 +51372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!1 &1764328895
 GameObject:
   m_ObjectHideFlags: 0
@@ -52347,9 +51678,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1788596773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52362,11 +51690,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1788596774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52379,6 +51702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1788596775
 Rigidbody2D:
   serializedVersion: 4
@@ -52412,11 +51736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1792680583
 GameObject:
   m_ObjectHideFlags: 0
@@ -52652,9 +51971,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1796487559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52667,6 +51983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1796487560
 Rigidbody2D:
   serializedVersion: 4
@@ -52700,11 +52017,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &1796487562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52717,11 +52029,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!1 &1799515669
 GameObject:
   m_ObjectHideFlags: 0
@@ -53573,9 +52880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1817218783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53588,6 +52892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1817218784
 Rigidbody2D:
   serializedVersion: 4
@@ -53621,11 +52926,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &1817218786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53638,11 +52938,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!1 &1825147210 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e3ed316fa74b2bb45a263198de3417e0,
@@ -53746,9 +53041,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1825177545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53761,11 +53053,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1825177546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53778,6 +53065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1825177547
 Rigidbody2D:
   serializedVersion: 4
@@ -53811,11 +53099,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1825882976
 GameObject:
   m_ObjectHideFlags: 0
@@ -53881,9 +53164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1825882980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53896,6 +53176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1825882981
 Rigidbody2D:
   serializedVersion: 4
@@ -53929,11 +53210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &1825882983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53946,11 +53222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!1 &1827865667 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e3ed316fa74b2bb45a263198de3417e0,
@@ -54167,11 +53438,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &1831747272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54184,11 +53450,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &1831747273
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -54217,9 +53478,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1831747275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54232,6 +53490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1831747276
 Rigidbody2D:
   serializedVersion: 4
@@ -54450,9 +53709,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1833598056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54465,11 +53721,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1833598057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54482,6 +53733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1833598058
 Rigidbody2D:
   serializedVersion: 4
@@ -54515,11 +53767,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1834348005
 GameObject:
   m_ObjectHideFlags: 0
@@ -55118,9 +54365,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1852221372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55133,11 +54377,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1852221373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55150,6 +54389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1852221374
 Rigidbody2D:
   serializedVersion: 4
@@ -55183,11 +54423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!4 &1857333759 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fabe010b1b8aced47932579bf1948f7b,
@@ -55646,9 +54881,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1879765684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55661,11 +54893,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1879765685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55678,6 +54905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1879765686
 Rigidbody2D:
   serializedVersion: 4
@@ -55711,11 +54939,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1879859202
 GameObject:
   m_ObjectHideFlags: 0
@@ -55779,10 +55002,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!50 &1879859206
 Rigidbody2D:
   serializedVersion: 4
@@ -56425,9 +55644,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1894006821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56440,11 +55656,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1894006822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56457,6 +55668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1894006823
 Rigidbody2D:
   serializedVersion: 4
@@ -56490,11 +55702,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1895907743
 GameObject:
   m_ObjectHideFlags: 0
@@ -56696,9 +55903,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1904421304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56711,6 +55915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1904421305
 Rigidbody2D:
   serializedVersion: 4
@@ -56744,11 +55949,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1904421307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56761,11 +55961,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1905329358
 GameObject:
   m_ObjectHideFlags: 0
@@ -57899,9 +57094,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1941119365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57914,11 +57106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1941119366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57931,6 +57118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1941119367
 Rigidbody2D:
   serializedVersion: 4
@@ -57964,11 +57152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1941679443
 GameObject:
   m_ObjectHideFlags: 0
@@ -58002,10 +57185,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 135168
-  _affectedTags: []
 --- !u!50 &1941679445
 Rigidbody2D:
   serializedVersion: 4
@@ -58864,9 +58043,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1985897877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58879,11 +58055,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &1985897878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58896,6 +58067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1985897879
 Rigidbody2D:
   serializedVersion: 4
@@ -58929,11 +58101,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &1995030402
 GameObject:
   m_ObjectHideFlags: 0
@@ -59014,11 +58181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &1998125191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59031,11 +58193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &1998125192
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -59064,9 +58221,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &1998125194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59079,6 +58233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &1998125195
 Rigidbody2D:
   serializedVersion: 4
@@ -59794,11 +58949,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &2016350666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59811,11 +58961,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &2016350667
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -59844,9 +58989,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &2016350669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59859,6 +59001,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &2016350670
 Rigidbody2D:
   serializedVersion: 4
@@ -59945,9 +59088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &2017442156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59960,11 +59100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &2017442157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59977,6 +59112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &2017442158
 Rigidbody2D:
   serializedVersion: 4
@@ -60010,11 +59146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &2023116802 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e3ed316fa74b2bb45a263198de3417e0,
@@ -60071,9 +59202,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 290723029}
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!58 &2024551737
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -61478,9 +60608,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &2065066420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61493,11 +60620,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &2065066421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61510,6 +60632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &2065066422
 Rigidbody2D:
   serializedVersion: 4
@@ -61543,11 +60666,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &2065680891
 GameObject:
   m_ObjectHideFlags: 0
@@ -62720,9 +61838,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &2116081945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62735,11 +61850,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &2116081946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62752,6 +61862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &2116081947
 Rigidbody2D:
   serializedVersion: 4
@@ -62785,11 +61896,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &2117184720
 GameObject:
   m_ObjectHideFlags: 0
@@ -62839,11 +61945,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 5
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &2117184723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62856,11 +61957,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 36
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!58 &2117184724
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -62889,9 +61985,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &2117184726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62904,6 +61997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &2117184727
 Rigidbody2D:
   serializedVersion: 4
@@ -63545,9 +62639,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8120632532c530439e36edee1fed1a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mask:
-    serializedVersion: 2
-    m_Bits: 131072
 --- !u!114 &2135703330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63560,11 +62651,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 37
-    objectIndex: 0
-    collectionIndex: 6
 --- !u!114 &2135703331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63577,6 +62663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!50 &2135703332
 Rigidbody2D:
   serializedVersion: 4
@@ -63610,11 +62697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 7
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!1 &2135809437 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e3ed316fa74b2bb45a263198de3417e0,
@@ -63817,18 +62899,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1500995344132480422 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5894028918324482987, guid: 032d0ca46aab862439e06efc371629cd,
-    type: 3}
-  m_PrefabInstance: {fileID: 4980795657566834189}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1440cb99ae83e4d46a7d5712b3d72c68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4980795657566834189
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63927,23 +62997,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableMask:
-    serializedVersion: 2
-    m_Bits: 0
-  _impactAffectableMask:
-    serializedVersion: 2
-    m_Bits: 0
+  _healthAffectableTags: []
   _damage: 0
-  _hitBoxesInfo:
-  - _hitCollider: {fileID: 1500995344132480422}
-    _damageScale: 1
+  _damageScales: []
+  _impactTags: []
   _trailRenderers: []
+  _projectileType: 0
+  _repelTags: []
   _speedMode: 0
   _speed: 0
   _lifespan: 0
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
-  dontDeactivateOnImpact: 0
+  _maxSteeringForce: 0
+  _distance: 0
+  _motionType: 0
+  _axes:
+    _x: 0
+    _y: 0
+    _z: 0
+  _space: 0
+  _radius: 0
+  _motionSpeed: 0
+  _impactParticleEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _destroyedParticleEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _impactSoundEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _destroyedSoundEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  gizmosColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1001 &5482038941466065236
 PrefabInstance:
   m_ObjectHideFlags: 0

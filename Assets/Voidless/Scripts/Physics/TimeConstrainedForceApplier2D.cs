@@ -197,6 +197,12 @@ public class TimeConstrainedForceApplier2D
 		velocity = Vector2.zero;
 	}
 
+	/// <summary>Ends Force [invokes the force-ending callback].</summary>
+	public void EndForce()
+	{
+		progress = 1.0f;
+	}
+
 	/// <returns>Projected force [considering ForceModee's property] at time t.</returns>
 	public Vector2 ProjectedForceAtTime(float t = 1.0f)
 	{

@@ -41,6 +41,16 @@ public struct FloatRange : IRange<float>, ISerializationCallbackReceiver
 	/// <param name="_value">Same minimum and maximum's value for the FloatRange.</param>
 	public FloatRange(float _value) : this(_value, _value) { /*...*/ }
 
+	/// <param name="t">Normalized Time t.</param>
+	/// <returns>Interpolation between the Minimum and Maximum Value.</returns>
+	public float Lerp(float t)
+	{
+		float m = Min();
+		float M = Max();
+		
+		return m + ((M - m) * t);
+	}
+
 	/// <returns>Range's Median.</returns>
 	public float GetMedian()
 	{
