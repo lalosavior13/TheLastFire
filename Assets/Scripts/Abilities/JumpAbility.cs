@@ -42,7 +42,8 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	[SerializeField] private float _groundedScale; 				/// <summary>Gravity's Scale when Grounded.</summary>
 	[SerializeField] private float _jumpingScale; 				/// <summary>Gravity's Scale when Jumping.</summary>
 	[SerializeField] private float _fallingScale; 				/// <summary>Gravity's Scale when Falling.</summary>
-	[SerializeField] private FloatRange _additionalScaleRange; 	/// <summary>Additional Scale [Applied sepparately].</summary>
+	[SerializeField] private float _downwardsScalarAddition; 	/// <summary>Downwards Gravity-Scalar's Addition.</summary>
+	[SerializeField] private float _upwardsScalarAddition; 		/// <summary>Upwards Gravity-Scalar's Addition.</summary>
 	[SerializeField] private int _scaleChangePriority; 			/// <summary>Gravity Scale's Change Priority.</summary>
 	[Space(5f)]
 	[SerializeField]
@@ -97,11 +98,18 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		set { _progressForExtraJump = value; }
 	}
 
-	/// <summary>Gets and Sets additionalScaleRange property.</summary>
-	public FloatRange additionalScaleRange
+	/// <summary>Gets and Sets downwardsScalarAddition property.</summary>
+	public float downwardsScalarAddition
 	{
-		get { return _additionalScaleRange; }
-		set { _additionalScaleRange = value; }
+		get { return _downwardsScalarAddition; }
+		set { _downwardsScalarAddition = value; }
+	}
+
+	/// <summary>Gets and Sets upwardsScalarAddition property.</summary>
+	public float upwardsScalarAddition
+	{
+		get { return _upwardsScalarAddition; }
+		set { _upwardsScalarAddition = value; }
 	}
 
 	/// <summary>Gets and Sets applyDirectionFromIndex property.</summary>
@@ -331,11 +339,11 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 
 		if(_axis > 0.0f)
 		{
-			scalar = Mathf.Abs(_axis) * additionalScaleRange.Min();
+			scalar = fallingScale - (Mathf.Abs(_axis) * upwardsScalarAddition);
 		
 		} else if(_axis < 0.0f)
 		{
-			scalar = Mathf.Abs(_axis) * additionalScaleRange.Max();
+			scalar = fallingScale + (Mathf.Abs(_axis) * downwardsScalarAddition);
 		
 		} else if(_axis == 0.0f)
 		{
@@ -402,7 +410,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	/// <summary>Cancels Jump.</summary>
 	public void CancelJump()
 	{
-		if(currentJumpIndex >= applyDirectionFromIndex) return;
+		if(!this.HasStates(STATE_ID_JUMPING) || currentJumpIndex >= applyDirectionFromIndex) return;
 
 		TimeConstrainedForceApplier2D forceApplier = forcesAppliers[currentJumpIndex];
 		if(forceApplier != null) forceApplier.EndForce();

@@ -67,7 +67,7 @@ public class ShootProjectile : MonoBehaviour
 	/// <param name="_origin">Shoot's Origin.</param>
 	/// <param name="_direction">Shoot's Direction.</param>
 	/// <returns>True if projectile could be shot.</returns>
-	public bool Shoot(CollectionIndex _ID, Vector3 _origin, Vector3 _direction)
+	public bool Shoot(CollectionIndex _ID, Vector3 _origin, Vector3 _direction, float? _speed = default(float?))
 	{
 		if(onCooldown) return false;
 
@@ -83,6 +83,7 @@ public class ShootProjectile : MonoBehaviour
 		projectile.direction = _direction;
 		projectile.activated = true;
 		projectile.ActivateHitBoxes(true);
+		if(_speed.HasValue) projectile.speed = _speed.Value;
 		//projectile.transform.right = _direction.normalized;
 
 		float cooldownDuration = projectile.cooldownDuration;
@@ -101,7 +102,7 @@ public class ShootProjectile : MonoBehaviour
 	/// <param name="_origin">Shoot's Origin.</param>
 	/// <param name="_direction">Shoot's Direction.</param>
 	/// <returns>True if projectile could be shot.</returns>
-	public virtual bool Shoot(Vector3 _origin, Vector3 _direction)
+	public virtual bool Shoot(Vector3 _origin, Vector3 _direction, float? _speed = default(float?))
 	{
 		return Shoot(projectileID, _origin, _direction);
 	}

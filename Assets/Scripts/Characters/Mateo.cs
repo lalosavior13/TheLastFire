@@ -370,8 +370,16 @@ public class Mateo : Character
 	/// <summary>Updates Mateo's instance at each frame.</summary>
 	private void Update()
 	{
-		if(leftAxes.x != 0.0f) rotationAbility.RotateTowardsDirection(animatorParent, Vector3.right * leftAxes.x);
-		else rotationAbility.RotateTowards(animatorParent, stareAtPlayerRotation);
+		Vector3 direction = new Vector3(
+			leftAxes.x,
+			0.0f,
+			leftAxes.y
+		);
+
+		Debug.DrawRay(transform.position, direction * 10f, Color.magenta);
+
+		if(leftAxes.x != 0.0f) rotationAbility.RotateTowardsDirection(animatorParent, direction);
+		//else rotationAbility.RotateTowards(animatorParent, stareAtPlayerRotation);
 
 		// TEST
 		///rotationAbility.RotateTowardsDirection(animatorParent, Vector3.right * leftAxes.x);
