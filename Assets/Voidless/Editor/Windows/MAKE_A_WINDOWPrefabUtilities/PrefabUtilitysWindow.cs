@@ -47,7 +47,7 @@ public class PrefabUtilitysWindow : EditorWindow
 			if(GUILayout.Button("Link Objets to prefabs"))
             {
 				
-				if( EditorUtility.DisplayDialog("Warning","You are about to link: " + Selection.gameObjects.Length + " with " + prefab.name + 
+				if( EditorUtility.DisplayDialog("Warning","You are about to link: " + Selection.gameObjects.Length + " game objects with " + prefab.name + 
 					". Are you sure you want to proceed ",
 					"ok", 
 					"cancel" ))
@@ -96,21 +96,30 @@ public class PrefabUtilitysWindow : EditorWindow
     }
 
 	/// <summary>Swaps the objects selected for the prefab assinged.</summary>
+	/// /// /// <param name="i">Limit to the cycle.</param>
+	/// /// <param name="initialObjectsAmount">Count of the amount of objects to change.</param>
+	/// /// <param name="progressAmout">the count of times the cycle have repeat itself to show the progress bar.</param>
 	void SubstituteGameObjectsForPrefabs()
     {
 
 		int i = 0;
-        while (Selection.gameObjects.Length != i)
+		int initialObjectsAmount = Selection.gameObjects.Length;
+		float progressAmount =0;
+
+		while (Selection.gameObjects.Length != i)
         {
+			progressAmount += 1;
+			EditorUtility.DisplayProgressBar("Prefabs Subtitution", "Working on it...", progressAmount/ initialObjectsAmount);
 			Vector3 recycledPosition = Selection.gameObjects[i].transform.position;
 			Quaternion recycledRotation = Selection.gameObjects[i].transform.rotation;
 
 			GameObject obj = PrefabUtility.ConnectGameObjectToPrefab(Selection.gameObjects[i], prefab);
 			obj.transform.position = recycledPosition;
 			obj.transform.rotation = recycledRotation;
-			Debug.Log("game objects lefts " + Selection.gameObjects.Length);
+			
 			
 		}
+		EditorUtility.ClearProgressBar();
 	}
 
 	
