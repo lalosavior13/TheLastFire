@@ -279,6 +279,34 @@ public static class VEnums
             return KeyCode.None;
 	}
 
+	/// <summary>Converts NintendoSwitchInputKey enumerator value to KeyCode value.</summary>
+	/// <param name="_NintendoSwitchInputKey">NintendoSwitchInputKey value.</param>
+	/// <returns>NintendoSwitchInputKey value to KeyCode, mapped relative to the platform.</returns>
+	public static KeyCode ToKeyCode(NintendoSwitchInputKey _NintendoSwitchInputKey)
+	{
+		switch(_NintendoSwitchInputKey)
+		{
+			case NintendoSwitchInputKey.B: 				return KeyCode.JoystickButton0;
+			case NintendoSwitchInputKey.A: 				return KeyCode.JoystickButton1;
+			case NintendoSwitchInputKey.Y: 				return KeyCode.JoystickButton2;
+			case NintendoSwitchInputKey.X: 				return KeyCode.JoystickButton3;
+			case NintendoSwitchInputKey.L: 				return KeyCode.JoystickButton4;
+			case NintendoSwitchInputKey.R: 				return KeyCode.JoystickButton5;
+			case NintendoSwitchInputKey.Minus: 			return KeyCode.JoystickButton6;
+			case NintendoSwitchInputKey.Plus: 			return KeyCode.JoystickButton7;
+			case NintendoSwitchInputKey.LeftStick: 		return KeyCode.JoystickButton8;
+			case NintendoSwitchInputKey.RightStick: 	return KeyCode.JoystickButton9;
+			case NintendoSwitchInputKey.ZL: 			return KeyCode.JoystickButton10;
+			case NintendoSwitchInputKey.ZR: 			return KeyCode.JoystickButton11;
+			case NintendoSwitchInputKey.Down: 			return KeyCode.JoystickButton12;
+			case NintendoSwitchInputKey.Right: 			return KeyCode.JoystickButton13;
+			case NintendoSwitchInputKey.Left: 			return KeyCode.JoystickButton14;
+			case NintendoSwitchInputKey.Up: 			return KeyCode.JoystickButton15;
+		}
+
+		return KeyCode.None;
+	}
+
 #region AbilityStatesFlagsOperations:
 	/// <summary>Checks if AbilityState enumerator contains flag.</summary>
 	/// <param name='_enum'>Enumerator to make flag operation.</param>

@@ -5,19 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: d1c3109bdb54ad54c8a2b2838528e640
-  - enabled: 1
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
     path: Assets/Scenes/Interface/Scene_LoadingScreen.unity
     guid: ec04bc4982c467b419d9f4f94dffdfcd
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Scene_Destino.unity
     guid: e06a5eed37e3e584a8f109fdfe389df8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tests/Overworld.unity
     guid: 3d5e524340730c14f9684407c5f4f512
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tests/Ring_Madness.unity
     guid: caecbd21976972e4e8a723ac21ab2b86
+  - enabled: 1
+    path: Assets/Scenes/Tests/TrainingGround_Rodo 1.unity
+    guid: 7237b7390a315134cacf1c3fbcc85fd0
   m_configObjects: {}
