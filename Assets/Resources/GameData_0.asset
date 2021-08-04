@@ -112,12 +112,20 @@ MonoBehaviour:
   - {fileID: 3209865493363014059, guid: f06e78284f831ae469c74624ab5d513b, type: 3}
   - {fileID: 6306249289954181648, guid: 8fc06027b01064e4f885fd8dd2929310, type: 3}
   - {fileID: 6306249289954181648, guid: 8fc06027b01064e4f885fd8dd2929310, type: 3}
+  - {fileID: 4060840464662157288, guid: f8589aeb5fe00274999ba3eb40978dff, type: 3}
+  - {fileID: 8794394515965911205, guid: 148afe93d2471be48aaef341f52c6c3c, type: 3}
+  - {fileID: 6972153726185558701, guid: 9050f7f208b708f4d81ef0495d3176d7, type: 3}
+  - {fileID: 3740105899325972925, guid: a53bdab9c6abc6847aac2c4a84252f6c, type: 3}
+  - {fileID: 2038017754843348879, guid: 841ed073cbc0e5a43968718a41f01a31, type: 3}
+  - {fileID: 6306778630193998037, guid: b013666642c319b488e962306595a381, type: 3}
+  - {fileID: 4330004709741446421, guid: 4e380b8e94c0faf4987a47cc4e350245, type: 3}
+  - {fileID: 2757906412654105323, guid: 83815da667b15ec4cb805cb3ec69b11d, type: 3}
   _explodables:
   - {fileID: 7757396531229370483, guid: 510f45f4d87997d48933833abca64959, type: 3}
   _ceilingDotProductThreshold:
-    value: 0
+    value: 1
   _floorDotProductThreshold:
-    value: 0
+    value: 1
   _ceilingAngleThreshold:
     value: 0
   _floorAngleThreshold:
