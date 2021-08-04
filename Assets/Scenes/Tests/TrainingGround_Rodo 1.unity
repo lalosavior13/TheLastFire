@@ -37744,6 +37744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6954618d78141884ca374b63de6bbfcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TESTSwitchButton: 0
   rect:
     serializedVersion: 2
     x: 25
@@ -37751,7 +37752,7 @@ MonoBehaviour:
     width: 1000
     height: 1000
   mateo: {fileID: 1828663012}
-  supportedIDTypes: 000000000100000002000000030000000400000004000000060000000700000020000000
+  supportedIDTypes: 20000000
   supportedNpadStyles: -1
   supportedHoldTypes: 1
 --- !u!4 &1291046148
@@ -54956,6 +54957,11 @@ PrefabInstance:
     - target: {fileID: 4207494918386133592, guid: 99c9e500d274b7045b1f5965304636f1,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4207494918386133593, guid: 99c9e500d274b7045b1f5965304636f1,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4207494918386133594, guid: 99c9e500d274b7045b1f5965304636f1,
