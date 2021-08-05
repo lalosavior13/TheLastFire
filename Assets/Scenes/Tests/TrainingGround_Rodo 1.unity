@@ -37752,9 +37752,14 @@ MonoBehaviour:
     width: 1000
     height: 1000
   mateo: {fileID: 1828663012}
-  supportedIDTypes: 20000000
+  supportedIDTypes: 0000000020000000
   supportedNpadStyles: -1
   supportedHoldTypes: 1
+  attackInput: 8
+  jumpInput: 2
+  fireConjuringFrontalInput0: 1
+  fireConjuringFrontalInput1: 32
+  toggleSupportedTypeInput: 4
 --- !u!4 &1291046148
 Transform:
   m_ObjectHideFlags: 0

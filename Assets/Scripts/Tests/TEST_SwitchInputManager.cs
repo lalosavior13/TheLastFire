@@ -8,39 +8,49 @@ using nn.hid;
 
 namespace Flamingo
 {
-[Flags]
-public enum NintendoSwitchButton
-{
-	None,
-    A = 0x1 << 0,
-    B = 0x1 << 1,
-    X = 0x1 << 2,
-    Y = 0x1 << 3,
-    StickL = 0x1 << 4,
-    StickR = 0x1 << 5,
-    L = 0x1 << 6,
-    R = 0x1 << 7,
-    ZL = 0x1 << 8,
-    ZR = 0x1 << 9,
-    Plus = 0x1 << 10,
-    Minus = 0x1 << 11,
-    Left = 0x1 << 12,
-    Up = 0x1 << 13,
-    Right = 0x1 << 14,
-    Down = 0x1 << 15,
-    StickLLeft = 0x1 << 16,
-    StickLUp = 0x1 << 17,
-    StickLRight = 0x1 << 18,
-    StickLDown = 0x1 << 19,
-    StickRLeft = 0x1 << 20,
-    StickRUp = 0x1 << 21,
-    StickRRight = 0x1 << 22,
-    StickRDown = 0x1 << 23,
-    LeftSL = 0x1 << 24,
-    LeftSR = 0x1 << 25,
-    RightSL = 0x1 << 26,
-    RightSR = 0x1 << 27,
-}
+/*
+Debugs on Test 0:
+
+- Handheld Mode:
+
+	ID 0
+	NpadID No1
+	Style None
+
+	ID 1
+	NpadID Handheld
+	Style Handheld
+
+- JoyCon Left Off:
+
+	ID 0
+	NpadID No1
+	Style JoyDual
+
+	ID 1
+	NpadID Handheld
+	Style None
+
+- JoyCon Right Off:
+
+	ID 0
+	NpadID No1
+	Style JoyDual
+
+	ID 1
+	NpadID Handheld
+	Style None
+
+- JoyCon Left & Right Off:
+
+	ID 0
+	NpadID No1
+	Style JoyDual
+
+	ID 1
+	NpadID Handheld
+	Style None
+*/
 
 public class TEST_SwitchInputManager : MonoBehaviour
 {
@@ -57,22 +67,24 @@ public class TEST_SwitchInputManager : MonoBehaviour
 	}
 
 #if UNITY_SWITCH  || !UNITY_EDITOR || NN_PLUGIN_ENABLE
-	[SerializeField] private Mateo mateo; 							/// <summary>Mateo's Reference.</summary>
+	[SerializeField] private Mateo mateo; 										/// <summary>Mateo's Reference.</summary>
 	[Space(5f)]
-	[SerializeField] private NpadId[] supportedIDTypes; 			/// <summary>Supported ID Types.</summary>
-	[SerializeField] private NpadStyle supportedNpadStyles; 		/// <summary>Supported Controller's Styles.</summary>
-	[SerializeField] private NpadJoyHoldType supportedHoldTypes; 	/// <summary>Supported NpadJoy's Types.</summary>
+	[SerializeField] private NpadId[] supportedIDTypes; 						/// <summary>Supported ID Types.</summary>
+	[SerializeField] private NpadStyle supportedNpadStyles; 					/// <summary>Supported Controller's Styles.</summary>
+	[SerializeField] private NpadJoyHoldType supportedHoldTypes; 				/// <summary>Supported NpadJoy's Types.</summary>
 	[Space(5f)]
 	[Header("Input's Settings:")]
-	[NonSerialized] private NpadButton attackInput; 				/// <summary>Attack's Input.</summary>
-	[NonSerialized] private NpadButton jumpInput; 					/// <summary>Jump's Input.</summary>
-	[NonSerialized] private NpadButton fireConjuringFrontalInput0; 	/// <summary>Fire Conjuring Frontal Input #0.</summary>
-	[NonSerialized] private NpadButton fireConjuringFrontalInput1; 	/// <summary>Fire Conjuring Frontal Input #1.</summary>
+	[SerializeField] private NintendoSwitchButton attackInput; 					/// <summary>Attack's Input.</summary>
+	[SerializeField] private NintendoSwitchButton jumpInput; 					/// <summary>Jump's Input.</summary>
+	[SerializeField] private NintendoSwitchButton fireConjuringFrontalInput0; 	/// <summary>Fire Conjuring Frontal Input #0.</summary>
+	[SerializeField] private NintendoSwitchButton fireConjuringFrontalInput1; 	/// <summary>Fire Conjuring Frontal Input #1.</summary>
+	[SerializeField] private NintendoSwitchButton toggleSupportedTypeInput; 	/// <summary>Toggle Supported Hold Type Input #1.</summary>
 	private NpadState[] NpadStates;
 
 	/// <summary>TEST_SwitchInputManager's instance initialization.</summary>
 	private void Awake()
 	{
+		CompareEnums();
 		additionalBuilder = new StringBuilder();
 
 		try
@@ -83,6 +95,8 @@ public class TEST_SwitchInputManager : MonoBehaviour
 			/*Npad.SetSupportedStyleSet(supportedNpadStyles);
 			NpadJoy.SetHoldType(supportedHoldTypes);
 			Npad.SetSupportedIdType(supportedIDTypes);*/
+			Npad.SetSupportedIdType(supportedIDTypes);
+			NpadJoy.SetHoldType(supportedHoldTypes);
 		}
 		catch(Exception e)
 		{
@@ -99,9 +113,6 @@ public class TEST_SwitchInputManager : MonoBehaviour
 		{
 			BindIDs(true);
 		}
-
-		attackInput = NpadButton.A;
-		jumpInput = NpadButton.B;
 	}
 
 	/// <summary>Binds set of supported IDs.</summary>
@@ -110,6 +121,7 @@ public class TEST_SwitchInputManager : MonoBehaviour
 	{
 		foreach(NpadId ID in supportedIDTypes)
 		{
+			NpadJoy.SetAssignmentModeSingle(ID);
 			switch(_bind)
 			{
 				case true:
@@ -133,19 +145,34 @@ public class TEST_SwitchInputManager : MonoBehaviour
 		foreach(NpadId ID in supportedIDTypes)
 		{
 			NpadStyle style = Npad.GetStyleSet(ID);
+
+			if(style == NpadStyle.None)
+			{
+				//Npad.DestroyStyleSetUpdateEvent(ID);
+				continue;
+			}
+			/*else
+			{
+				Npad.BindStyleSetUpdateEvent(ID);
+			}*/
+
 			Npad.GetState(ref state, ID, style);
 			AnalogStickState rightAnalogStick = state.analogStickR;
 			AnalogStickState leftAnalogStick = state.analogStickL;
-			rightAxes = new Vector2(rightAnalogStick.fx, rightAnalogStick.fy);
-			leftAxes = new Vector2(leftAnalogStick.fx, leftAnalogStick.fy);
+			rightAxes = ID.IDStyleToLeftAxis(new Vector2(rightAnalogStick.fx, rightAnalogStick.fy));
+			leftAxes = ID.IDStyleToLeftAxis(new Vector2(leftAnalogStick.fx, leftAnalogStick.fy));
 
-			if(state.GetButtonDown(attackInput))
+			if(state.GetButton(ID.IDStyleToNpadButton(attackInput)))
 			{
 				mateo.SwordAttack(leftAxes);
 			}
-			if(state.GetButtonDown(jumpInput))
+			if(state.GetButton(ID.IDStyleToNpadButton(jumpInput)))
 			{
 				mateo.Jump(leftAxes);
+			}
+			if(state.GetButton(ID.IDStyleToNpadButton(toggleSupportedTypeInput)))
+			{
+				ToggleSupportedType();
 			}
 
 			if(leftAxes.x != 0.0f) mateo.Move(leftAxes.WithY(0.0f));
@@ -154,12 +181,16 @@ public class TEST_SwitchInputManager : MonoBehaviour
 			mateo.OnRightAxesChange(rightAxes);
 		}
 
-		HandleIDsState();
+
+		HandleIDsStates();
+		//BindIDs(true);
 	}
 
-	private void HandleIDsState()
+	private void HandleIDsStates()
 	{
+		int i = 0;
 		additionalBuilder.Clear();
+		additionalBuilder.AppendLine("IDs' Handling:");
 		additionalBuilder.AppendLine();
 
 		foreach(NpadId ID in supportedIDTypes)
@@ -167,15 +198,51 @@ public class TEST_SwitchInputManager : MonoBehaviour
 			bool updated = Npad.IsStyleSetUpdated(ID);
 			NpadStyle style = Npad.GetStyleSet(ID);
 
+			additionalBuilder.Append("Iteration #");
+			additionalBuilder.Append(i.ToString());
+			additionalBuilder.AppendLine(": ");
 			additionalBuilder.Append("Current Npad ID: ");
 			additionalBuilder.AppendLine(ID.ToString());
 			additionalBuilder.Append("Is Style Set Updated? ");
 			additionalBuilder.AppendLine(updated.ToString());
 			additionalBuilder.Append("Current ID's Style Set: ");
 			additionalBuilder.AppendLine(style.ToString());
+			additionalBuilder.Append("Style's Set [Npad.GetStyleSet(ID)]: ");
+			additionalBuilder.AppendLine(Npad.GetStyleSet(ID).ToString());
+			additionalBuilder.AppendLine("\n");
+		
+			i++;
 		}
 
 		additionalBuilder.AppendLine();
+	}
+
+	private void ToggleSupportedType()
+	{
+		supportedHoldTypes = supportedHoldTypes == NpadJoyHoldType.Horizontal ? NpadJoyHoldType.Vertical : NpadJoyHoldType.Horizontal;
+		NpadJoy.SetHoldType(supportedHoldTypes);
+	}
+
+	private void CompareEnums()
+	{
+		StringBuilder b = new StringBuilder();
+		b.AppendLine();
+
+		for(int i = 0; i < 28; i++)
+		{
+			NintendoSwitchButton nsB = (NintendoSwitchButton)(0x1 << i);
+			NpadButton nB = (NpadButton)(nsB);
+			bool equal = ((int)(nsB) == (int)(nB));
+
+			b.Append("Is ");
+			b.Append(nsB.ToString());
+			b.Append(" equal to ");
+			b.Append(nB.ToString());
+			b.Append("? ");
+			b.AppendLine(equal.ToString());
+		}
+
+		Debug.Log("[TEST_SwitchInputManager] Evaluating 2 different Enums: " + b.ToString());
 	}
 
 	public override string ToString()
@@ -186,6 +253,9 @@ public class TEST_SwitchInputManager : MonoBehaviour
 
 		builder.Append("Supported Style's Set: ");
 		builder.AppendLine(Npad.GetSupportedStyleSet().ToString());
+		builder.Append("Supported Hold Types: ");
+		builder.AppendLine(supportedHoldTypes.ToString());
+		builder.AppendLine("\n");
 
 		foreach(NpadId ID in supportedIDTypes)
 		{
