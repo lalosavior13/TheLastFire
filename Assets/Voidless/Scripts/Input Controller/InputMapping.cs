@@ -9,10 +9,11 @@ namespace Voidless
 [Serializable]
 public class InputMapping
 {
-	[SerializeField] private string[] _keyNames; 							/// <summary>Key Names.</summary>
-	[SerializeField] private PCControllerSetup _PCControllerSetup; 			/// <summary>PC's Controller Setup.</summary>
-	[SerializeField] private XBoxControllerSetup _XBoxControllerSetup; 		/// <summary>XBox's Controller Setup.</summary>
-	[SerializeField] private N3DSControllerSetup _N3DSControllerSetup; 		/// <summary>N3DS's Controller Setup.</summary>
+	[SerializeField] private string[] _keyNames; 											/// <summary>Key Names.</summary>
+	[SerializeField] private PCControllerSetup _PCControllerSetup; 							/// <summary>PC's Controller Setup.</summary>
+	[SerializeField] private XBoxControllerSetup _XBoxControllerSetup; 						/// <summary>XBox's Controller Setup.</summary>
+	[SerializeField] private NintendoSwitchControllerSetup _NintendoSwitchControllerSetup; 	/// <summary>Nintendo Switch's Controller Setup.</summary>
+	[SerializeField] private N3DSControllerSetup _N3DSControllerSetup; 						/// <summary>N3DS's Controller Setup.</summary>
 
 	/// <summary>Gets and Sets keyNames property.</summary>
 	public string[] keyNames
@@ -35,6 +36,13 @@ public class InputMapping
 		set { _XBoxControllerSetup = value; }
 	}
 
+	/// <summary>Gets and Sets NintendoSwitchControllerSetup property.</summary>
+	public NintendoSwitchControllerSetup NintendoSwitchControllerSetup
+	{
+		get { return _NintendoSwitchControllerSetup; }
+		set { _NintendoSwitchControllerSetup = value; }
+	}
+
 	/// <summary>Gets and Sets N3DSControllerSetup property.</summary>
 	public N3DSControllerSetup N3DSControllerSetup
 	{
@@ -48,7 +56,25 @@ public class InputMapping
 		keyNames = new string[0];
 		PCControllerSetup = new PCControllerSetup();
 		XBoxControllerSetup = new XBoxControllerSetup();
+		NintendoSwitchControllerSetup = new NintendoSwitchControllerSetup();
 		N3DSControllerSetup = new N3DSControllerSetup();
+	}
+
+	/// <summary>Resizes the mapping of all controller setups so they all match the maximum size.</summary>
+	public void ResizeMappings()
+	{
+		int maxSize = Mathf.Max
+		(
+			PCControllerSetup.keyMapping.Length,
+			XBoxControllerSetup.keyMapping.Length,
+			NintendoSwitchControllerSetup.keyMapping.Length,
+			N3DSControllerSetup.keyMapping.Length
+		);
+
+		PCControllerSetup.ResizeMapping(maxSize);
+		XBoxControllerSetup.ResizeMapping(maxSize);
+		NintendoSwitchControllerSetup.ResizeMapping(maxSize);
+		N3DSControllerSetup.ResizeMapping(maxSize);
 	}
 
 	/// <summary>Resizes Keys' Mapping.</summary>	
@@ -67,6 +93,8 @@ public class InputMapping
 		builder.AppendLine(PCControllerSetup.ToString());	
 		builder.Append("XBox's Controller Setup: ");
 		builder.AppendLine(XBoxControllerSetup.ToString());
+		builder.Append("Nintendo Switch' Controller Setup: ");
+		builder.AppendLine(NintendoSwitchControllerSetup.ToString());
 		builder.Append("Nintendo 3DS' Controller Setup: ");
 		builder.AppendLine(N3DSControllerSetup.ToString());
 

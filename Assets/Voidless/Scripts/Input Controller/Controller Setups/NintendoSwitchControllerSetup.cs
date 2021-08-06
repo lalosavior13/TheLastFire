@@ -6,28 +6,8 @@ using UnityEngine;
 
 namespace Voidless
 {
-public enum NintendoSwitchInputKey
-{
-	B,
-	A,
-	Y,
-	X,
-	L,
-	R,
-	Minus,
-	Plus,
-	LeftStick,
-	RightStick,
-	ZL,
-	ZR,
-	Down,
-	Right,
-	Left,
-	Up
-}}
-
-/*[Serializable]
-public class NintendoSwitchControllerSetup : BaseControllerSetup<NintendoSwitchInputKey>
+[Serializable]
+public class NintendoSwitchControllerSetup : BaseControllerSetup<NintendoSwitchButton>
 {
 //	Switch is in handheld mode or tabletop and Joy-Con attached to the console:
 //		- Joystick1...: Joy-Con attached to the Switch console.
@@ -52,27 +32,27 @@ public class NintendoSwitchControllerSetup : BaseControllerSetup<NintendoSwitchI
 
 	/// \TODO THIS IS NOT CORRECT:
 	/// <summary>Gets leftAxisX property.</summary>
-	public override float leftAxisX { get { return Input.GetAxis(leftAxisXKey); } }
+	public override float leftAxisX { get { return Input.GetAxis("Horizontal"); } }
 
 	/// <summary>Gets leftAxisY property.</summary>
-	public override float leftAxisY { get { return Input.GetAxis(leftAxisYKey); } }
+	public override float leftAxisY { get { return Input.GetAxis("Horizontal"); } }
 
 	/// <summary>Gets rightAxisX property.</summary>
-	public override float rightAxisX { get { return Input.GetAxis(rightAxisXKey); } }
+	public override float rightAxisX { get { return Input.GetAxis("Horizontal"); } }
 
 	/// <summary>Gets rightAxisY property.</summary>
-	public override float rightAxisY { get { return Input.GetAxis(rightAxisYKey); } }
+	public override float rightAxisY { get { return Input.GetAxis("Horizontal"); } }
 
 	/// <summary>Gets leftTrigger property.</summary>
-	public override float leftTrigger { get { return Input.GetAxis(leftTriggerKey); } }
+	public override float leftTrigger { get { return Input.GetAxis("Horizontal"); } }
 
 	/// <summary>Gets rightTrigger property.</summary>
-	public override float rightTrigger { get { return Input.GetAxis(rightTriggerKey); } }
+	public override float rightTrigger { get { return Input.GetAxis("Horizontal"); } }
 
 	/// <summary>Gets dPadAxisX property.</summary>
-	public override float dPadAxisX { get { return Input.GetAxis(dPadAxisXKey); } }
+	public override float dPadAxisX { get { return Input.GetAxis("Horizontal"); } }
 
 	/// <summary>Gets dPadAxisY property.</summary>
-	public override float dPadAxisY { get { return Input.GetAxis(dPadAxisYKey); } }
+	public override float dPadAxisY { get { return Input.GetAxis("Horizontal"); } }
 }
-}*/
+}

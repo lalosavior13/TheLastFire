@@ -7,6 +7,14 @@ namespace Voidless
 {
 public static class VArray
 {
+	/// <summary>Resizes Array, initializes it if it is null.</summary>
+	/// <param name="_array">Array to resize.</param>
+	public static void Resize<T>(ref T[] _array, int _size)
+	{
+		if(_array == null) _array = new T[_size];
+		else Array.Resize(ref _array, _size);
+	}
+
 	/// <returns>Array from given array with shuffled elements.</returns>
 	public static T[] RandomSet<T>(params T[] _elements)
 	{
@@ -24,6 +32,7 @@ public static class VArray
 		return array;
 	}
 
+	/// <returns>Max length of matrix.</returns>
 	public static int GetArrayMaxLength<T>(params T[][] _arrays)
 	{
 		int maxSize = 0;

@@ -66,7 +66,9 @@ public class InputMappingWindow : EditorWindow
 		GUILayout.Label("Name: ", GUILayout.Width(WIDTH_CONTROLLER_SETUP_CELL));
 		GUILayout.Label("PC: ", GUILayout.Width(WIDTH_CONTROLLER_SETUP_CELL));
 		GUILayout.Label("XBox: ", GUILayout.Width(WIDTH_CONTROLLER_SETUP_CELL));
-#if UNITY_N3DS
+#if UNITY_SWITCH
+		GUILayout.Label("Nintendo Switch: ", GUILayout.Width(WIDTH_CONTROLLER_SETUP_CELL));
+#elif UNITY_N3DS
 		GUILayout.Label("N3DS: ", GUILayout.Width(WIDTH_CONTROLLER_SETUP_CELL));
 #endif
 		EditorGUILayout.EndHorizontal();
@@ -80,6 +82,9 @@ public class InputMappingWindow : EditorWindow
 			inputMapping.keyNames[i] = EditorGUILayout.TextField(inputMapping.keyNames[i], GUILayout.Width(WIDTH_TEXT_FIELD));
 			inputMapping.PCControllerSetup.keyMapping[i] = (KeyCode)EditorGUILayout.EnumPopup(inputMapping.PCControllerSetup.keyMapping[i], GUILayout.Width(WIDTH_CONTROLLER_SETUP_CELL));
 			inputMapping.XBoxControllerSetup.keyMapping[i] = (XBoxInputKey)EditorGUILayout.EnumPopup(inputMapping.XBoxControllerSetup.keyMapping[i], GUILayout.Width(WIDTH_CONTROLLER_SETUP_CELL));
+#if UNITY_SWITCH
+			inputMapping.NintendoSwitchControllerSetup.keyMapping[i] = (NintendoSwitchButton)EditorGUILayout.EnumPopup(inputMapping.NintendoSwitchControllerSetup.keyMapping[i], GUILayout.Width(WIDTH_CONTROLLER_SETUP_CELL));
+#endif
 #if UNITY_N3DS
 			inputMapping.N3DSControllerSetup.keyMapping[i] = (N3dsButton)EditorGUILayout.EnumPopup(inputMapping.N3DSControllerSetup.keyMapping[i], GUILayout.Width(WIDTH_CONTROLLER_SETUP_CELL));
 #endif
@@ -180,6 +185,7 @@ public class InputMappingWindow : EditorWindow
 
 		if(inputMapping.PCControllerSetup.keyMapping.Length > maxSize) maxSize = inputMapping.PCControllerSetup.keyMapping.Length;
 		if(inputMapping.XBoxControllerSetup.keyMapping.Length > maxSize) maxSize = inputMapping.XBoxControllerSetup.keyMapping.Length;
+		if(inputMapping.NintendoSwitchControllerSetup.keyMapping.Length > maxSize) maxSize = inputMapping.NintendoSwitchControllerSetup.keyMapping.Length;
 		if(inputMapping.N3DSControllerSetup.keyMapping.Length > maxSize) maxSize = inputMapping.N3DSControllerSetup.keyMapping.Length;
 
 		return maxSize;
@@ -197,6 +203,7 @@ public class InputMappingWindow : EditorWindow
 			inputMapping.ResizeMapping(newSize);
 			inputMapping.PCControllerSetup.ResizeMapping(newSize);
 			inputMapping.XBoxControllerSetup.ResizeMapping(newSize);
+			inputMapping.NintendoSwitchControllerSetup.ResizeMapping(newSize);
 			inputMapping.N3DSControllerSetup.ResizeMapping(newSize);
 		}
 	}
@@ -243,6 +250,8 @@ public class InputMappingWindow : EditorWindow
 		InputMapping mapping = VJSONSerializer.DeserializeFromJSONFromPath<InputMapping>(path);
 		inputMapping = mapping != null ? mapping : new InputMapping();
 		if(mapping != null) file = AssetDatabase.LoadAssetAtPath(path, typeof(TextAsset)) as TextAsset;
+
+		inputMapping.ResizeMappings();
 	}
 }
 }

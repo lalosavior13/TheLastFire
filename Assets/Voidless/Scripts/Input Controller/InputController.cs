@@ -3,6 +3,9 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_SWITCH
+using nn.hid;
+#endif
 #if UNITY_N3DS
 using UnityEngine.N3DS;
 using N3DS = UnityEngine.N3DS;
@@ -24,6 +27,29 @@ public enum Axis 															/// <summary>Input's Axes.</summary>
 	RightTrigger, 															/// <summary>Right Trigger Axis.</summary>
 	DPadHorizontal, 														/// <summary>D-Pad's Horizontal Axis.</summary>
 	DPadVertical 															/// <summary>D-Pad's Vertical Axis.</summary>
+}
+
+public enum InputAxis
+{
+	Horizontal,
+	Vertical,
+	LeftHorizontal,
+	LeftVertical,
+	RightHorizontal,
+	RightVertical,
+	DPadHorizontal,
+	DPadVertical,
+	LeftTrigger1,
+	LeftTrigger2,
+	RightTrigger1,
+	RightTrigger2,
+	Button1,
+	Button2,
+	Button3,
+	Button4,
+	Start,
+	Select,
+	Home
 }
 
 public enum InputState 														/// <summary>Input States.</summary>
@@ -106,6 +132,9 @@ public class InputController : Singleton<InputController>
 	private Vector2 _previousLeftAxes; 										/// <summary>Previous Left's Axes.</summary>
 	private Vector2 _rightAxes; 											/// <summary>Input's Right Axes.</summary>
 	private Vector2 _previousRightAxes; 									/// <summary>Previous Right's Axes.</summary>
+#if UNITY_SWITCH
+	private NpadState[] _NpadStates; 										/// <summary>NpadStates for theNintendo Switch.</summary>
+#endif
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets inputMappingFile property.</summary>
@@ -175,6 +204,15 @@ public class InputController : Singleton<InputController>
 	}
 #endregion
 
+#if UNITY_SWITCH
+	/// <summary>Gets and Sets NpadStates property.</summary>
+	public NpadState[] NpadStates
+	{
+		get { return _NpadStates; }
+		set { _NpadStates = value; }
+	}
+#endif
+
 #region UnityMethods:
 	/// <summary>InputController's' instance initialization.</summary>
 	protected override void OnAwake()
@@ -194,6 +232,10 @@ public class InputController : Singleton<InputController>
 	private void UpdateInputMapping()
 	{
 		inputMapping = VJSONSerializer.DeserializeFromJSONFromTextAsset<InputMapping>(inputMappingFile);
+#if UNITY_SWITCH
+		NpadStates = new NpadState[] { new NpadState() };
+		Npad.Initialize();
+#endif
 	}
 
 	/// <summary>Tracks the Input setups depending on the current platform.</summary>
@@ -210,6 +252,8 @@ public class InputController : Singleton<InputController>
 			if(detectableControllers.HasFlag(DetectableControllers.Pc)) CheckPCControllerInputs();
 #elif (UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE)
 			CheckTouchInputs();
+#elif UNITY_SWITCH
+			CheckNintendoSwitchControllerInputs();
 #elif UNITY_N3DS
 			CheckNintendo3DSControllerInputs();
 #endif
@@ -227,7 +271,7 @@ public class InputController : Singleton<InputController>
 	/// <summary>Evaluates if input at given index has begun.</summary>
 	/// <param name="_inputID">Input's ID.</param>
 	/// <returns>True if input at given ID has begun.</returns>
-	public static bool InputBegin(int _inputID)
+	public static bool InputBegin(int _inputID, int _playerID = 0)
 	{
 		if(Instance.inputMapping != null)
 		{
@@ -239,6 +283,15 @@ public class InputController : Singleton<InputController>
 			if(Instance.detectableControllers.HasFlag(DetectableControllers.Pc)) result = Input.GetKeyDown(Instance.inputMapping.PCControllerSetup.keyMapping[_inputID]);
 
 			return result;
+#elif UNITY_SWITCH
+			NpadState state = Instance.NpadStates[_playerID];
+			NpadId ID = ToNpadID(_playerID);
+			NpadStyle style = Npad.GetStyleSet(ID);
+			NintendoSwitchButton button = Instance.inputMapping.NintendoSwitchControllerSetup.keyMapping[_inputID];
+			NpadButton remappedButton = VNintendoSwitch.IDStyleToNpadButton(ID, button);
+			//Npad.GetState(ref state, ID, style);
+
+			return state.GetButton(remappedButton);
 #elif UNITY_N3DS
 			return GamePad.GetButtonTrigger(Instance.inputMapping.N3DSControllerSetup.keyMapping[_inputID]);
 #endif
@@ -249,13 +302,22 @@ public class InputController : Singleton<InputController>
 	/// <summary>Evaluates if input at given index is still active.</summary>
 	/// <param name="_inputID">Input's ID.</param>
 	/// <returns>True if input at given ID is still active.</returns>
-	public static bool InputStay(int _inputID)
+	public static bool InputStay(int _inputID, int _playerID = 0)
 	{
 		if(Instance.inputMapping != null)
 		{
 #if (UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || UNITY_XBOXONE || UNITY_WSA_10_0 || UNITY_WSA)
             if (Instance.detectableControllers.HasFlag(DetectableControllers.XBox)) return Instance.GetXBoxKey(Instance.inputMapping.XBoxControllerSetup.keyMapping[_inputID]);
 			if(Instance.detectableControllers.HasFlag(DetectableControllers.Pc)) return Input.GetKey(Instance.inputMapping.PCControllerSetup.keyMapping[_inputID]);
+#elif UNITY_SWITCH
+			NpadState state = Instance.NpadStates[_playerID];
+			NpadId ID = ToNpadID(_playerID);
+			NpadStyle style = Npad.GetStyleSet(ID);
+			NintendoSwitchButton button = Instance.inputMapping.NintendoSwitchControllerSetup.keyMapping[_inputID];
+			NpadButton remappedButton = VNintendoSwitch.IDStyleToNpadButton(ID, button);
+			//Npad.GetState(ref state, ID, style);
+
+			return state.GetButtonDown(remappedButton);
 #elif UNITY_N3DS
 			return GamePad.GetButtonHold(Instance.inputMapping.N3DSControllerSetup.keyMapping[_inputID]);
 #endif
@@ -266,13 +328,22 @@ public class InputController : Singleton<InputController>
 	/// <summary>Evaluates if input at given index has ended.</summary>
 	/// <param name="_inputID">Input's ID.</param>
 	/// <returns>True if input at given ID has ended.</returns>
-	public static bool InputEnds(int _inputID)
+	public static bool InputEnds(int _inputID, int _playerID = 0)
 	{
 		if(Instance.inputMapping != null)
 		{
 #if (UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || UNITY_XBOXONE || UNITY_WSA_10_0 || UNITY_WSA)
             if (Instance.detectableControllers.HasFlag(DetectableControllers.XBox)) return Instance.GetXBoxKeyUp(Instance.inputMapping.XBoxControllerSetup.keyMapping[_inputID]);
 			if(Instance.detectableControllers.HasFlag(DetectableControllers.Pc)) return Input.GetKeyUp(Instance.inputMapping.PCControllerSetup.keyMapping[_inputID]);
+#elif UNITY_SWITCH
+			NpadState state = Instance.NpadStates[_playerID];
+			NpadId ID = ToNpadID(_playerID);
+			NpadStyle style = Npad.GetStyleSet(ID);
+			NintendoSwitchButton button = Instance.inputMapping.NintendoSwitchControllerSetup.keyMapping[_inputID];
+			NpadButton remappedButton = VNintendoSwitch.IDStyleToNpadButton(ID, button);
+			//Npad.GetState(ref state, ID, style);
+
+			return state.GetButtonUp(remappedButton);
 #elif UNITY_N3DS
 			return GamePad.GetButtonRelease(Instance.inputMapping.N3DSControllerSetup.keyMapping[_inputID]);
 #endif
@@ -353,7 +424,7 @@ public class InputController : Singleton<InputController>
 	}
 
 	/// <returns>Updates Input's Axes.</returns>
-	private void UpdateAxes()
+	private void UpdateAxes(int _playerID = 0)
 	{
 #if (UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || UNITY_XBOXONE || UNITY_WSA_10_0 || UNITY_WSA)
 		if(detectableControllers.HasFlag(DetectableControllers.XBox))
@@ -371,6 +442,16 @@ public class InputController : Singleton<InputController>
 #elif (UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE)
 		_leftAxes.x = 0.0f;
 		_leftAxes.y = 0.0f;	
+#elif UNITY_SWITCH
+		NpadState state = Instance.NpadStates[_playerID];
+		NpadId ID = ToNpadID(_playerID);
+		NpadStyle style = Npad.GetStyleSet(ID);
+		//Npad.GetState(ref state, ID, style);
+		AnalogStickState rightAnalogStick = state.analogStickR;
+		AnalogStickState leftAnalogStick = state.analogStickL;
+
+		_rightAxes = ID.IDStyleToLeftAxis(new Vector2(rightAnalogStick.fx, rightAnalogStick.fy));
+		_leftAxes = ID.IDStyleToLeftAxis(new Vector2(leftAnalogStick.fx, leftAnalogStick.fy));
 #elif UNITY_N3DS
 		_leftAxes.x = inputMapping.N3DSControllerSetup.leftAxisX;
 		_leftAxes.y = inputMapping.N3DSControllerSetup.leftAxisY;
@@ -675,6 +756,47 @@ public class InputController : Singleton<InputController>
 		Debug.LogWarning("[InputController] Cannot detect touch on this platform.");
 		return false;
 #endif
+	}
+
+//---------------------------------------
+//	 		Nintendo Switch's Methods 	|
+//---------------------------------------
+
+	/// <summary>Checks Nintendo Switch controller's mapped inputs.</summary>
+	private void CheckNintendoSwitchControllerInputs(int _playerID = 0)
+	{
+#if UNITY_SWITCH
+		/*NpadId ID = ToNpadID(_playerID);
+
+		for(i )*/
+		/*for(int i = 0; i < NpadStates.Length; i++)
+		{*/
+			NpadId ID = ToNpadID(_playerID);
+			NpadStyle style = Npad.GetStyleSet(ID);
+			Npad.GetState(ref _NpadStates[_playerID], ID, style);
+		//}
+#endif
+	}
+
+	/// <summary>Converts Player's ID to NpadId.</summary>
+	/// <param name="_playerID">Player's ID.</param>
+	/// <returns>Npad interpreted from Player's ID.</returns>
+	private static NpadId ToNpadID(int _playerID = 0)
+	{
+		switch(_playerID)
+		{
+			case 0: return NpadId.Handheld;
+			case 1: return NpadId.No1;
+			case 2: return NpadId.No2;
+			case 3: return NpadId.No3;
+			case 4: return NpadId.No4;
+			case 5: return NpadId.No5;
+			case 6: return NpadId.No6;
+			case 7: return NpadId.No7;
+			case 8: return NpadId.No8;
+		}
+
+		return NpadId.Invalid;
 	}
 
 //---------------------------------------

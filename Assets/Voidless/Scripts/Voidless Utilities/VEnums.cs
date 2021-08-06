@@ -279,30 +279,30 @@ public static class VEnums
             return KeyCode.None;
 	}
 
-	/// <summary>Converts NintendoSwitchInputKey enumerator value to KeyCode value.</summary>
-	/// <param name="_NintendoSwitchInputKey">NintendoSwitchInputKey value.</param>
-	/// <returns>NintendoSwitchInputKey value to KeyCode, mapped relative to the platform.</returns>
-	public static KeyCode ToKeyCode(NintendoSwitchInputKey _NintendoSwitchInputKey)
+	/// <summary>Converts NintendoSwitchButton enumerator value to KeyCode value.</summary>
+	/// <param name="_NintendoSwitchButton">NintendoSwitchButton value.</param>
+	/// <returns>NintendoSwitchButton value to KeyCode, mapped relative to the platform.</returns>
+	public static KeyCode ToKeyCode(NintendoSwitchButton _NintendoSwitchButton)
 	{
-		switch(_NintendoSwitchInputKey)
+		/*switch(_NintendoSwitchButton)
 		{
-			case NintendoSwitchInputKey.B: 				return KeyCode.JoystickButton0;
-			case NintendoSwitchInputKey.A: 				return KeyCode.JoystickButton1;
-			case NintendoSwitchInputKey.Y: 				return KeyCode.JoystickButton2;
-			case NintendoSwitchInputKey.X: 				return KeyCode.JoystickButton3;
-			case NintendoSwitchInputKey.L: 				return KeyCode.JoystickButton4;
-			case NintendoSwitchInputKey.R: 				return KeyCode.JoystickButton5;
-			case NintendoSwitchInputKey.Minus: 			return KeyCode.JoystickButton6;
-			case NintendoSwitchInputKey.Plus: 			return KeyCode.JoystickButton7;
-			case NintendoSwitchInputKey.LeftStick: 		return KeyCode.JoystickButton8;
-			case NintendoSwitchInputKey.RightStick: 	return KeyCode.JoystickButton9;
-			case NintendoSwitchInputKey.ZL: 			return KeyCode.JoystickButton10;
-			case NintendoSwitchInputKey.ZR: 			return KeyCode.JoystickButton11;
-			case NintendoSwitchInputKey.Down: 			return KeyCode.JoystickButton12;
-			case NintendoSwitchInputKey.Right: 			return KeyCode.JoystickButton13;
-			case NintendoSwitchInputKey.Left: 			return KeyCode.JoystickButton14;
-			case NintendoSwitchInputKey.Up: 			return KeyCode.JoystickButton15;
-		}
+			case NintendoSwitchButton.B: 				return KeyCode.JoystickButton0;
+			case NintendoSwitchButton.A: 				return KeyCode.JoystickButton1;
+			case NintendoSwitchButton.Y: 				return KeyCode.JoystickButton2;
+			case NintendoSwitchButton.X: 				return KeyCode.JoystickButton3;
+			case NintendoSwitchButton.L: 				return KeyCode.JoystickButton4;
+			case NintendoSwitchButton.R: 				return KeyCode.JoystickButton5;
+			case NintendoSwitchButton.Minus: 			return KeyCode.JoystickButton6;
+			case NintendoSwitchButton.Plus: 			return KeyCode.JoystickButton7;
+			case NintendoSwitchButton.LeftStick: 		return KeyCode.JoystickButton8;
+			case NintendoSwitchButton.RightStick: 	return KeyCode.JoystickButton9;
+			case NintendoSwitchButton.ZL: 			return KeyCode.JoystickButton10;
+			case NintendoSwitchButton.ZR: 			return KeyCode.JoystickButton11;
+			case NintendoSwitchButton.Down: 			return KeyCode.JoystickButton12;
+			case NintendoSwitchButton.Right: 			return KeyCode.JoystickButton13;
+			case NintendoSwitchButton.Left: 			return KeyCode.JoystickButton14;
+			case NintendoSwitchButton.Up: 			return KeyCode.JoystickButton15;
+		}*/
 
 		return KeyCode.None;
 	}

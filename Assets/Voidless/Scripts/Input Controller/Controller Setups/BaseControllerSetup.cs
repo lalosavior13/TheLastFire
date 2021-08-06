@@ -16,6 +16,9 @@ public abstract class BaseControllerSetup<T>
 #endregion
 
 #region Getters:
+	/// <returns>Max Players per Console.</returns>
+	public virtual int maxPlayers { get { return 4; } }
+
 	/// <summary>Gets and Sets keyMapping property.</summary>
 	public T[] keyMapping
 	{
@@ -53,6 +56,11 @@ public abstract class BaseControllerSetup<T>
 	{
 		keyMapping = new T[_size];
 	}
+
+	/// <summary>Gets Axis from given enum.</summary>
+	/// <param name="_axis">Desired Input Axis to retreive.</param>
+	/// <returns>Axis from given InputAxis.</returns>
+	public virtual float GetAxis(InputAxis _axis) { return 0.0f; }
 	
 	/// <summary>Resizes Keys' Mapping.</summary>	
 	/// <param name="_newSize">Mapping's New Size.</param>
