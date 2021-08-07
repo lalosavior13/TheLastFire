@@ -7253,7 +7253,7 @@ PrefabInstance:
     - target: {fileID: 1709398814249193394, guid: 7a3984e5d3b23354b859410fe3d33e4b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.7
+      value: -16.649998
       objectReference: {fileID: 0}
     - target: {fileID: 1709398814249193394, guid: 7a3984e5d3b23354b859410fe3d33e4b,
         type: 3}
@@ -25238,7 +25238,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 89abdf7a171c095439f7af6500b2443b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 112.299995
+      value: 72.95
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 89abdf7a171c095439f7af6500b2443b,
         type: 3}
@@ -31101,6 +31101,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
+      propertyPath: _particleEffectsMatrix.Array.data[0].index.collectionIndex
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
+      propertyPath: _particleEffectsMatrix.Array.data[0].index.index
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
+      propertyPath: _particleEffectsMatrix.Array.data[1].index.index
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
+      propertyPath: _particleEffectsMatrix.Array.data[1].index.collectionIndex
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
+      propertyPath: _particleEffectsMatrix.Array.data[2].index.index
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
+      propertyPath: _particleEffectsMatrix.Array.data[2].index.collectionIndex
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
+      propertyPath: _particleEffectsMatrix.Array.data[3].index.index
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
+      propertyPath: _particleEffectsMatrix.Array.data[3].index.collectionIndex
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5122952807910987780, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
         type: 3}
       propertyPath: m_Name
@@ -31124,7 +31156,7 @@ PrefabInstance:
     - target: {fileID: 5122952807910987803, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.65
+      value: -20.7
       objectReference: {fileID: 0}
     - target: {fileID: 5122952807910987803, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
         type: 3}
