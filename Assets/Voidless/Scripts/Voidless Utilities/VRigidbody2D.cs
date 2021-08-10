@@ -36,7 +36,7 @@ public static class VRigidbody2D
 			rP.x + d.x,
 			rP.y + d.y,
 			tP.z + d.z
-		);
+		).NaNFilter();
 	}
 
 #region IVehicle2DSteeringBehaviors:

@@ -44,6 +44,7 @@ public enum NintendoSwitchButton
 
 public static class VNintendoSwitch
 {
+#if UNITY_SWITCH
 	public static readonly NpadId[] NPAD_IDS_ALL; 					/// <summary>All Possible NpadIds [With the exception of Invalid].</summary>
 	public static readonly NpadId[] NPAD_IDS_HANDHELD; 				/// <summary>Short-hand for Handheld mode only.</summary>
 	public static readonly NpadId[] NPAD_IDS_HANDHELD_AND_JOYCON; 	/// <summary>NpadIds for single player on Hanheld or JoyCon.</summary>
@@ -68,7 +69,6 @@ public static class VNintendoSwitch
 		NPAD_IDS_HANDHELD_AND_JOYCON = new NpadId[] { NpadId.Handheld, NpadId.No1 };
 	}
 
-#if UNITY_SWITCH
 	/// <summary>Converts given enum from NintendoSwitchButton to NpadButton.</summary>
 	/// <param name="_button">Enum to convert into NpadButton.</param>
 	/// <returns>NintendoSwitchButton to NpadButton.</returns>
@@ -249,6 +249,10 @@ public static class VNintendoSwitch
 		return NpadButton.None;
 	}
 	
+	/// <summary>Remaps Axis depending of the NpadStyle contained on the given NpadID.</summary>
+	/// <param name="_ID">Npad's ID.</param>
+	/// <param name="_axis">Axis retrieved from ID's NpadState.</param>
+	/// <returns>Remapped Axis.</returns>
 	public static Vector2 IDStyleToLeftAxis(this NpadId _ID, Vector2 _axis)
 	{
 		NpadStyle style = Npad.GetStyleSet(_ID);
@@ -280,6 +284,27 @@ public static class VNintendoSwitch
 		}
 
 		return _axis;
+	}
+
+	/// <summary>Converts Player's ID to NpadId.</summary>
+	/// <param name="_playerID">Player's ID.</param>
+	/// <returns>Npad interpreted from Player's ID.</returns>
+	public static NpadId ToNpadID(this int _playerID)
+	{
+		switch(_playerID)
+		{
+			case 0: return NpadId.Handheld;
+			case 1: return NpadId.No1;
+			case 2: return NpadId.No2;
+			case 3: return NpadId.No3;
+			case 4: return NpadId.No4;
+			case 5: return NpadId.No5;
+			case 6: return NpadId.No6;
+			case 7: return NpadId.No7;
+			case 8: return NpadId.No8;
+		}
+
+		return NpadId.Invalid;
 	}
 #endif 
 }

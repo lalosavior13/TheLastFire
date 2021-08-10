@@ -76,6 +76,14 @@ public class SteeringVehicle2D : MonoBehaviour
 		return GetSeekForce(transform.position, t, ref velocity, maxSpeed, maxForce, mass);
 	}
 
+	/// <summary>Gets Flee Steering Force.</summary>
+	/// <param name="t">Target's position.</param>
+	/// <returns>Flee Steering Force past the target.</returns>
+	public Vector2 GetFleeForce(Vector2 t)
+	{
+		return GetFleeForce(transform.position, t, ref velocity, maxSpeed, maxForce, mass);
+	}
+
 	/// <summary>Gets Arrival Weight between vehicle and target.</summary>
 	/// <param name="p">Vehicle's Position.</param>
 	/// <param name="t">Target's Position.</param>
@@ -113,12 +121,41 @@ public class SteeringVehicle2D : MonoBehaviour
 		d = d.normalized * s;
 
 		Vector2 steering = d - v;
-		steering = steering.normalized * f;
+		steering = Vector2.ClampMagnitude(steering, f);
 
 		if(m != 1.0f) steering /= m;
 
 		v = v + steering;
-		v = v.normalized * s;
+		v = Vector2.ClampMagnitude(v, s);
+
+/*#if UNITY_EDITOR
+		Debug.DrawRay(p, d, Color.magenta);
+		Debug.DrawRay(p, v, Color.red);
+#endif*/
+
+		return v;
+	}
+
+	/// <summary>Gets Flee Steering Force.</summary>
+	/// <param name="p">Vehicle's Position.</param>
+	/// <param name="t">Target's position.</param>
+	/// <param name="v">Velocity's reference.</param>
+	/// <param name="s">Vehicle's Maximum Speed.</param>
+	/// <param name="f">Vehicle's Maximum Steering Force.</param>
+	/// <param name="m">Vehicle's Mass [1.0 by default].</param>
+	/// <returns>Flee Steering Force past the target.</returns>
+	public static Vector2 GetFleeForce(Vector2 p, Vector2 t, ref Vector2 v, float s, float f, float m = 1.0f)
+	{
+		Vector2 d = p - t;
+		d = d.normalized * s;
+
+		Vector2 steering = d - v;
+		steering = Vector2.ClampMagnitude(steering, f);
+
+		if(m != 1.0f) steering /= m;
+
+		v = v + steering;
+		v = Vector2.ClampMagnitude(v, s);
 
 /*#if UNITY_EDITOR
 		Debug.DrawRay(p, d, Color.magenta);

@@ -37,10 +37,10 @@ public class GameData : ScriptableObject
 	[Space(5f)]
 	[Header("Explodables:")]
 	[SerializeField] private Explodable[] _explodables; 						/// <summary>Explodables.</summary>
-	[HideInInspector] public FloatWrapper _ceilingDotProductThreshold; 				/// <summary>Dot-Product Threshold for the Ceiling.</summary>
-	[HideInInspector] public FloatWrapper _floorDotProductThreshold; 					/// <summary>Dot-Product Threshold for the Floor.</summary>
-	[HideInInspector] public FloatWrapper _ceilingAngleThreshold; 						/// <summary>Angle Threshold for the Ceiling.</summary>
-	[HideInInspector] public FloatWrapper _floorAngleThreshold; 						/// <summary>Angle Threshold for the Floor.</summary>
+	[HideInInspector] public FloatWrapper _ceilingDotProductThreshold; 			/// <summary>Dot-Product Threshold for the Ceiling.</summary>
+	[HideInInspector] public FloatWrapper _floorDotProductThreshold; 			/// <summary>Dot-Product Threshold for the Floor.</summary>
+	[HideInInspector] public FloatWrapper _ceilingAngleThreshold; 				/// <summary>Angle Threshold for the Ceiling.</summary>
+	[HideInInspector] public FloatWrapper _floorAngleThreshold; 				/// <summary>Angle Threshold for the Floor.</summary>
 	private float _idealDeltaTime; 												/// <summary>Ideal delta time.</summary>
 #if UNITY_EDITOR
 	[HideInInspector] public bool showDotProducts; 								/// <summary>Enable settings for Dot Products' Thresholds? if false, it will show settings for the Angles' Thresholds.</summary>

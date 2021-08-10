@@ -27,14 +27,13 @@ public class ArrowProjectile : Projectile
 	[Header("Arrow Projectile's Attributes:")]
 	[SerializeField] private GameObjectTag[] _incrustTags; 	/// <summary>Tags of GameObjects that can be incrusted by the Arrow Projectile.</summary>
 	[SerializeField] private HitCollider2D _tipHitBox; 		/// <summary>Tip's HitBox.</summary>
-	[SerializeField] private CollectionIndex _chainIndex; 	/// <summary>Chain's PoolGameObject Collection Index.</summary>
-	[SerializeField] private Vector3 _offset; 				/// <summary>Chain's offset from this projectile.</summary>
+	[SerializeField] private BoxCollider2D _chainCollider; 	/// <summary>Chain's BoxCollider.</summary>
 	private LineRenderer _lineRenderer; 					/// <summary>LineRenderer's Component.</summary>
 	private Vector3 _spawnPosition; 						/// <summary>Spawn Position.</summary>
-	private PoolGameObject _chain; 							/// <summary>Chain's Pool GameObject.</summary>
 	private ArrowProjectileState _state; 					/// <summary>Arrow Projectile's State.</summary>
 	private bool inverted;
 
+#region Getter/Setters:
 	/// <summary>Gets and Sets incrustTags property.</summary>
 	public GameObjectTag[] incrustTags
 	{
@@ -45,18 +44,8 @@ public class ArrowProjectile : Projectile
 	/// <summary>Gets tipHitBox property.</summary>
 	public HitCollider2D tipHitBox { get { return _tipHitBox; } }
 
-	/// <summary>Gets chainIndex property.</summary>
-	public CollectionIndex chainIndex { get { return _chainIndex; } }
-
-	/// <summary>Gets offset property.</summary>
-	public Vector3 offset { get { return _offset; } }
-
-	/// <summary>Gets and Sets chain property.</summary>
-	public PoolGameObject chain
-	{
-		get { return _chain; }
-		set { _chain = value; }
-	}
+	/// <summary>Gets chainCollider property.</summary>
+	public BoxCollider2D chainCollider { get { return _chainCollider; } }
 
 	/// <summary>Gets and Sets state property.</summary>
 	public ArrowProjectileState state
@@ -81,27 +70,19 @@ public class ArrowProjectile : Projectile
 		get { return _spawnPosition; }
 		set { _spawnPosition = value; }
 	}
+#endregion
 
 	/// <summary>Callback internally invoked inside Update.</summary>
 	protected override void Update()
 	{
-		//base.Update(); /// Don't wanna tick its lifespan here...
-
 		switch(state)
 		{
-			case ArrowProjectileState.NotIntersectedWithIncrustable:
-			case ArrowProjectileState.IntersectedWithFirstIncrustable:
-			if(chain == null) return;
-			chain.transform.rotation = transform.rotation;
-			break;
-
 			case ArrowProjectileState.Incrusted:
-			TickLifespan();
+			base.Update(); /// Only tick its lifespan when it is incrusted
 			break;
 		}
 
-		lineRenderer.SetPosition(0, spawnPosition);
-		lineRenderer.SetPosition(1, transform.position);
+		UpdateChain();
 	}
 
 	/// <summary>Callback internally invoked inside FixedUpdate.</summary>
@@ -110,10 +91,6 @@ public class ArrowProjectile : Projectile
 		if(state == ArrowProjectileState.Incrusted) return;
 
 		base.FixedUpdate();
-
-		if(chain == null) return;
-
-		chain.transform.position = GetOffsetedPositionForChain();
 	}
 
 	/// <summary>Event invoked when a Collision2D intersection is received.</summary>
@@ -140,8 +117,6 @@ public class ArrowProjectile : Projectile
 		base.OnTriggerEvent(_info, _eventType, _ID);
 		
 		GameObject obj = collider.gameObject;
-
-		if(chain != null && chain.gameObject == obj) return;
 
 		if(incrustTags != null) foreach(GameObjectTag tag in incrustTags)
 		{
@@ -172,32 +147,37 @@ public class ArrowProjectile : Projectile
 		state = ArrowProjectileState.NotIntersectedWithIncrustable;
 		tipHitBox.SetTrigger(true);
 		lineRenderer.enabled = true;
-		chain = PoolManager.RequestPoolGameObject(chainIndex, GetOffsetedPositionForChain(), transform.rotation);
-		///BEGINS TEMPORAL:
-		chain.gameObject.SetActive(false);
-		/// ENDS TEMPORAL.
 		inverted = false;
 	}
 
 	/// <summary>Callback invoked when the object is deactivated.</summary>
 	public override void OnObjectDeactivation()
 	{
-		if(chain != null)
-		{
-			chain.OnObjectDeactivation();
-			chain = null;
-		}
-
 		state = ArrowProjectileState.NotIntersectedWithIncrustable;
 		tipHitBox.SetTrigger(true);
 		lineRenderer.enabled = false;
 		base.OnObjectDeactivation();
 	}
 
-	/// <returns>Chain's position relative to this projectile.</returns>
-	private Vector3 GetOffsetedPositionForChain()
+	/// <summary>Updates Chain.</summary>
+	private void UpdateChain()
 	{
-		return transform.position + (transform.rotation * offset);
+		lineRenderer.SetPosition(0, spawnPosition);
+		lineRenderer.SetPosition(1, transform.position);
+
+		if(chainCollider == null) return;
+
+		Vector3 a = lineRenderer.GetPosition(0);
+		Vector3 b = lineRenderer.GetPosition(1);
+		Vector3 d = b - a;
+		float m = d.magnitude;
+
+		chainCollider.size = new Vector2(
+			m,
+			lineRenderer.GetWidth() * 0.5f
+		);
+		chainCollider.transform.position = Vector3.Lerp(a, b, 0.5f);
+		chainCollider.transform.rotation = VQuaternion.RightLookRotation(d);
 	}
 }
 }

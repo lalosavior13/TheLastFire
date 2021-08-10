@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -181,6 +182,17 @@ public class InteractableMaterial : MonoBehaviour
 		{
 			AudioController.PlayOneShot(SourceType.SFX, 0, index);
 		}
+	}
+
+	/// <returns>String Representing this InteractableMaterial.</returns>
+	public override string ToString()
+	{
+		StringBuilder builder = new StringBuilder();
+
+		builder.Append("Interactable Material: Material ID = ");
+		builder.Append(ID.ToString());
+
+		return builder.ToString();
 	}
 }
 }

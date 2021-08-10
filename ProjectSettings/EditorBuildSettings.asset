@@ -20,7 +20,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Tests/Ring_Madness.unity
     guid: caecbd21976972e4e8a723ac21ab2b86
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tests/TrainingGround_Rodo 1.unity
     guid: 7237b7390a315134cacf1c3fbcc85fd0
+  - enabled: 1
+    path: Assets/Scenes/Tests/Scene_TrainingGround.unity
+    guid: 0df3f19b2b3856448878ab5e7bc5ef85
   m_configObjects: {}

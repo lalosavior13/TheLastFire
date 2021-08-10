@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,9 +12,11 @@ namespace Flamingo
 //[ExecuteInEditMode]
 public class Camera2DBoundariesModifier : MonoBehaviour
 {
-	[SerializeField] private GameObjectTag _playerTag; 		/// <summary>Player's Tag.</summary>
-	private Boundaries2DContainer _boundariesContainer; 	/// <summary>Boundaries2DContainer's Component.</summary>
-	private BoxCollider2D _boxCollider; 					/// <summary>BoxCollider2D's Component.</summary>
+	protected static HashSet<Camera2DBoundariesModifier> boundariesModifiers; 	/// <summary>Boundaries' Modifiers.</summary>
+
+	[SerializeField] private GameObjectTag _playerTag; 							/// <summary>Player's Tag.</summary>
+	private Boundaries2DContainer _boundariesContainer; 						/// <summary>Boundaries2DContainer's Component.</summary>
+	private BoxCollider2D _boxCollider; 										/// <summary>BoxCollider2D's Component.</summary>
 
 	/// <summary>Gets playerTag property.</summary>
 	public GameObjectTag playerTag { get { return _playerTag; } }
@@ -36,6 +39,12 @@ public class Camera2DBoundariesModifier : MonoBehaviour
 			if(_boxCollider == null) _boxCollider = GetComponent<BoxCollider2D>();
 			return _boxCollider;
 		}
+	}
+
+	/// <summary>Camera2DBoundariesModifier's instance initialization when loaded [Before scene loads].</summary>
+	private void Awake()
+	{
+		if(boundariesModifiers == null) boundariesModifiers = new HashSet<Camera2DBoundariesModifier>();
 	}
 
 	/// <summary>Draws Gizmos on Editor mode.</summary>
@@ -65,6 +74,30 @@ public class Camera2DBoundariesModifier : MonoBehaviour
 
 			cameraBoundariesContainer.center = boundariesContainer.center;
 			cameraBoundariesContainer.size = boundariesContainer.size;
+			boundariesModifiers.Add(this);
+		}
+	}
+
+	/// <summary>Event triggered when this Collider2D exits another Collider2D trigger.</summary>
+	/// <param name="col">The other Collider2D involved in this Event.</param>
+	private void OnTriggerExit2D(Collider2D col)
+	{
+		GameObject obj = col.gameObject;
+	
+		if(obj.CompareTag(playerTag))
+		{
+			Boundaries2DContainer cameraBoundariesContainer = Game.cameraController.boundariesContainer;
+
+			if(cameraBoundariesContainer == null) return;
+
+			if(boundariesModifiers.Contains(this)) boundariesModifiers.Remove(this);
+
+			if(boundariesModifiers.Count == 0) return;
+
+			Boundaries2DContainer boundaries = boundariesModifiers.First().boundariesContainer;
+
+			cameraBoundariesContainer.center = boundaries.center;
+			cameraBoundariesContainer.size = boundaries.size;
 		}
 	}
 }

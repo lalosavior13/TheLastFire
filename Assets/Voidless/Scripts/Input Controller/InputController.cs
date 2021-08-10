@@ -221,7 +221,7 @@ public class InputController : Singleton<InputController>
 	}
 	
 	/// <summary>InputController's tick at each frame.</summary>
-	private void Update ()
+	private void Update()
 	{
 		TrackInput();
 		UpdateAxes();
@@ -233,7 +233,7 @@ public class InputController : Singleton<InputController>
 	{
 		inputMapping = VJSONSerializer.DeserializeFromJSONFromTextAsset<InputMapping>(inputMappingFile);
 #if UNITY_SWITCH
-		NpadStates = new NpadState[] { new NpadState() };
+		NpadStates = new NpadState[] { new NpadState(), new NpadState() };
 		Npad.Initialize();
 #endif
 	}
@@ -253,7 +253,7 @@ public class InputController : Singleton<InputController>
 #elif (UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE)
 			CheckTouchInputs();
 #elif UNITY_SWITCH
-			CheckNintendoSwitchControllerInputs();
+			UpdateNintendoSwitchControllersInputs();
 #elif UNITY_N3DS
 			CheckNintendo3DSControllerInputs();
 #endif
@@ -284,14 +284,7 @@ public class InputController : Singleton<InputController>
 
 			return result;
 #elif UNITY_SWITCH
-			NpadState state = Instance.NpadStates[_playerID];
-			NpadId ID = ToNpadID(_playerID);
-			NpadStyle style = Npad.GetStyleSet(ID);
-			NintendoSwitchButton button = Instance.inputMapping.NintendoSwitchControllerSetup.keyMapping[_inputID];
-			NpadButton remappedButton = VNintendoSwitch.IDStyleToNpadButton(ID, button);
-			//Npad.GetState(ref state, ID, style);
-
-			return state.GetButton(remappedButton);
+			return NintendoSwitchButtonBegin(_inputID, _playerID);
 #elif UNITY_N3DS
 			return GamePad.GetButtonTrigger(Instance.inputMapping.N3DSControllerSetup.keyMapping[_inputID]);
 #endif
@@ -310,14 +303,7 @@ public class InputController : Singleton<InputController>
             if (Instance.detectableControllers.HasFlag(DetectableControllers.XBox)) return Instance.GetXBoxKey(Instance.inputMapping.XBoxControllerSetup.keyMapping[_inputID]);
 			if(Instance.detectableControllers.HasFlag(DetectableControllers.Pc)) return Input.GetKey(Instance.inputMapping.PCControllerSetup.keyMapping[_inputID]);
 #elif UNITY_SWITCH
-			NpadState state = Instance.NpadStates[_playerID];
-			NpadId ID = ToNpadID(_playerID);
-			NpadStyle style = Npad.GetStyleSet(ID);
-			NintendoSwitchButton button = Instance.inputMapping.NintendoSwitchControllerSetup.keyMapping[_inputID];
-			NpadButton remappedButton = VNintendoSwitch.IDStyleToNpadButton(ID, button);
-			//Npad.GetState(ref state, ID, style);
-
-			return state.GetButtonDown(remappedButton);
+			return NintendoSwitchButtonStay(_inputID, _playerID);
 #elif UNITY_N3DS
 			return GamePad.GetButtonHold(Instance.inputMapping.N3DSControllerSetup.keyMapping[_inputID]);
 #endif
@@ -336,14 +322,7 @@ public class InputController : Singleton<InputController>
             if (Instance.detectableControllers.HasFlag(DetectableControllers.XBox)) return Instance.GetXBoxKeyUp(Instance.inputMapping.XBoxControllerSetup.keyMapping[_inputID]);
 			if(Instance.detectableControllers.HasFlag(DetectableControllers.Pc)) return Input.GetKeyUp(Instance.inputMapping.PCControllerSetup.keyMapping[_inputID]);
 #elif UNITY_SWITCH
-			NpadState state = Instance.NpadStates[_playerID];
-			NpadId ID = ToNpadID(_playerID);
-			NpadStyle style = Npad.GetStyleSet(ID);
-			NintendoSwitchButton button = Instance.inputMapping.NintendoSwitchControllerSetup.keyMapping[_inputID];
-			NpadButton remappedButton = VNintendoSwitch.IDStyleToNpadButton(ID, button);
-			//Npad.GetState(ref state, ID, style);
-
-			return state.GetButtonUp(remappedButton);
+			return NintendoSwitchButtonEnd(_inputID, _playerID);
 #elif UNITY_N3DS
 			return GamePad.GetButtonRelease(Instance.inputMapping.N3DSControllerSetup.keyMapping[_inputID]);
 #endif
@@ -444,7 +423,7 @@ public class InputController : Singleton<InputController>
 		_leftAxes.y = 0.0f;	
 #elif UNITY_SWITCH
 		NpadState state = Instance.NpadStates[_playerID];
-		NpadId ID = ToNpadID(_playerID);
+		NpadId ID = _playerID.ToNpadID();
 		NpadStyle style = Npad.GetStyleSet(ID);
 		//Npad.GetState(ref state, ID, style);
 		AnalogStickState rightAnalogStick = state.analogStickR;
@@ -762,51 +741,118 @@ public class InputController : Singleton<InputController>
 //	 		Nintendo Switch's Methods 	|
 //---------------------------------------
 
-	/// <summary>Checks Nintendo Switch controller's mapped inputs.</summary>
-	private void CheckNintendoSwitchControllerInputs(int _playerID = 0)
-	{
 #if UNITY_SWITCH
-		/*NpadId ID = ToNpadID(_playerID);
-
-		for(i )*/
-		/*for(int i = 0; i < NpadStates.Length; i++)
-		{*/
-			NpadId ID = ToNpadID(_playerID);
-			NpadStyle style = Npad.GetStyleSet(ID);
-			Npad.GetState(ref _NpadStates[_playerID], ID, style);
-		//}
-#endif
-	}
-
-	/// <summary>Converts Player's ID to NpadId.</summary>
-	/// <param name="_playerID">Player's ID.</param>
-	/// <returns>Npad interpreted from Player's ID.</returns>
-	private static NpadId ToNpadID(int _playerID = 0)
+	/// <summary>Updates all Nintendo Switch Controllers.</summary>
+	private void UpdateNintendoSwitchControllersInputs()
 	{
-		switch(_playerID)
-		{
-			case 0: return NpadId.Handheld;
-			case 1: return NpadId.No1;
-			case 2: return NpadId.No2;
-			case 3: return NpadId.No3;
-			case 4: return NpadId.No4;
-			case 5: return NpadId.No5;
-			case 6: return NpadId.No6;
-			case 7: return NpadId.No7;
-			case 8: return NpadId.No8;
-		}
+		/*
+		- NpadState is a structure that holds the state requested at that moment.
+		It has the following properties:
+			- Buttons that is pressing on that time.
+			- State of both Left and Right analog sticks.
+			- Previous buttons that were pressed the last time it was updated.
 
-		return NpadId.Invalid;
+		- NpadId tells the Player's ID (from 1 to 8, 9th being Handheld).
+		- NpadStyle tells which controller mode the current Player is on.
+		- Npad.GetState() updates the state of the NpadState's reference passed.
+		*/
+		NpadState state = default(NpadState);
+		NpadId ID = NpadId.Invalid;
+		NpadStyle style = NpadStyle.None;
+
+		for(int i = 0; i < NpadStates.Length; i++)
+		{
+			state = NpadStates[i];
+			ID = i.ToNpadID();
+			style = Npad.GetStyleSet(ID);
+			Npad.GetState(ref state, ID, style);
+			NpadStates[i] = state;
+		}
 	}
+
+	private static bool NintendoSwitchButtonBegin(int _inputID, int _playerID)
+	{
+		NpadState state = Instance.NpadStates[_playerID];
+		NintendoSwitchButton button = Instance.inputMapping.NintendoSwitchControllerSetup.keyMapping[_inputID];
+		NpadId ID = _playerID.ToNpadID();
+		NpadButton remappedButton = VNintendoSwitch.IDStyleToNpadButton(ID, button);
+
+		/*Debug.Log
+		(
+			"[InputController] Button Begin Debug: "
+			+ "\nPrevious Buttons DOES NOT INCLUDE " + remappedButton.ToString() + "? "
+			+ ((state.preButtons | remappedButton) != state.preButtons)
+			+ "\nCurrent Buttons INCLUDE " + remappedButton.ToString() + "? "
+			+ ((state.buttons | remappedButton) == state.buttons)
+			+ "\nReturning: " + ((state.preButtons | remappedButton) != state.preButtons && (state.buttons | remappedButton) == state.buttons)
+		);*/
+
+		return state.GetButtonDown(remappedButton);
+		return (state.preButtons | remappedButton) != state.preButtons
+		&& (state.buttons | remappedButton) == state.buttons;
+	}
+
+	private static bool NintendoSwitchButtonStay(int _inputID, int _playerID)
+	{
+		NpadState state = Instance.NpadStates[_playerID];
+		NintendoSwitchButton button = Instance.inputMapping.NintendoSwitchControllerSetup.keyMapping[_inputID];
+		NpadId ID = _playerID.ToNpadID();
+		NpadButton remappedButton = VNintendoSwitch.IDStyleToNpadButton(ID, button);
+
+		/*Debug.Log
+		(
+			"[InputController] Button Stay Debug: "
+			+ "\nPrevious Buttons INCLUDE " + remappedButton.ToString() + "? "
+			+ ((state.preButtons | remappedButton) == state.preButtons)
+			+ "\nCurrent Buttons INCLUDE " + remappedButton.ToString() + "? "
+			+ ((state.buttons | remappedButton) == state.buttons)
+			+ "\nReturning: " + ((state.preButtons | remappedButton) == state.preButtons && (state.buttons | remappedButton) == state.buttons)
+		);*/
+
+		return state.GetButton(remappedButton);
+		return (state.preButtons | remappedButton) == state.preButtons
+		&& (state.buttons | remappedButton) == state.buttons;
+	}
+
+	private static bool NintendoSwitchButtonEnd(int _inputID, int _playerID)
+	{
+		NpadState state = Instance.NpadStates[_playerID];
+		NintendoSwitchButton button = Instance.inputMapping.NintendoSwitchControllerSetup.keyMapping[_inputID];
+		NpadId ID = _playerID.ToNpadID();
+		NpadButton remappedButton = VNintendoSwitch.IDStyleToNpadButton(ID, button);
+
+		/*Debug.Log
+		(
+			"[InputController] Button End Debug: "
+			+ "\nPrevious Buttons INCLUDE " + remappedButton.ToString() + "? "
+			+ ((state.preButtons | remappedButton) == state.preButtons)
+			+ "\nCurrent Buttons DOES NOT INCLUDE " + remappedButton.ToString() + "? "
+			+ ((state.buttons | remappedButton) != state.buttons)
+			+ "\nReturning: " + ((state.preButtons | remappedButton) == state.preButtons && (state.buttons | remappedButton) != state.buttons)
+		);*/
+
+		return state.GetButtonUp(remappedButton);
+		return (state.preButtons | remappedButton) == state.preButtons
+		&& (state.buttons | remappedButton) != state.buttons;
+	}
+
+	/*private static GetNintendoSwitchButtonDown(NpadState _state, NintendoSwitchButton _button,  int _playerID = 0)
+	{
+		NpadState state = NpadStates[_playerID];
+		NpadId ID = _playerID.ToNpadID();
+		NpadButton button = 
+	}*/
+#endif
 
 //---------------------------------------
 //	 		Nintendo 3DS's Methods 		|
 //---------------------------------------
 
+#if UNITY_N3DS
 	/// <summary>Checks Nintendo 3DS controller's mapped inputs.</summary>
 	private void CheckNintendo3DSControllerInputs()
 	{
-#if UNITY_N3DS
+
 		if(onRightAxesChange != null) onRightAxesChange(inputMapping.N3DSControllerSetup.rightAxisX, inputMapping.N3DSControllerSetup.rightAxisY);
 		if(onLeftAxesChange != null) onLeftAxesChange(inputMapping.N3DSControllerSetup.leftAxisX, inputMapping.N3DSControllerSetup.leftAxisY);
 		if(onDPadAxesChanges != null) onDPadAxesChanges(inputMapping.N3DSControllerSetup.dPadAxisX, inputMapping.N3DSControllerSetup.dPadAxisY);
@@ -825,8 +871,8 @@ public class InputController : Singleton<InputController>
 					onInputReceived(i, InputState.Ended);
 			}
 		}
-#endif
 	}
+#endif
 
 	/// <returns>String representing this Input's Controller.</returns>
 	public override string ToString()

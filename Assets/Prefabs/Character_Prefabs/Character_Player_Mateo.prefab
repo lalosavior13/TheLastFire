@@ -1395,9 +1395,8 @@ MonoBehaviour:
   _groundedScale: 1
   _jumpingScale: -2
   _fallingScale: 5
-  _additionalScaleRange:
-    _min: 3.5
-    _max: 9
+  _downwardsScalarAddition: 0
+  _upwardsScalarAddition: 0
   _scaleChangePriority: 1
   _progressForExtraJump: 0.6
   _forcesInfo:
@@ -1592,24 +1591,28 @@ MonoBehaviour:
     index: 0
     objectIndex: 0
     collectionIndex: 0
+  _speedRange:
+    _min: 5
+    _max: 15
   _chargedProjectileID:
     index: 1
     objectIndex: 0
     collectionIndex: 0
   _minimumCharge: 0.3
   _chargeDuration: 0.65
+  _speedChargeDuration: 1.2
   _projectileCreationSoundIndex:
-    index: 23
+    index: 0
     objectIndex: 0
-    collectionIndex: 7
+    collectionIndex: 5
   _maxChargeSoundIndex:
-    index: 28
+    index: 0
     objectIndex: 0
-    collectionIndex: 7
+    collectionIndex: 5
   _releaseSoundIndex:
-    index: 30
+    index: 0
     objectIndex: 0
-    collectionIndex: 7
+    collectionIndex: 5
 --- !u!114 &3247047400570744615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1816,24 +1819,24 @@ MonoBehaviour:
   _particleEffectsMatrix:
   - ID: 1
     index:
-      index: 0
+      index: 18
       objectIndex: 0
-      collectionIndex: 8
+      collectionIndex: 6
   - ID: 2
     index:
-      index: 6
+      index: 18
       objectIndex: 0
-      collectionIndex: 8
+      collectionIndex: 6
   - ID: 128
     index:
-      index: 3
+      index: 20
       objectIndex: 0
-      collectionIndex: 8
+      collectionIndex: 6
   - ID: 512
     index:
-      index: 1
+      index: 17
       objectIndex: 0
-      collectionIndex: 8
+      collectionIndex: 6
   _soundEffectsMatrix:
   - ID: 1
     index:
@@ -1871,7 +1874,6 @@ MonoBehaviour:
   _hitBoxes:
   - {fileID: 1030130266}
   - {fileID: 1261902897}
-  _impactTags: []
 --- !u!114 &921824202
 MonoBehaviour:
   m_ObjectHideFlags: 0

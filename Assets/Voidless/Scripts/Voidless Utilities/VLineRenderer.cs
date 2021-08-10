@@ -31,5 +31,23 @@ public static class VLineRenderer
 	    vect = center;
 	    _lineRenderer.SetPosition(points + 2, vect);    //Last point is center point.											
 	}
+
+	/// <summary>Sets Start and End Width of LineRenderer equal to the same value.</summary>
+	/// <param name="_lineRenderer">LineRenderer's reference.</param>
+	/// <param name="_width">Width for Start and End points.</param>
+	public static void SetWidth(this LineRenderer _lineRenderer, float _width)
+	{
+		_lineRenderer.startWidth = _width;
+		_lineRenderer.endWidth = _width;
+	}
+
+	/// <summary>Gets interpolation of both Start and End points' width.</summary>
+	/// <param name="_lineRenderer">LineRenderer's reference.</param>
+	/// <param name="t">Normalized Time t.</param>
+	/// <returns>Interpolation of  Start and Ends' width.</returns>
+	public static float GetWidth(this LineRenderer _lineRenderer, float t = 1.0f)
+	{
+		return  Mathf.Lerp(_lineRenderer.startWidth, _lineRenderer.endWidth, t);
+	}
 }
 }
