@@ -37,6 +37,7 @@ public class PrefabUtilitysWindow : EditorWindow
 	/// <summary>Use OnGUI to draw all the controls of your window.</summary>
 	private void OnGUI()
 	{
+		//Debug.Log("tan 90: " + Mathf.Tan(90*Mathf.Deg2Rad));
 		CreateLabel("Prefab Reference");
 		EditorGUILayout.BeginHorizontal();
 

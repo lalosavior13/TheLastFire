@@ -63,203 +63,207 @@ public static class VMath
 	/// <summary>Initializes Sine's Lookup Table.</summary>
 	private static void InitializeSinLookupTable()
 	{
-		sinTable[0] = 1.0f;
-		sinTable[1] = 0.0175f; 		sinTable[62] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[2] = 0.0175f; 		sinTable[63] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[3] = 0.0175f; 		sinTable[64] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[4] = 0.0175f; 		sinTable[65] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[5] = 0.0175f; 		sinTable[66] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[6] = 0.0175f; 		sinTable[67] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[7] = 0.0175f; 		sinTable[68] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[8] = 0.0175f; 		sinTable[69] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[9] = 0.0175f; 		sinTable[70] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[10] = 0.0175f; 	sinTable[71] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[11] = 0.0175f; 	sinTable[72] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[12] = 0.0175f; 	sinTable[73] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[13] = 0.0175f; 	sinTable[74] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[14] = 0.0175f; 	sinTable[75] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[15] = 0.0175f; 	sinTable[76] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[16] = 0.0175f; 	sinTable[77] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[17] = 0.0175f; 	sinTable[78] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[18] = 0.0175f; 	sinTable[79] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[19] = 0.0175f; 	sinTable[80] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[20] = 0.0175f; 	sinTable[81] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[21] = 0.0175f; 	sinTable[82] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[22] = 0.0175f; 	sinTable[83] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[23] = 0.0175f; 	sinTable[84] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[24] = 0.0175f; 	sinTable[85] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[25] = 0.0175f; 	sinTable[86] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[26] = 0.0175f; 	sinTable[87] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[27] = 0.0175f; 	sinTable[88] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[28] = 0.0175f; 	sinTable[89] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[29] = 0.0175f; 	sinTable[90] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[30] = 0.0175f; 	sinTable[91] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[31] = 0.0175f; 	sinTable[92] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[32] = 0.0175f; 	sinTable[93] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[33] = 0.0175f; 	sinTable[94] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[34] = 0.0175f; 	sinTable[95] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[35] = 0.0175f; 	sinTable[96] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[36] = 0.0175f; 	sinTable[97] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[37] = 0.0175f; 	sinTable[98] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[38] = 0.0175f; 	sinTable[99] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[39] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[40] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[41] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[42] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[43] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[44] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[45] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[46] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[47] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[48] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[49] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[51] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[52] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[53] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[54] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[55] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[56] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[57] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[58] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[59] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[60] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[61] = 0.0175f; 	sinTable[1] = 0.0175f; 	sinTable[1] = 0.0175f;
-		sinTable[90] = 0.0f;
+		sinTable[0] = 0.0f;
+		sinTable[1] = 0.0175f; 		sinTable[62] = 0.8829f; 	sinTable[122] = 0.8480f;
+		sinTable[2] = 0.0348f; 		sinTable[63] = 0.8910f; 	sinTable[123] = 0.8386f;
+		sinTable[3] = 0.0523f; 		sinTable[64] = 0.8987f; 	sinTable[124] = 0.8290f;
+		sinTable[4] = 0.0697f; 		sinTable[65] = 0.9063f; 	sinTable[125] = 0.8191f;
+		sinTable[5] = 0.0871f; 		sinTable[66] = 0.9135f; 	sinTable[126] = 0.8090f;
+		sinTable[6] = 0.1045f; 		sinTable[67] = 0.9205f; 	sinTable[127] = 0.7986f;
+		sinTable[7] = 0.1218f; 		sinTable[68] = 0.9271f; 	sinTable[128] = 0.7880f;
+		sinTable[8] = 0.1391f; 		sinTable[69] = 0.9335f; 	sinTable[129] = 0.7771f;
+		sinTable[9] = 0.1564f; 		sinTable[70] = 0.9396f; 	sinTable[130] = 0.7660f;
+		sinTable[10] = 0.1736f; 	sinTable[71] = 0.9455f; 	sinTable[131] = 0.7547f;
+		sinTable[11] = 0.1908f; 	sinTable[72] = 0.9510f; 	sinTable[132] = 0.7431f;
+		sinTable[12] = 0.2079f; 	sinTable[73] = 0.9563f; 	sinTable[133] = 0.7313f;
+		sinTable[13] = 0.2249f; 	sinTable[74] = 0.9612f; 	sinTable[134] = 0.7193f;
+		sinTable[14] = 0.2419f; 	sinTable[75] = 0.9659f; 	sinTable[135] = 0.7071f;
+		sinTable[15] = 0.2588f; 	sinTable[76] = 0.9702f; 	sinTable[136] = 0.6946f;
+		sinTable[16] = 0.2756f; 	sinTable[77] = 0.9743f; 	sinTable[137] = 0.6819f;
+		sinTable[17] = 0.2923f; 	sinTable[78] = 0.9781f; 	sinTable[138] = 0.6691f;
+		sinTable[18] = 0.3090f; 	sinTable[79] = 0.9816f; 	sinTable[139] = 0.6560f;
+		sinTable[19] = 0.3255f; 	sinTable[80] = 0.9848f; 	sinTable[140] = 0.6427f;
+		sinTable[20] = 0.3420f; 	sinTable[81] = 0.9876f; 	sinTable[141] = 0.6293f;
+		sinTable[21] = 0.3583f; 	sinTable[82] = 0.9902f; 	sinTable[142] = 0.6156f;
+		sinTable[22] = 0.3746f; 	sinTable[83] = 0.9925f; 	sinTable[143] = 0.6018f;
+		sinTable[23] = 0.3907f; 	sinTable[84] = 0.9945f; 	sinTable[144] = 0.5877f;
+		sinTable[24] = 0.4067f; 	sinTable[85] = 0.9961f; 	sinTable[145] = 0.5735f;
+		sinTable[25] = 0.4226f; 	sinTable[86] = 0.9975f; 	sinTable[146] = 0.5591f;
+		sinTable[26] = 0.4383f; 	sinTable[87] = 0.9986f; 	sinTable[147] = 0.5446f;
+		sinTable[27] = 0.4539f; 	sinTable[88] = 0.9993f; 	sinTable[148] = 0.5299f;
+		sinTable[28] = 0.4694f; 	sinTable[89] = 0.9998f; 	sinTable[149] = 0.5150f;
+		sinTable[29] = 0.4848f; 	sinTable[90] = 1.0f; 		sinTable[150] = 0.5f;
+		sinTable[30] = 0.5f;		sinTable[91] = 0.9998f; 	sinTable[151] = 0.4848f;
+		sinTable[31] = 0.5150f; 	sinTable[92] = 0.9993f; 	sinTable[152] = 0.4694f;
+		sinTable[32] = 0.5299f; 	sinTable[93] = 0.9986f; 	sinTable[153] = 0.4539f;
+		sinTable[33] = 0.5446f; 	sinTable[94] = 0.9975f; 	sinTable[154] = 0.4383f;
+		sinTable[34] = 0.5591f; 	sinTable[95] = 0.9961f; 	sinTable[155] = 0.4226f;
+		sinTable[35] = 0.5735f; 	sinTable[96] = 0.9945f; 	sinTable[156] = 0.4067f;
+		sinTable[36] = 0.5877f; 	sinTable[97] = 0.9925f; 	sinTable[157] = 0.3907f;
+		sinTable[37] = 0.6018f; 	sinTable[98] = 0.9902f; 	sinTable[158] = 0.3746f;
+		sinTable[38] = 0.6156f; 	sinTable[99] = 0.9876f; 	sinTable[159] = 0.3583f;
+		sinTable[39] = 0.6293f; 	sinTable[100] = 0.9848f; 	sinTable[160] = 0.3420f;
+		sinTable[40] = 0.6427f; 	sinTable[101] = 0.9816f; 	sinTable[161] = 0.3255f;
+		sinTable[41] = 0.6560f; 	sinTable[102] = 0.9781f; 	sinTable[162] = 0.3090f;
+		sinTable[42] = 0.6691f; 	sinTable[103] = 0.9743f; 	sinTable[163] = 0.2923f;
+		sinTable[43] = 0.6819f; 	sinTable[104] = 0.9702f; 	sinTable[164] = 0.2756f;
+		sinTable[44] = 0.6946f; 	sinTable[105] = 0.9659f; 	sinTable[165] = 0.2588f;
+		sinTable[45] = 0.7071f; 	sinTable[106] = 0.9612f; 	sinTable[166] = 0.2419f;
+		sinTable[46] = 0.7193f; 	sinTable[107] = 0.9563f; 	sinTable[167] = 0.2249f;
+		sinTable[47] = 0.7313f; 	sinTable[108] = 0.9510f; 	sinTable[168] = 0.2079f;
+		sinTable[48] = 0.7431f; 	sinTable[109] = 0.9455f; 	sinTable[169] = 0.1908f;
+		sinTable[49] = 0.7547f; 	sinTable[110] = 0.9396f; 	sinTable[170] = 0.1736f;
+		sinTable[51] = 0.7660f; 	sinTable[111] = 0.9335f; 	sinTable[171] = 0.1564f;
+		sinTable[52] = 0.7880f; 	sinTable[112] = 0.9271f; 	sinTable[172] = 0.1391f;
+		sinTable[53] = 0.7986f; 	sinTable[113] = 0.9205f; 	sinTable[173] = 0.1218f;
+		sinTable[54] = 0.8090f; 	sinTable[114] = 0.9135f; 	sinTable[174] = 0.1045f;
+		sinTable[55] = 0.8191f; 	sinTable[115] = 0.9063f; 	sinTable[175] = 0.0871f;
+		sinTable[56] = 0.8290f; 	sinTable[116] = 0.8987f; 	sinTable[176] = 0.0697f;
+		sinTable[57] = 0.8386f; 	sinTable[117] = 0.8910f; 	sinTable[177] = 0.0523f;
+		sinTable[58] = 0.8480f; 	sinTable[118] = 0.8829f; 	sinTable[178] = 0.0348f;
+		sinTable[59] = 0.8571f; 	sinTable[119] = 0.8746f; 	sinTable[179] = 0.0174f;
+		sinTable[60] = 0.8660f; 	sinTable[120] = 0.8660f; 	sinTable[180] = 0.0f;
+		sinTable[61] = 0.8746f; 	sinTable[121] = 0.8571f; 	
+			
+			//sinTable[181] = -0.0174f;
+
 	}
 
 	/// <summary>Initializes Cosine's Lookup Table.</summary>
 	private static void InitializeCosLookupTable()
 	{
 		cosTable[0] = 1.0f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f; 	cosTable[1] = 0.0175f;
-		cosTable[90] = 0.0f;
+		cosTable[1] = 0.9998f;		cosTable[61] = 0.4848f; 	cosTable[121] = -0.5150f;
+		cosTable[2] = 0.9993f;		cosTable[62] = 0.4694f; 	cosTable[122] = -0.5299f;
+		cosTable[3] = 0.9986f; 		cosTable[63] = 0.4539f; 	cosTable[123] = -0.5446f;
+		cosTable[4] = 0.9975f; 		cosTable[64] = 0.4383f; 	cosTable[124] = -0.5591f;
+		cosTable[5] = 0.9961f;		cosTable[65] = 0.4226f; 	cosTable[125] = -0.5735f;
+		cosTable[6] = 0.9945f;		cosTable[66] = 0.4067f; 	cosTable[126] = -0.5877f;
+		cosTable[7] = 0.9925f;		cosTable[67] = 0.3907f; 	cosTable[127] = -0.6018f;
+		cosTable[8] = 0.9902f;		cosTable[68] = 0.3746f; 	cosTable[128] = -0.6156f;
+		cosTable[9] = 0.9876f;		cosTable[69] = 0.3583f; 	cosTable[129] = -0.6293f;
+		cosTable[10] = 0.9848f; 	cosTable[70] = 0.3420f; 	cosTable[130] = -0.6427f;
+		cosTable[11] = 0.9816f; 	cosTable[71] = 0.3255f; 	cosTable[131] = -0.6560f;
+		cosTable[12] = 0.9781f; 	cosTable[72] = 0.3090f; 	cosTable[132] = -0.6691f;
+		cosTable[13] = 0.9743f; 	cosTable[73] = 0.2923f; 	cosTable[133] = -0.6819f;
+		cosTable[14] = 0.9702f; 	cosTable[74] = 0.2756f; 	cosTable[134] = -0.6946f;
+		cosTable[15] = 0.9659f; 	cosTable[75] = 0.2588f; 	cosTable[135] = -0.7071f;
+		cosTable[16] = 0.9612f; 	cosTable[76] = 0.2419f; 	cosTable[136] = -0.7193f;
+		cosTable[17] = 0.9563f; 	cosTable[77] = 0.2249f; 	cosTable[137] = -0.7313f;
+		cosTable[18] = 0.9510f; 	cosTable[78] = 0.2079f; 	cosTable[138] = -0.7431f;
+		cosTable[19] = 0.9455f; 	cosTable[79] = 0.1908f; 	cosTable[139] = -0.7547f;
+		cosTable[20] = 0.9396f; 	cosTable[80] = 0.1736f; 	cosTable[140] = -0.7660f;
+		cosTable[21] = 0.9335f; 	cosTable[81] = 0.1564f; 	cosTable[141] = -0.7771f;
+		cosTable[22] = 0.9271f; 	cosTable[82] = 0.1391f; 	cosTable[142] = -0.7880f;
+		cosTable[23] = 0.9205f; 	cosTable[83] = 0.1218f; 	cosTable[143] = -0.7986f;
+		cosTable[24] = 0.9135f; 	cosTable[84] = 0.1045f; 	cosTable[144] = -0.8090f;
+		cosTable[25] = 0.9063f; 	cosTable[85] = 0.0871f; 	cosTable[145] = -0.8191f;
+		cosTable[26] = 0.8987f; 	cosTable[86] = 0.0697f; 	cosTable[146] = -0.8290f;
+		cosTable[27] = 0.8910f; 	cosTable[87] = 0.0523f; 	cosTable[147] = -0.8386f;
+		cosTable[28] = 0.8829f; 	cosTable[88] = 0.0348f; 	cosTable[148] = -0.8480f;
+		cosTable[29] = 0.8746f; 	cosTable[89] = 0.0174f; 	cosTable[149] = -0.8571f;
+		cosTable[30] = 0.8660f; 	cosTable[90] = 0.0f; 		cosTable[150] = -0.8660f;
+		cosTable[31] = 0.8571f; 	cosTable[91] = -0.0174f; 	cosTable[151] = -0.8746f;
+		cosTable[32] = 0.8480f; 	cosTable[92] = -0.0348f; 	cosTable[152] = -0.8829f;
+		cosTable[33] = 0.8386f; 	cosTable[93] = -0.0523f; 	cosTable[153] = -0.8910f;
+		cosTable[34] = 0.8290f; 	cosTable[94] = -0.0697f; 	cosTable[154] = -0.8987f;
+		cosTable[35] = 0.8191f; 	cosTable[95] = -0.08715f; 	cosTable[155] = -0.9063f;
+		cosTable[36] = 0.8090f; 	cosTable[96] = -0.1045f; 	cosTable[156] = -0.9135f;
+		cosTable[37] = 0.7986f; 	cosTable[97] = -0.1218f; 	cosTable[157] = -0.9205f;
+		cosTable[38] = 0.7880f; 	cosTable[98] = -0.1391f; 	cosTable[158] = -0.9271f;
+		cosTable[39] = 0.7771f; 	cosTable[99] = -0.1564f; 	cosTable[159] = -0.9335f;
+		cosTable[40] = 0.7660f; 	cosTable[100] = -0.1736f; 	cosTable[160] = -0.9396f;
+		cosTable[41] = 0.7547f; 	cosTable[101] = -0.1908f; 	cosTable[161] = -0.9455f;
+		cosTable[42] = 0.7431f; 	cosTable[102] = -0.2079f; 	cosTable[162] = -0.9510f;
+		cosTable[43] = 0.7313f; 	cosTable[103] = -0.2249f; 	cosTable[163] = -0.9563f;
+		cosTable[44] = 0.7193f; 	cosTable[104] = -0.2419f; 	cosTable[164] = -0.9612f;
+		cosTable[45] = 0.7071f; 	cosTable[105] = -0.2588f; 	cosTable[165] = -0.9659f;
+		cosTable[46] = 0.6946f; 	cosTable[106] = -0.2756f; 	cosTable[166] = -0.9702f;
+		cosTable[47] = 0.6819f; 	cosTable[107] = -0.2923f; 	cosTable[167] = -0.9743f;
+		cosTable[48] = 0.6691f; 	cosTable[108] = -0.3090f; 	cosTable[168] = -0.9781f;
+		cosTable[49] = 0.6560f; 	cosTable[109] = -0.3255f; 	cosTable[169] = -0.9816f;
+		cosTable[50] = 0.6427f; 	cosTable[110] = -0.3420f; 	cosTable[170] = -0.9848f;
+		cosTable[51] = 0.6293f; 	cosTable[111] = -0.3583f; 	cosTable[171] = -0.9876f;
+		cosTable[52] = 0.6156f; 	cosTable[112] = -0.3746f; 	cosTable[172] = -0.9902f;
+		cosTable[53] = 0.6018f; 	cosTable[113] = -0.3907f; 	cosTable[173] = -0.9925f;
+		cosTable[54] = 0.5877f; 	cosTable[114] = -0.4067f; 	cosTable[174] = -0.9945f;
+		cosTable[55] = 0.5735f; 	cosTable[115] = -0.4226f; 	cosTable[175] = -0.9961f;
+		cosTable[56] = 0.5591f; 	cosTable[116] = -0.4383f; 	cosTable[176] = -0.9975f;
+		cosTable[57] = 0.5446f; 	cosTable[117] = -0.4539f; 	cosTable[177] = -0.9986f;
+		cosTable[58] = 0.5299f; 	cosTable[118] = -0.4694f; 	cosTable[178] = -0.9993f;
+		cosTable[59] = 0.5150f; 	cosTable[119] = -0.4848f; 	cosTable[179] = -0.9998f;
+		cosTable[60] = 0.5f; 		cosTable[120] = -0.5f;		cosTable[180] = -1.0f;
+																//cosTable[181] = -0.9998f;
 	}
 
 	/// <summary>Initializes Tangent's Lookup Table.</summary>
 	private static void InitializeTanLookupTable()
 	{
-		tanTable[0] = 1.0f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f; 	tanTable[1] = 0.0175f;
-		tanTable[90] = 0.0f;
+		tanTable[0] = 0.0f;
+		tanTable[1] = 0.0174f;		tanTable[61] = 1.8040f; 							tanTable[121] = -1.6642f;
+		tanTable[2] = 0.0349f;		tanTable[62] = 1.8807f; 							tanTable[122] = -1.6003f;
+		tanTable[3] = 0.0524f;		tanTable[63] = 1.9626f; 							tanTable[123] = -1.5398f;
+		tanTable[4] = 0.0699f;		tanTable[64] = 2.0503f; 							tanTable[124] = -1.4825f;
+		tanTable[5] = 0.0874f;		tanTable[65] = 2.1445f; 							tanTable[125] = -1.4281f;
+		tanTable[6] = 0.1051f;		tanTable[66] = 2.2460f; 							tanTable[126] = -1.3763f;
+		tanTable[7] = 0.1227f;		tanTable[67] = 2.3558f; 							tanTable[127] = -1.3270f;
+		tanTable[8] = 0.1405f;		tanTable[68] = 2.4750f; 							tanTable[128] = -1.2799f;
+		tanTable[9] = 0.1583f;		tanTable[69] = 2.6050f; 							tanTable[129] = -1.2348f;
+		tanTable[10] = 0.1763f; 	tanTable[70] = 2.7474f; 							tanTable[130] = -1.1917f;
+		tanTable[11] = 0.1943f; 	tanTable[71] = 2.9042f; 							tanTable[131] = -1.1503f;
+		tanTable[12] = 0.2125f; 	tanTable[72] = 3.0776f; 							tanTable[132] = -1.1106f;
+		tanTable[13] = 0.2308f; 	tanTable[73] = 3.2708f; 							tanTable[133] = -1.0723f;
+		tanTable[14] = 0.2493f; 	tanTable[74] = 3.4874f; 							tanTable[134] = -1.0355f;
+		tanTable[15] = 0.2679f; 	tanTable[75] = 3.7320f; 							tanTable[135] = -1.0f;
+		tanTable[16] = 0.2867f; 	tanTable[76] = 4.0107f; 							tanTable[136] = -0.9656f;
+		tanTable[17] = 0.3057f; 	tanTable[77] = 4.3314f; 							tanTable[137] = -0.9325f;
+		tanTable[18] = 0.3249f; 	tanTable[78] = 4.7046f; 							tanTable[138] = -0.9004f;
+		tanTable[19] = 0.3443f; 	tanTable[79] = 5.1445f; 							tanTable[139] = -0.8692f;
+		tanTable[20] = 0.3639f; 	tanTable[80] = 5.6712f; 							tanTable[140] = -0.8391f;
+		tanTable[21] = 0.3838f; 	tanTable[81] = 6.3137f; 							tanTable[141] = -0.8097f;
+		tanTable[22] = 0.4040f; 	tanTable[82] = 7.1153f; 							tanTable[142] = -0.7812f;
+		tanTable[23] = 0.4244f; 	tanTable[83] = 8.1443f; 							tanTable[143] = -0.7535f;
+		tanTable[24] = 0.4452f; 	tanTable[84] = 9.5143f; 							tanTable[144] = -0.7265f;
+		tanTable[25] = 0.4663f; 	tanTable[85] = 11.4300f; 							tanTable[145] = -0.7002f;
+		tanTable[26] = 0.4877f; 	tanTable[86] = 14.3006f; 							tanTable[146] = -0.6745f;
+		tanTable[27] = 0.5095f; 	tanTable[87] = 19.0811f; 							tanTable[147] = -0.6494f;
+		tanTable[28] = 0.5317f; 	tanTable[88] = 28.6362f; 							tanTable[148] = -0.6248f;
+		tanTable[29] = 0.5543f; 	tanTable[89] = 57.2899f; 							tanTable[149] = -0.6008f;
+		tanTable[30] = 0.5773f; 	tanTable[90] = Mathf.Tan(90 * Mathf.Deg2Rad); 		tanTable[150] = -0.5773f;
+		tanTable[31] = 0.6008f; 	tanTable[91] = -57.2899f; 							tanTable[151] = -0.5543f;
+		tanTable[32] = 0.6248f; 	tanTable[92] = -28.6362f; 							tanTable[152] = -0.5317f;
+		tanTable[33] = 0.6494f; 	tanTable[93] = -19.0811f; 							tanTable[153] = -0.5095f;
+		tanTable[34] = 0.6745f; 	tanTable[94] = -14.3006f; 							tanTable[154] = -0.4877f;
+		tanTable[35] = 0.7002f; 	tanTable[95] = -11.4300f; 							tanTable[155] = -0.4663f;
+		tanTable[36] = 0.7265f; 	tanTable[96] = -9.5143f; 							tanTable[156] = -0.4552f;
+		tanTable[37] = 0.7535f; 	tanTable[97] = -8.1443f; 							tanTable[157] = -0.4244f;
+		tanTable[38] = 0.7812f; 	tanTable[98] = -7.1153f; 							tanTable[158] = -0.4040f;
+		tanTable[39] = 0.8097f; 	tanTable[99] = -6.3137f; 							tanTable[159] = -0.3838f;
+		tanTable[40] = 0.8391f; 	tanTable[100] = -5.6712f; 							tanTable[160] = -0.3639f;
+		tanTable[41] = 0.8692f; 	tanTable[101] = -5.1445f; 							tanTable[161] = -0.3443f;
+		tanTable[42] = 0.9004f; 	tanTable[102] = -4.7046f; 							tanTable[162] = -0.3249f;
+		tanTable[43] = 0.9325f; 	tanTable[103] = -4.3314f; 							tanTable[163] = -0.3057f;
+		tanTable[44] = 0.9656f; 	tanTable[104] = -4.0107f; 							tanTable[164] = -0.2867f;
+		tanTable[45] = 1.0f; 		tanTable[105] = -3.7320f; 							tanTable[165] = -0.2679f;
+		tanTable[46] = 1.0355f; 	tanTable[106] = -3.4874f; 							tanTable[166] = -0.2493f;
+		tanTable[47] = 1.0723f; 	tanTable[107] = -3.2708f; 							tanTable[167] = -0.2308f;
+		tanTable[48] = 1.1106f; 	tanTable[108] = -3.0776f; 							tanTable[168] = -0.2125f;
+		tanTable[49] = 1.1503f; 	tanTable[109] = -2.9042f; 							tanTable[169] = -0.1943f;
+		tanTable[50] = 1.1917f; 	tanTable[110] = -2.7474f; 							tanTable[170] = -0.1763f;
+		tanTable[51] = 1.2348f; 	tanTable[111] = -2.6050f; 							tanTable[171] = -0.1583f;
+		tanTable[52] = 1.2799f; 	tanTable[112] = -2.4750f; 							tanTable[172] = -0.1405f;
+		tanTable[53] = 1.3270f; 	tanTable[113] = -2.3558f; 							tanTable[173] = -0.1227f;
+		tanTable[54] = 1.3763f; 	tanTable[114] = -2.2460f; 							tanTable[174] = -0.1051f;
+		tanTable[55] = 1.4281f; 	tanTable[115] = -2.1445f; 							tanTable[175] = -0.0874f;
+		tanTable[56] = 1.4825f; 	tanTable[116] = -2.0503f; 							tanTable[176] = -0.0699f;
+		tanTable[57] = 1.5398f; 	tanTable[117] = -1.9626f; 							tanTable[177] = -0.0524f;
+		tanTable[58] = 1.6003f; 	tanTable[118] = -1.8807f; 							tanTable[178] = -0.0349f;
+		tanTable[59] = 1.6642f; 	tanTable[119] = -1.8040f; 							tanTable[179] = -0.0174f;
+		tanTable[60] = 1.7320f; 	tanTable[120] = -1.7320f; 							tanTable[180] = 0.0f;
+																						//tanTable[181] = 0.0174f;
 	}
+
+
 #endregion
 
 #region NormalizedPropertyFunctionOCs:
@@ -416,8 +420,8 @@ public static class VMath
 #region TrigonometricFunctions:
 	/// https://stackoverflow.com/questions/38917692/sin-cos-funcs-without-math-h
 
-	/*/// sin(x) = x - (x^3)/3! + (x^5)/5! - (x^7)/7! .......
-	public static float Sin(float d)
+	/// sin(x) = x - (x^3)/3! + (x^5)/5! - (x^7)/7! .......
+	/*public static float Sin(float d)
 	{
 		d *= DEG_TO_RAD;
 		float x = d;
@@ -432,34 +436,101 @@ public static class VMath
 		}
 
 		return x;
-	}
+	}*/
 
-	/// cos(x) = 1 - (x^2)/2! + (x^4)/4! - (x^6)/6! .......
-	public static float Cos(float d)
-	{
-		d *= DEG_TO_RAD;
-		float x = 1.0f;
+	// Calculate the Sin of an angle and returns the value in Radians
+	public static float SinInterpolation(float _x)
+    {
+			int i = (int)_x;
+			float sin = sinTable[i];
+			float difference = _x - Mathf.Floor(_x);
 
-		for(float i = 1.0f; i < 7.0f; i++)
-		{
-			float di = (1 * 2.0f);
-			float c = Power(x, di);
+			if(difference >0.0f)
+            {
+				float sin2 = sinTable[i + 1];
+				sin = Mathf.Lerp(sin, sin2, difference);
+            }
+			return sin;
+    }
+		public static float SinTaylorRads(float x)
+        {
+			x *= DEG_TO_RAD;
+			float rad = x;
+			float sin = 0;
 
-			c /= Factorial(di - 1.0f);
-			i += ((int)(c) & 0x01) ? -c : c;
+            for (int i = 0; i < 10; i++)
+            {
+				float dividend = 1f;
+				float divisor = 1f;
+				float sign = 0;
+				float c = 2 * i + 1;
+
+				dividend = Power(rad, c);
+				divisor = Factorial(c);
+				sign = Power(-1, i);
+				sin += (dividend / divisor)*sign ;
+            }
+
+			return sin;
+        }
+
+		// Calculate the Cos of an angle and returns the value in Radians
+		public static float CosInterpolation (float _x)
+        {
+			int i = (int)_x;
+			float cos = cosTable[i];
+			float difference = _x - Mathf.Floor(_x);
+
+			if (difference > 0.0f)
+			{
+				float cos2 = cosTable[i + 1];
+				cos = Mathf.Lerp(cos, cos2, difference);
+			}
+			return cos;
 		}
 
-		return x;
-	}*/
-#endregion
+		// Calculate the Tan of an angle and returns the value in Radians
+		public static float TanInterpolation(float _x)
+		{
+			int i = (int)_x;
+			float tan = tanTable[i];
+			float difference = _x - Mathf.Floor(_x);
 
-	/// <summary>Calculates the spatial relationship of 2 given segments.</summary>
-	/// <param name="aMin">Segment A's minimum value.</param>
-	/// <param name="aMax">Segment A's maximum value.</param>
-	/// <param name="bMin">Segment B's minimum value.</param>
-	/// <param name="bMax">Segment B's maximum value.</param>
-	/// <returns>Spatial relationship of 2 segments A and B.</returns>
-	public static SpatialRelationship Get1DSpatialRelationship(float aMin, float aMax, float bMin, float bMax)
+			if (difference > 0.0f)
+			{
+				float tan2 = tanTable[i + 1];
+				tan = Mathf.Lerp(tan, tan2, difference);
+			}
+			return tan;
+		}
+
+
+		/*/// cos(x) = 1 - (x^2)/2! + (x^4)/4! - (x^6)/6! .......
+		public static float Cos(float d)
+		{
+			d *= DEG_TO_RAD;
+			float x = 1.0f;
+
+			for(float i = 1.0f; i < 7.0f; i++)
+			{
+				float di = (1 * 2.0f);
+				float c = Power(x, di);
+
+				c /= Factorial(di - 1.0f);
+				i += ((int)(c) & 0x01) ? -c : c;
+			}
+
+			return x;
+		}*/
+		#endregion
+
+		/// <summary>Calculates the spatial relationship of 2 given segments.</summary>
+		/// <param name="aMin">Segment A's minimum value.</param>
+		/// <param name="aMax">Segment A's maximum value.</param>
+		/// <param name="bMin">Segment B's minimum value.</param>
+		/// <param name="bMax">Segment B's maximum value.</param>
+		/// <returns>Spatial relationship of 2 segments A and B.</returns>
+		public static SpatialRelationship Get1DSpatialRelationship(float aMin, float aMax, float bMin, float bMax)
 	{
 		if(bMin > aMin && bMax < aMax) return SpatialRelationship.AContainsB;
 		if(aMin > bMin && aMax < bMax) return SpatialRelationship.BContainsA;
