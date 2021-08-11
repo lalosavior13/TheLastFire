@@ -1,20 +1,29 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+using Random = UnityEngine.Random;
 
 namespace Voidless
 {
 public class SteeringVehicle2D : MonoBehaviour
 {
-	[SerializeField] private float _maxSpeed; 	/// <summary>Vehicle's Maximum Speed.</summary>
-	[SerializeField] private float _maxForce; 	/// <summary>Vehicle's Maximum Steering Force.</summary>
-	[SerializeField] private float _mass; 		/// <summary>Vehicle's Mass.</summary>
+	[SerializeField] private float _maxSpeed; 		/// <summary>Vehicle's Maximum Speed.</summary>
+	[SerializeField] private float _maxForce; 		/// <summary>Vehicle's Maximum Steering Force.</summary>
+	[SerializeField] private float _mass; 			/// <summary>Vehicle's Mass.</summary>
+	[Space(5f)]
+	[Header("Wander's Attributes:")]
+	[SerializeField] private float _offset; 		/// <summary>Wander's Offset [Circle Distance].</summary>
+	[SerializeField] private float _radius; 		/// <summary>Wander's Radius.</summary>
+	[SerializeField] private float _angleChange; 	/// <summary>Wander's Angle Change.</summary>
 #if UNITY_EDITOR
-	[SerializeField] private Color color; 		/// <summary>Gizmos' Color.</summary>
+	[SerializeField] private Color color; 			/// <summary>Gizmos' Color.</summary>
 #endif
-	private Vector2 velocity; 					/// <summary>Vehicle's Velocity.</summary>
+	private Vector2 velocity; 						/// <summary>Vehicle's Velocity.</summary>
+	private float wanderAngle; 						/// <summary>Wander's Angle Reference.</summary>
 
+#region Getters/Setters:
 	/// <summary>Gets and Sets maxSpeed property.</summary>
 	public float maxSpeed
 	{
@@ -36,10 +45,33 @@ public class SteeringVehicle2D : MonoBehaviour
 		set { _mass = value; }
 	}
 
+	/// <summary>Gets and Sets offset property.</summary>
+	public float offset
+	{
+		get { return _offset; }
+		set { _offset = value; }
+	}
+
+	/// <summary>Gets and Sets radius property.</summary>
+	public float radius
+	{
+		get { return _radius; }
+		set { _radius = value; }
+	}
+
+	/// <summary>Gets and Sets angleChange property.</summary>
+	public float angleChange
+	{
+		get { return _angleChange; }
+		set { _angleChange = value; }
+	}
+#endregion
+
 	/// <summary>Resets SteeringVehicle2D's instance to its default values.</summary>
 	private void Reset()
 	{
 		velocity = Vector2.zero;
+		wanderAngle = 0.0f;
 		mass = 1.0f;
 #if UNITY_EDITOR
 		color = Color.red;
@@ -51,6 +83,14 @@ public class SteeringVehicle2D : MonoBehaviour
 	private void OnDrawGizmos()
 	{
 		Gizmos.color = color;
+
+		if(radius != 0.0f)
+		{
+			Vector3 circleCenter = transform.position + (Vector3)(offset != 0.0f ? velocity.normalized * offset : Vector2.zero);
+
+			Gizmos.DrawWireSphere(circleCenter, radius);
+		}
+
 		Gizmos.DrawRay(transform.position, velocity);
 	}
 #endif
@@ -62,10 +102,10 @@ public class SteeringVehicle2D : MonoBehaviour
 	}
 
 	/// <returns>Vehicle's Velocity.</returns>
-	public Vector2 GetVelocity()
-	{
-		return velocity;
-	}
+	public Vector2 GetVelocity() { return velocity; }
+
+	/// <returns>Vehicle's Wander Angle.</returns>
+	public float GetWanderAngle() { return wanderAngle; }
 
 #region LocalFunctions:
 	/// <summary>Gets Seek Steering Force.</summary>
@@ -82,6 +122,12 @@ public class SteeringVehicle2D : MonoBehaviour
 	public Vector2 GetFleeForce(Vector2 t)
 	{
 		return GetFleeForce(transform.position, t, ref velocity, maxSpeed, maxForce, mass);
+	}
+
+	/// <returns>Wandering Steering Force.</returns>
+	public Vector2 GetWanderForce()
+	{
+		return GetWanderForce(transform.position, ref velocity, maxSpeed, maxForce, offset, radius, ref wanderAngle, angleChange, mass);
 	}
 
 	/// <summary>Gets Arrival Weight between vehicle and target.</summary>
@@ -128,11 +174,6 @@ public class SteeringVehicle2D : MonoBehaviour
 		v = v + steering;
 		v = Vector2.ClampMagnitude(v, s);
 
-/*#if UNITY_EDITOR
-		Debug.DrawRay(p, d, Color.magenta);
-		Debug.DrawRay(p, v, Color.red);
-#endif*/
-
 		return v;
 	}
 
@@ -157,11 +198,39 @@ public class SteeringVehicle2D : MonoBehaviour
 		v = v + steering;
 		v = Vector2.ClampMagnitude(v, s);
 
-/*#if UNITY_EDITOR
-		Debug.DrawRay(p, d, Color.magenta);
-		Debug.DrawRay(p, v, Color.red);
-#endif*/
+		return v;
+	}
 
+	/// <summary>Gets Wandering Steering Force.</summary>
+	/// <param name="p">Vehicle's Position.</param>
+	/// <param name="t">Target's position.</param>
+	/// <param name="v">Velocity's reference.</param>
+	/// <param name="s">Vehicle's Maximum Speed.</param>
+	/// <param name="f">Vehicle's Maximum Steering Force.</param>
+	/// <param name="d">Circle's Distance from the position.</param>
+	/// <param name="r">Circle's Radius.</param>
+	/// <param name="a">Wander Angle's reference.</param>
+	/// <param name="m">Vehicle's Mass [1.0 by default].</param>
+	/// <returns>Wandering Steering Force.</returns>
+	public Vector2 GetWanderForce(Vector2 p, ref Vector2 v, float s, float f, float d, float r, ref float a, float c, float m = 1.0f)
+	{
+		Vector2 displacement = v.sqrMagnitude > 0.0f ? v.normalized : Vector2.right;
+		Vector2 circleCenter = displacement * d;
+		displacement *= r;
+
+		/// No need to rotate the vector if there is no angle...
+		if(a != 0.0f) displacement = displacement.Rotate(a);
+
+		a += (Random.Range(0.0f, c) - (c * 0.5f));
+
+		Debug.DrawRay(circleCenter + displacement, Vector3.back * 5.0f, Color.cyan, 5.0f);
+
+		displacement += circleCenter;
+		displacement = Vector2.ClampMagnitude(displacement, f);
+
+		if(m != 0.0f) displacement /= m;
+
+		v = Vector2.ClampMagnitude(v + displacement, s);
 		return v;
 	}
 

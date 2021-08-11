@@ -20,6 +20,7 @@ public class Enemy : PoolGameObject, IStateMachine
 	private int _state; 									/// <summary>Agent's Current State.</summary>
 	private int _previousState; 							/// <summary>Agent's Previous State.</summary>
 	private int _ignoreResetMask; 							/// <summary>State flags to ignore.</summary>
+	protected Coroutine behaviorCoroutine; 					/// <summary>Behavior Coroutine's reference.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets state property.</summary>

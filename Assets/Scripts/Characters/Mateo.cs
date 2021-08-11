@@ -82,6 +82,8 @@ public class Mateo : Character
 	[SerializeField] private AnimatorCredential _brakingCredential; 			/// <summary>Brakin'g Animator Credential.</summary>
 	[SerializeField] private AnimatorCredential _walledCredential; 				/// <summary>Walled's Animator Credential.</summary>
 	[SerializeField] private AnimatorCredential _impactedWithWallCredential; 	/// <summary>Impacted w/ Wall's Animator Credential.</summary>
+	[Space(5f)]
+	[SerializeField] private TrailRenderer _extraJumpTrailRenderer; 			/// <summary>Extra-Jump's Trail Renderer.</summary>
 	private RigidbodyMovementAbility _movementAbility; 							/// <summary>RigidbodyMovementAbility's Component.</summary>
 	private RotationAbility _rotationAbility; 									/// <summary>RotationAbility's Component.</summary>
 	private JumpAbility _jumpAbility; 											/// <summary>JumpAbility's Component.</summary>
@@ -205,6 +207,9 @@ public class Mateo : Character
 
 	/// <summary>Gets walledCredential property.</summary>
 	public AnimatorCredential walledCredential { get { return _walledCredential; } }
+
+	/// <summary>Gets extraJumpTrailRenderer property.</summary>
+	public TrailRenderer extraJumpTrailRenderer { get { return _extraJumpTrailRenderer; } }
 
 	/// <summary>Gets movementAbility Component.</summary>
 	public RigidbodyMovementAbility movementAbility
@@ -433,15 +438,27 @@ public class Mateo : Character
 			case JumpAbility.STATE_ID_GROUNDED:
 			animator.SetInteger(jumpStateIDCredential, JumpAbility.STATE_FLAG_GROUNDED);
 			CancelSwordAttack();
+			if(extraJumpTrailRenderer != null) extraJumpTrailRenderer.enabled = false;
 			break;
 
 			case JumpAbility.STATE_ID_JUMPING:
 			animator.SetInteger(jumpStateIDCredential, JumpAbility.STATE_FLAG_JUMPING);
+			
+			if(jumpAbility.currentJumpIndex > 0 && extraJumpTrailRenderer != null)
+			{
+				extraJumpTrailRenderer.Clear();
+				extraJumpTrailRenderer.enabled = true;
+			}
 			break;
 
 			case JumpAbility.STATE_ID_FALLING:
 			//if(_jumpLevel <= 0) jumpAbility.AdvanceJumpIndex();
 			animator.SetInteger(jumpStateIDCredential, JumpAbility.STATE_FLAG_FALLING);
+			if(extraJumpTrailRenderer != null)
+			{
+				extraJumpTrailRenderer.enabled = false;
+				extraJumpTrailRenderer.Clear();
+			}
 			break;
 
 			case JumpAbility.STATE_ID_LANDING:
@@ -629,6 +646,12 @@ public class Mateo : Character
 		|| (jumpAbility.grounded && attacksHandler.state != AttackState.None)) return;
 
 		jumpAbility.Jump(_axes);
+
+		/*if(jumpAbility.currentJumpIndex > 0 && extraJumpTrailRenderer != null)
+		{
+			extraJumpTrailRenderer.Clear();
+			extraJumpTrailRenderer.enabled = true; 
+		}*/
 	}
 
 	/// <summary>Cancels Jump.</summary>
