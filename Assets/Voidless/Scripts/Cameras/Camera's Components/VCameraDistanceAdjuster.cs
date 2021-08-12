@@ -62,7 +62,7 @@ public class VCameraDistanceAdjuster : VCameraComponent
 	protected override void Awake()
 	{
 		base.Awake();
-		distanceCalculators = new Dictionary<int, VCameraDistanceCalculator>();
+		if(distanceCalculators == null) distanceCalculators = new Dictionary<int, VCameraDistanceCalculator>();
 	}
 
 	/// <summary>Adds VCameraDistanceCalculator's reference.</summary>
@@ -74,19 +74,19 @@ public class VCameraDistanceAdjuster : VCameraComponent
 		int ID = _calculator.GetInstanceID();
 
 		if(distanceCalculators == null) distanceCalculators = new Dictionary<int, VCameraDistanceCalculator>();
+		
 		if(!distanceCalculators.ContainsKey(ID)) distanceCalculators.Add(ID, _calculator);
+		else distanceCalculators[ID] = _calculator;
 	}
 
 	/// <summary>Removes VCameraDistanceCalculator's reference.</summary>
 	/// <param name="_calculator">Calculator to add to dictionary.</param>
 	public void RemoveDistanceCalculator(VCameraDistanceCalculator _calculator)
 	{
-		if(_calculator == null) return;
+		if(_calculator == null || distanceCalculators == null) return;
 
 		int ID = _calculator.GetInstanceID();
 
-		if(distanceCalculators == null) return;
-		
 		if(distanceCalculators.ContainsKey(ID)) distanceCalculators.Remove(ID);
 	}
 

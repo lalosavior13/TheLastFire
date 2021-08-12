@@ -50,7 +50,7 @@ public class ShootProjectile : MonoBehaviour
 	}
 
 	/// <summary>Gets onCooldown property.</summary>
-	public bool onCooldown { get { return cooldown.onCooldown; } }
+	public bool onCooldown { get { return cooldown != null ? cooldown.onCooldown : true; } }
 
 	/// <summary>ShootProjectile's instance initialization when loaded [Before scene loads].</summary>
 	private void Awake()

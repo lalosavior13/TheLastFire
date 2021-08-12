@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _distanceRange:
-    _min: 15
+    _min: 9
     _max: 30
   _limitDistanceChangeSpeed: 0
   _distanceChangeDuration: 0.1

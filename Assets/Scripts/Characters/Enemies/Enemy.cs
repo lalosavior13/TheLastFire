@@ -7,6 +7,7 @@ using Voidless;
 namespace Flamingo
 {
 [RequireComponent(typeof(Health))]
+[RequireComponent(typeof(EnemyEventsHandler))]
 public class Enemy : PoolGameObject, IStateMachine
 {
 	public const int ID_STATE_ALIVE = 1 << 0; 				/// <summary>Alive's State Flag.</summary>
@@ -17,6 +18,7 @@ public class Enemy : PoolGameObject, IStateMachine
 	public const int ID_STATE_VULNERABLE = 1 << 5; 			/// <summary>Vulnerable's State Flag (it means the enemy is available to be attacked).</summary>
 
 	private Health _health; 								/// <summary>Health's Component.</summary>
+	private EnemyEventsHandler _eventsHandler; 				/// <summary>EnemyEventsHandler's Component.</summary>
 	private int _state; 									/// <summary>Agent's Current State.</summary>
 	private int _previousState; 							/// <summary>Agent's Previous State.</summary>
 	private int _ignoreResetMask; 							/// <summary>State flags to ignore.</summary>
@@ -51,6 +53,16 @@ public class Enemy : PoolGameObject, IStateMachine
 		{
 			if(_health == null) _health = GetComponent<Health>();
 			return _health;
+		}
+	}
+
+	/// <summary>Gets eventsHandler Component.</summary>
+	public EnemyEventsHandler eventsHandler
+	{ 
+		get
+		{
+			if(_eventsHandler == null) _eventsHandler = GetComponent<EnemyEventsHandler>();
+			return _eventsHandler;
 		}
 	}
 #endregion
@@ -117,6 +129,13 @@ public class Enemy : PoolGameObject, IStateMachine
 			//OnObjectDeactivation();
 			break;
 		}
+
+		Debug.Log(
+		"[Enemy] Invoked Health Event: "
+		+ _event.ToString()
+		+ " with amount: "
+		+ _amount
+		);
 	}
 #endregion
 

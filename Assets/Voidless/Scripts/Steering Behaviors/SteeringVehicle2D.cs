@@ -212,26 +212,27 @@ public class SteeringVehicle2D : MonoBehaviour
 	/// <param name="a">Wander Angle's reference.</param>
 	/// <param name="m">Vehicle's Mass [1.0 by default].</param>
 	/// <returns>Wandering Steering Force.</returns>
-	public Vector2 GetWanderForce(Vector2 p, ref Vector2 v, float s, float f, float d, float r, ref float a, float c, float m = 1.0f)
+	public static Vector2 GetWanderForce(Vector2 p, ref Vector2 v, float s, float f, float d, float r, ref float a, float c, float m = 1.0f)
 	{
-		Vector2 displacement = v.sqrMagnitude > 0.0f ? v.normalized : Vector2.right;
-		Vector2 circleCenter = displacement * d;
-		displacement *= r;
+		Vector2 displacement = Vector2.right * r;
+		Vector2 circleCenter = p + (v.normalized * d);
+		Vector2 target = Vector2.zero;
+
+		a += Random.Range(-c, c);
 
 		/// No need to rotate the vector if there is no angle...
 		if(a != 0.0f) displacement = displacement.Rotate(a);
 
-		a += (Random.Range(0.0f, c) - (c * 0.5f));
+		target = circleCenter + displacement;
 
-		Debug.DrawRay(circleCenter + displacement, Vector3.back * 5.0f, Color.cyan, 5.0f);
+		Debug.DrawRay(target, Vector3.back * 5.0f, Color.cyan, 5.0f);
 
-		displacement += circleCenter;
-		displacement = Vector2.ClampMagnitude(displacement, f);
+		/*displacement = Vector2.ClampMagnitude(displacement, f);
 
 		if(m != 0.0f) displacement /= m;
 
-		v = Vector2.ClampMagnitude(v + displacement, s);
-		return v;
+		v = Vector2.ClampMagnitude(v + displacement, s);*/
+		return GetSeekForce(p, target, ref v, s, f, m);
 	}
 
 	/// <summary>Gets Arrival Weight between vehicle and target.</summary>

@@ -29,14 +29,14 @@ public class ProjectileEventsHandler : EventsHandler
 	/// <param name="_info">Trigger2D's Information.</param>
 	public void InvokeProjectileDeactivationEvent(Projectile _projectile, DeactivationCause _cause, Trigger2DInformation _info = default(Trigger2DInformation))
 	{
-		Debug.Log(
+		/*Debug.Log(
 			"[ProjectileEventsHandler] "
 			+ gameObject.name
 			+ " invoked Deactivation Event. Cause: "
 			+ _cause.ToString()
 			+ ", "
 			+ _info.ToString()
-		);
+		);*/
 		if(onProjectileDeactivated != null) onProjectileDeactivated(_projectile, _cause, _info);
 	}
 

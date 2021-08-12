@@ -21,6 +21,7 @@ public class GameData : ScriptableObject
 	[Space(5f)]
 	[Header("Layers:")]
 	[SerializeField] private LayerValue _outOfBoundsLayer; 						/// <summary>Out of Bounds's Layer.</summary>
+	[SerializeField] private LayerValue _surfaceLayer; 							/// <summary>Surface's Layer.</summary>
 	[Space(5f)]
 	[Header("Projectiles:")]
 	[SerializeField] private Projectile[] _playerProjectiles; 					/// <summary>Player's Projectiles.</summary>
@@ -93,6 +94,9 @@ public class GameData : ScriptableObject
 
 	/// <summary>Gets outOfBoundsLayer property.</summary>
 	public LayerValue outOfBoundsLayer { get { return _outOfBoundsLayer; } }
+
+	/// <summary>Gets surfaceLayer property.</summary>
+	public LayerValue surfaceLayer { get { return _surfaceLayer; } }
 
 	/// <summary>Gets playerProjectiles property.</summary>
 	public Projectile[] playerProjectiles { get { return _playerProjectiles; } }

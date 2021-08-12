@@ -11,14 +11,24 @@ namespace Flamingo
 [RequireComponent(typeof(VCameraTarget))]
 public class MoskarBoss : Boss
 {
-	[SerializeField] private FOVSight2D _sightSensor; 		/// <summary>FOVSight2D's Component.</summary>
-	[SerializeField] private Transform _tail; 				/// <summary>Moskar's Tail's Transform.</summary>
+	[SerializeField] private FOVSight2D _sightSensor; 			/// <summary>FOVSight2D's Component.</summary>
+	[SerializeField] private Transform _tail; 					/// <summary>Moskar's Tail's Transform.</summary>
 	[Space(5f)]
 	[Header("Wander Attributes: ")]
-	[SerializeField] private FloatRange _wanderInterval; 	/// <summary>Wander interval between each angle change [as a range].</summary>
-	private SteeringVehicle2D _vehicle; 					/// <summary>SteeringVehicle2D's Component.</summary>
-	private Rigidbody2D _rigidbody; 						/// <summary>Rigidbody2D's Component.</summary>
-	private VCameraTarget _cameraTarget; 					/// <summary>VCameraTarget's Component.</summary>
+	[SerializeField] private float _wanderSpeed; 				/// <summary>Wander's Max Speed.</summary>
+	[SerializeField] private FloatRange _wanderInterval; 		/// <summary>Wander interval between each angle change [as a range].</summary>
+	[Space(5f)]
+	[SerializeField] private float _evasionSpeed; 				/// <summary>Evasion's Speed.</summary>
+	[Space(5f)]
+	[Header("Attack's Attributes:")]
+	[SerializeField] private CollectionIndex _projectileIndex; 	/// <summary>Projectile's Index.</summary>
+	[SerializeField] private FloatRange _shootInterval; 		/// <summary>Shooting Interval's Range.</summary>
+	[SerializeField] private IntRange _fireBursts; 				/// <summary>Fire Bursts' Range.</summary>
+	private Dictionary<int, GameObject> _obstacles; 			/// <summary>Obstacles that Moskar must evade.</summary>
+	private SteeringVehicle2D _vehicle; 						/// <summary>SteeringVehicle2D's Component.</summary>
+	private Rigidbody2D _rigidbody; 							/// <summary>Rigidbody2D's Component.</summary>
+	private VCameraTarget _cameraTarget; 						/// <summary>VCameraTarget's Component.</summary>
+	private Coroutine attackCoroutine; 							/// <summary>AttackBehavior's Coroutine reference.</summary>
 	Vector3[] waypoints;
 
 #region Getters/Setters:
@@ -58,11 +68,53 @@ public class MoskarBoss : Boss
 		}
 	}
 
+	/// <summary>Gets and Sets projectileIndex property.</summary>
+	public CollectionIndex projectileIndex
+	{
+		get { return _projectileIndex; }
+		set { _projectileIndex = value; }
+	}
+
+	/// <summary>Gets and Sets wanderSpeed property.</summary>
+	public float wanderSpeed
+	{
+		get { return _wanderSpeed; }
+		set { _wanderSpeed = value; }
+	}
+
+	/// <summary>Gets and Sets evasionSpeed property.</summary>
+	public float evasionSpeed
+	{
+		get { return _evasionSpeed; }
+		set { _evasionSpeed = value; }
+	}
+
 	/// <summary>Gets and Sets wanderInterval property.</summary>
 	public FloatRange wanderInterval
 	{
 		get { return _wanderInterval; }
 		set { _wanderInterval = value; }
+	}
+
+	/// <summary>Gets and Sets shootInterval property.</summary>
+	public FloatRange shootInterval
+	{
+		get { return _shootInterval; }
+		set { _shootInterval = value; }
+	}
+
+	/// <summary>Gets and Sets fireBursts property.</summary>
+	public IntRange fireBursts
+	{
+		get { return _fireBursts; }
+		set { _fireBursts = value; }
+	}
+
+	/// <summary>Gets and Sets obstacles property.</summary>
+	public Dictionary<int, GameObject> obstacles
+	{
+		get { return _obstacles; }
+		set { _obstacles = value; }
 	}
 #endregion
 
@@ -82,10 +134,39 @@ public class MoskarBoss : Boss
 	{
 		base.Awake();
 
+		obstacles = new Dictionary<int, GameObject>();
+
 		Game.AddTargetToCamera(cameraTarget);
 		sightSensor.onSightEvent += OnSightEvent;
 
 		this.ChangeState(ID_STATE_IDLE);
+	}
+
+	/*/// <summary>Event triggered when this Collider/Rigidbody begun having contact with another Collider/Rigidbody.</summary>
+	/// <param name="col">The Collision data associated with this collision Event.</param>
+	private void OnCollisionEnter(Collision col)
+	{
+		GameObject obj = col.gameObject;
+		int layer = 1 << obj.layer;
+		
+		if(layer == Game.data.surfaceLayer)
+		{
+
+		}
+	}*/
+
+	/// <summary>Callback invoked when the health of the character is depleted.</summary>
+	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
+	{
+		base.OnHealthEvent(_event, _amount);
+
+		switch(_event)
+		{
+			case HealthEvent.FullyDepleted:
+			eventsHandler.InvokeEnemyDeactivationEvent(this, DeactivationCause.Destroyed);
+			OnObjectDeactivation();
+			break;
+		}
 	}
 
 	/// <summary>Callback invoked when this FOV Sight leaves another collider.</summary>
@@ -100,8 +181,9 @@ public class MoskarBoss : Boss
 			switch(_eventType)
 			{
 				case HitColliderEventTypes.Enter:
-				Debug.Log("[MoskarBoss] Player On-Sight");
 				this.AddStates(ID_STATE_PLAYERONSIGHT);
+				/*int instanceID = obj.GetInstanceID();
+				if(!obstacles.ContainsKey(instanceID))obstacles.Add(instanceID, obj);*/
 				break;
 
 				case HitColliderEventTypes.Exit:
@@ -117,22 +199,24 @@ public class MoskarBoss : Boss
 	/// <param name="_state">State's flags that were added.</param>
 	public override void OnStatesAdded(int _state)
 	{
-		if((_state | ID_STATE_IDLE) == _state)
+		if((_state | ID_STATE_PLAYERONSIGHT) == _state)
 		{
-			sightSensor.gameObject.SetActive(true);
-			this.StartCoroutine(WanderBehaviour(), ref behaviorCoroutine);
-		}
-		if((state | ID_STATE_PLAYERONSIGHT) == _state)
-		{
+			vehicle.maxSpeed = evasionSpeed;
 			sightSensor.gameObject.SetActive(false);
 			this.StartCoroutine(ErraticFlyingBehavior(), ref behaviorCoroutine);
+			this.StartCoroutine(AttackBehavior(), ref attackCoroutine);
+		}
+		if((_state | ID_STATE_IDLE) == _state && (_state | ID_STATE_PLAYERONSIGHT) != _state)
+		{
+			vehicle.maxSpeed = wanderSpeed;
+			sightSensor.gameObject.SetActive(true);
+			this.StartCoroutine(WanderBehaviour(), ref behaviorCoroutine);
 		}
 	}
 
 	/// <summary>Wander's Steering Beahviour Coroutine.</summary>
 	private IEnumerator WanderBehaviour()
 	{
-		Debug.Log("[MoskarBoss] Beginning Wandering State...");
 		SecondsDelayWait wait = new SecondsDelayWait(wanderInterval.Random());
 		Vector3 wanderForce = Vector3.zero;
 		float minDistance = 0.5f * 0.5f;
@@ -161,32 +245,63 @@ public class MoskarBoss : Boss
 	/// <summary>Performs Erratic Flying's Behavior.</summary>
 	private IEnumerator ErraticFlyingBehavior()
 	{
-		FloatRange radiusRange = new FloatRange(-15.0f, 15.0f);
 		waypoints = new Vector3[5];
 		float minDistance = 0.5f * 0.5f;
 
-		for(int i = 0; i < waypoints.Length; i++)
+		while(true)
 		{
-			waypoints[i] = VVector2.Random(radiusRange);
-		}
-
-		foreach(Vector3 waypoint in waypoints)
-		{
-			Vector3 direction = waypoint - transform.position;
-			
-			while(direction.sqrMagnitude > minDistance)
+			for(int i = 0; i < waypoints.Length; i++)
 			{
-				Vector3 seekForce = vehicle.GetSeekForce(waypoint);
-				rigidbody.MoveIn3D(seekForce * Time.fixedDeltaTime);
-				transform.rotation = VQuaternion.RightLookRotation(seekForce);
-				direction = waypoint - transform.position;
+				waypoints[i] = MoskarSceneController.Instance.moskarBoundaries.Random();
+			}
 
-				yield return VCoroutines.WAIT_PHYSICS_THREAD;
+			foreach(Vector3 waypoint in waypoints)
+			{
+				Vector3 direction = waypoint - transform.position;
+				
+				while(direction.sqrMagnitude > minDistance)
+				{
+					Vector3 seekForce = vehicle.GetSeekForce(waypoint);
+					rigidbody.MoveIn3D(seekForce * Time.fixedDeltaTime);
+					transform.rotation = VQuaternion.RightLookRotation(seekForce);
+					direction = waypoint - transform.position;
+
+					yield return VCoroutines.WAIT_PHYSICS_THREAD;
+				}
+			}
+		}	
+
+		this.AddStates(ID_STATE_IDLE);
+	}
+
+	/// <summary>Attack Behavior's Coroutine.</summary>
+	private IEnumerator AttackBehavior()
+	{
+		Debug.Log("[MoskarBoss] Began shitting myself...");
+		SecondsDelayWait shootWait = new SecondsDelayWait(0.0f);
+		int bursts = 0;
+		int i = 0;
+
+		while(true)
+		{
+			bursts = fireBursts.Random();
+			shootWait.ChangeDurationAndReset(shootInterval.Random());
+			i = 0;
+
+			while(shootWait.MoveNext()) yield return null;
+
+			while(i < bursts)
+			{
+				Projectile crap = PoolManager.RequestProjectile(Faction.Enemy, projectileIndex, tail.transform.position, Vector3.down);
+
+				shootWait.ChangeDurationAndReset(crap.cooldownDuration);
+
+				while(shootWait.MoveNext()) yield return null;
+
+				i++;
+				yield return null;
 			}
 		}
-
-		//this.StartCoroutine(ErraticFlyingBehavior());
-		this.AddStates(ID_STATE_IDLE);
 	}
 }
 }

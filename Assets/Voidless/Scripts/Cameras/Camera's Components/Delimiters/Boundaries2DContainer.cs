@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Random = UnityEngine.Random;
+
 namespace Voidless
 {
 public class Boundaries2DContainer : MonoBehaviour
@@ -66,5 +68,19 @@ public class Boundaries2DContainer : MonoBehaviour
 		color = Color.white;
 	}
 #endif
+
+	/// <returns>Random point inside boundaries.</returns>
+	public Vector3 Random()
+	{
+		Vector3 m = min;
+		Vector3 M = max;
+		
+		return new Vector3
+		(
+			UnityEngine.Random.Range(m.x, M.x),
+			UnityEngine.Random.Range(m.y, M.y),
+			UnityEngine.Random.Range(m.z, M.z)
+		);
+	}
 }
 }
