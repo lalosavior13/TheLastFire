@@ -156,7 +156,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableTags: []
+  _healthAffectableTags:
+  - _tag: Enemy
+    index: 8
   _damage: 1
   _damageScales:
   - 1
@@ -217,7 +219,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitBoxes: []
-  _impactTags: []
 --- !u!114 &-1795885555357988256
 MonoBehaviour:
   m_ObjectHideFlags: 0

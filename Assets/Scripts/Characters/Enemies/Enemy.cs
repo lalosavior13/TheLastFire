@@ -17,6 +17,7 @@ public class Enemy : PoolGameObject, IStateMachine
 	public const int ID_STATE_ATTACK = 1 << 4; 				/// <summary>Attack's State Flag.</summary>
 	public const int ID_STATE_VULNERABLE = 1 << 5; 			/// <summary>Vulnerable's State Flag (it means the enemy is available to be attacked).</summary>
 
+	[SerializeField] private Transform _meshParent; 		/// <summary>Mesh's Parent.</summary>
 	private Health _health; 								/// <summary>Health's Component.</summary>
 	private EnemyEventsHandler _eventsHandler; 				/// <summary>EnemyEventsHandler's Component.</summary>
 	private int _state; 									/// <summary>Agent's Current State.</summary>
@@ -25,6 +26,13 @@ public class Enemy : PoolGameObject, IStateMachine
 	protected Coroutine behaviorCoroutine; 					/// <summary>Behavior Coroutine's reference.</summary>
 
 #region Getters/Setters:
+	/// <summary>Gets and Sets meshParent property.</summary>
+	public Transform meshParent
+	{
+		get { return _meshParent; }
+		set { _meshParent = value; }
+	}
+
 	/// <summary>Gets and Sets state property.</summary>
 	public int state
 	{

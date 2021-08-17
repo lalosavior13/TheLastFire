@@ -4,6 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Voidless;
 
+/*
+	2 ^ 0 = 1
+	2 ^ 1 = 2
+	2 ^ 2 = 4
+	2 ^ 3 = 8
+	2 ^ 4 = 16
+	Total = 31
+*/
+
 namespace Flamingo
 {
 [RequireComponent(typeof(SteeringVehicle2D))]
@@ -11,27 +20,51 @@ namespace Flamingo
 [RequireComponent(typeof(VCameraTarget))]
 public class MoskarBoss : Boss
 {
-	[SerializeField] private FOVSight2D _sightSensor; 			/// <summary>FOVSight2D's Component.</summary>
-	[SerializeField] private Transform _tail; 					/// <summary>Moskar's Tail's Transform.</summary>
+	[Space(5f)]
+	[Header("Moskar's Attributes:")]
+	[SerializeField] private int _phases; 							/// <summary>Moskar's Phases [how many times it divides].</summary>
+	[SerializeField] private FloatRange _scaleRange; 				/// <summary>Scale's Range.</summary>
+	[SerializeField] private FloatRange _sphereColliderSizeRange; 	/// <summary>Size Range for the SphereCollider that acts as the HitBox.</summary>
+	[Space(5f)]
+	[SerializeField] private FOVSight2D _sightSensor; 				/// <summary>FOVSight2D's Component.</summary>
+	[SerializeField] private Transform _tail; 						/// <summary>Moskar's Tail's Transform.</summary>
 	[Space(5f)]
 	[Header("Wander Attributes: ")]
-	[SerializeField] private float _wanderSpeed; 				/// <summary>Wander's Max Speed.</summary>
-	[SerializeField] private FloatRange _wanderInterval; 		/// <summary>Wander interval between each angle change [as a range].</summary>
+	[SerializeField] private float _wanderSpeed; 					/// <summary>Wander's Max Speed.</summary>
+	[SerializeField] private FloatRange _wanderInterval; 			/// <summary>Wander interval between each angle change [as a range].</summary>
 	[Space(5f)]
-	[SerializeField] private float _evasionSpeed; 				/// <summary>Evasion's Speed.</summary>
+	[Header("Evasion Attributes: ")]
+	[SerializeField] private float _evasionSpeed; 					/// <summary>Evasion's Speed.</summary>
 	[Space(5f)]
 	[Header("Attack's Attributes:")]
-	[SerializeField] private CollectionIndex _projectileIndex; 	/// <summary>Projectile's Index.</summary>
-	[SerializeField] private FloatRange _shootInterval; 		/// <summary>Shooting Interval's Range.</summary>
-	[SerializeField] private IntRange _fireBursts; 				/// <summary>Fire Bursts' Range.</summary>
-	private Dictionary<int, GameObject> _obstacles; 			/// <summary>Obstacles that Moskar must evade.</summary>
-	private SteeringVehicle2D _vehicle; 						/// <summary>SteeringVehicle2D's Component.</summary>
-	private Rigidbody2D _rigidbody; 							/// <summary>Rigidbody2D's Component.</summary>
-	private VCameraTarget _cameraTarget; 						/// <summary>VCameraTarget's Component.</summary>
-	private Coroutine attackCoroutine; 							/// <summary>AttackBehavior's Coroutine reference.</summary>
+	[SerializeField] private CollectionIndex _projectileIndex; 		/// <summary>Projectile's Index.</summary>
+	[SerializeField] private FloatRange _shootInterval; 			/// <summary>Shooting Interval's Range.</summary>
+	[SerializeField] private IntRange _fireBursts; 					/// <summary>Fire Bursts' Range.</summary>
+	private int _currentPhase; 										/// <summary>Current Phase of this Moskar's Reproduction.</summary>
+	private Dictionary<int, GameObject> _obstacles; 				/// <summary>Obstacles that Moskar must evade.</summary>
+	private SteeringVehicle2D _vehicle; 							/// <summary>SteeringVehicle2D's Component.</summary>
+	private Rigidbody2D _rigidbody; 								/// <summary>Rigidbody2D's Component.</summary>
+	private VCameraTarget _cameraTarget; 							/// <summary>VCameraTarget's Component.</summary>
+	private Coroutine attackCoroutine; 								/// <summary>AttackBehavior's Coroutine reference.</summary>
 	Vector3[] waypoints;
 
 #region Getters/Setters:
+	/// <summary>Gets phases property.</summary>
+	public int phases { get { return _phases; } }
+
+	/// <summary>Gets scaleRange property.</summary>
+	public FloatRange scaleRange { get { return _scaleRange; } }
+
+	/// <summary>Gets sphereColliderSizeRange property.</summary>
+	public FloatRange sphereColliderSizeRange { get { return _sphereColliderSizeRange; } }
+
+	/// <summary>Gets and Sets currentPhase property.</summary>
+	public int currentPhase
+	{
+		get { return _currentPhase; }
+		set { _currentPhase = value; }
+	}
+
 	/// <summary>Gets sightSensor property.</summary>
 	public FOVSight2D sightSensor { get { return _sightSensor; } }
 
@@ -164,6 +197,7 @@ public class MoskarBoss : Boss
 		{
 			case HealthEvent.FullyDepleted:
 			eventsHandler.InvokeEnemyDeactivationEvent(this, DeactivationCause.Destroyed);
+
 			OnObjectDeactivation();
 			break;
 		}
@@ -277,7 +311,7 @@ public class MoskarBoss : Boss
 	/// <summary>Attack Behavior's Coroutine.</summary>
 	private IEnumerator AttackBehavior()
 	{
-		Debug.Log("[MoskarBoss] Began shitting myself...");
+		//Debug.Log("[MoskarBoss] Began shitting myself...");
 		SecondsDelayWait shootWait = new SecondsDelayWait(0.0f);
 		int bursts = 0;
 		int i = 0;

@@ -192,14 +192,14 @@ public class Health : MonoBehaviour, IStateMachine
     }
 
     /// <summary>Begins Hit-Stun's Cooldown.</summary>
-    private void BeginHitStunCooldown()
+    public void BeginHitStunCooldown()
     {
         this.AddStates(ID_STATE_ONHITSTUN);
         hitStunCooldown.Begin();
     }
 
     /// <summary>Begins Invincibility's Cooldown.</summary>
-    private void BeginInvincibilityCooldown()
+    public void BeginInvincibilityCooldown()
     {
         this.AddStates(ID_STATE_ONINVINCIBILITY);
         invincibilityCooldown.Begin();

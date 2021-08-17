@@ -16,6 +16,7 @@ public class Ring : PoolGameObject
 
 	[SerializeField] private EulerRotation _correctionRotation; 	/// <summary>Correction's Rotation.</summary>
 	[SerializeField] private bool _deactivateWhenPassedOn; 			/// <summary>Deactivate ring when passed on it?.</summary>
+	[SerializeField] private GameObjectTag[] _detectableTags; 		/// <summary>Tags of GameObjects that are detectable by the ring.</summary>
 	[SerializeField]
 	[Range(0.0f, 1.0f)] private float _dotProduct; 					/// <summary>Minimium Dot Product's value to be considered passed.</summary>
 	[SerializeField] private Renderer _renderer; 					/// <summary>Ring Mesh's Renderer.</summary>
@@ -31,6 +32,13 @@ public class Ring : PoolGameObject
 	{
 		get { return _deactivateWhenPassedOn; }
 		set { _deactivateWhenPassedOn = value; }
+	}
+
+	/// <summary>Gets and Sets detectableTags property.</summary>
+	public GameObjectTag[] detectableTags
+	{
+		get { return _detectableTags; }
+		set { _detectableTags = value; }
 	}
 
 	/// <summary>Gets and Sets dotProduct property.</summary>
@@ -65,6 +73,12 @@ public class Ring : PoolGameObject
 	{
 		Gizmos.color = Color.red;
 		Gizmos.DrawRay(transform.position, (transform.rotation * correctionRotation) * Vector3.right);
+	}
+
+	/// <summary>Resets Ring's instance to its default values.</summary>
+	public void Reset()
+	{
+		passedOn = false;
 	}
 
 	/// <summary>Ring's instance initialization.</summary>
@@ -104,14 +118,26 @@ public class Ring : PoolGameObject
 	{
 		GameObject obj = _collider.gameObject;
 		int instanceID = obj.GetInstanceID();
+		bool detectable = false;
+
+		if(_eventType == HitColliderEventTypes.Stays && detectableTags == null) return;
+
+		foreach(GameObjectTag tag in detectableTags)
+		{
+			if(obj.CompareTag(tag))
+			{
+				detectable = true;
+				break;
+			}
+		}
+
+		if(!detectable) return;
 
 		switch(_eventType)
 		{
 			case HitColliderEventTypes.Enter:
 			if(!directionsMapping.ContainsKey(instanceID))
 			{
-				/*Vector3 closestPoint = hitBoxes[_hitColliderID].collider.bounds.ClosestPoint(obj.transform.position);
-				Vector2 direction = closestPoint - transform.position;*/
 				Vector2 direction = transform.position - obj.transform.position;
 				direction = ToRelativeOrientationVector(direction);
 				directionsMapping.Add(instanceID, direction);
@@ -125,14 +151,9 @@ public class Ring : PoolGameObject
 				direction = ToRelativeOrientationVector(direction);
 				if(Vector2.Dot(direction, directionsMapping[instanceID]) >= dotProduct && !passedOn)
 				{
-					//Debug.Log("[Ring] Success, the GameObject passed correctly");
 					passedOn = true;
 					InvokeRingPassedEvent(_collider);
 				}
-				//else Debug.Log("[Ring] Failure, you are mom gay.");
-
-				/*Debug.DrawRay(transform.position, direction, Color.cyan, 3.0f);
-				Debug.DrawRay(transform.position, directionsMapping[instanceID], Color.magenta, 3.0f);*/
 
 				directionsMapping.Remove(instanceID);
 			}
@@ -149,6 +170,24 @@ public class Ring : PoolGameObject
 		return inverseVector.x < 0.0f ? Vector2.left : Vector2.right;
 	}
 
+	/// <summary>Invokes onRingPassed's Event.</summary>
+	/// <param name="_collider">Collider that passed the ring.</param>
+	private void InvokeRingPassedEvent(Collider2D _collider)
+	{
+		if(deactivateWhenPassedOn) OnObjectDeactivation();
+		if(onRingPassed != null) onRingPassed(_collider);
+		Reset();
+	}
+
+	/// <summary>Actions made when this Pool Object is being reseted.</summary>
+	public override void OnObjectReset()
+	{
+		base.OnObjectReset();
+		if(directionsMapping != null) directionsMapping.Clear();
+		passedOn = false;
+	}
+
+#region DEPRECATED
 	/// <summary>Straightens given Vector.</summary>
 	/// <param name="v">Vector to straighten.</param>
 	/// <returns>Straightened vector.</returns>
@@ -164,21 +203,6 @@ public class Ring : PoolGameObject
 			v.y > v.x ? (1.0f * ySign) : 0.0f
 		);
 	}
-
-	/// <summary>Invokes onRingPassed's Event.</summary>
-	/// <param name="_collider">Collider that passed the ring.</param>
-	private void InvokeRingPassedEvent(Collider2D _collider)
-	{
-		if(deactivateWhenPassedOn) OnObjectDeactivation();
-		if(onRingPassed != null) onRingPassed(_collider);
-	}
-
-	/// <summary>Actions made when this Pool Object is being reseted.</summary>
-	public override void OnObjectReset()
-	{
-		base.OnObjectReset();
-		if(directionsMapping != null) directionsMapping.Clear();
-		passedOn = false;
-	}
+#endregion
 }
 }
