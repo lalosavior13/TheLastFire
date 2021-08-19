@@ -74,6 +74,8 @@ public class PoolManager : Singleton<PoolManager>
 		Projectile projectile = factionPool.Recycle(_position, Quaternion.identity);
 		string tag = _faction == Faction.Ally ? Game.data.playerProjectileTag : Game.data.enemyProjectileTag;
 
+		if(projectile == null) return null;
+
 		projectile.projectileType = ProjectileType.Normal;
 		projectile.direction = _direction.normalized;
 		projectile.gameObject.tag = tag;

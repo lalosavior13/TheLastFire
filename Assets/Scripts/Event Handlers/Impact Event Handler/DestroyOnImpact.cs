@@ -58,7 +58,6 @@ public class DestroyOnImpact : PoolGameObject
 	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
 	public void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
-		Debug.Log("[DestroyOnImpact] ONTRIGGEREVENT!");
 		if(impactTags == null) return;
 
 		GameObject obj = _info.collider.gameObject;

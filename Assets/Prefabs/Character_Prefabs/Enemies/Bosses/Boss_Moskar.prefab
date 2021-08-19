@@ -316,7 +316,7 @@ MonoBehaviour:
   _projectionTime: 4
   _sightSensor: {fileID: 2340683739067092507}
   _tail: {fileID: 2340683739127628720}
-  _warningSpeed: 0.5
+  _warningSpeed: 0.1
   _dangerRadius: 5
   _fleeDistance: 15
   _waypointsGeneration:

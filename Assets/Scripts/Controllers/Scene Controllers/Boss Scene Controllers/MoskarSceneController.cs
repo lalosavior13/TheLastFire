@@ -182,6 +182,7 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 			for(int i = 0; i < 2; i++)
 			{
 				reproduction = PoolManager.RequestPoolGameObject(moskarIndex, moskar.transform.position, moskar.transform.rotation) as MoskarBoss;
+				reproduction.eventsHandler.onEnemyDeactivated -= OnMoskarDeactivated;
 				reproduction.eventsHandler.onEnemyDeactivated += OnMoskarDeactivated;
 				reproduction.state = 0;
 				reproduction.AddStates(Enemy.ID_STATE_IDLE);

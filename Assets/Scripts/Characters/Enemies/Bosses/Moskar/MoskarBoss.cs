@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -284,7 +284,8 @@ public class MoskarBoss : Boss
 		
 		} else if((_state | ID_STATE_PLAYERONSIGHT) == _state)
 		{ /// Warning Coroutine:
-			EnterWarningState();
+			EnterAttackState();
+			//EnterWarningState();
 
 		} else if((_state | ID_STATE_ATTACK) == _state)
 		{ /// Attack Coroutine:
@@ -351,7 +352,8 @@ public class MoskarBoss : Boss
 		this.DispatchCoroutine(ref attackCoroutine);
 		this.DispatchCoroutine(ref serenityEvaluation);
 
-		this.StartCoroutine(WarningBehavior(), ref behaviorCoroutine);
+		//this.StartCoroutine(WarningBehavior(), ref behaviorCoroutine);
+		this.StartCoroutine(WanderBehaviour(), ref behaviorCoroutine);
 		this.StartCoroutine(SerenityEvaluation(), ref serenityEvaluation);
 	}
 
@@ -386,6 +388,15 @@ public class MoskarBoss : Boss
 				if(direction.sqrMagnitude > minDistance)
 				{
 					Vector3 force = vehicle.GetSeekForce(wanderForce);
+
+					/*if(this.HasState(ID_STATE_PLAYERONSIGHT))
+					{
+						Vector3 projectedMateoPosition = Game.ProjectMateoPosition(projectionTime * Time.fixedDeltaTime);
+						force += (Vector3)vehicle.GetFleeForce(projectedMateoPosition);
+
+						force *= 0.5f;
+					}*/
+
 					rigidbody.MoveIn3D(force * Time.fixedDeltaTime);
 					transform.rotation = VQuaternion.RightLookRotation(force);
 					direction = wanderForce - transform.position;
