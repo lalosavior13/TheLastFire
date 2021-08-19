@@ -263,6 +263,8 @@ MonoBehaviour:
     index: 5
   - _tag: Projectile/Player
     index: 11
+  - _tag: Surface/Floor
+    index: 13
   _trailRenderers: []
   _projectileType: 1
   _repelTags: []

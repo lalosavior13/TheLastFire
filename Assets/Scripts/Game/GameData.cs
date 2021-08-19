@@ -18,6 +18,8 @@ public class GameData : ScriptableObject
 	[Space(5f)]
 	[Header("Tags:")]
 	[SerializeField] private GameObjectTag _playerTag; 							/// <summary>Player's Tag.</summary>
+	[SerializeField] private GameObjectTag _playerProjectileTag; 				/// <summary>Player Projectile's Tag.</summary>
+	[SerializeField] private GameObjectTag _enemyProjectileTag; 				/// <summary>Enemy Projectile's Tag.</summary>
 	[Space(5f)]
 	[Header("Layers:")]
 	[SerializeField] private LayerValue _outOfBoundsLayer; 						/// <summary>Out of Bounds's Layer.</summary>
@@ -91,6 +93,12 @@ public class GameData : ScriptableObject
 
 	/// <summary>Gets playerTag property.</summary>
 	public GameObjectTag playerTag { get { return _playerTag; } }
+
+	/// <summary>Gets playerProjectileTag property.</summary>
+	public GameObjectTag playerProjectileTag { get { return _playerProjectileTag; } }
+
+	/// <summary>Gets enemyProjectileTag property.</summary>
+	public GameObjectTag enemyProjectileTag { get { return _enemyProjectileTag; } }
 
 	/// <summary>Gets outOfBoundsLayer property.</summary>
 	public LayerValue outOfBoundsLayer { get { return _outOfBoundsLayer; } }

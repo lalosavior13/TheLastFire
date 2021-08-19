@@ -390,7 +390,15 @@ public class Projectile : ContactWeapon
 	/// <param name="_ID">ID of the HitCollider2D.</param>
 	protected override void OnImpact(Trigger2DInformation _info, int _ID = 0)
 	{
-		Debug.Log("[Projectile] ONIMPACT!");
+		/*Debug.Log
+		(
+			"[Projectile] "
+			+ gameObject.name
+			+ " OnImpact Invoked with ID "
+			+ _ID.ToString()
+			+ ". "
+			+ _info.ToString()
+		);*/
 		InvokeDeactivationEvent(DeactivationCause.Impacted, _info);
 	}
 
@@ -536,7 +544,7 @@ public class Projectile : ContactWeapon
 	/// <param name="_info">Trigger2D's Information.</param>
 	public virtual void InvokeDeactivationEvent(DeactivationCause _cause, Trigger2DInformation _info = default(Trigger2DInformation))
 	{
-		Debug.Log("[Projectile] " + gameObject.name + " Deactivation Event. Cause: " + _cause.ToString());
+		//Debug.Log("[Projectile] " + gameObject.name + " Deactivation Event. Cause: " + _cause.ToString());
 
 		switch(_cause)
 		{

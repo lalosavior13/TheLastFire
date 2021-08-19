@@ -3,7 +3,19 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Voidless;
+
+/*
+ - Calculate the total of Moskars to destroy:
+ 
+	2 ^ 0 = 1
+	2 ^ 1 = 2
+	2 ^ 2 = 4
+	2 ^ 3 = 8
+	2 ^ 4 = 16
+	Total = 31
+*/
 
 namespace Flamingo
 {
@@ -155,13 +167,15 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 		if(moskar.currentPhase < moskar.phases)
 		{
 			MoskarBoss reproduction = null;
-			TimeConstrainedForceApplier2D reproductionPush = null;
 			Vector3[] forces = new Vector3[] { Vector3.left * reproductionPushForce, Vector3.right * reproductionPushForce };
+			TimeConstrainedForceApplier2D[] reproductionPushes = new TimeConstrainedForceApplier2D[2];
 			Vector3 scale = moskar.transform.localScale;
 			int phase = moskar.currentPhase;
-			float t = 1.0f - ((float)phase / (float)moskar.phases);
-			float sizeScale = Mathf.Lerp(moskar.scaleRange.Max(), moskar.scaleRange.Min(), t);
-			float sphereColliderSize = Mathf.Lerp(moskar.sphereColliderSizeRange.Max(), moskar.sphereColliderSizeRange.Min(), t);
+			float phases = 1.0f * moskar.phases;
+			float t = ((1.0f * phase) / phases);
+			float it = 1.0f - t;
+			float sizeScale = moskar.scaleRange.Lerp(it);
+			float sphereColliderSize = moskar.sphereColliderSizeRange.Lerp(it);
 
 			phase++;
 
@@ -174,14 +188,21 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 				reproduction.currentPhase = phase;
 				reproduction.health.BeginInvincibilityCooldown();
 				reproduction.meshParent.localScale = scale;
+				reproduction.phaseProgress = t;
 				moskarReproductions.Add(reproduction);
 
-				reproductionPush = new TimeConstrainedForceApplier2D(this, reproduction.rigidbody, forces[i], reproductionDuration, ForceMode.VelocityChange);
+				//reproduction.rigidbody.simulated = false;
+				reproductionPushes[i] = new TimeConstrainedForceApplier2D(this, reproduction.rigidbody, forces[i], reproductionDuration, ForceMode.VelocityChange, reproduction.SimulateInteractionsAndResetVelocity);
 
-				this.StartCoroutine(reproduction.transform.RegularScale(sizeScale, reproductionDuration));
-				reproductionPush.ApplyForce();
+				this.StartCoroutine(reproduction.meshParent.RegularScale(sizeScale, reproductionDuration));
+				reproductionPushes[i].ApplyForce();
 			}
 		}
+
+		totalMoskars--;
+		Debug.Log("[MoskarSceneController] Total Moskars Remaining: " + totalMoskars);
+		if(totalMoskars <= 0) Debug.Log("[MoskarSceneController] Finished!!!");
+
 // --- Ends New Implementation ---
 
 // --- Begins Old Implementation: ---

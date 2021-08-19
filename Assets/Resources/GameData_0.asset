@@ -16,6 +16,12 @@ MonoBehaviour:
   _playerTag:
     _tag: Player
     index: 5
+  _playerProjectileTag:
+    _tag: Projectile/Player
+    index: 11
+  _enemyProjectileTag:
+    _tag: Projectile/Enemy
+    index: 12
   _outOfBoundsLayer:
     _value: 0
     _name: Default
@@ -46,6 +52,7 @@ MonoBehaviour:
   - {fileID: 5278712921402561579, guid: c4677f2a939e498418f5f4e8b7d13968, type: 3}
   - {fileID: 5278712921402561579, guid: 13f2f18aad7c31d4d9dd0424b50e706c, type: 3}
   - {fileID: 2340683740104089345, guid: 8e98f4254b032564893133ce4247e946, type: 3}
+  - {fileID: 1870387948, guid: 032d0ca46aab862439e06efc371629cd, type: 3}
   _FSMLoops:
   - {fileID: 11400000, guid: 89bfa2b1c0f1bb54cae540866022a46e, type: 2}
   - {fileID: 11400000, guid: 3dde1125cb7b12a4eafe806c0c1f6d8b, type: 2}

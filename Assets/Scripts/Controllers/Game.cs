@@ -74,7 +74,6 @@ public class Game : Singleton<Game>
 
 		if(mateo != null)
 		{
-			Debug.Log("[Game] Adding Mateo to Camera...");
 			AddTargetToCamera(mateo.cameraTarget);
 		}
 	}

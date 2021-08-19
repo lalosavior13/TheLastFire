@@ -4,15 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Voidless;
 
-/*
-	2 ^ 0 = 1
-	2 ^ 1 = 2
-	2 ^ 2 = 4
-	2 ^ 3 = 8
-	2 ^ 4 = 16
-	Total = 31
-*/
-
 namespace Flamingo
 {
 [RequireComponent(typeof(SteeringVehicle2D))]
@@ -25,28 +16,42 @@ public class MoskarBoss : Boss
 	[SerializeField] private int _phases; 							/// <summary>Moskar's Phases [how many times it divides].</summary>
 	[SerializeField] private FloatRange _scaleRange; 				/// <summary>Scale's Range.</summary>
 	[SerializeField] private FloatRange _sphereColliderSizeRange; 	/// <summary>Size Range for the SphereCollider that acts as the HitBox.</summary>
+	[SerializeField] private float _projectionTime; 				/// <summary>Moskar's Projection Time.</summary>
 	[Space(5f)]
+	[Header("Moskar's Components:")]
 	[SerializeField] private FOVSight2D _sightSensor; 				/// <summary>FOVSight2D's Component.</summary>
 	[SerializeField] private Transform _tail; 						/// <summary>Moskar's Tail's Transform.</summary>
 	[Space(5f)]
+	[Header("Warning's Attributes:")]
+	[SerializeField] private float _warningSpeed; 					/// <summary>Warning's Steering Speed.</summary>
+	[SerializeField] private float _dangerRadius; 					/// <summary>Danger's Radius.</summary>
+	[SerializeField] private float _fleeDistance; 					/// <summary>Flee distance between Moskar and Mateo.</summary>
+	[Space(5f)]
 	[Header("Wander Attributes: ")]
-	[SerializeField] private float _wanderSpeed; 					/// <summary>Wander's Max Speed.</summary>
+	[SerializeField] private IntRange _waypointsGeneration; 		/// <summary>Waypoints generated per Wander Round.</summary>
+	[SerializeField] private float _minDistanceToReachWaypoint; 	/// <summary>Minimum distance to reach Waypoint.</summary>
+	[SerializeField] private FloatRange _wanderSpeed; 				/// <summary>Wander's Max Speed's Range.</summary>
 	[SerializeField] private FloatRange _wanderInterval; 			/// <summary>Wander interval between each angle change [as a range].</summary>
 	[Space(5f)]
 	[Header("Evasion Attributes: ")]
-	[SerializeField] private float _evasionSpeed; 					/// <summary>Evasion's Speed.</summary>
+	[SerializeField] private FloatRange _evasionSpeed; 				/// <summary>Evasion's Speed's Range.</summary>
 	[Space(5f)]
 	[Header("Attack's Attributes:")]
 	[SerializeField] private CollectionIndex _projectileIndex; 		/// <summary>Projectile's Index.</summary>
 	[SerializeField] private FloatRange _shootInterval; 			/// <summary>Shooting Interval's Range.</summary>
 	[SerializeField] private IntRange _fireBursts; 					/// <summary>Fire Bursts' Range.</summary>
+	[Space(5f)]
+	[Header("Mateo's Serenity's Evaluation Attributes:")]
+	[SerializeField] private float _maxMovementMagnitude; 			/// <summary>Maximum Movement's Magnitude.</summary>
+	[SerializeField] private float _serenityDuration; 				/// <summary>Time that Mateo must have keeping its serenity for Moskar to return to its wander state.</summary>
 	private int _currentPhase; 										/// <summary>Current Phase of this Moskar's Reproduction.</summary>
-	private Dictionary<int, GameObject> _obstacles; 				/// <summary>Obstacles that Moskar must evade.</summary>
+	private float _phaseProgress; 									/// <summary>Phase's Normalized Progress.</summary>
 	private SteeringVehicle2D _vehicle; 							/// <summary>SteeringVehicle2D's Component.</summary>
 	private Rigidbody2D _rigidbody; 								/// <summary>Rigidbody2D's Component.</summary>
 	private VCameraTarget _cameraTarget; 							/// <summary>VCameraTarget's Component.</summary>
 	private Coroutine attackCoroutine; 								/// <summary>AttackBehavior's Coroutine reference.</summary>
-	Vector3[] waypoints;
+	private Coroutine serenityEvaluation; 							/// <summary>Serenity's Evaluation Coroutine's reference.</summary>
+	private Vector3[] waypoints; 									/// <summary>Allocated the waypoints so it can be visually debuged with Gizmos.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets phases property.</summary>
@@ -57,6 +62,34 @@ public class MoskarBoss : Boss
 
 	/// <summary>Gets sphereColliderSizeRange property.</summary>
 	public FloatRange sphereColliderSizeRange { get { return _sphereColliderSizeRange; } }
+
+	/// <summary>Gets and Sets projectionTime property.</summary>
+	public float projectionTime
+	{
+		get { return _projectionTime; }
+		set { _projectionTime = value; }
+	}
+
+	/// <summary>Gets and Sets warningSpeed property.</summary>
+	public float warningSpeed
+	{
+		get { return _warningSpeed; }
+		set { _warningSpeed = value; }
+	}
+
+	/// <summary>Gets and Sets dangerRadius property.</summary>
+	public float dangerRadius
+	{
+		get { return _dangerRadius; }
+		set { _dangerRadius = value; }
+	}
+
+	/// <summary>Gets and Sets fleeDistance property.</summary>
+	public float fleeDistance
+	{
+		get { return _fleeDistance; }
+		set { _fleeDistance = value; }
+	}
 
 	/// <summary>Gets and Sets currentPhase property.</summary>
 	public int currentPhase
@@ -109,14 +142,14 @@ public class MoskarBoss : Boss
 	}
 
 	/// <summary>Gets and Sets wanderSpeed property.</summary>
-	public float wanderSpeed
+	public FloatRange wanderSpeed
 	{
 		get { return _wanderSpeed; }
 		set { _wanderSpeed = value; }
 	}
 
 	/// <summary>Gets and Sets evasionSpeed property.</summary>
-	public float evasionSpeed
+	public FloatRange evasionSpeed
 	{
 		get { return _evasionSpeed; }
 		set { _evasionSpeed = value; }
@@ -136,6 +169,13 @@ public class MoskarBoss : Boss
 		set { _shootInterval = value; }
 	}
 
+	/// <summary>Gets and Sets waypointsGeneration property.</summary>
+	public IntRange waypointsGeneration
+	{
+		get { return _waypointsGeneration; }
+		set { _waypointsGeneration = value; }
+	}
+
 	/// <summary>Gets and Sets fireBursts property.</summary>
 	public IntRange fireBursts
 	{
@@ -143,11 +183,32 @@ public class MoskarBoss : Boss
 		set { _fireBursts = value; }
 	}
 
-	/// <summary>Gets and Sets obstacles property.</summary>
-	public Dictionary<int, GameObject> obstacles
+	/// <summary>Gets and Sets minDistanceToReachWaypoint property.</summary>
+	public float minDistanceToReachWaypoint
 	{
-		get { return _obstacles; }
-		set { _obstacles = value; }
+		get { return _minDistanceToReachWaypoint; }
+		set { _minDistanceToReachWaypoint = value; }
+	}
+
+	/// <summary>Gets and Sets phaseProgress property.</summary>
+	public float phaseProgress
+	{
+		get { return _phaseProgress; }
+		set { _phaseProgress = value; }
+	}
+
+	/// <summary>Gets and Sets maxMovementMagnitude property.</summary>
+	public float maxMovementMagnitude
+	{
+		get { return _maxMovementMagnitude; }
+		set { _maxMovementMagnitude = value; }
+	}
+
+	/// <summary>Gets and Sets serenityDuration property.</summary>
+	public float serenityDuration
+	{
+		get { return _serenityDuration; }
+		set { _serenityDuration = value; }
 	}
 #endregion
 
@@ -167,40 +228,28 @@ public class MoskarBoss : Boss
 	{
 		base.Awake();
 
-		obstacles = new Dictionary<int, GameObject>();
-
 		Game.AddTargetToCamera(cameraTarget);
 		sightSensor.onSightEvent += OnSightEvent;
 
-		this.ChangeState(ID_STATE_IDLE);
+		this.AddStates(ID_STATE_IDLE);
 	}
-
-	/*/// <summary>Event triggered when this Collider/Rigidbody begun having contact with another Collider/Rigidbody.</summary>
-	/// <param name="col">The Collision data associated with this collision Event.</param>
-	private void OnCollisionEnter(Collision col)
-	{
-		GameObject obj = col.gameObject;
-		int layer = 1 << obj.layer;
-		
-		if(layer == Game.data.surfaceLayer)
-		{
-
-		}
-	}*/
 
 	/// <summary>Callback invoked when the health of the character is depleted.</summary>
 	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
 	{
-		base.OnHealthEvent(_event, _amount);
-
 		switch(_event)
 		{
 			case HealthEvent.FullyDepleted:
-			eventsHandler.InvokeEnemyDeactivationEvent(this, DeactivationCause.Destroyed);
-
-			OnObjectDeactivation();
+			BeginDeathRoutine();
 			break;
 		}
+	}
+
+	/// <summary>Callback invoked after the Death's routine ends.</summary>
+	protected override void OnDeathRoutineEnds()
+	{
+		base.OnDeathRoutineEnds();
+		OnObjectDeactivation();
 	}
 
 	/// <summary>Callback invoked when this FOV Sight leaves another collider.</summary>
@@ -216,16 +265,12 @@ public class MoskarBoss : Boss
 			{
 				case HitColliderEventTypes.Enter:
 				this.AddStates(ID_STATE_PLAYERONSIGHT);
-				/*int instanceID = obj.GetInstanceID();
-				if(!obstacles.ContainsKey(instanceID))obstacles.Add(instanceID, obj);*/
 				break;
 
 				case HitColliderEventTypes.Exit:
 				this.RemoveStates(ID_STATE_PLAYERONSIGHT);
 				break;
 			}
-
-			Debug.Log("[MinionEnemy] Player on Sight: " + _eventType.ToString());
 		}
 	}
 
@@ -233,19 +278,96 @@ public class MoskarBoss : Boss
 	/// <param name="_state">State's flags that were added.</param>
 	public override void OnStatesAdded(int _state)
 	{
-		if((_state | ID_STATE_PLAYERONSIGHT) == _state)
-		{
-			vehicle.maxSpeed = evasionSpeed;
-			sightSensor.gameObject.SetActive(false);
-			this.StartCoroutine(ErraticFlyingBehavior(), ref behaviorCoroutine);
-			this.StartCoroutine(AttackBehavior(), ref attackCoroutine);
+		if((_state | ID_STATE_IDLE) == _state)
+		{ /// Wander Coroutine:
+			EnterWanderState();
+		
+		} else if((_state | ID_STATE_PLAYERONSIGHT) == _state)
+		{ /// Warning Coroutine:
+			EnterWarningState();
+
+		} else if((_state | ID_STATE_ATTACK) == _state)
+		{ /// Attack Coroutine:
+			EnterAttackState();
+		} 
+	}
+
+	/// <summary>Callback invoked when new state's flags are removed.</summary>
+	/// <param name="_state">State's flags that were removed.</param>
+	public override void OnStatesRemoved(int _state)
+	{
+		Debug.Log("[MoskarBoss] Player Not on Sight: " + ((_state | ID_STATE_PLAYERONSIGHT) == _state));
+		if((_state | ID_STATE_PLAYERONSIGHT) == _state
+		&& (state | ID_STATE_ATTACK) != state
+		&& (state | ID_STATE_IDLE) != state
+		&& sightSensor.enabled)
+		{ /// If the Player got out of sight, but Moskar is not Attacking and not on Wander:
+			Debug.Log("[MoskarBoss] Returning to Wander State because Mateo is out of sight.");
+			EnterWanderState();
 		}
-		if((_state | ID_STATE_IDLE) == _state && (_state | ID_STATE_PLAYERONSIGHT) != _state)
-		{
-			vehicle.maxSpeed = wanderSpeed;
-			sightSensor.gameObject.SetActive(true);
-			this.StartCoroutine(WanderBehaviour(), ref behaviorCoroutine);
-		}
+	}
+
+	/// <summary>Actions made when this Pool Object is being reseted.</summary>
+	public override void OnObjectReset()
+	{
+		base.OnObjectReset();
+		Game.AddTargetToCamera(cameraTarget);
+	}
+
+	/// <summary>Callback invoked when the object is deactivated.</summary>
+	public override void OnObjectDeactivation()
+	{
+		base.OnObjectDeactivation();
+		Game.RemoveTargetToCamera(cameraTarget);
+	}
+
+	/// <summary>Simulates Rigidbody and resets its Velocity.</summary>
+	public void SimulateInteractionsAndResetVelocity()
+	{
+		rigidbody.simulated = true;
+		rigidbody.Sleep();
+	}
+
+	/// <summary>Enters Wander State.</summary>
+	private void EnterWanderState()
+	{
+		Debug.Log("[MoskarBoss] Entered Wander State.");
+
+		this.DispatchCoroutine(ref attackCoroutine);
+		this.DispatchCoroutine(ref serenityEvaluation);
+
+		vehicle.maxSpeed = wanderSpeed.Lerp(phaseProgress);
+		sightSensor.gameObject.SetActive(true);
+		this.StartCoroutine(WanderBehaviour(), ref behaviorCoroutine);
+	}
+
+	/// <summary>Enters Warning State.</summary>
+	private void EnterWarningState()
+	{
+		Debug.Log("[MoskarBoss] Entered Warning State.");
+
+		vehicle.maxSpeed = warningSpeed;
+
+		this.DispatchCoroutine(ref attackCoroutine);
+		this.DispatchCoroutine(ref serenityEvaluation);
+
+		this.StartCoroutine(WarningBehavior(), ref behaviorCoroutine);
+		this.StartCoroutine(SerenityEvaluation(), ref serenityEvaluation);
+	}
+
+	/// <summary>Enters Attack State.</summary>
+	private void EnterAttackState()
+	{
+		Debug.Log("[MoskarBoss] Entered Attack State.");
+
+		vehicle.maxSpeed = evasionSpeed.Lerp(phaseProgress);
+		sightSensor.gameObject.SetActive(false);
+
+		this.DispatchCoroutine(ref behaviorCoroutine);
+
+		this.StartCoroutine(ErraticFlyingBehavior(), ref behaviorCoroutine);
+		this.StartCoroutine(AttackBehavior(), ref attackCoroutine);
+		this.StartCoroutine(SerenityEvaluation(), ref serenityEvaluation);
 	}
 
 	/// <summary>Wander's Steering Beahviour Coroutine.</summary>
@@ -276,11 +398,40 @@ public class MoskarBoss : Boss
 		}
 	}
 
+	/// <summary>Warning's Behavior.</summary>
+	private IEnumerator WarningBehavior()
+	{
+		TransformDeltaCalculator deltaCalculator = Game.mateo.deltaCalculator;
+		Vector3 projectedMateoPosition = Vector3.zero;
+		Vector3 direction = Vector3.zero;
+		Vector3 fleeForce = Vector3.zero;
+		float magnitude = 0.0f;
+
+		while(true)
+		{
+			projectedMateoPosition = Game.ProjectMateoPosition(projectionTime * Time.deltaTime);
+			direction = projectedMateoPosition - transform.position;
+			magnitude = direction.sqrMagnitude;
+
+			if(magnitude < (fleeDistance * fleeDistance))
+			{
+				fleeForce = vehicle.GetFleeForce(projectedMateoPosition);
+				rigidbody.MoveIn3D(fleeForce * Time.fixedDeltaTime);
+				transform.rotation = VQuaternion.RightLookRotation(fleeForce);
+			}
+
+			if(magnitude <= (dangerRadius * dangerRadius)) this.AddStates(ID_STATE_ATTACK);
+
+			yield return VCoroutines.WAIT_PHYSICS_THREAD;
+		}
+	}
+
 	/// <summary>Performs Erratic Flying's Behavior.</summary>
 	private IEnumerator ErraticFlyingBehavior()
 	{
-		waypoints = new Vector3[5];
-		float minDistance = 0.5f * 0.5f;
+		waypoints = new Vector3[waypointsGeneration.Random()];
+
+		float minDistance = minDistanceToReachWaypoint * minDistanceToReachWaypoint;
 
 		while(true)
 		{
@@ -308,10 +459,36 @@ public class MoskarBoss : Boss
 		this.AddStates(ID_STATE_IDLE);
 	}
 
+	/// <summary>Mateo Serenity's Evaluation.</summary>
+	private IEnumerator SerenityEvaluation()
+	{
+		TransformDeltaCalculator mateoDeltaCalculator = Game.mateo.deltaCalculator;
+		float serenityTime = 0.0f;
+		float magnitude = 0.0f;
+		float squareMagnitude = maxMovementMagnitude * maxMovementMagnitude;
+
+		while(true)
+		{
+			magnitude = mateoDeltaCalculator.velocity.sqrMagnitude;
+
+			if(magnitude <= squareMagnitude)
+			{
+				serenityTime += Time.deltaTime;
+				if(serenityTime >= serenityDuration)
+				{
+					this.ChangeState(ID_STATE_IDLE);
+					yield break;
+				}
+			}
+			else serenityTime = 0.0f;
+
+			yield return null;
+		}
+	}
+
 	/// <summary>Attack Behavior's Coroutine.</summary>
 	private IEnumerator AttackBehavior()
 	{
-		//Debug.Log("[MoskarBoss] Began shitting myself...");
 		SecondsDelayWait shootWait = new SecondsDelayWait(0.0f);
 		int bursts = 0;
 		int i = 0;

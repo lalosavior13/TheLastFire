@@ -1536,6 +1536,7 @@ MonoBehaviour:
   _impactedWithWallCredential:
     _tag: BouncingOffWall
     _ID: 1259035308
+  _extraJumpTrailRenderer: {fileID: 0}
 --- !u!114 &5122952807910987792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1602,15 +1603,15 @@ MonoBehaviour:
   _chargeDuration: 0.65
   _speedChargeDuration: 1.2
   _projectileCreationSoundIndex:
-    index: 0
+    index: 23
     objectIndex: 0
     collectionIndex: 5
   _maxChargeSoundIndex:
-    index: 0
+    index: 28
     objectIndex: 0
     collectionIndex: 5
   _releaseSoundIndex:
-    index: 0
+    index: 30
     objectIndex: 0
     collectionIndex: 5
 --- !u!114 &3247047400570744615

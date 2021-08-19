@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 1072178799982049426}
   - component: {fileID: 1072178799982049427}
   - component: {fileID: 1168642533328873389}
-  - component: {fileID: 864114955328983730}
-  m_Layer: 11
+  - component: {fileID: -3697032326312617048}
+  - component: {fileID: 1870387948}
+  m_Layer: 0
   m_Name: Target_Static
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,9 +69,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitBoxes: []
-  _impactTags: []
---- !u!114 &864114955328983730
+  _hitBoxes:
+  - {fileID: 5894028918324482987}
+--- !u!114 &-3697032326312617048
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -79,9 +80,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 1072178799982049429}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 899837e1dcbe69941a6219b841471233, type: 3}
+  m_Script: {fileID: 11500000, guid: a0de1b3f35b907f40acd80c31c5e092a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
+--- !u!114 &1870387948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072178799982049429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34885978072d9194fa63fd882543448b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dontDestroyOnLoad: 0
+  _impactTags:
+  - _tag: Weapon/Player
+    index: 9
+  - _tag: Projectile/Player
+    index: 11
 --- !u!1 &1181030957356478186
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +114,7 @@ GameObject:
   - component: {fileID: 2645309559875600139}
   - component: {fileID: 5894028918324482987}
   - component: {fileID: 8646152218213206689}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: HitCollider2D_Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,8 +144,8 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1181030957356478186}
   m_BodyType: 1
-  m_Simulated: 0
-  m_UseFullKinematicContacts: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -251,7 +271,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: fabe010b1b8aced47932579bf1948f7b,
         type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fabe010b1b8aced47932579bf1948f7b, type: 3}

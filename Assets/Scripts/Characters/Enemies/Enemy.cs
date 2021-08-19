@@ -23,7 +23,7 @@ public class Enemy : PoolGameObject, IStateMachine
 	private int _state; 									/// <summary>Agent's Current State.</summary>
 	private int _previousState; 							/// <summary>Agent's Previous State.</summary>
 	private int _ignoreResetMask; 							/// <summary>State flags to ignore.</summary>
-	protected Coroutine behaviorCoroutine; 					/// <summary>Behavior Coroutine's reference.</summary>
+	protected Coroutine behaviorCoroutine; 					/// <summary>Main Behavior Coroutine's reference.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets meshParent property.</summary>
@@ -89,10 +89,7 @@ public class Enemy : PoolGameObject, IStateMachine
 	}
 
 	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>
-	protected virtual void Start()
-	{
-
-	}
+	protected virtual void Start() { /*...*/ }
 
 	/// <summary>Callback invoked when Enemy's instance is going to be destroyed and passed to the Garbage Collector.</summary>
 	protected virtual void OnDestroy()

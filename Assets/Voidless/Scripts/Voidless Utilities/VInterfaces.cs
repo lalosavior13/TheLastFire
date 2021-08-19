@@ -10,11 +10,33 @@ namespace Voidless
 public static class VInterfaces
 {
 #region IFiniteStateMachine&IStateMachine:
+/*
+	State Machine's Bitwise Operations:
+	
+	Where:
+	 - s = Current State
+	 - p = Previous State
+	 - x = State to Enter/Exit
+	 - a = States Added from s
+	 - rC = States Removed from s from a State Change
+	 - rR = States Removed from s from a State Removal
+
+	AddStates(x) = s | x
+	RemoveStates(x) = s & ~x
+	HasStates(x) = (s | x) == s
+	HasAnyOfTheStates(x) = (s | (s & x)) == s
+	
+	a = ~s & x
+	rC = s ^ x
+	rR = s & x
+*/
+
 	/// <summary>Changes IFiniteStateMachine implementer's state. Following FSM's procedures</summary>
 	/// <param name="_fsm">IFiniteStateMachine implementer.</param>
 	/// <param name="_state">New State to enter.</param>
 	public static void ChangeState<T>(this IFiniteStateMachine<T> _fsm, T _state)
 	{
+		//Debug.Log("[VInterfaces] Calling IFiniteStateMachine<T>'s ChangeState(T)...");
 		_fsm.previousState = _fsm.state;
 		_fsm.OnExitState(_fsm.state);
 		_fsm.OnEnterState(_fsm.state = _state);
@@ -36,12 +58,14 @@ public static class VInterfaces
 	/// <param name="_state">New State to enter.</param>
 	public static void ChangeState(this IStateMachine _sm, int _state)
 	{
+		//Debug.Log("[VInterfaces] Calling IStateMachine's (IFiniteStateMachine<int>) ChangeState(int)...");
 		int states = _sm.state;
 
 		_sm.previousState = states;
 		_sm.state = _state;
 		_sm.OnEnterState(_state);
 		_sm.OnStatesAdded(~states & _state);
+		_sm.OnStatesRemoved(states ^ _state);
 	}
 
 	/// <summary>Evaluates if State Machine has given state.</summary>

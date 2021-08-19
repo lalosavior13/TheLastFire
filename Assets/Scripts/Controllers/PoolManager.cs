@@ -72,9 +72,16 @@ public class PoolManager : Singleton<PoolManager>
 		GameObjectPool<Projectile> factionPool = _faction == Faction.Ally ?
 			Instance.playerProjectilesPools[_ID] : Instance.enemyProjectilesPools[_ID];
 		Projectile projectile = factionPool.Recycle(_position, Quaternion.identity);
+		string tag = _faction == Faction.Ally ? Game.data.playerProjectileTag : Game.data.enemyProjectileTag;
 
 		projectile.projectileType = ProjectileType.Normal;
 		projectile.direction = _direction.normalized;
+		projectile.gameObject.tag = tag;
+
+		foreach(HitCollider2D hitBox in projectile.impactEventHandler.hitBoxes)
+		{
+			hitBox.gameObject.tag = tag;
+		}
 
 		return projectile;
 	}

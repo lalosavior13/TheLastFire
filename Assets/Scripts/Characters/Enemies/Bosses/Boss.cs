@@ -101,11 +101,12 @@ public class Boss : Enemy
 	}
 
 	/// <summary>Begins Death's Routine.</summary>
-	private void BeginDeathRoutine()
+	protected virtual void BeginDeathRoutine()
 	{
 		Debug.Log("[Boss] Beginning Death's Routine...");
 		this.RemoveStates(ID_STATE_ALIVE);
 		if(onIDEvent != null) onIDEvent(ID_EVENT_BOSS_DEATHROUTINE_BEGINS);
+		
 		this.StartCoroutine(DeathRoutine(OnDeathRoutineEnds));
 
 	}
@@ -115,6 +116,7 @@ public class Boss : Enemy
 	{
 		//OnObjectDeactivation();
 		if(onIDEvent != null) onIDEvent(ID_EVENT_BOSS_DEATHROUTINE_ENDS);
+		eventsHandler.InvokeEnemyDeactivationEvent(this, DeactivationCause.Destroyed);
 	} 
 
 	/// <summary>Callback invoked when a Health's event has occured.</summary>

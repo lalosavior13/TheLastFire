@@ -76,7 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2d85ff08d7c68146b402dcbcbdd4e98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _eventType: 1
+  _eventType: 5
   _visibleLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -313,13 +313,25 @@ MonoBehaviour:
   _sphereColliderSizeRange:
     _min: 1
     _max: 5
+  _projectionTime: 4
   _sightSensor: {fileID: 2340683739067092507}
   _tail: {fileID: 2340683739127628720}
-  _wanderSpeed: 0.5
+  _warningSpeed: 0.5
+  _dangerRadius: 5
+  _fleeDistance: 15
+  _waypointsGeneration:
+    _min: 4
+    _max: 8
+  _minDistanceToReachWaypoint: 0.45
+  _wanderSpeed:
+    _min: 2.5
+    _max: 5
   _wanderInterval:
     _min: 0.2
     _max: 0.35
-  _evasionSpeed: 0.5
+  _evasionSpeed:
+    _min: 10
+    _max: 25
   _projectileIndex:
     index: 1
     objectIndex: 0
@@ -330,6 +342,8 @@ MonoBehaviour:
   _fireBursts:
     _min: 4
     _max: 10
+  _maxMovementMagnitude: 0.25
+  _serenityDuration: 2
 --- !u!114 &2340683740104089372
 MonoBehaviour:
   m_ObjectHideFlags: 0

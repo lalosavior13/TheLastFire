@@ -284,7 +284,10 @@ public class InputController : Singleton<InputController>
 
 			return result;
 #elif UNITY_SWITCH
-			return NintendoSwitchButtonBegin(_inputID, _playerID);
+			bool result = NintendoSwitchButtonBegin(_inputID, _playerID);
+			if(!result) result = NintendoSwitchButtonBegin(_inputID, _playerID + 1);
+
+			return result;
 #elif UNITY_N3DS
 			return GamePad.GetButtonTrigger(Instance.inputMapping.N3DSControllerSetup.keyMapping[_inputID]);
 #endif
@@ -303,7 +306,10 @@ public class InputController : Singleton<InputController>
             if (Instance.detectableControllers.HasFlag(DetectableControllers.XBox)) return Instance.GetXBoxKey(Instance.inputMapping.XBoxControllerSetup.keyMapping[_inputID]);
 			if(Instance.detectableControllers.HasFlag(DetectableControllers.Pc)) return Input.GetKey(Instance.inputMapping.PCControllerSetup.keyMapping[_inputID]);
 #elif UNITY_SWITCH
-			return NintendoSwitchButtonStay(_inputID, _playerID);
+			bool result = NintendoSwitchButtonStay(_inputID, _playerID);
+			if(!result) result = NintendoSwitchButtonStay(_inputID, _playerID + 1);
+
+			return result;
 #elif UNITY_N3DS
 			return GamePad.GetButtonHold(Instance.inputMapping.N3DSControllerSetup.keyMapping[_inputID]);
 #endif
@@ -322,7 +328,10 @@ public class InputController : Singleton<InputController>
             if (Instance.detectableControllers.HasFlag(DetectableControllers.XBox)) return Instance.GetXBoxKeyUp(Instance.inputMapping.XBoxControllerSetup.keyMapping[_inputID]);
 			if(Instance.detectableControllers.HasFlag(DetectableControllers.Pc)) return Input.GetKeyUp(Instance.inputMapping.PCControllerSetup.keyMapping[_inputID]);
 #elif UNITY_SWITCH
-			return NintendoSwitchButtonEnd(_inputID, _playerID);
+			bool result = NintendoSwitchButtonEnd(_inputID, _playerID);
+			if(!result) result = NintendoSwitchButtonEnd(_inputID, _playerID + 1);
+
+			return result;
 #elif UNITY_N3DS
 			return GamePad.GetButtonRelease(Instance.inputMapping.N3DSControllerSetup.keyMapping[_inputID]);
 #endif
@@ -431,6 +440,8 @@ public class InputController : Singleton<InputController>
 
 		_rightAxes = ID.IDStyleToLeftAxis(new Vector2(rightAnalogStick.fx, rightAnalogStick.fy));
 		_leftAxes = ID.IDStyleToLeftAxis(new Vector2(leftAnalogStick.fx, leftAnalogStick.fy));
+
+		if((_rightAxes.sqrMagnitude == 0.0f || _leftAxes.sqrMagnitude == 0.0f) && _playerID == 0) UpdateAxes(_playerID + 1);
 #elif UNITY_N3DS
 		_leftAxes.x = inputMapping.N3DSControllerSetup.leftAxisX;
 		_leftAxes.y = inputMapping.N3DSControllerSetup.leftAxisY;
