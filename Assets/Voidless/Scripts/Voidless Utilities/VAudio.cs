@@ -71,6 +71,21 @@ public static class VAudio
 		_mono.DispatchCoroutine(ref _coroutine);
 	}
 
+	/// <summary>Gets Samples from AudioClip.</summary>
+	/// <param name="_clip">AudioClip's Reference.</param>
+	/// <param name="_offsetSamples">Clip's starting point [0 by default].</param>
+	/// <returns>Samples from AudioClip.</returns>
+	public static float[] GetAudioClipSamples(this AudioClip _clip, int _offsetSamples = 0)
+	{
+		if(_clip == null) return null;
+
+		float[] samples = new float[_clip.samples * _clip.channels];
+		
+		_clip.GetData(samples, _offsetSamples);
+
+		return samples;
+	}
+
 	/// <summary>Plays FiniteStateAudioClip's Clip.</summary>
 	/// <param name="_mono">MonoBehaviour's reference for the Coroutine.</param>
 	/// <param name="_source">AudioSource's that will be played reference.</param>

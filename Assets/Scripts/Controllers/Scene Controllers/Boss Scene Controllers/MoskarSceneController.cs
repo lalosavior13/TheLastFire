@@ -22,21 +22,29 @@ namespace Flamingo
 [RequireComponent(typeof(Boundaries2DContainer))]
 public class MoskarSceneController : Singleton<MoskarSceneController>
 {
-	[SerializeField] private MoskarBoss _main; 				/// <summary>Initial Moskar's Reference.</summary>
-	[SerializeField] private CollectionIndex _moskarIndex; 	/// <summary>Moskar's Index.</summary>
-	[SerializeField] private float _reproductionDuration; 	/// <summary>Reproduction Duration. Determines how long it lasts the reproduction's displacement and scaling.</summary>
-	[SerializeField] private float _reproductionPushForce; 	/// <summary>Reproduction's Push Force.</summary>
-	[SerializeField] private float _reproductionCountdown; 	/// <summary>Duration before creating another round of moskars.</summary>
-	private Boundaries2DContainer _moskarBoundaries; 		/// <summary>Moskar's Boundaries.</summary>
-	private HashSet<MoskarBoss> _moskarReproductions; 		/// <summary>Moskar's Reproductions.</summary>
+	[Space(5f)]
+	[SerializeField] private MoskarBoss _main; 					/// <summary>Initial Moskar's Reference.</summary>
+	[Space(5f)]
+	[Header("Reproductions' Atrributes:")]
+	[SerializeField] private CollectionIndex _moskarIndex; 		/// <summary>Moskar's Index.</summary>
+	[SerializeField] private float _reproductionDuration; 		/// <summary>Reproduction Duration. Determines how long it lasts the reproduction's displacement and scaling.</summary>
+	[SerializeField] private float _reproductionPushForce; 		/// <summary>Reproduction's Push Force.</summary>
+	[SerializeField] private float _reproductionCountdown; 		/// <summary>Duration before creating another round of moskars.</summary>
+	[Space(5f)]
+	[Header("Music's Attributes:")]
+	[SerializeField] private FloatRange _waitBetweenPiece; 		/// <summary>Wait Duration Between each piece.</summary>
+	[SerializeField] private CollectionIndex[] _piecesIndices; 	/// <summary>Pieces' Indices.</summary>
+	[SerializeField] private int _sampleJumping; 				/// <summary>Sample Jumping by each iteration.</summary>
+	private Boundaries2DContainer _moskarBoundaries; 			/// <summary>Moskar's Boundaries.</summary>
+	private HashSet<MoskarBoss> _moskarReproductions; 			/// <summary>Moskar's Reproductions.</summary>
 #if UNITY_EDITOR
 	[Space(5f)]
 	[Header("Gizmos' Attributes:")]
-	[SerializeField] private Color gizmosColor; 			/// <summary>Gizmos' Color.</summary>
-	[SerializeField] private float gizmosRadius; 			/// <summary>Gizmos' Radius.</summary>
+	[SerializeField] private Color gizmosColor; 				/// <summary>Gizmos' Color.</summary>
+	[SerializeField] private float gizmosRadius; 				/// <summary>Gizmos' Radius.</summary>
 #endif
-	private Coroutine moskarReproductionsCountdown; 		/// <summary>MoskarReproductionsCountdown's Coroutine reference.</summary>
-	private int _totalMoskars; 								/// <summary>Total of Moskars.</summary>
+	private Coroutine moskarReproductionsCountdown; 			/// <summary>MoskarReproductionsCountdown's Coroutine reference.</summary>
+	private int _totalMoskars; 									/// <summary>Total of Moskars.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets main property.</summary>
@@ -70,6 +78,27 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 		set { _reproductionCountdown = value; }
 	}
 
+	/// <summary>Gets and Sets sampleJumping property.</summary>
+	public int sampleJumping
+	{
+		get { return _sampleJumping; }
+		set { _sampleJumping = value; }
+	}
+
+	/// <summary>Gets and Sets waitBetweenPiece property.</summary>
+	public FloatRange waitBetweenPiece
+	{
+		get { return _waitBetweenPiece; }
+		set { _waitBetweenPiece = value; }
+	}
+
+	/// <summary>Gets and Sets piecesIndices property.</summary>
+	public CollectionIndex[] piecesIndices
+	{
+		get { return _piecesIndices; }
+		set { _piecesIndices = value; }
+	}
+
 	/// <summary>Gets moskarBoundaries Component.</summary>
 	public Boundaries2DContainer moskarBoundaries
 	{ 
@@ -94,14 +123,6 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 		set { _totalMoskars = value; }
 	}
 #endregion
-
-#if UNITY_EDITOR
-	/// <summary>Draws Gizmos on Editor mode.</summary>
-	private void OnDrawGizmos()
-	{
-		
-	}
-#endif
 
 	/// <summary>Callback internally invoked after Awake.</summary>
 	protected override void OnAwake()
@@ -164,7 +185,7 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 		moskar.eventsHandler.onEnemyDeactivated -= OnMoskarDeactivated;
 
 // --- Begins New Implementation: --- 
-		if(moskar.currentPhase < moskar.phases)
+		if(moskar.currentPhase < (moskar.phases - 1))
 		{
 			MoskarBoss reproduction = null;
 			Vector3[] forces = new Vector3[] { Vector3.left * reproductionPushForce, Vector3.right * reproductionPushForce };
@@ -190,6 +211,7 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 				reproduction.health.BeginInvincibilityCooldown();
 				reproduction.meshParent.localScale = scale;
 				reproduction.phaseProgress = t;
+				reproduction.hurtBox.radius = sphereColliderSize;
 				moskarReproductions.Add(reproduction);
 
 				//reproduction.rigidbody.simulated = false;
@@ -213,6 +235,38 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 			Debug.Log("[MoskarSceneController] Finished!!");
 		}*/
 // --- Ends Old Implementation: ---
+	}
+
+	/// <summary>Pieces' Routine.</summary>
+	private IEnumerator PiecesRoutine()
+	{
+		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
+		AudioClip clip = null;
+		float[] samples = null;
+		int index = 0;
+		//float speed = 
+
+		while(true)
+		{
+			index = piecesIndices.Random();
+			clip = AudioController.Play(SourceType.Loop, 0, index, false);
+			samples = clip.GetAudioClipSamples();
+			wait.ChangeDurationAndReset(clip.length);
+			
+			while(wait.MoveNext()) yield return null;
+
+			// 44100hz samples per-second...
+			/*for(int i = 0; i < samples.Length;  i += Mathf.Max(sampleJumping, 1))
+			{
+				float sample = samples[i];
+
+				foreach(MoskarBoss moskar in moskarReproductions)
+				{
+					//moskar
+				}
+				yield return null;
+			}*/
+		}
 	}
 
 	/// <summary>Moskar Reproduction's Countdown Coroutine.</summary>

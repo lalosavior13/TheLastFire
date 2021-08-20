@@ -9,6 +9,7 @@ namespace Flamingo
 [RequireComponent(typeof(SteeringVehicle2D))]
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(VCameraTarget))]
+[RequireComponent(typeof(CircleCollider2D))]
 public class MoskarBoss : Boss
 {
 	[Space(5f)]
@@ -48,6 +49,7 @@ public class MoskarBoss : Boss
 	private float _phaseProgress; 									/// <summary>Phase's Normalized Progress.</summary>
 	private SteeringVehicle2D _vehicle; 							/// <summary>SteeringVehicle2D's Component.</summary>
 	private Rigidbody2D _rigidbody; 								/// <summary>Rigidbody2D's Component.</summary>
+	private CircleCollider2D _hurtBox; 								/// <summary>CircleCollider2D's Component.</summary>
 	private VCameraTarget _cameraTarget; 							/// <summary>VCameraTarget's Component.</summary>
 	private Coroutine attackCoroutine; 								/// <summary>AttackBehavior's Coroutine reference.</summary>
 	private Coroutine serenityEvaluation; 							/// <summary>Serenity's Evaluation Coroutine's reference.</summary>
@@ -121,6 +123,16 @@ public class MoskarBoss : Boss
 		{
 			if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody2D>();
 			return _rigidbody;
+		}
+	}
+
+	/// <summary>Gets hurtBox Component.</summary>
+	public CircleCollider2D hurtBox
+	{ 
+		get
+		{
+			if(_hurtBox == null) _hurtBox = GetComponent<CircleCollider2D>();
+			return _hurtBox;
 		}
 	}
 
