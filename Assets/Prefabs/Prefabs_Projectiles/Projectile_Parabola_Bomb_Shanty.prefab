@@ -13,9 +13,7 @@ GameObject:
   - component: {fileID: 7807340246942760901}
   - component: {fileID: 7807340246942760900}
   - component: {fileID: 7807340246942760903}
-  - component: {fileID: 7890409840708403000}
   - component: {fileID: 7890409840708403003}
-  - component: {fileID: 7890409840708403002}
   - component: {fileID: 7890409840708402997}
   - component: {fileID: 7807340246942760897}
   - component: {fileID: -8338976305958156496}
@@ -34,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7807340246942760902}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 70.02, y: -10.611992, z: 98.30469}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 7890409840483429378}
@@ -97,9 +95,9 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7807340246942760902}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -126,26 +124,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &7890409840708403000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7807340246942760902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _test:
-    _keysList: []
-    _valuesList: []
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 9
-    objectIndex: 0
-    collectionIndex: 8
 --- !u!114 &7890409840708403003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,26 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upForce: 5
-  force: 15
-  hitBox: {fileID: 7890409840483429500}
---- !u!114 &7890409840708403002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7807340246942760902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 24
-    objectIndex: 0
-    collectionIndex: 7
+  _impactTags: []
+  _force: {x: 0, y: 0, z: 0}
 --- !u!114 &7890409840708402997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,7 +151,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitBoxes: []
-  _impactTags: []
 --- !u!114 &7807340246942760897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,25 +165,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
   _healthAffectableTags: []
-  _impactTags: []
   _damage: 1
   _damageScales: []
+  _impactTags: []
   _trailRenderers: []
+  _projectileType: 0
   _repelTags: []
   _speedMode: 0
   _speed: 5
-  _lifespan: 5
+  _lifespan: 0
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
-  dontDeactivateOnImpact: 0
+  _maxSteeringForce: 0
+  _distance: 0
+  _motionType: 0
+  _axes:
+    _x: 0
+    _y: 0
+    _z: 0
+  _space: 0
+  _radius: 0
+  _motionSpeed: 0
+  _impactParticleEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _destroyedParticleEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _impactSoundEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _destroyedSoundEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  gizmosColor: {r: 0, g: 0, b: 0, a: 0}
   _expodableIndex:
     index: 0
     objectIndex: 0
-    collectionIndex: 9
+    collectionIndex: 7
   _flamableTags:
   - _tag: Respawn
     index: 1
-  - _tag: FxTemporaire
+  - _tag: Ball
     index: 7
 --- !u!114 &-8338976305958156496
 MonoBehaviour:
@@ -238,6 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899837e1dcbe69941a6219b841471233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
 --- !u!1 &7890409840392654944
 GameObject:
   m_ObjectHideFlags: 0
