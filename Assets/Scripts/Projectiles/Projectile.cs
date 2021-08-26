@@ -27,6 +27,12 @@ public enum MotionType
 	Sinusoidal
 }
 
+public enum RepelReaction
+{
+	InvertDirection,
+	TowardsPreviousShooter
+}
+
 /*
 Events:
  - Deactivated
@@ -80,10 +86,11 @@ public class Projectile : ContactWeapon
 	private bool _activated; 													/// <summary>Can the projectile be activated?.</summary>
 	private float _currentLifeTime; 											/// <summary>Current Life Time.</summary>
 	private float _time; 														/// <summary>Motion's Time.</summary>
+	private float _parabolaTime; 												/// <summary>Time parameter used for the projectile parabola's formula.</summary>
 	private Vector3 _lastPosition; 												/// <summary>Last Position reference [for the Steering Snake].</summary>
 	private Vector3 _direction; 												/// <summary>Projectilwe's direction that determines its displacement.</summary>
 	private Vector3 _accumulatedVelocity; 										/// <summary>Accumulated Velocity.</summary>
-	private Func<Vector2> _target; 												/// <summary>Target's Position function.</summary>
+	private Transform _target; 													/// <summary>Homing Target.</summary>
 	private Rigidbody2D _rigidbody; 											/// <summary>Rigidbody2D's Component.</summary>
 	private VCameraTarget _cameraTarget; 										/// <summary>VCameraTarget's Component.</summary>
 	private ProjectileEventsHandler _projectileEventsHandler; 					/// <summary>ProjectileEventsHandler's Component.</summary>
@@ -203,6 +210,13 @@ public class Projectile : ContactWeapon
 		protected set { _time = value; }
 	}
 
+	/// <summary>Gets and Sets parabolaTime property.</summary>
+	public float parabolaTime
+	{
+		get { return _parabolaTime; }
+		set { _parabolaTime = value; }
+	}
+
 	/// <summary>Gets and Sets lastPosition property.</summary>
 	public Vector3 lastPosition
 	{
@@ -229,7 +243,7 @@ public class Projectile : ContactWeapon
 	}
 
 	/// <summary>Gets and Sets target property.</summary>
-	public Func<Vector2> target
+	public Transform target
 	{
 		get { return _target; }
 		set { _target = value; }
@@ -376,10 +390,60 @@ public class Projectile : ContactWeapon
 		{
 			if(obj.CompareTag(tag))
 			{
-				float inversion = -1.0f;
+				Debug.Log("[Projectile] The Projectile ought to be repellable...");
+				ContactWeapon weapon = null;
 
-				direction *= inversion;
-				accumulatedVelocity *= inversion;
+				switch(projectileType)
+				{
+					case ProjectileType.Normal:
+					float inversion = -1.0f;
+
+					direction *= inversion;
+					accumulatedVelocity *= inversion;
+					break;
+
+					case ProjectileType.Parabola:
+					accumulatedVelocity = Vector3.zero;
+
+					if(owner == null)
+					{
+						direction *= -1.0f;
+					}
+
+					Vector3 velocity = VPhysics.ProjectileDesiredVelocity(parabolaTime, transform.position, owner.transform.position, Physics.gravity);
+					float magnitude = velocity.magnitude;
+
+					velocity /= magnitude; // Normalize
+					direction = velocity;
+					speed = magnitude;
+
+					/// Assign new ownership...
+					weapon = obj.GetComponent<ContactWeapon>();
+
+					if(weapon != null)
+					{
+						GameObject newOwner = weapon.owner;
+						owner = newOwner != null ? newOwner : obj;
+					}
+					else owner = obj;
+					break;
+
+					case ProjectileType.Homing:
+					if(owner == null) return;
+
+					target = owner.transform;
+
+					weapon = obj.GetComponent<ContactWeapon>();
+
+					/// Assign new ownership...
+					if(weapon != null)
+					{
+						GameObject newOwner = weapon.owner;
+						owner = newOwner != null ? newOwner : obj;
+					}
+					else owner = obj;
+					break;
+				}
 				//InvokeProjectileEvent(ID_EVENT_REPELLED);
 			}
 		}
@@ -508,11 +572,11 @@ public class Projectile : ContactWeapon
 			switch(speedMode)
 			{
 				case SpeedMode.Lineal:
-				accumulatedVelocity += (Physics.gravity * Time.fixedDeltaTime);
+				accumulatedVelocity = Physics.gravity;
 				break;
 
 				case SpeedMode.Accelerating:
-				accumulatedVelocity = Physics.gravity;
+				accumulatedVelocity += (Physics.gravity * Time.fixedDeltaTime);
 				break;
 			}
 
@@ -520,7 +584,7 @@ public class Projectile : ContactWeapon
 			break;
 
 			case ProjectileType.Homing:
-			Vector3 steeringForce = target != null ? SteeringVehicle2D.GetSeekForce(rigidbody.position, target(), ref velocity, speed, maxSteeringForce) : rigidbody.position;
+			Vector3 steeringForce = target != null ? SteeringVehicle2D.GetSeekForce(rigidbody.position, target.position, ref velocity, speed, maxSteeringForce) : rigidbody.position;
 
 			switch(speedMode)
 			{

@@ -22,6 +22,7 @@ public class ContactWeapon : PoolGameObject
 	[Space(5f)]
 	[Header("Trail's References:")]
 	[SerializeField] private TrailRenderer[] _trailRenderers; 			/// <summary>TrailRenderers' Component.</summary>
+	private GameObject _owner; 											/// <summary>Weapon's current owner.</summary>
 	private HashSet<int> _objectsIDs; 									/// <summary>Set of GameObject's IDs that are already inside of HitBoxes [to avoid repetition of actions].</summary>
 	private EventsHandler _eventsHandler; 								/// <summary>EventsHandler's Component.</summary>
 	private ImpactEventHandler _impactEventHandler; 					/// <summary>ImpactEventHandler's Component.</summary>
@@ -60,6 +61,13 @@ public class ContactWeapon : PoolGameObject
 	{
 		get { return _trailRenderers; }
 		set { _trailRenderers = value; }
+	}
+
+	/// <summary>Gets and Sets owner property.</summary>
+	public GameObject owner
+	{
+		get { return _owner; }
+		set { _owner = value; }
 	}
 
 	/// <summary>Gets and Sets objectsIDs property.</summary>
@@ -189,6 +197,13 @@ public class ContactWeapon : PoolGameObject
 		{
 			if(obj.CompareTag(tag)) OnImpact(_info, _ID);
 		}
+	}
+
+	/// <summary>Callback invoked when the object is deactivated.</summary>
+	public override void OnObjectDeactivation()
+	{
+		base.OnObjectDeactivation();
+		owner = null;
 	}
 
 	/// <summary>Callback internally invoked when a Health's instance was damaged.</summary>

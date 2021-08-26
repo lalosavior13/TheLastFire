@@ -363,6 +363,7 @@ public class Mateo : Character
 
 		orientation = Vector3.right;
 		sword.ActivateHitBoxes(false);
+		sword.owner = gameObject;
 
 		jumpAbility.onJumpStateChange += OnJumpStateChange;
 		wallEvaluator.onWallEvaluatorEvent += OnWallEvaluatorEvent;
@@ -375,6 +376,8 @@ public class Mateo : Character
 	/// <summary>Updates Mateo's instance at each frame.</summary>
 	private void Update()
 	{
+		if(!this.HasStates(ID_STATE_ALIVE)) return;
+
 		Vector3 direction = new Vector3(
 			leftAxes.x,
 			0.0f,
@@ -385,12 +388,6 @@ public class Mateo : Character
 
 		if(leftAxes.x != 0.0f) rotationAbility.RotateTowardsDirection(animatorParent, direction);
 		//else rotationAbility.RotateTowards(animatorParent, stareAtPlayerRotation);
-
-		// TEST
-		///rotationAbility.RotateTowardsDirection(animatorParent, Vector3.right * leftAxes.x);
-
-		/*Debug.DrawRay(transform.position, Vector3.right * leftAxes.x * 5.0f, Color.magenta);
-		Debug.DrawRay(transform.position, Quaternion.LookRotation(Vector3.right * leftAxes.x) * Vector3.forward * 8.0f, Color.yellow);*/
 
 		if(animator == null) return;
 
@@ -413,6 +410,8 @@ public class Mateo : Character
 	/// <param name="_axes">Left's Axes.</param>
 	public void OnLeftAxesChange(Vector2 _axes)
 	{
+		if(!this.HasStates(ID_STATE_ALIVE)) return;
+
 		animator.SetFloat(leftAxisXCredential, _axes.x);
 		animator.SetFloat(leftAxisYCredential, _axes.y);
 		if(leftAxes.x == 0.0f && leftAxes == _axes) movementAbility.Stop();
@@ -424,6 +423,8 @@ public class Mateo : Character
 	/// <param name="_axes">Right's Axes.</param>
 	public void OnRightAxesChange(Vector2 _axes)
 	{
+		if(!this.HasStates(ID_STATE_ALIVE)) return;
+
 		animator.SetFloat(rightAxisXCredential, _axes.x);
 		animator.SetFloat(rightAxisYCredential, _axes.y);
 	}
@@ -433,6 +434,8 @@ public class Mateo : Character
 	/// <param name="_jumpLevel">Jump's Level [index].</param>
 	private void OnJumpStateChange(int _stateID, int _jumpLevel)
 	{
+		if(!this.HasStates(ID_STATE_ALIVE)) return;
+
 		switch(_stateID)
 		{
 			case JumpAbility.STATE_ID_GROUNDED:
@@ -466,15 +469,6 @@ public class Mateo : Character
 			break;
 	
 			default:
-			/*if(jumpAbility.HasAnyOfTheStates(JumpAbility.STATE_ID_GROUNDED | JumpAbility.STATE_ID_LANDING))
-			{ /// If the jumping ability is either on the ground or landing, evaluate which one to asignate a new ID to the AnimatorController:
-
-				int ID = jumpAbility.HasState(JumpAbility.STATE_ID_GROUNDED) ?
-					JumpAbility.STATE_FLAG_GROUNDED
-					: JumpAbility.STATE_FLAG_LANDING;
-
-				animator.SetInteger(jumpStateIDCredential, ID);
-			}*/
 			break;
 		}
 
@@ -485,6 +479,8 @@ public class Mateo : Character
 	/// <param name="_event">Event's argument.</param>
 	private void OnWallEvaluatorEvent(WallEvaluationEvent _event)
 	{
+		if(!this.HasStates(ID_STATE_ALIVE)) return;
+
 		switch(_event)
 		{
 			case WallEvaluationEvent.OffWall:
@@ -511,6 +507,8 @@ public class Mateo : Character
 	/// <param name="_state">New Entered State.</param>
 	private void OnDashStateChange(DashState _state)
 	{
+		if(!this.HasStates(ID_STATE_ALIVE)) return;
+
 		animator.SetBool(dashingCredential, _state == DashState.Dashing);
 	}
 
@@ -518,6 +516,8 @@ public class Mateo : Character
 	/// <param name="_state">Animation Attack's Event/State.</param>
 	private void OnAnimationAttackEvent(AnimationCommandState _state)
 	{
+		if(!this.HasStates(ID_STATE_ALIVE)) return;
+
 		switch(_state)
 		{
 			case AnimationCommandState.None:
@@ -543,10 +543,10 @@ public class Mateo : Character
 		}
 
 		/*Debug.Log("[Mateo] OnAnimationAttackEvent("
-			+ _state.ToString()
-			+ ")"
-			+ ". With AttackHandler ID on "
-			+ attacksHandler.attackID);*/
+		+ _state.ToString()
+		+ ")"
+		+ ". With AttackHandler ID on "
+		+ attacksHandler.attackID);*/
 	}
 
 	/// <summary>Callback invoked when the health of the character is depleted.</summary>
@@ -643,6 +643,7 @@ public class Mateo : Character
 	public void Jump(Vector2 _axes)
 	{
 		if(this.HasStates(ID_STATE_HURT)
+		|| !this.HasStates(ID_STATE_ALIVE)
 		|| (jumpAbility.grounded && attacksHandler.state != AttackState.None)) return;
 
 		jumpAbility.Jump(_axes);
@@ -663,7 +664,7 @@ public class Mateo : Character
 	/// <summary>Performs Dash.</summary>
 	public void Dash()
 	{
-		if(this.HasStates(ID_STATE_HURT) || Mathf.Abs(leftAxes.x) < Mathf.Abs(dashXThreshold)) return;
+		if(this.HasStates(ID_STATE_HURT) || !this.HasStates(ID_STATE_ALIVE) || Mathf.Abs(leftAxes.x) < Mathf.Abs(dashXThreshold)) return;
 
 		dashAbility.Dash(orientation);
 	}
@@ -715,7 +716,7 @@ public class Mateo : Character
 	/// <param name="_axes">Axes' Argument.</param>
 	public void ChargeFire(Vector3 _axes)
 	{
-		if(this.HasStates(ID_STATE_HURT)) return;
+		if(this.HasStates(ID_STATE_HURT) || !this.HasStates(ID_STATE_ALIVE)) return;
 
 		int chargeStateID = shootProjectile.OnCharge(_axes);
 		animator.SetInteger(shootingStateIDCredential, chargeStateID);
@@ -725,7 +726,7 @@ public class Mateo : Character
 	/// <param name="_shootResult">Was the shoot made? false by default.</param>
 	public void DischargeFire(bool _shootResult = false)
 	{
-		if(shootProjectile.onCooldown) return;
+		if(shootProjectile.onCooldown || !this.HasStates(ID_STATE_ALIVE)) return;
 
 		shootProjectile.OnDischarge();
 		int stateID = _shootResult ? ShootChargedProjectile.STATE_ID_RELEASED : ShootChargedProjectile.STATE_ID_UNCHARGED;
@@ -736,7 +737,7 @@ public class Mateo : Character
 	/// <param name="_axes">Axes' Argument.</param>
 	public void ReleaseFire(Vector3 _axes)
 	{
-		if(this.HasStates(ID_STATE_HURT)) return;
+		if(this.HasStates(ID_STATE_HURT) || !this.HasStates(ID_STATE_ALIVE)) return;
 
 		bool result = shootProjectile.Shoot(leftHand.position, _axes);
 		if(result) animator.SetInteger(shootingStateIDCredential, ShootChargedProjectile.STATE_ID_RELEASED);

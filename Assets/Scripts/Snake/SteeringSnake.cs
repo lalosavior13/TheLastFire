@@ -11,9 +11,9 @@ public class SteeringSnake : MonoBehaviour
 {
 	[SerializeField] private float _duration; 				/// <summary>Duration.</summary>
 	private float _time; 									/// <summary>Current Time.</summary>
-	private LinkedList<Projectile> _projectilesList; 	/// <summary>Projectiles' LinkedList.</summary>
-	private List<Projectile> _projectiles; 			/// <summary>Projectiles' List.</summary>
-	private Func<Vector2> _targetFunction; 					/// <summary>Target's Function.</summary>
+	private LinkedList<Projectile> _projectilesList; 		/// <summary>Projectiles' LinkedList.</summary>
+	private List<Projectile> _projectiles; 					/// <summary>Projectiles' List.</summary>
+	private Transform _target; 								/// <summary>Target's Function.</summary>
 
 	/// <summary>Gets and Sets duration property.</summary>
 	public float duration
@@ -43,11 +43,11 @@ public class SteeringSnake : MonoBehaviour
 		set { _projectiles = value; }
 	}
 
-	/// <summary>Gets and Sets targetFunction property.</summary>
-	public Func<Vector2> targetFunction
+	/// <summary>Gets and Sets target property.</summary>
+	public Transform target
 	{
-		get { return _targetFunction; }
-		set { _targetFunction = value; }
+		get { return _target; }
+		set { _target = value; }
 	}
 
 	/// <summary>SteeringSnake's instance initialization when loaded [Before scene loads].</summary>
@@ -67,25 +67,25 @@ public class SteeringSnake : MonoBehaviour
 
 	/// <summary>Initializes Steering Snake's Behavior.</summary>
 	/// <param name="_projectiles">New set of projectiles that will compose the Steering Snake.</param>
-	public void InitializeLinkedList(Func<Vector2> function, params Projectile[] _projectiles)
+	public void InitializeLinkedList(Transform _target, params Projectile[] _projectiles)
 	{
 		if(_projectiles == null) return;
 
 		projectiles = _projectiles.ToList();
 		projectilesList = new LinkedList<Projectile>(_projectiles);
-		targetFunction = function;
+		target = _target;
 		Projectile p = null;
 
 		foreach(Projectile projectile in projectilesList)
 		{
 			if(projectile != projectilesList.First.Value)
 			{
-				projectile.target = projectilesList.First.Value.GetPosition;
+				projectile.target = projectilesList.First.Value.transform;
 				projectile.parentProjectile = p;
 			}
 			else
 			{
-				projectile.target = function;
+				projectile.target = target;
 				projectile.parentProjectile = null;
 			}
 			
@@ -127,12 +127,12 @@ public class SteeringSnake : MonoBehaviour
 		{
 			if(proj == projectilesList.First.Value)
 			{
-				proj.target = targetFunction;
+				proj.target = target;
 				proj.parentProjectile = null;
 			}
 			else
 			{
-				proj.target = p.GetPosition;
+				proj.target = p.transform;
 				proj.parentProjectile = p;
 			}
 

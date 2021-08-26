@@ -11,7 +11,7 @@ public class TESTProjectileShooter : MonoBehaviour
 	[SerializeField] private CollectionIndex[] playerProjectilesIndices; 		/// <summary>Player Projectiles' Indices.</summary>
 	[SerializeField] private CollectionIndex[] enemyProjectilesIndices; 		/// <summary>Enemy Projectiles' Indices.</summary>
 	[SerializeField] private CollectionIndex[] enemyHomingProjectilesIndices; 	/// <summary>Enemy Homing Proejctiles' Indices.</summary>
-	[SerializeField] private Vector3 target; 									/// <summary>Projectiles' Target.</summary>
+	[SerializeField] private Transform target; 									/// <summary>Projectiles' Target.</summary>
 	[SerializeField] private float cooldown; 									/// <summary>Cooldown duration after each shot.</summary>
 	private Coroutine coroutine; 												/// <summary>Coroutine's Reference.</summary>
 #if UNITY_EDITOR
@@ -24,7 +24,7 @@ public class TESTProjectileShooter : MonoBehaviour
 	{
 #if UNITY_EDITOR
 		Gizmos.color = color;
-		Gizmos.DrawWireSphere(target, radius);
+		Gizmos.DrawWireSphere(target.position, radius);
 #endif
 	}
 
@@ -41,7 +41,7 @@ public class TESTProjectileShooter : MonoBehaviour
 	}
 
 	/// <returns>Target.</returns>
-	private Vector2 GetTarget() { return target; }
+	private Vector2 GetTarget() { return target.position; }
 
 	/// <summary>Begins Projectiles' Routine.</summary>
 	private void BeginProjectilesRoutine()
@@ -58,7 +58,7 @@ public class TESTProjectileShooter : MonoBehaviour
 		/// Player Projectiles' Routine:
 		foreach(CollectionIndex index in playerProjectilesIndices)
 		{
-			direction = target - transform.position;
+			direction = target.position - transform.position;
 			PoolManager.RequestProjectile(Faction.Ally, index, transform.position, direction);
 			while(wait.MoveNext()) yield return null;
 			wait.Reset();
@@ -67,7 +67,7 @@ public class TESTProjectileShooter : MonoBehaviour
 		/// Enemy Projectiles' Routine:
 		foreach(CollectionIndex index in enemyProjectilesIndices)
 		{
-			direction = target - transform.position;
+			direction = target.position - transform.position;
 			PoolManager.RequestProjectile(Faction.Enemy, index, transform.position, direction);
 			while(wait.MoveNext()) yield return null;
 			wait.Reset();
@@ -76,8 +76,8 @@ public class TESTProjectileShooter : MonoBehaviour
 		/// Enemy Homing Projectiles' Routine:
 		foreach(CollectionIndex index in enemyHomingProjectilesIndices)
 		{
-			direction = target - transform.position;
-			PoolManager.RequestHomingProjectile(Faction.Enemy, index, transform.position, direction, GetTarget);
+			direction = target.position - transform.position;
+			PoolManager.RequestHomingProjectile(Faction.Enemy, index, transform.position, direction, target);
 			while(wait.MoveNext()) yield return null;
 			wait.Reset();
 		}

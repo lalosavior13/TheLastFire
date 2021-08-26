@@ -154,10 +154,10 @@ public class Health : MonoBehaviour, IStateMachine
             if(onHealthInstanceEvent != null) onHealthInstanceEvent(this, HealthEvent.FullyDepleted, _damage);
         }
 
-        if(hitStunDuration > 0.0f && _applyHitStun)
+        if(hitStunDuration > 0.0f && _applyHitStun && hp > 0.0f)
         BeginHitStunCooldown();
 
-        if(invincibilityDuration > 0.0f && _applyInvincibility)
+        if(invincibilityDuration > 0.0f && _applyInvincibility && hp > 0.0f)
         BeginInvincibilityCooldown();
     }
 

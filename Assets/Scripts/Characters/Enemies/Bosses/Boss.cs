@@ -7,7 +7,6 @@ using Voidless;
 
 namespace Flamingo
 {
-[RequireComponent(typeof(Animator))]
 public class Boss : Enemy
 {
 	public event OnIDEvent onIDEvent; 										/// <summary>OnIDEvent's delegate.</summary>

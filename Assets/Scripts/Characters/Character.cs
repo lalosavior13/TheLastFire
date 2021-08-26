@@ -52,6 +52,7 @@ public class Character : PoolGameObject, IStateMachine
 	protected virtual void Awake()
 	{
 		health.onHealthEvent += OnHealthEvent;
+		this.AddStates(ID_STATE_ALIVE);
 	}
 
 	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>

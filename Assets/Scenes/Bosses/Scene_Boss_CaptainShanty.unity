@@ -966,21 +966,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 786085301}
     m_Modifications:
-    - target: {fileID: 5997170532490286496, guid: cd712900f05c2ac46b63b3a3661d57c2,
-        type: 3}
-      propertyPath: _exposedVolumeParameterName
-      value: Volume
-      objectReference: {fileID: 0}
-    - target: {fileID: 5997170532490286496, guid: cd712900f05c2ac46b63b3a3661d57c2,
-        type: 3}
-      propertyPath: _fadeOutDuration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5997170532490286496, guid: cd712900f05c2ac46b63b3a3661d57c2,
-        type: 3}
-      propertyPath: _fadeInDuration
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5997170532490286497, guid: cd712900f05c2ac46b63b3a3661d57c2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1035,11 +1020,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5997170532490286499, guid: cd712900f05c2ac46b63b3a3661d57c2,
-        type: 3}
-      propertyPath: OutputAudioMixerGroup
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5997170532490286526, guid: cd712900f05c2ac46b63b3a3661d57c2,
         type: 3}

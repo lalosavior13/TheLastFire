@@ -133,7 +133,7 @@ public class PlayerController : Singleton<PlayerController>
 	/// <summary>PlayerController's tick at each frame.</summary>
 	private void Update()
 	{
-		if(mateo == null) return;
+		if(mateo == null || !mateo.HasStates(Character.ID_STATE_ALIVE)) return;
 
 		leftAxes = InputController.Instance.leftAxes;
 		rightAxes = InputController.Instance.rightAxes;

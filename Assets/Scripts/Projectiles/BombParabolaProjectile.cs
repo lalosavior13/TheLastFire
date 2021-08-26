@@ -13,7 +13,6 @@ public enum BombState
 	Exploding
 }
 
-[RequireComponent(typeof(BouncingBall))]
 public class BombParabolaProjectile : Projectile
 {
 	[Space(5f)]
@@ -21,7 +20,6 @@ public class BombParabolaProjectile : Projectile
 	[SerializeField] private CollectionIndex _expodableIndex; 	/// <summary>Explodable's Index on the PoolManager.</summary>
 	[SerializeField] private GameObjectTag[] _flamableTags; 	/// <summary>Tags of GameObjects that are considered flamable.</summary>
 	private BombState _state; 									/// <summary>Current Bomb's State.</summary>
-	private BouncingBall _bouncingBall; 						/// <summary>BouncingBall's Component.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets flamableTags property.</summary>
@@ -36,16 +34,6 @@ public class BombParabolaProjectile : Projectile
 	{
 		get { return _state; }
 		set { _state = value; }
-	}
-
-	/// <summary>Gets bouncingBall Component.</summary>
-	public BouncingBall bouncingBall
-	{ 
-		get
-		{
-			if(_bouncingBall == null) _bouncingBall = GetComponent<BouncingBall>();
-			return _bouncingBall;
-		}
 	}
 #endregion
 

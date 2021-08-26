@@ -66,8 +66,9 @@ public class PoolManager : Singleton<PoolManager>
 	/// <param name="_ID">Projectile's ID.</param>
 	/// <param name="_position">Spawn position for the Projectile.</param>
 	/// <param name="_direction">Spawn direction for the Projectile.</param>
+	/// <param name="_object">GameObject that requests the Parabola [treated as the shooter]. Null by default.</param>
 	/// <returns>Requested Projectile.</returns>
-	public static Projectile RequestProjectile(Faction _faction, int _ID, Vector3 _position, Vector3 _direction)
+	public static Projectile RequestProjectile(Faction _faction, int _ID, Vector3 _position, Vector3 _direction, GameObject _object = null)
 	{
 		GameObjectPool<Projectile> factionPool = _faction == Faction.Ally ?
 			Instance.playerProjectilesPools[_ID] : Instance.enemyProjectilesPools[_ID];
@@ -79,6 +80,7 @@ public class PoolManager : Singleton<PoolManager>
 		projectile.projectileType = ProjectileType.Normal;
 		projectile.direction = _direction.normalized;
 		projectile.gameObject.tag = tag;
+		projectile.owner = _object;
 
 		foreach(HitCollider2D hitBox in projectile.impactEventHandler.hitBoxes)
 		{
@@ -94,10 +96,11 @@ public class PoolManager : Singleton<PoolManager>
 	/// <param name="_position">Spawn position for the Projectile.</param>
 	/// <param name="_direction">Spawn direction for the Projectile.</param>
 	/// <param name="target">Target's Function [null by default].</param>
+	/// <param name="_object">GameObject that requests the Parabola [treated as the shooter]. Null by default.</param>
 	/// <returns>Requested Homing Projectile.</returns>
-	public static Projectile RequestHomingProjectile(Faction _faction, int _ID, Vector3 _position, Vector3 _direction, Func<Vector2> _target)
+	public static Projectile RequestHomingProjectile(Faction _faction, int _ID, Vector3 _position, Vector3 _direction, Transform _target, GameObject _object = null)
 	{
-		Projectile projectile = RequestProjectile(_faction, _ID, _position, _direction);
+		Projectile projectile = RequestProjectile(_faction, _ID, _position, _direction, _object);
 
 		if(projectile == null) return null;
 
@@ -113,19 +116,21 @@ public class PoolManager : Singleton<PoolManager>
 	/// <param name="_position">Spawn position for the Projectile.</param>
 	/// <param name="_target">Target that will determine the ParabolaProjectile's velocity.</param>
 	/// <param name="t">Time it should take the projectile to reach from its position to the given target.</param>
+	/// <param name="_object">GameObject that requests the Parabola [treated as the shooter]. Null by default.</param>
 	/// <returns>Requested Parabola Projectile.</returns>
-	public static Projectile RequestParabolaProjectile(Faction _faction, int _ID, Vector3 _position, Vector3 _target, float t)
+	public static Projectile RequestParabolaProjectile(Faction _faction, int _ID, Vector3 _position, Vector3 _target, float t, GameObject _object = null)
 	{
-		Projectile projectile = RequestProjectile(_faction, _ID, _position, Vector3.zero);
+		Projectile projectile = RequestProjectile(_faction, _ID, _position, Vector3.zero, _object);
 
 		if(projectile == null) return null;
 
 		Vector3 velocity = VPhysics.ProjectileDesiredVelocity(t, _position, _target, Physics.gravity);
-		float speed = velocity.magnitude;
+		float magnitude = velocity.magnitude;
 
 		projectile.projectileType = ProjectileType.Parabola;
-		projectile.direction = velocity.normalized;
-		projectile.speed = speed;
+		projectile.direction = (velocity / magnitude);
+		projectile.speed = magnitude;
+		projectile.parabolaTime = t;
 
 		return projectile;
 	}

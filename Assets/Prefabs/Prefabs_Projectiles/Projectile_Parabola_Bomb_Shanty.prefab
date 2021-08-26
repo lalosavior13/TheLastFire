@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7807340246942760902
+--- !u!1 &2589947249828966719
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,53 +8,45 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7807340246942760907}
-  - component: {fileID: 7807340246942760906}
-  - component: {fileID: 7807340246942760901}
-  - component: {fileID: 7807340246942760900}
-  - component: {fileID: 7807340246942760903}
-  - component: {fileID: 7890409840708403003}
-  - component: {fileID: 7890409840708402997}
-  - component: {fileID: 7807340246942760897}
-  - component: {fileID: -8338976305958156496}
+  - component: {fileID: 6543636702269058096}
+  - component: {fileID: 1159359681334182792}
+  - component: {fileID: 8316709360275506280}
   m_Layer: 15
-  m_Name: Projectile_Parabola_Bomb_Shanty
+  m_Name: Mesh_Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7807340246942760907
+--- !u!4 &6543636702269058096
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7807340246942760902}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_GameObject: {fileID: 2589947249828966719}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
-  m_Children:
-  - {fileID: 7890409840483429378}
-  - {fileID: 7890409840392654947}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_Children: []
+  m_Father: {fileID: 7807340246942760907}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7807340246942760906
+--- !u!33 &1159359681334182792
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7807340246942760902}
+  m_GameObject: {fileID: 2589947249828966719}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &7807340246942760901
+--- !u!23 &8316709360275506280
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7807340246942760902}
+  m_GameObject: {fileID: 2589947249828966719}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -66,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5661870941147316469, guid: 09dee00df2519e949a358dcd7b31c733, type: 3}
+  - {fileID: -876546973899608171, guid: 525584281fd8b6c499532179d707b3c0, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87,6 +79,44 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &7807340246942760902
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7807340246942760907}
+  - component: {fileID: 7807340246942760900}
+  - component: {fileID: 7807340246942760903}
+  - component: {fileID: 7890409840708402997}
+  - component: {fileID: 7807340246942760897}
+  - component: {fileID: -8338976305958156496}
+  m_Layer: 15
+  m_Name: Projectile_Parabola_Bomb_Shanty
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7807340246942760907
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7807340246942760902}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7890409840483429378}
+  - {fileID: 7890409840392654947}
+  - {fileID: 6543636702269058096}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &7807340246942760900
 Rigidbody2D:
   serializedVersion: 4
@@ -124,20 +154,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &7890409840708403003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7807340246942760902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fbf52b6a2f6ef847a9ffbc6f90f6da1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _impactTags: []
-  _force: {x: 0, y: 0, z: 0}
 --- !u!114 &7890409840708402997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,20 +180,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableTags: []
+  _healthAffectableTags:
+  - _tag: Player
+    index: 5
   _damage: 1
-  _damageScales: []
+  _damageScales:
+  - 1
   _impactTags: []
   _trailRenderers: []
-  _projectileType: 0
-  _repelTags: []
-  _speedMode: 0
+  _projectileType: 1
+  _repelTags:
+  - _tag: Weapon/Player
+    index: 9
+  - _tag: Weapon/Enemy
+    index: 10
+  _speedMode: 1
   _speed: 5
   _lifespan: 0
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
-  _maxSteeringForce: 0
-  _distance: 0
+  _maxSteeringForce: 5
+  _distance: 5
   _motionType: 0
   _axes:
     _x: 0
@@ -202,16 +225,14 @@ MonoBehaviour:
     index: 0
     objectIndex: 0
     collectionIndex: 0
-  gizmosColor: {r: 0, g: 0, b: 0, a: 0}
+  gizmosColor: {r: 1, g: 1, b: 1, a: 1}
   _expodableIndex:
     index: 0
     objectIndex: 0
     collectionIndex: 7
   _flamableTags:
-  - _tag: Respawn
-    index: 1
-  - _tag: Ball
-    index: 7
+  - _tag: Projectile/Player
+    index: 11
 --- !u!114 &-8338976305958156496
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -174,7 +174,7 @@ public class ChariotBehavior : DestinoScriptableCoroutine
 				homingProjectiles[i].ActivateHitBoxes(true);
 			}
 
-			boss.steeringSnake.InitializeLinkedList(Game.GetMateoPosition, homingProjectiles);
+			boss.steeringSnake.InitializeLinkedList(Game.mateo.transform, homingProjectiles);
 		}
 		else
 		{

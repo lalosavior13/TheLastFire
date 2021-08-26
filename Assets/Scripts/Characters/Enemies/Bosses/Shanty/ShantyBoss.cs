@@ -37,6 +37,9 @@ public class ShantyBoss : Boss
 	protected override void Awake()
 	{
 		base.Awake();
+
+		sword.owner = gameObject;
+		sword.ActivateHitBoxes(false);
 	}
 
 	/// <summary>ShantyBoss's starting actions before 1st Update frame.</summary>
@@ -48,14 +51,14 @@ public class ShantyBoss : Boss
 
 	private void ThrowBomb()
 	{
-		Projectile bomb = PoolManager.RequestParabolaProjectile(Faction.Enemy, bombIndex, skeleton.rightHand.position, Game.mateo.transform.position, projectionTime);
+		Projectile bomb = PoolManager.RequestParabolaProjectile(Faction.Enemy, bombIndex, skeleton.rightHand.position, Game.mateo.transform.position, projectionTime, gameObject);
 		bomb.projectileEventsHandler.onProjectileEvent -= OnBombEvent;
 		bomb.projectileEventsHandler.onProjectileEvent += OnBombEvent;
 	}
 
 	private void OnBombEvent(Projectile _projectile, int _eventID, Trigger2DInformation _info)
 	{
-		switch(_eventID)
+		/*switch(_eventID)
 		{
 			case Projectile.ID_EVENT_REPELLED:
 			ContactWeapon weapon = _info.collider.GetComponentInParent<ContactWeapon>();
@@ -79,7 +82,7 @@ public class ShantyBoss : Boss
 			_projectile.direction = velocity;
 			_projectile.speed = speed;
 			break;
-		}
+		}*/
 	}
 }
 }

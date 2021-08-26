@@ -166,7 +166,7 @@ public class MinionEnemy : Enemy
 				break;
 
 				case ProjectileType.Homing:
-				projectile = PoolManager.RequestHomingProjectile(Faction.Enemy, projectileIndex, muzzlePoint, direction, Game.GetMateoPosition);
+				projectile = PoolManager.RequestHomingProjectile(Faction.Enemy, projectileIndex, muzzlePoint, direction, Game.mateo.transform);
 				break;
 
 				case ProjectileType.Parabola:
