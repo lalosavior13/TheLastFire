@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Voidless;
+using UnityEngine.Audio;
 
 /*
  - Calculate the total of Moskars to destroy:
@@ -23,28 +24,31 @@ namespace Flamingo
 public class MoskarSceneController : Singleton<MoskarSceneController>
 {
 	[Space(5f)]
-	[SerializeField] private MoskarBoss _main; 					/// <summary>Initial Moskar's Reference.</summary>
+	[SerializeField] private MoskarBoss _main; 						/// <summary>Initial Moskar's Reference.</summary>
 	[Space(5f)]
 	[Header("Reproductions' Atrributes:")]
-	[SerializeField] private CollectionIndex _moskarIndex; 		/// <summary>Moskar's Index.</summary>
-	[SerializeField] private float _reproductionDuration; 		/// <summary>Reproduction Duration. Determines how long it lasts the reproduction's displacement and scaling.</summary>
-	[SerializeField] private float _reproductionPushForce; 		/// <summary>Reproduction's Push Force.</summary>
-	[SerializeField] private float _reproductionCountdown; 		/// <summary>Duration before creating another round of moskars.</summary>
+	[SerializeField] private CollectionIndex _moskarIndex; 			/// <summary>Moskar's Index.</summary>
+	[SerializeField] private float _reproductionDuration; 			/// <summary>Reproduction Duration. Determines how long it lasts the reproduction's displacement and scaling.</summary>
+	[SerializeField] private float _reproductionPushForce; 			/// <summary>Reproduction's Push Force.</summary>
+	[SerializeField] private float _reproductionCountdown; 			/// <summary>Duration before creating another round of moskars.</summary>
 	[Space(5f)]
 	[Header("Music's Attributes:")]
-	[SerializeField] private FloatRange _waitBetweenPiece; 		/// <summary>Wait Duration Between each piece.</summary>
-	[SerializeField] private CollectionIndex[] _piecesIndices; 	/// <summary>Pieces' Indices.</summary>
-	[SerializeField] private int _sampleJumping; 				/// <summary>Sample Jumping by each iteration.</summary>
-	private Boundaries2DContainer _moskarBoundaries; 			/// <summary>Moskar's Boundaries.</summary>
-	private HashSet<MoskarBoss> _moskarReproductions; 			/// <summary>Moskar's Reproductions.</summary>
+	[SerializeField] private FloatRange _waitBetweenPiece; 			/// <summary>Wait Duration Between each piece.</summary>
+	[SerializeField] private CollectionIndex[] _piecesIndices; 		/// <summary>Pieces' Indices.</summary>
+	[SerializeField] private CollectionIndex _flyLoop; 				/// <summary>Fly's Loop Index.</summary>
+	[SerializeField] private int _remainingMoskarsForLastPiece; 	/// <summary>Maximum required of remaining Moskars for the last piece's loop to be reproduced.</summary>
+	[SerializeField] private int _sampleJumping; 					/// <summary>Sample Jumping by each iteration.</summary>
+	private Boundaries2DContainer _moskarBoundaries; 				/// <summary>Moskar's Boundaries.</summary>
+	private HashSet<MoskarBoss> _moskarReproductions; 				/// <summary>Moskar's Reproductions.</summary>
 #if UNITY_EDITOR
 	[Space(5f)]
 	[Header("Gizmos' Attributes:")]
-	[SerializeField] private Color gizmosColor; 				/// <summary>Gizmos' Color.</summary>
-	[SerializeField] private float gizmosRadius; 				/// <summary>Gizmos' Radius.</summary>
+	[SerializeField] private Color gizmosColor; 					/// <summary>Gizmos' Color.</summary>
+	[SerializeField] private float gizmosRadius; 					/// <summary>Gizmos' Radius.</summary>
 #endif
-	private Coroutine moskarReproductionsCountdown; 			/// <summary>MoskarReproductionsCountdown's Coroutine reference.</summary>
-	private int _totalMoskars; 									/// <summary>Total of Moskars.</summary>
+	private Coroutine moskarReproductionsCountdown; 				/// <summary>MoskarReproductionsCountdown's Coroutine reference.</summary>
+	private float _totalMoskars; 									/// <summary>Total of Moskars.</summary>
+	private float _moskarsDestroyed; 								/// <summary>Moskars Destroyed.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets main property.</summary>
@@ -78,6 +82,13 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 		set { _reproductionCountdown = value; }
 	}
 
+	/// <summary>Gets and Sets remainingMoskarsForLastPiece property.</summary>
+	public int remainingMoskarsForLastPiece
+	{
+		get { return _remainingMoskarsForLastPiece; }
+		set { _remainingMoskarsForLastPiece = value; }
+	}
+
 	/// <summary>Gets and Sets sampleJumping property.</summary>
 	public int sampleJumping
 	{
@@ -99,6 +110,13 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 		set { _piecesIndices = value; }
 	}
 
+	/// <summary>Gets and Sets flyLoop property.</summary>
+	public CollectionIndex flyLoop
+	{
+		get { return _flyLoop; }
+		set { _flyLoop = value; }
+	}
+
 	/// <summary>Gets moskarBoundaries Component.</summary>
 	public Boundaries2DContainer moskarBoundaries
 	{ 
@@ -117,10 +135,17 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 	}
 
 	/// <summary>Gets and Sets totalMoskars property.</summary>
-	public int totalMoskars
+	public float totalMoskars
 	{
 		get { return _totalMoskars; }
 		set { _totalMoskars = value; }
+	}
+
+	/// <summary>Gets and Sets moskarsDestroyed property.</summary>
+	public float moskarsDestroyed
+	{
+		get { return _moskarsDestroyed; }
+		set { _moskarsDestroyed = value; }
 	}
 #endregion
 
@@ -129,23 +154,42 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 	{
 		moskarReproductions = new HashSet<MoskarBoss>();
 
+		AudioController.Play(SourceType.Scenario, 0, flyLoop, true);
+
 // --- Begins New Implementation: ---
 		if(main != null)
 		{
 			moskarReproductions.Add(main);
 			main.eventsHandler.onEnemyDeactivated += OnMoskarDeactivated;
 
-			totalMoskars = 0;
+			totalMoskars = 0.0f;
 
 			for(float i = 0; i < main.phases; i++)
 			{
-				totalMoskars += (int)Mathf.Pow(2.0f, i);
+				totalMoskars += Mathf.Pow(2.0f, i);
 			}
 		}
 // --- Ends New Implementation: ---
 
 // --- Old Implementation: ---
 		//this.StartCoroutine(MoskarReproductionsCountdown(), ref moskarReproductionsCountdown);
+	}
+
+	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>
+	private void Start()
+	{
+		//StartCoroutine(TEST());
+		if(piecesIndices != null)
+		{
+			CollectionIndex index = default(CollectionIndex);
+
+			for(int i = 0; i < piecesIndices.Length; i++)
+			{
+				index = piecesIndices[i];
+				AudioController.Play(SourceType.Loop, i, index, true);
+				AudioController.SetVolume(SourceType.Loop, i, 0.0f);
+			}
+		}
 	}
 
 	/// <summary>Updates MoskarSceneController's instance at each frame.</summary>
@@ -222,9 +266,21 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 			}
 		}
 
-		totalMoskars--;
+		moskarsDestroyed++;
+
+		float mt = moskarsDestroyed / (totalMoskars - (float)remainingMoskarsForLastPiece);
+
+		for(int i = 0; i < Mathf.Lerp(0, piecesIndices.Length, mt); i++)
+		{
+			AudioController.SetVolume(SourceType.Loop, i, 1.0f);
+		}
+
 		Debug.Log("[MoskarSceneController] Total Moskars Remaining: " + totalMoskars);
-		if(totalMoskars <= 0) Debug.Log("[MoskarSceneController] Finished!!!");
+		if(moskarsDestroyed >= totalMoskars)
+		{
+			AudioController.Stop(SourceType.Scenario, 0);
+			Debug.Log("[MoskarSceneController] Finished!!!");
+		}
 
 // --- Ends New Implementation ---
 
@@ -235,6 +291,30 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 			Debug.Log("[MoskarSceneController] Finished!!");
 		}*/
 // --- Ends Old Implementation: ---
+	}
+
+	private IEnumerator TEST()
+	{
+		if(piecesIndices == null) yield break;
+
+		Debug.Log("[MoskarSceneController] Methods from AudioMixerGroup: " + VString.GetMethods(typeof(AudioMixerGroup)));
+		Debug.Log("[MoskarSceneController] Methods from AudioMixer: " + VString.GetMethods(typeof(AudioMixer)));
+		
+		float time = 3.0f;
+		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
+
+		for(int i = 0; i < piecesIndices.Length; i++)
+		{
+			AudioController.SetVolume(SourceType.Loop, i, 0.0f);
+		}
+
+		for(int i = 0; i < piecesIndices.Length; i++)
+		{
+			wait.ChangeDurationAndReset(time);
+			while(wait.MoveNext()) yield return null;
+			Debug.Log("[MoskarSceneController] Setting volume of source index " + i + " to 1.0f");
+			AudioController.SetVolume(SourceType.Loop, i, 1.0f);
+		}
 	}
 
 	/// <summary>Pieces' Routine.</summary>

@@ -306,7 +306,7 @@ MonoBehaviour:
   _distributionSystem:
     _probabilityRanges: []
   _animator: {fileID: 0}
-  _phases: 5
+  _phases: 4
   _scaleRange:
     _min: 1
     _max: 5
@@ -324,14 +324,14 @@ MonoBehaviour:
     _max: 8
   _minDistanceToReachWaypoint: 0.45
   _wanderSpeed:
-    _min: 2.5
+    _min: 1
     _max: 5
   _wanderInterval:
     _min: 0.2
     _max: 0.35
   _evasionSpeed:
-    _min: 10
-    _max: 25
+    _min: 25
+    _max: 50
   _projectileIndex:
     index: 1
     objectIndex: 0

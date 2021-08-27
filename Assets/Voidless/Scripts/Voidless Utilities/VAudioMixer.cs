@@ -14,7 +14,9 @@ public static class VAudioMixer
 	/// <param name="_volume">Desired volume [on a normalized range].</param>
 	public static void SetVolume(this AudioMixer _mixer, string _parameter, float _volume)
 	{
-		float v = 0.0f;
+		if(_mixer == null) return;
+
+		_volume = Mathf.Clamp(_volume, 0.0001f, 1.0f);
 		_mixer.SetFloat(_parameter, Mathf.Log10(_volume) * 20.0f);
 	}
 
@@ -27,6 +29,8 @@ public static class VAudioMixer
 	/// <param name="onFadeEnds">Optionall callback invoked when the fade ends [null by default].</param>
 	public static IEnumerator FadeVolume(this AudioMixer _mixer, string _parameter, float _duration, float _volume, Action onFadeEnds = null)
 	{
+		if(_mixer == null) yield break;
+
 		float targetVolume = Mathf.Clamp(_volume, 0.0001f, 1.0f);
 		float newVolume = 0.0f;
 		float t = 0.0f;

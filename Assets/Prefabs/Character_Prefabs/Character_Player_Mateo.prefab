@@ -1593,8 +1593,8 @@ MonoBehaviour:
     objectIndex: 0
     collectionIndex: 0
   _speedRange:
-    _min: 5
-    _max: 15
+    _min: 15
+    _max: 35
   _chargedProjectileID:
     index: 1
     objectIndex: 0

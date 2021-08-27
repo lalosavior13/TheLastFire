@@ -94,7 +94,7 @@ public class AudioController : Singleton<AudioController>
 	public static AudioSource GetLoopSource(int index = 0)
 	{
 		AudioSource[] sources = Instance._loopSources;
-		return sources != null ? sources[Mathf.Clamp(index, 0, sources.Length)] : null;
+		return sources != null ? sources[Mathf.Clamp(index, 0, sources.Length - 1)] : null;
 	}
 
 	/// <summary>Gets Scenario's AudioSource on the given index.</summary>
@@ -103,7 +103,7 @@ public class AudioController : Singleton<AudioController>
 	public static AudioSource GetScenarioSource(int index = 0)
 	{
 		AudioSource[] sources = Instance._scenarioSources;
-		return sources != null ? sources[Mathf.Clamp(index, 0, sources.Length)] : null;
+		return sources != null ? sources[Mathf.Clamp(index, 0, sources.Length - 1)] : null;
 	}
 
 	/// <summary>Gets Mateo's AudioSource on the given index.</summary>
@@ -112,7 +112,7 @@ public class AudioController : Singleton<AudioController>
 	public static AudioSource GetSoundEffectSource(int index = 0)
 	{
 		AudioSource[] sources = Instance._soundEffectSources;
-		return sources != null ? sources[Mathf.Clamp(index, 0, sources.Length)] : null;
+		return sources != null ? sources[Mathf.Clamp(index, 0, sources.Length - 1)] : null;
 	}
 
 	/// <summary>Stops AudioSource, then assigns and plays AudioClip.</summary>
@@ -233,7 +233,7 @@ public class AudioController : Singleton<AudioController>
 			()=>
 			{
 				source.Stop();
-				source.clip = null;
+				//source.clip = null;
 				mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
 				source.time = 0.0f;
 				if(onStopEnds != null) onStopEnds();
@@ -244,7 +244,7 @@ public class AudioController : Singleton<AudioController>
 		{
 			source.Stop();
 			source.clip = null;
-			mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
+			//mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
 			source.time = 0.0f;
 			if(onStopEnds != null) onStopEnds();
 		}
@@ -280,10 +280,29 @@ public class AudioController : Singleton<AudioController>
 			source.clip = null;
 			//Instance.StopFSMAudioClip(source, ref Instance.loopFSMCoroutines[_sourceIndex]);
 			source.Stop();
-			mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
+			//mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
 			source.time = 0.0f;
 			if(onStopEnds != null) onStopEnds();
 		}
+	}
+
+	/// <summary>Sets the volume of given AudioMixer located on given SourceIndex.</summary>
+	/// <param name="_type">Source's Type.</param>
+	/// <param name="_sourceIndex">Source's Index.</param>
+	/// <param name="_volume">New Volume [1.0f by default].</param>
+	public static void SetVolume(SourceType _type, int _sourceIndex, float _volume = 1.0f)
+	{
+		AudioSource source = GetAudioSource(_type, _sourceIndex);
+
+		if(source == null) return;
+		//if(source.clip == null || !source.isPlaying) return;
+
+		AudioMixer mixer = source.outputAudioMixerGroup.audioMixer;
+
+		if(mixer == null) return;
+		float x = 0.0f;
+		mixer.GetFloat(Instance.exposedVolumeParameterName, out x);
+		mixer.SetVolume(Instance.exposedVolumeParameterName + _sourceIndex, _volume);
 	}
 
 	/// <summary>Stacks and plays AudioClip on the given AudioSource.</summary>

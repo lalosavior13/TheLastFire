@@ -84,6 +84,10 @@ public class Mateo : Character
 	[SerializeField] private AnimatorCredential _impactedWithWallCredential; 	/// <summary>Impacted w/ Wall's Animator Credential.</summary>
 	[Space(5f)]
 	[SerializeField] private TrailRenderer _extraJumpTrailRenderer; 			/// <summary>Extra-Jump's Trail Renderer.</summary>
+	[Space(5f)]
+	[Header("Meditation's Attributes:")]
+	[SerializeField] private float _meditationWaitDuration; 					/// <summary>Meditation Wait's Duration.</summary>
+	private float _meditationWaitTime; 											/// <summary>Current Meditation's Time.</summary>
 	private RigidbodyMovementAbility _movementAbility; 							/// <summary>RigidbodyMovementAbility's Component.</summary>
 	private RotationAbility _rotationAbility; 									/// <summary>RotationAbility's Component.</summary>
 	private JumpAbility _jumpAbility; 											/// <summary>JumpAbility's Component.</summary>
@@ -135,6 +139,16 @@ public class Mateo : Character
 
 	/// <summary>Gets jumpingMovementScale property.</summary>
 	public float jumpingMovementScale { get { return _jumpingMovementScale; } }
+
+	/// <summary>Gets meditationWaitDuration property.</summary>
+	public float meditationWaitDuration { get { return _meditationWaitDuration; } }
+
+	/// <summary>Gets and Sets meditationWaitTime property.</summary>
+	public float meditationWaitTime
+	{
+		get { return _meditationWaitTime; }
+		set { _meditationWaitTime = value; }
+	}
 
 	/// <summary>Gets directionalThresholdX property.</summary>
 	public FloatRange directionalThresholdX { get { return _directionalThresholdX; } }
@@ -393,6 +407,8 @@ public class Mateo : Character
 
 		animator.SetBool(walledCredential, wallEvaluator.walled);
 		animator.SetBool(brakingCredential, movementAbility.braking);
+
+		MeditationEvaluation();
 	}
 
 	/// <summary>Callback for setting up animation IK (inverse kinematics).</summary>
@@ -757,6 +773,22 @@ public class Mateo : Character
 		if(animator != null) animator.transform.rotation = _target == StareTarget.Boss ? stareAtBossRotation : stareAtPlayerRotation;
 	}
 #endregion
+
+	/// <summary>Evaluates for Meditation.</summary>
+	private void MeditationEvaluation()
+	{
+		if(jumpAbility.HasStates(JumpAbility.STATE_ID_GROUNDED) && deltaCalculator.velocity.sqrMagnitude == 0.0f)
+		{
+			meditationWaitTime += Time.deltaTime;
+
+			if(meditationWaitTime >= meditationWaitDuration)
+			{
+				Debug.Log("[Mateo] MEDITATE!!!");
+				PerformInitialPose(true, ID_INITIALPOSE_MEDITATING);
+			}
+		}
+		else meditationWaitTime = 0.0f;
+	}
 
 /// \TODO Eventually Remove:
 #region TESTs:

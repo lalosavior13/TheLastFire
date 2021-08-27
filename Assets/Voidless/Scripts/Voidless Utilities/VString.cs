@@ -1,4 +1,5 @@
 using System.Text;
+using System.Reflection;
 using System;
 using System.Collections.Generic;
 
@@ -316,5 +317,37 @@ public static class VString
 
 		return builder.ToString();
 	}*/
+
+	/// <summary>Gets Methods from object.</summary>
+	/// <param name="_object">Object.</param>
+	/// <returns>Methods' Information from given object.</returns>
+	public static string GetMethods(object _object)
+	{
+		return GetMethods(_object.GetType());
+	}
+
+	/// <summary>Gets Methods from object.</summary>
+	/// <param name="type">Type.</param>
+	/// <returns>Methods' Information from given object.</returns>
+	public static string GetMethods(Type type)
+	{
+		StringBuilder builder = new StringBuilder();
+		MemberInfo[] membersInfo = type.GetMembers();
+		int i = 0;
+
+		builder.Append(type.Name);
+		builder.AppendLine("'s Members' Information: ");
+
+		if(membersInfo != null) foreach(MemberInfo memberInfo in membersInfo)
+		{
+			builder.Append("Member info #");
+			builder.Append(i.ToString());
+			builder.Append(": ");
+			builder.AppendLine(memberInfo.ToString());
+			i++;
+		}
+
+		return builder.ToString();
+	}
 }
 }
