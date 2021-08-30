@@ -7,6 +7,7 @@ using Voidless;
 namespace Flamingo
 {
 [RequireComponent(typeof(Health))]
+[RequireComponent(typeof(EventsHandler))]
 public class Character : PoolGameObject, IStateMachine
 {
 	public event OnIDEvent onIDEvent; 				/// <summary>OnIDEvent's delegate.</summary>
@@ -23,6 +24,7 @@ public class Character : PoolGameObject, IStateMachine
 	private int _previousState; 					/// <summary>Character's Previous Current State.</summary>
 	public int ignoreResetMask { get; set; } 		/// <summary>Mask that selectively contains state to ignore resetting if they were added again [with AddState's method]. As it is 0 by default, it won't ignore resetting any state [~0 = 11111111]</summary>
 	private Health _health; 						/// <summary>Health's Component.</summary>
+	private EventsHandler _eventsHandler; 			/// <summary>EventsHandler's Component.</summary>
 
 	/// <summary>Gets and Sets state property.</summary>
 	public int state
@@ -45,6 +47,16 @@ public class Character : PoolGameObject, IStateMachine
 		{
 			if(_health == null) _health = GetComponent<Health>();
 			return _health;
+		}
+	}
+
+	/// <summary>Gets eventsHandler Component.</summary>
+	public EventsHandler eventsHandler
+	{ 
+		get
+		{
+			if(_eventsHandler == null) _eventsHandler = GetComponent<EventsHandler>();
+			return _eventsHandler;
 		}
 	}
 
@@ -115,7 +127,7 @@ public class Character : PoolGameObject, IStateMachine
 	/// <param name="_ID">Event's ID.</param>
 	protected virtual void InvokeIDEvent(int _ID)
 	{
-		if(onIDEvent != null) onIDEvent(_ID);
+		eventsHandler.InvokeIDEvent(_ID);
 	}
 
 	public void EmitSoundEffect(CollectionIndex _index, int _source = 0, float _volumeScale = 1.0f)

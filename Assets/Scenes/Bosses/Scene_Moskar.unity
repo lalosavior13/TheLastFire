@@ -448,16 +448,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character_Player_Mateo
       objectReference: {fileID: 0}
-    - target: {fileID: 5122952807910987794, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
-        type: 3}
-      propertyPath: _speedRange._min
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5122952807910987794, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
-        type: 3}
-      propertyPath: _speedRange._max
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 5122952807910987803, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -515,8 +505,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5122952807910987807, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
         type: 3}
+      propertyPath: _initialPoseIDCredential._tag
+      value: StationaryPoseID
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122952807910987807, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
+        type: 3}
+      propertyPath: _initialPoseIDCredential._ID
+      value: -8259328
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122952807910987807, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
+        type: 3}
       propertyPath: _meditationWaitDuration
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}

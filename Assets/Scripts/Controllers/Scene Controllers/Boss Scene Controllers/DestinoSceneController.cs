@@ -205,7 +205,7 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 		destino.onIDEvent += OnDestinoIDEvent;
 		Game.mateo.onIDEvent += OnMateoIDEvent;
 		
-		Game.mateo.PerformInitialPose();
+		Game.mateo.PerformPose();
 
 		Game.ResetFSMLoopStates();
 

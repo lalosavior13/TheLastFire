@@ -107,7 +107,9 @@ public static class VInterfaces
 
 		_sm.previousState = states;
 		_sm.state |= _states;
-		_sm.OnStatesAdded(~states & _states); /// Get Added [not previously on] Flags: ~a & b 
+
+		int addedStates = ~states & _states;
+		if(addedStates != 0) _sm.OnStatesAdded(addedStates); /// Get Added [not previously on] Flags: ~a & b 
 	}
 
 	/// <summary>Removes State to a State Machine.</summary>

@@ -111,7 +111,7 @@ void Cheer2()
 	/// <summary>TrainingGroundController's instance initialization.</summary>
 	protected override void OnAwake()
 	{
-		//mateo.PerformInitialPose(true);
+		//mateo.PerformPose(true);
 		//mateo.StareTowards(StareTarget.Player);
 
 		if(targetImpactHandlers != null) foreach(EventsHandler handler in targetImpactHandlers)

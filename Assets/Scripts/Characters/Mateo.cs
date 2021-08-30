@@ -26,11 +26,13 @@ namespace Flamingo
 [RequireComponent(typeof(VCameraTarget))]
 public class Mateo : Character
 {
-	public const int ID_STATE_INITIALPOSE = 1 << 4; 							/// <summary>Initial Pose's State ID.</summary>
 	public const int ID_INITIALPOSE_STARRINGATPLAYER = 0; 						/// <summary>Starring At Player's Initial Pose's ID.</summary>
+	public const int ID_INITIALPOSE_STARRINGATBACKGROUND = 0; 					/// <summary>Starring At Background's Initial Pose's ID.</summary>
 	public const int ID_INITIALPOSE_MEDITATING = 1; 							/// <summary>Meditation Initial Pose's ID.</summary>
+	public const int ID_STATE_INITIALPOSE = 1 << 4; 							/// <summary>Initial Pose's State ID.</summary>
 	public const int ID_STATE_MEDITATING = 1 << 4; 								/// <summary>Meditating's State ID.</summary>
 	public const int ID_EVENT_INITIALPOSE_ENDED = 0; 							/// <summary>Mateo Initial-Pose-Finished's Event ID.</summary>
+	public const int ID_EVENT_MEDITATION_BEGINS = 1; 							/// <summary>Meditation Begins' Event.</summary>
 
 	[Header("Rotations:")]
 	[SerializeField] private EulerRotation _stareAtBossRotation; 				/// <summary>Stare at Boss's Rotation.</summary>
@@ -405,7 +407,7 @@ public class Mateo : Character
 
 		if(animator == null) return;
 
-		animator.SetBool(walledCredential, wallEvaluator.walled);
+		//animator.SetBool(walledCredential, wallEvaluator.walled);
 		animator.SetBool(brakingCredential, movementAbility.braking);
 
 		MeditationEvaluation();
@@ -597,14 +599,16 @@ public class Mateo : Character
 	/// <summary>Makes Mateo Perform its initial pose.</summary>
 	/// <param name="_perform">Perform Initial Pose? True by default.</param>
 	/// <param name="_ID">Initial Pose's ID [Staring at Player's Pose ID by default].</param>
-	public void PerformInitialPose(bool _perform = true, int _initialPoseID = ID_INITIALPOSE_STARRINGATPLAYER)
+	public void PerformPose(bool _perform = true, int _initialPoseID = ID_INITIALPOSE_STARRINGATPLAYER)
 	{
 		if(_perform)
 		{
 			this.AddStates(ID_STATE_MEDITATING);
-			animator.SetTrigger(initialPoseCredential);
+			//animator.SetTrigger(initialPoseCredential);
 			animator.SetInteger(initialPoseIDCredential, _initialPoseID);
-			if(postInitialPoseCooldown != null) postInitialPoseCooldown.End();
+
+			animator.SetAllLayersWeight(0.0f);
+			//if(postInitialPoseCooldown != null) postInitialPoseCooldown.End();
 		}
 		else
 		{
@@ -640,11 +644,7 @@ public class Mateo : Character
 		|| (wallEvaluator.walled && Mathf.Sign(_axes.x) == Mathf.Sign(direction.x))
 		|| postInitialPoseCooldown.onCooldown) return;
 
-		if(this.HasStates(ID_STATE_MEDITATING))
-		{
-			PerformInitialPose(false);
-			return;
-		}
+		CancelMeditation();
 
 		float scale = (jumpAbility.HasStates(JumpAbility.STATE_ID_JUMPING) ? jumpingMovementScale : 1.0f) * _scale;
 
@@ -661,6 +661,8 @@ public class Mateo : Character
 		if(this.HasStates(ID_STATE_HURT)
 		|| !this.HasStates(ID_STATE_ALIVE)
 		|| (jumpAbility.grounded && attacksHandler.state != AttackState.None)) return;
+
+		CancelMeditation();
 
 		jumpAbility.Jump(_axes);
 
@@ -682,6 +684,7 @@ public class Mateo : Character
 	{
 		if(this.HasStates(ID_STATE_HURT) || !this.HasStates(ID_STATE_ALIVE) || Mathf.Abs(leftAxes.x) < Mathf.Abs(dashXThreshold)) return;
 
+		CancelMeditation();
 		dashAbility.Dash(orientation);
 	}
 
@@ -702,6 +705,7 @@ public class Mateo : Character
 		|| wallEvaluator.state == WallEvaluationEvent.Bouncing
 		|| jumpAbility.HasStates(JumpAbility.STATE_ID_LANDING)) return;
 			
+		CancelMeditation();
 
 		int index = 0;
 		bool applyDirectional = directionalThresholdX.ValueOutside(leftAxes.x) || directionalThresholdY.ValueOutside(leftAxes.y);
@@ -734,6 +738,8 @@ public class Mateo : Character
 	{
 		if(this.HasStates(ID_STATE_HURT) || !this.HasStates(ID_STATE_ALIVE)) return;
 
+		CancelMeditation();
+		
 		int chargeStateID = shootProjectile.OnCharge(_axes);
 		animator.SetInteger(shootingStateIDCredential, chargeStateID);
 	}
@@ -764,6 +770,7 @@ public class Mateo : Character
 	private void OnPostMeditationEnds()
 	{
 		this.RemoveStates(ID_STATE_MEDITATING);
+		animator.SetAllLayersWeight(1.0f);
 	}
 
 	/// <summary>Changes rotation towards given target.</summary>
@@ -777,17 +784,31 @@ public class Mateo : Character
 	/// <summary>Evaluates for Meditation.</summary>
 	private void MeditationEvaluation()
 	{
-		if(jumpAbility.HasStates(JumpAbility.STATE_ID_GROUNDED) && deltaCalculator.velocity.sqrMagnitude == 0.0f)
+		if(jumpAbility.HasStates(JumpAbility.STATE_ID_GROUNDED)
+		&& deltaCalculator.velocity.sqrMagnitude == 0.0f
+		&& !postInitialPoseCooldown.onCooldown)
 		{
 			meditationWaitTime += Time.deltaTime;
 
-			if(meditationWaitTime >= meditationWaitDuration)
+			if(meditationWaitTime >= meditationWaitDuration && !this.HasStates(ID_STATE_MEDITATING))
 			{
 				Debug.Log("[Mateo] MEDITATE!!!");
-				PerformInitialPose(true, ID_INITIALPOSE_MEDITATING);
+				this.AddStates(ID_STATE_MEDITATING);
+				PerformPose(true, ID_INITIALPOSE_MEDITATING);
+				InvokeIDEvent(ID_EVENT_MEDITATION_BEGINS);
 			}
 		}
 		else meditationWaitTime = 0.0f;
+	}
+
+	/// <summary>Cancels Meditation.</summary>
+	private void CancelMeditation()
+	{
+		if(this.HasStates(ID_STATE_MEDITATING))
+		{
+			PerformPose(false);
+			return;
+		}
 	}
 
 /// \TODO Eventually Remove:
