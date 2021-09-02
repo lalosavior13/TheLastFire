@@ -74,13 +74,51 @@ public static class VQuaternion
 		));
 	}
 
+	/// <summary>Gets a rotation where the forward vector would be the vector oriented towards the direction.</summary>
+	/// <param name="d">Turn direction.</param>
+	/// <param name="up">Upwards vector's reference.</param>
+	/// <returns>Rotation for the forward vector to be oriented.</returns>
+	public static Quaternion LookRotation(Vector3 d, Vector3 up)
+	{
+		return Quaternion.LookRotation(d, d.x >= 0.0f ? up : -up);
+	}
+
+	/// <summary>Gets a rotation where the forward vector would be the vector oriented towards the direction.</summary>
+	/// <param name="d">Turn direction.</param>
+	/// <returns>Rotation for the forward vector to be oriented.</returns>
+	public static Quaternion LookRotation(Vector3 d)
+	{
+		return LookRotation(d, Vector3.up);
+	}
+
 	/// <summary>Gets a rotation where the right vector would be the vector oriented towards the direction.</summary>
 	/// <param name="d">Turn direction.</param>
 	/// <param name="up">Upwards vector's reference.</param>
 	/// <returns>Rotation for the right vector to be oriented.</returns>
 	public static Quaternion RightLookRotation(Vector3 d, Vector3 up)
 	{
-		return Quaternion.LookRotation(d, up) * Quaternion.Inverse(ROTATION_OFFSET_RIGHT);
+#region NO_BOSS
+		/*
+		// Attempt: https://www.gamedev.net/forums/topic/613595-quaternion-lookrotationlookat-up/
+		Vector3 forward = d.normalized;
+		Vector3 right = Vector3.zero;
+		Quaternion r = default(Quaternion);
+		float iW = 0.0f;
+
+		Vector3.OrthoNormalize(ref up, ref forward);
+		right = Vector3.Cross(forward, up);
+		
+
+		r.w = Mathf.Sqrt(1.0f + right.x + up.y + forward.z) * 0.5f;
+		iW = 1.0f / (4.0f * r.w);
+		r.x = (forward.y  - up.z) * iW;
+		r.y = (right.z  - forward.x) * iW;
+		r.z = (up.x  - right.y) * iW;
+
+		return r;*/
+#endregion
+		
+		return LookRotation(d, up) * Quaternion.Inverse(ROTATION_OFFSET_RIGHT);
 	}
 
 	/// <summary>Gets a rotation where the up vector would be the vector oriented towards the direction.</summary>

@@ -324,7 +324,7 @@ public class Projectile : ContactWeapon
 
 #if UNITY_EDITOR
 	/// <summary>Draws Gizmos on Editor mode.</summary>
-	private void OnDrawGizmos()
+	protected virtual void OnDrawGizmos()
 	{
 		Gizmos.color = gizmosColor;
 

@@ -242,7 +242,14 @@ public class MoskarBoss : Boss
 
 		Game.AddTargetToCamera(cameraTarget);
 		sightSensor.onSightEvent += OnSightEvent;
+	}
 
+	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>
+	protected override void Start()
+	{
+		base.Start();
+
+		if(currentPhase == 0)
 		this.AddStates(ID_STATE_IDLE);
 	}
 
@@ -277,10 +284,12 @@ public class MoskarBoss : Boss
 			{
 				case HitColliderEventTypes.Enter:
 				this.AddStates(ID_STATE_PLAYERONSIGHT);
+				eventsHandler.InvokeIDEvent(ID_EVENT_PLAYERSIGHTED_BEGINS);
 				break;
 
 				case HitColliderEventTypes.Exit:
 				this.RemoveStates(ID_STATE_PLAYERONSIGHT);
+				//eventsHandler.InvokeIDEvent(ID_EVENT_PLAYERSIGHTED_ENDS);
 				break;
 			}
 		}
@@ -366,7 +375,7 @@ public class MoskarBoss : Boss
 
 		//this.StartCoroutine(WarningBehavior(), ref behaviorCoroutine);
 		this.StartCoroutine(WanderBehaviour(), ref behaviorCoroutine);
-		this.StartCoroutine(SerenityEvaluation(), ref serenityEvaluation);
+		//this.StartCoroutine(SerenityEvaluation(), ref serenityEvaluation);
 	}
 
 	/// <summary>Enters Attack State.</summary>
@@ -381,7 +390,7 @@ public class MoskarBoss : Boss
 
 		this.StartCoroutine(ErraticFlyingBehavior(), ref behaviorCoroutine);
 		this.StartCoroutine(AttackBehavior(), ref attackCoroutine);
-		this.StartCoroutine(SerenityEvaluation(), ref serenityEvaluation);
+		//this.StartCoroutine(SerenityEvaluation(), ref serenityEvaluation);
 	}
 
 	/// <summary>Wander's Steering Beahviour Coroutine.</summary>
@@ -410,7 +419,8 @@ public class MoskarBoss : Boss
 					}*/
 
 					rigidbody.MoveIn3D(force * Time.fixedDeltaTime);
-					transform.rotation = VQuaternion.RightLookRotation(force);
+					//transform.rotation = VQuaternion.RightLookRotation(force);
+					transform.rotation = VQuaternion.LookRotation(force);
 					direction = wanderForce - transform.position;
 				}
 
@@ -440,7 +450,8 @@ public class MoskarBoss : Boss
 			{
 				fleeForce = vehicle.GetFleeForce(projectedMateoPosition);
 				rigidbody.MoveIn3D(fleeForce * Time.fixedDeltaTime);
-				transform.rotation = VQuaternion.RightLookRotation(fleeForce);
+				//transform.rotation = VQuaternion.RightLookRotation(fleeForce);
+				transform.rotation = VQuaternion.LookRotation(fleeForce);
 			}
 
 			if(magnitude <= (dangerRadius * dangerRadius)) this.AddStates(ID_STATE_ATTACK);
@@ -471,7 +482,8 @@ public class MoskarBoss : Boss
 				{
 					Vector3 seekForce = vehicle.GetSeekForce(waypoint);
 					rigidbody.MoveIn3D(seekForce * Time.fixedDeltaTime);
-					transform.rotation = VQuaternion.RightLookRotation(seekForce);
+					//transform.rotation = VQuaternion.RightLookRotation(seekForce);
+					transform.rotation = VQuaternion.LookRotation(seekForce);
 					direction = waypoint - transform.position;
 
 					yield return VCoroutines.WAIT_PHYSICS_THREAD;

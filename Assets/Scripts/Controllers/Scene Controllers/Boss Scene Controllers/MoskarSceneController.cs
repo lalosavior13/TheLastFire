@@ -160,7 +160,7 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 		if(main != null)
 		{
 			moskarReproductions.Add(main);
-			main.eventsHandler.onEnemyDeactivated += OnMoskarDeactivated;
+			SubscribeToMoskarEvents(main);
 
 			totalMoskars = 0.0f;
 
@@ -169,6 +169,8 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 				totalMoskars += Mathf.Pow(2.0f, i);
 			}
 		}
+
+		Game.mateo.eventsHandler.onIDEvent += OnMateoIDEvent;
 // --- Ends New Implementation: ---
 
 // --- Old Implementation: ---
@@ -178,7 +180,6 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>
 	private void Start()
 	{
-		//StartCoroutine(TEST());
 		if(piecesIndices != null)
 		{
 			CollectionIndex index = default(CollectionIndex);
@@ -190,6 +191,12 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 				AudioController.SetVolume(SourceType.Loop, i, 0.0f);
 			}
 		}
+	}
+
+	/// <summary>Callback invoked when MoskarSceneController's instance is going to be destroyed and passed to the Garbage Collector.</summary>
+	private void OnDestroy()
+	{
+		//Game.mateo.eventsHandler.onIDEvent -= OnMateoIDEvent;
 	}
 
 	/// <summary>Updates MoskarSceneController's instance at each frame.</summary>
@@ -212,6 +219,22 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 		}
 	}
 
+	/// <summary>Callback invoked when any Moskar Reproduction invokes an ID Event.</summary>
+	/// <param name="_ID">Event's ID.</param>
+	private void OnMoskarIDEvent(int _ID)
+	{
+		switch(_ID)
+		{
+			case Boss.ID_EVENT_PLAYERSIGHTED_BEGINS:
+			foreach(MoskarBoss moskar in moskarReproductions)
+			{
+				if(!moskar.HasStates(Enemy.ID_STATE_ATTACK))
+				moskar.AddStates(Enemy.ID_STATE_ATTACK);
+			}
+			break;
+		}
+	}
+
 	/// <summary>Event invoked when the projectile is deactivated.</summary>
 	/// <param name="_enemy">Enemy that invoked the event.</param>
 	/// <param name="_cause">Cause of the deactivation.</param>
@@ -226,7 +249,7 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 
 		if(!moskarReproductions.Remove(moskar)) return;
 
-		moskar.eventsHandler.onEnemyDeactivated -= OnMoskarDeactivated;
+		SubscribeToMoskarEvents(moskar, false);
 
 // --- Begins New Implementation: --- 
 		if(moskar.currentPhase < (moskar.phases - 1))
@@ -247,10 +270,9 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 			for(int i = 0; i < 2; i++)
 			{
 				reproduction = PoolManager.RequestPoolGameObject(moskarIndex, moskar.transform.position, moskar.transform.rotation) as MoskarBoss;
-				reproduction.eventsHandler.onEnemyDeactivated -= OnMoskarDeactivated;
-				reproduction.eventsHandler.onEnemyDeactivated += OnMoskarDeactivated;
+				SubscribeToMoskarEvents(reproduction);
 				reproduction.state = 0;
-				reproduction.AddStates(Enemy.ID_STATE_IDLE);
+				reproduction.AddStates(Enemy.ID_STATE_ATTACK);
 				reproduction.currentPhase = phase;
 				reproduction.health.BeginInvincibilityCooldown();
 				reproduction.meshParent.localScale = scale;
@@ -293,30 +315,41 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 // --- Ends Old Implementation: ---
 	}
 
-	private IEnumerator TEST()
+	/// <summary>Callback invoked when Mateo invokes an ID Event.</summary>
+	/// <param name="_ID">Event's ID.</param>
+	private void OnMateoIDEvent(int _ID)
 	{
-		if(piecesIndices == null) yield break;
-
-		Debug.Log("[MoskarSceneController] Methods from AudioMixerGroup: " + VString.GetMethods(typeof(AudioMixerGroup)));
-		Debug.Log("[MoskarSceneController] Methods from AudioMixer: " + VString.GetMethods(typeof(AudioMixer)));
-		
-		float time = 3.0f;
-		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
-
-		for(int i = 0; i < piecesIndices.Length; i++)
+		switch(_ID)
 		{
-			AudioController.SetVolume(SourceType.Loop, i, 0.0f);
-		}
-
-		for(int i = 0; i < piecesIndices.Length; i++)
-		{
-			wait.ChangeDurationAndReset(time);
-			while(wait.MoveNext()) yield return null;
-			Debug.Log("[MoskarSceneController] Setting volume of source index " + i + " to 1.0f");
-			AudioController.SetVolume(SourceType.Loop, i, 1.0f);
+			case Mateo.ID_EVENT_MEDITATION_BEGINS:
+			Debug.Log("[MoskarSceneController] Mateo Is Meditating!");
+			foreach(MoskarBoss moskar in moskarReproductions)
+			{
+				moskar.ChangeState(Enemy.ID_STATE_IDLE);
+			}
+			break;
 		}
 	}
 
+	/// <summary>Subscribes to Moskar's Events.</summary>
+	/// <param name="_moskar">Moskar that contains the events.</param>
+	/// <param name="_subscribe">Subscribe? true by default.</param>
+	private void SubscribeToMoskarEvents(MoskarBoss _moskar, bool _subscribe = true)
+	{
+		if(_moskar == null) return;
+
+		EnemyEventsHandler eventsHandler = _moskar.eventsHandler;
+
+		eventsHandler.onEnemyDeactivated -= OnMoskarDeactivated;
+		eventsHandler.onIDEvent -= OnMoskarIDEvent;
+
+		if(!_subscribe) return;
+
+		eventsHandler.onEnemyDeactivated += OnMoskarDeactivated;
+		eventsHandler.onIDEvent += OnMoskarIDEvent;
+	}
+
+#region DEPRECATED
 	/// <summary>Pieces' Routine.</summary>
 	private IEnumerator PiecesRoutine()
 	{
@@ -393,7 +426,7 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 
 					if(moskar == null) yield break;
 
-					moskar.eventsHandler.onEnemyDeactivated += OnMoskarDeactivated;
+					SubscribeToMoskarEvents(moskar);
 					moskar.state = 0;
 					moskar.AddStates(Enemy.ID_STATE_IDLE);
 					moskarReproductions.Add(moskar);
@@ -408,5 +441,6 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 			wait.ChangeDurationAndReset(reproductionCountdown);
 		}
 	}
+#endregion
 }
 }

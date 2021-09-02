@@ -607,13 +607,13 @@ public class Mateo : Character
 			//animator.SetTrigger(initialPoseCredential);
 			animator.SetInteger(initialPoseIDCredential, _initialPoseID);
 
-			animator.SetAllLayersWeight(0.0f);
+			////animator.SetAllLayersWeight(0.0f);
 			//if(postInitialPoseCooldown != null) postInitialPoseCooldown.End();
 		}
 		else
 		{
 			this.RemoveStates(ID_STATE_MEDITATING);
-
+			animator.SetInteger(initialPoseIDCredential, 0);
 			if(postInitialPoseCooldown != null && !postInitialPoseCooldown.onCooldown)
 			postInitialPoseCooldown.Begin();
 			InvokeIDEvent(ID_EVENT_INITIALPOSE_ENDED);
@@ -770,7 +770,7 @@ public class Mateo : Character
 	private void OnPostMeditationEnds()
 	{
 		this.RemoveStates(ID_STATE_MEDITATING);
-		animator.SetAllLayersWeight(1.0f);
+		//animator.SetAllLayersWeight(1.0f);
 	}
 
 	/// <summary>Changes rotation towards given target.</summary>

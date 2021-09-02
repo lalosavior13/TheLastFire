@@ -37,6 +37,8 @@ public class TESTLookRightRotation : MonoBehaviour
 	private void Reset()
 	{
 		up = Vector3.up;
+		t = transform;
+		target = t.position + (Vector3.right * 10f);
 	}
 
 	/// <summary>TESTLookRightRotation's tick at each frame.</summary>
@@ -44,6 +46,7 @@ public class TESTLookRightRotation : MonoBehaviour
 	{
 		if(t == null) return;
 
-		t.rotation = VQuaternion.RightLookRotation(target - t.position, up);		
+		t.rotation = VQuaternion.RightLookRotation(target - t.position, up);	
+		//t.rotation = VQuaternion.R(t.position, target - t.position, up);	
 	}
 }

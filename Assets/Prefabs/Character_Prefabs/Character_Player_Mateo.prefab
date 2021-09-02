@@ -45,8 +45,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.5}
-  m_Size: {x: 0.35, y: 1}
+  m_Offset: {x: 0, y: -0.4}
+  m_Size: {x: 0.6, y: 2.2}
   m_Direction: 0
 --- !u!70 &282407272
 CapsuleCollider2D:
@@ -61,8 +61,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.5}
-  m_Size: {x: 0.35, y: 1}
+  m_Offset: {x: 0, y: -0.4}
+  m_Size: {x: 0.6, y: 2.2}
   m_Direction: 0
 --- !u!1 &1030130261
 GameObject:
@@ -1220,7 +1220,7 @@ Transform:
   m_GameObject: {fileID: 4702206195921121159}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 3063975058784203398}
   m_Father: {fileID: 5122952807910987803}
@@ -1269,7 +1269,7 @@ Transform:
   m_GameObject: {fileID: 5122952807910987780}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2, y: 3.44, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6544736471894580627}
   - {fileID: 282407271}
@@ -1318,7 +1318,7 @@ MonoBehaviour:
     _relativeOrigin:
       _x: 0
       _y: -1
-    _originDistance: 0.98
+    _originDistance: 1.5
     _sensorsData:
     - _sensorType: 0
       _dimensions: {x: 0.24, y: 0.3}
@@ -1490,8 +1490,8 @@ MonoBehaviour:
     _tag: PerformInitialPose
     _ID: 1889077454
   _initialPoseIDCredential:
-    _tag: InitialPoseID
-    _ID: -254557740
+    _tag: StationaryPoseID
+    _ID: -8259328
   _vitalityIDCredential:
     _tag: VitalityID
     _ID: -1493647759
@@ -1538,7 +1538,7 @@ MonoBehaviour:
     _tag: BouncingOffWall
     _ID: 1259035308
   _extraJumpTrailRenderer: {fileID: 0}
-  _meditationWaitDuration: 2
+  _meditationWaitDuration: 4
 --- !u!114 &5122952807910987792
 MonoBehaviour:
   m_ObjectHideFlags: 0

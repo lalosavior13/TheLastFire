@@ -14,6 +14,8 @@ public class Boss : Enemy
 	public const int ID_EVENT_STAGE_CHANGED = 0; 							/// <summary>Stage Changed's Event ID.</summary>
 	public const int ID_EVENT_BOSS_DEATHROUTINE_BEGINS = 1; 				/// <summary>Death Routine Begins' Event ID.</summary>
 	public const int ID_EVENT_BOSS_DEATHROUTINE_ENDS = 2; 					/// <summary>Death Routine Ends' Event ID.</summary>
+	public const int ID_EVENT_PLAYERSIGHTED_BEGINS = 3; 					/// <summary>Player Sighted Begin's Event ID.</summary>
+	public const int ID_EVENT_PLAYERSIGHTED_ENDS = 4; 						/// <summary>Player Sighted Ends's Event ID.</summary>
 	public const int STAGE_1 = 1; 											/// <summary>Stage 1's ID.</summary>
 	public const int STAGE_2 = 2; 											/// <summary>Stage 2's ID.</summary>
 	public const int STAGE_3 = 3; 											/// <summary>Stage 3's ID.</summary>
