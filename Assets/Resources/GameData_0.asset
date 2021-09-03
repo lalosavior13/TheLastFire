@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GameData_0
   m_EditorClassIdentifier: 
   _frameRate: 60
+  _hurtTimeScale: 0.5
   _playerTag:
     _tag: Player
     index: 5
@@ -22,14 +23,23 @@ MonoBehaviour:
   _enemyProjectileTag:
     _tag: Projectile/Enemy
     index: 12
+  _floorTag:
+    _tag: Surface/Floor
+    index: 13
+  _wallTag:
+    _tag: Surface/Wall
+    index: 14
+  _ceilingTag:
+    _tag: Surface/Ceiling
+    index: 15
   _outOfBoundsLayer:
     _value: 0
     _name: Default
     index: 0
   _surfaceLayer:
-    _value: 0
-    _name: Default
-    index: 0
+    _value: 8
+    _name: Surface
+    index: 5
   _playerProjectiles:
   - {fileID: 6441458002429525075, guid: cceb42b80d7bb4d42ad1cb6e830c5a4b, type: 3}
   - {fileID: 8271858034072766596, guid: 6410736574034c8419a8afe9766e808e, type: 3}
@@ -43,6 +53,7 @@ MonoBehaviour:
   - {fileID: 4726841204741414268, guid: 1819bf3f37668224a936551a031eb1c1, type: 3}
   - {fileID: 653572736473320296, guid: 028be9ba5f0684a4cb4619f942c4f6e9, type: 3}
   - {fileID: 7807340246942760897, guid: 2ad02a0b9d3e89248ba013e0175113d2, type: 3}
+  - {fileID: 3776002058642984422, guid: 0ad5472267bf0cd4f93b3848dddd2929, type: 3}
   _poolObjects:
   - {fileID: 5117779936929461291, guid: c8327e899d8297a439efcf717d4dcf1d, type: 3}
   - {fileID: 4116937056435194663, guid: c9c857279d141cb4eb947c325f96b93b, type: 3}
@@ -116,6 +127,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6578e6d68ac696648a9ce597be9c21e0, type: 3}
   - {fileID: 8300000, guid: 3bf7a74ff182f6848b79406b57705f0a, type: 3}
   - {fileID: 8300000, guid: fc7010f347399764cb3fcf759c90fd86, type: 3}
+  - {fileID: 8300000, guid: 0f47530e83fb397449aa99a0e5640d33, type: 3}
+  - {fileID: 8300000, guid: b545047d42338ac4e9e02f7a76f64baf, type: 3}
+  - {fileID: 8300000, guid: 79db4ee46fe0b2747ad1bde40e187dbb, type: 3}
+  - {fileID: 8300000, guid: 6a5dab527869c9f4987c8400bf6db9ce, type: 3}
+  - {fileID: 8300000, guid: 1a62e796abaf2c140b8010d12d027955, type: 3}
+  - {fileID: 8300000, guid: 3d72ffc3afb516e4e84d91fc0c521442, type: 3}
   _particleEffects:
   - {fileID: 2948463789655692408, guid: 05729ccca8bca724b80aa225032af021, type: 3}
   - {fileID: 6782677579952761336, guid: 40a16e0a24c989a40b60a9e7cfc239dc, type: 3}
@@ -142,11 +159,11 @@ MonoBehaviour:
   _explodables:
   - {fileID: 7757396531229370483, guid: 510f45f4d87997d48933833abca64959, type: 3}
   _ceilingDotProductThreshold:
-    value: 1
+    value: -0.50000006
   _floorDotProductThreshold:
-    value: 1
+    value: 0.49999997
   _ceilingAngleThreshold:
-    value: 0
+    value: 120
   _floorAngleThreshold:
-    value: 0
+    value: 60
   showDotProducts: 0

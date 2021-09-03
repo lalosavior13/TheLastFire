@@ -15,11 +15,15 @@ public class GameData : ScriptableObject
 
 	[Header("Configurations:")]
 	[SerializeField] [Range(0, 60)] private int _frameRate; 					/// <summary>Game's Frame rate.</summary>
+	[SerializeField] [Range(0.0f, 1.0f)] private float _hurtTimeScale; 			/// <summary>Hurt's Time-Scale.</summary>
 	[Space(5f)]
 	[Header("Tags:")]
 	[SerializeField] private GameObjectTag _playerTag; 							/// <summary>Player's Tag.</summary>
 	[SerializeField] private GameObjectTag _playerProjectileTag; 				/// <summary>Player Projectile's Tag.</summary>
 	[SerializeField] private GameObjectTag _enemyProjectileTag; 				/// <summary>Enemy Projectile's Tag.</summary>
+	[SerializeField] private GameObjectTag _floorTag; 							/// <summary>Floor surface's Type.</summary>
+	[SerializeField] private GameObjectTag _wallTag; 							/// <summary>Wall surface's Type.</summary>
+	[SerializeField] private GameObjectTag _ceilingTag; 						/// <summary>Ceiling surface's Type.</summary>
 	[Space(5f)]
 	[Header("Layers:")]
 	[SerializeField] private LayerValue _outOfBoundsLayer; 						/// <summary>Out of Bounds's Layer.</summary>
@@ -81,6 +85,9 @@ public class GameData : ScriptableObject
 	/// <summary>Gets frameRate property.</summary>
 	public int frameRate { get { return _frameRate; } }
 
+	/// <summary>Gets hurtTimeScale property.</summary>
+	public float hurtTimeScale { get { return _hurtTimeScale; } }
+
 	/// <summary>Gets idealDeltaTime property.</summary>
 	public float idealDeltaTime
 	{
@@ -99,6 +106,15 @@ public class GameData : ScriptableObject
 
 	/// <summary>Gets enemyProjectileTag property.</summary>
 	public GameObjectTag enemyProjectileTag { get { return _enemyProjectileTag; } }
+
+	/// <summary>Gets floorTag property.</summary>
+	public GameObjectTag floorTag { get { return _floorTag; } }
+
+	/// <summary>Gets wallTag property.</summary>
+	public GameObjectTag wallTag { get { return _wallTag; } }
+
+	/// <summary>Gets ceilingTag property.</summary>
+	public GameObjectTag ceilingTag { get { return _ceilingTag; } }
 
 	/// <summary>Gets outOfBoundsLayer property.</summary>
 	public LayerValue outOfBoundsLayer { get { return _outOfBoundsLayer; } }

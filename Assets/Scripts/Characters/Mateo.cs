@@ -576,6 +576,7 @@ public class Mateo : Character
 		{
 			case HealthEvent.Depleted:
 			animator.SetInteger(vitalityIDCredential, STATE_FLAG_HURT);
+			Time.timeScale = Game.data.hurtTimeScale;
 			break;
 
 			case HealthEvent.Replenished:
@@ -585,6 +586,7 @@ public class Mateo : Character
 
 			case HealthEvent.InvincibilityEnds:
 			animator.SetInteger(vitalityIDCredential, STATE_FLAG_ALIVE);
+			Time.timeScale = 1.0f;
 			break;
 
 			case HealthEvent.FullyDepleted:

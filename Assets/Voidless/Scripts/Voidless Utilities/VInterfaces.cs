@@ -27,7 +27,7 @@ public static class VInterfaces
 	HasAnyOfTheStates(x) = (s | (s & x)) == s
 	
 	a = ~s & x
-	rC = s ^ x
+	rC = s ^ x -> z & ~x
 	rR = s & x
 */
 
@@ -58,14 +58,25 @@ public static class VInterfaces
 	/// <param name="_state">New State to enter.</param>
 	public static void ChangeState(this IStateMachine _sm, int _state)
 	{
-		//Debug.Log("[VInterfaces] Calling IStateMachine's (IFiniteStateMachine<int>) ChangeState(int)...");
 		int states = _sm.state;
+		int addedStates = (~states & _state);
+		int removedStates = (states & ~_state);
+
+		/*Debug.Log(
+		"[VInterfaces] State Chain: "
+		+ states.GetBitChain()
+		+ "\nNew State: "
+		+ _state.GetBitChain()
+		+ "\nStates Added: "
+		+ addedStates.GetBitChain()
+		+ "\nStates Removed: "
+		+ removedStates.GetBitChain());*/
 
 		_sm.previousState = states;
 		_sm.state = _state;
 		_sm.OnEnterState(_state);
-		_sm.OnStatesAdded(~states & _state);
-		_sm.OnStatesRemoved(states ^ _state);
+		if(addedStates != 0) _sm.OnStatesAdded(addedStates);
+		if(removedStates != 0) _sm.OnStatesRemoved(removedStates);
 	}
 
 	/// <summary>Evaluates if State Machine has given state.</summary>

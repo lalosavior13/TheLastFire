@@ -22,10 +22,10 @@ public class GameDataInspector : Editor
 	{
 		gameData = target as GameData;
 
-		if(gameData.ceilingDotProductThreshold !=  null) gameData.ceilingDotProductThreshold = new FloatWrapper(0.0f);
-		if(gameData.floorDotProductThreshold !=  null) gameData.floorDotProductThreshold = new FloatWrapper(0.0f);
-		if(gameData.ceilingAngleThreshold !=  null) gameData.ceilingAngleThreshold = new FloatWrapper(0.0f);
-		if(gameData.floorAngleThreshold !=  null) gameData.floorAngleThreshold = new FloatWrapper(0.0f);
+		if(gameData.ceilingDotProductThreshold ==  null) gameData.ceilingDotProductThreshold = new FloatWrapper(0.0f);
+		if(gameData.floorDotProductThreshold ==  null) gameData.floorDotProductThreshold = new FloatWrapper(0.0f);
+		if(gameData.ceilingAngleThreshold ==  null) gameData.ceilingAngleThreshold = new FloatWrapper(0.0f);
+		if(gameData.floorAngleThreshold ==  null) gameData.floorAngleThreshold = new FloatWrapper(0.0f);
 	}
 
 	/// <summary>OnInspectorGUI override.</summary>
@@ -33,6 +33,8 @@ public class GameDataInspector : Editor
 	{	
 		DrawDefaultInspector();
 		DrawSurfacesAnglesSettings();
+		EditorUtility.SetDirty(gameData);
+		serializedObject.ApplyModifiedProperties();
 	}
 
 	/// <summary>Draws Settings for the Surfaces's Angles' Thresholds.</summary>

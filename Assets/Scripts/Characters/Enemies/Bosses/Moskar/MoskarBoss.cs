@@ -42,9 +42,17 @@ public class MoskarBoss : Boss
 	[SerializeField] private FloatRange _shootInterval; 			/// <summary>Shooting Interval's Range.</summary>
 	[SerializeField] private IntRange _fireBursts; 					/// <summary>Fire Bursts' Range.</summary>
 	[Space(5f)]
+	[Header("Falling's Attributes:")]
+	[SerializeField] private EulerRotation _fallingRotation; 		/// <summary>Moskar's Rotation when Falling.</summary>
+	[SerializeField] private float _rotationDuration; 				/// <summary>Falling Rotation's Duration.</summary>
+	[Space(5f)]
 	[Header("Mateo's Serenity's Evaluation Attributes:")]
 	[SerializeField] private float _maxMovementMagnitude; 			/// <summary>Maximum Movement's Magnitude.</summary>
 	[SerializeField] private float _serenityDuration; 				/// <summary>Time that Mateo must have keeping its serenity for Moskar to return to its wander state.</summary>
+	[Space(5f)]
+	[Header("Sounds FXs:")]
+	[SerializeField] private CollectionIndex _hurtSoundIndex; 		/// <summary>Hurt SFX's Index.</summary>
+	[SerializeField] private CollectionIndex _fallenSoundIndex; 	/// <summary>Fallen SFX's Index.</summary>
 	private int _currentPhase; 										/// <summary>Current Phase of this Moskar's Reproduction.</summary>
 	private float _phaseProgress; 									/// <summary>Phase's Normalized Progress.</summary>
 	private SteeringVehicle2D _vehicle; 							/// <summary>SteeringVehicle2D's Component.</summary>
@@ -56,6 +64,9 @@ public class MoskarBoss : Boss
 	private Vector3[] waypoints; 									/// <summary>Allocated the waypoints so it can be visually debuged with Gizmos.</summary>
 
 #region Getters/Setters:
+	/// <summary>Gets fallingRotation property.</summary>
+	public EulerRotation fallingRotation { get { return _fallingRotation; } }
+
 	/// <summary>Gets phases property.</summary>
 	public int phases { get { return _phases; } }
 
@@ -91,6 +102,13 @@ public class MoskarBoss : Boss
 	{
 		get { return _fleeDistance; }
 		set { _fleeDistance = value; }
+	}
+
+	/// <summary>Gets and Sets rotationDuration property.</summary>
+	public float rotationDuration
+	{
+		get { return _rotationDuration; }
+		set { _rotationDuration = value; }
 	}
 
 	/// <summary>Gets and Sets currentPhase property.</summary>
@@ -151,6 +169,20 @@ public class MoskarBoss : Boss
 	{
 		get { return _projectileIndex; }
 		set { _projectileIndex = value; }
+	}
+
+	/// <summary>Gets and Sets hurtSoundIndex property.</summary>
+	public CollectionIndex hurtSoundIndex
+	{
+		get { return _hurtSoundIndex; }
+		set { _hurtSoundIndex = value; }
+	}
+
+	/// <summary>Gets and Sets fallenSoundIndex property.</summary>
+	public CollectionIndex fallenSoundIndex
+	{
+		get { return _fallenSoundIndex; }
+		set { _fallenSoundIndex = value; }
 	}
 
 	/// <summary>Gets and Sets wanderSpeed property.</summary>
@@ -253,13 +285,36 @@ public class MoskarBoss : Boss
 		this.AddStates(ID_STATE_IDLE);
 	}
 
+	/*/// <summary>Event triggered when this Collider enters another Collider trigger.</summary>
+	/// <param name="col">The other Collider involved in this Event.</param>
+	private void OnTriggerEnter2D(Collider2D col)
+	{
+		GameObject obj = col.gameObject;
+		
+		if(obj.CompareTag(Game.data.floorTag) && (state | ID_STATE_ALIVE) != state)
+		{
+			Debug.Log("[MoskarBoss] TU MAMA");
+
+		}
+	}*/
+
 	/// <summary>Callback invoked when the health of the character is depleted.</summary>
 	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
 	{
 		switch(_event)
 		{
+			case HealthEvent.Depleted:
+			AudioController.PlayOneShot(SourceType.SFX, 0, hurtSoundIndex);
+			break;
+
 			case HealthEvent.FullyDepleted:
+			AudioController.PlayOneShot(SourceType.SFX, 0, hurtSoundIndex);
 			BeginDeathRoutine();
+			base.OnDeathRoutineEnds();
+			this.RemoveStates(ID_STATE_ALIVE);
+			this.DispatchCoroutine(ref behaviorCoroutine);
+			this.DispatchCoroutine(ref attackCoroutine);
+			this.DispatchCoroutine(ref serenityEvaluation);
 			break;
 		}
 	}
@@ -267,7 +322,6 @@ public class MoskarBoss : Boss
 	/// <summary>Callback invoked after the Death's routine ends.</summary>
 	protected override void OnDeathRoutineEnds()
 	{
-		base.OnDeathRoutineEnds();
 		OnObjectDeactivation();
 	}
 
@@ -327,6 +381,13 @@ public class MoskarBoss : Boss
 			Debug.Log("[MoskarBoss] Returning to Wander State because Mateo is out of sight.");
 			EnterWanderState();
 		}
+		if((_state | ID_STATE_ALIVE) == _state)
+		{
+			Debug.Log("[MoskarBoss] Shush all behaviors");
+			this.DispatchCoroutine(ref behaviorCoroutine);
+			this.DispatchCoroutine(ref attackCoroutine);
+			this.DispatchCoroutine(ref serenityEvaluation);
+		}
 	}
 
 	/// <summary>Actions made when this Pool Object is being reseted.</summary>
@@ -334,6 +395,8 @@ public class MoskarBoss : Boss
 	{
 		base.OnObjectReset();
 		Game.AddTargetToCamera(cameraTarget);
+		rigidbody.gravityScale = 0.0f;
+		rigidbody.bodyType = RigidbodyType2D.Kinematic;
 	}
 
 	/// <summary>Callback invoked when the object is deactivated.</summary>
@@ -511,7 +574,7 @@ public class MoskarBoss : Boss
 				serenityTime += Time.deltaTime;
 				if(serenityTime >= serenityDuration)
 				{
-					this.ChangeState(ID_STATE_IDLE);
+					this.ChangeState(ID_STATE_ALIVE | ID_STATE_IDLE);
 					yield break;
 				}
 			}
@@ -547,6 +610,49 @@ public class MoskarBoss : Boss
 				i++;
 				yield return null;
 			}
+		}
+	}
+
+	/// <summary>Death's Routine.</summary>
+	/// <param name="onDeathRoutineEnds">Callback invoked when the routine ends.</param>
+	protected override IEnumerator DeathRoutine(Action onDeathRoutineEnds)
+	{
+		if(currentPhase < (phases - 1) && onDeathRoutineEnds != null)
+		{
+			onDeathRoutineEnds();
+			yield break;
+		}
+
+		float t = 0.0f;
+		float inverseDuration = 1.0f / rotationDuration;
+		Quaternion originalRotation = transform.rotation;
+		Quaternion rotation = fallingRotation;
+		rigidbody.bodyType = RigidbodyType2D.Dynamic;
+		rigidbody.gravityScale = 1.0f;
+
+		AudioController.PlayOneShot(SourceType.SFX, 0, fallenSoundIndex);
+
+		while(t < 1.0f)
+		{
+			transform.rotation = Quaternion.Lerp(originalRotation, rotation, t);
+			t += (Time.deltaTime * inverseDuration);
+			yield return null;
+		}
+
+		while(true)
+		{
+			Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, sphereColliderSizeRange.Lerp(phaseProgress));
+			
+			if(colliders != null && colliders.Length > 0) foreach(Collider2D collider in colliders)
+			{
+				if(collider.gameObject.CompareTag(Game.data.floorTag))
+				{
+					if(onDeathRoutineEnds != null) onDeathRoutineEnds();
+					yield break;
+				}
+			}
+
+			yield return null;
 		}
 	}
 }

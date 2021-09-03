@@ -10,6 +10,7 @@ namespace Flamingo
 [RequireComponent(typeof(EnemyEventsHandler))]
 public class Enemy : PoolGameObject, IStateMachine
 {
+	public const int ID_STATE_DEAD = 0; 					/// <summary>Dead's State Flag.</summary>
 	public const int ID_STATE_ALIVE = 1 << 0; 				/// <summary>Alive's State Flag.</summary>
 	public const int ID_STATE_IDLE = 1 << 1; 				/// <summary>Idle's State Flag.</summary>
 	public const int ID_STATE_PLAYERONSIGHT = 1 << 2; 		/// <summary>Player On Sight's State Flag.</summary>
@@ -86,6 +87,7 @@ public class Enemy : PoolGameObject, IStateMachine
 	protected virtual void Awake()
 	{
 		health.onHealthEvent += OnHealthEvent;
+		this.AddStates(ID_STATE_ALIVE);
 	}
 
 	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>

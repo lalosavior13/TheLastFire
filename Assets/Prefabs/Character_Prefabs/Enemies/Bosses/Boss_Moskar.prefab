@@ -333,7 +333,7 @@ MonoBehaviour:
     _min: 25
     _max: 50
   _projectileIndex:
-    index: 1
+    index: 9
     objectIndex: 0
     collectionIndex: 1
   _shootInterval:
@@ -342,8 +342,20 @@ MonoBehaviour:
   _fireBursts:
     _min: 4
     _max: 10
+  _fallingRotation:
+    _eulerAngles: {x: 0, y: 0, z: 270}
+    _rotation: {x: 0, y: 0, z: 0.70710677, w: -0.70710677}
+  _rotationDuration: 0.5
   _maxMovementMagnitude: 0.25
   _serenityDuration: 2
+  _hurtSoundIndex:
+    index: 46
+    objectIndex: 0
+    collectionIndex: 5
+  _fallenSoundIndex:
+    index: 47
+    objectIndex: 0
+    collectionIndex: 5
 --- !u!114 &2340683740104089372
 MonoBehaviour:
   m_ObjectHideFlags: 0

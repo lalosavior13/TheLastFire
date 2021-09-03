@@ -75,6 +75,7 @@ public class Game : Singleton<Game>
 		if(mateo != null)
 		{
 			AddTargetToCamera(mateo.cameraTarget);
+			mateo.eventsHandler.onIDEvent += OnMateoIDEvent;
 		}
 	}
 
@@ -177,6 +178,15 @@ public class Game : Singleton<Game>
 		if(d  >= f && d <= 1.0f) return SurfaceType.Floor; 
 
 		return SurfaceType.Undefined;
+	}
+
+	private static void OnMateoIDEvent(int _ID)
+	{
+		switch(_ID)
+		{
+			case 0: return;
+			break;
+		}
 	}
 }
 }
