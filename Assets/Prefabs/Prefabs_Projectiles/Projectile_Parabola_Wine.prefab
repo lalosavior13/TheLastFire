@@ -88,7 +88,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitBoxes: []
-  _impactTags: []
 --- !u!114 &8121818084978278044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,9 +132,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableTags: []
-  _damage: 0
-  _damageScales: []
+  _healthAffectableTags:
+  - _tag: Player
+    index: 5
+  _damage: 1
+  _damageScales:
+  - 1
   _impactTags: []
   _trailRenderers: []
   _projectileType: 0
@@ -147,14 +149,6 @@ MonoBehaviour:
   _rotateTowardsDirection: 0
   _maxSteeringForce: 0
   _distance: 0
-  _motionType: 0
-  _axes:
-    _x: 0
-    _y: 0
-    _z: 0
-  _space: 0
-  _radius: 0
-  _motionSpeed: 0
   _impactParticleEffectIndex:
     index: 0
     objectIndex: 0

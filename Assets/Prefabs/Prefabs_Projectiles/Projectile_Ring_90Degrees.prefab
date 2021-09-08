@@ -53,6 +53,11 @@ MonoBehaviour:
     _eulerAngles: {x: 0, y: 0, z: 0}
     _rotation: {x: 0, y: 0, z: 0, w: 1}
   _deactivateWhenPassedOn: 1
+  _detectableTags:
+  - _tag: Player
+    index: 5
+  - _tag: Ball
+    index: 7
   _dotProduct: 0.1
   _renderer: {fileID: 495920338341433375}
   _hitBoxes:
@@ -90,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899837e1dcbe69941a6219b841471233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
 --- !u!1 &6706877511127452273
 GameObject:
   m_ObjectHideFlags: 0

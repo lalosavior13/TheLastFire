@@ -162,7 +162,7 @@ public class ContactWeapon : PoolGameObject
 			switch(_eventType)
 			{
 				case HitColliderEventTypes.Enter:
-				if(objectsIDs.Contains(instanceID)) return;
+				//if(objectsIDs.Contains(instanceID)) return;
 
 				if(obj.CompareTag(tag))
 				{
@@ -185,12 +185,13 @@ public class ContactWeapon : PoolGameObject
 						health.GiveDamage(damageApplied);
 						OnHealthInstanceDamaged(health);
 					}
+					else Debug.Log("[ContactWeapon] Health is NULL");
 				}
 				break;
 
-				case HitColliderEventTypes.Exit:
+				/*case HitColliderEventTypes.Exit:
 				if(objectsIDs.Contains(instanceID)) objectsIDs.Remove(instanceID);
-				break;
+				break;*/
 			}
 		}
 		if(impactTags != null) foreach(GameObjectTag tag in impactTags)

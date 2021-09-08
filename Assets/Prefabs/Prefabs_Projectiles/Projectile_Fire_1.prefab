@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ID: 0
-  _detectableHitEvents: 1
+  _detectableHitEvents: 5
 --- !u!58 &7968693563084695661
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -181,14 +181,6 @@ MonoBehaviour:
   _rotateTowardsDirection: 1
   _maxSteeringForce: 0
   _distance: 0
-  _motionType: 0
-  _axes:
-    _x: 0
-    _y: 0
-    _z: 0
-  _space: 0
-  _radius: 0
-  _motionSpeed: 0
   _impactParticleEffectIndex:
     index: 4
     objectIndex: 0

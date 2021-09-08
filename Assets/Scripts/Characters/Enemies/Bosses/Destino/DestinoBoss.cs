@@ -243,7 +243,11 @@ public class DestinoBoss : Boss
 		if(trumpet != null) trumpet.gameObject.SetActive(false);
 		if(cymbals != null) cymbals.gameObject.SetActive(false);
 
-		if(deckController != null) deckController.onCardSelected += OnCardSelected;
+		if(deckController != null)
+		{
+			deckController.Reset();
+			deckController.onCardSelected += OnCardSelected;
+		}
 
 		if(cards != null) foreach(DestinoCard card in cards)
 		{

@@ -41,9 +41,9 @@ MonoBehaviour:
     color: {r: 0, g: 1, b: 1, a: 1}
     radius: 0.25
   _projectilesSpawnRates:
-  - 0.55
-  - 0.4
-  - 0.3
+  - 1
+  - 1
+  - 1
   _projectionTime: 1
   _roundCooldown: 2
   _devilArrowWaypoints:

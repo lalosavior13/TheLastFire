@@ -15,6 +15,7 @@ public class Character : PoolGameObject, IStateMachine
 	public const int STATE_FLAG_ALIVE = 0; 			/// <summary>Alive's State Flag.</summary>
 	public const int STATE_FLAG_HURT = 1; 			/// <summary>Hurt's State Flag.</summary>
 	public const int STATE_FLAG_DEAD = 2; 			/// <summary>Dead's State Flag.</summary>
+	public const int ID_STATE_DEAD = 0; 			/// <summary>Dead State's ID.</summary>
 	public const int ID_STATE_ALIVE = 1 << 0; 		/// <summary>Alive State's ID.</summary>
 	public const int ID_STATE_IDLE = 1 << 1; 		/// <summary>Idle State's ID.</summary>
 	public const int ID_STATE_HURT = 1 << 2; 		/// <summary>Hurt State's ID.</summary>

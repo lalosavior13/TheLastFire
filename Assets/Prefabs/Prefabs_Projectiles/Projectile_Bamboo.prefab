@@ -257,8 +257,6 @@ GameObject:
   - component: {fileID: 4137792324191985339}
   - component: {fileID: 653572736473320296}
   - component: {fileID: 8502636351339952987}
-  - component: {fileID: 8531016207428117549}
-  - component: {fileID: 3117445422881322081}
   - component: {fileID: -7828728715635676309}
   m_Layer: 10
   m_Name: Projectile_Bamboo
@@ -315,8 +313,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitBoxes: []
-  _impactTags: []
+  _hitBoxes:
+  - {fileID: 7476057729542891127}
+  - {fileID: 4348950796453944919}
+  - {fileID: 4151412576483073660}
+  - {fileID: 5787972814994381267}
 --- !u!114 &653572736473320296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,17 +332,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
   _healthAffectableTags: []
-  _impactTags: []
   _damage: 0
   _damageScales: []
+  _impactTags:
+  - _tag: Weapon/Player
+    index: 9
   _trailRenderers: []
+  _projectileType: 0
   _repelTags: []
   _speedMode: 1
   _speed: 9.81
   _lifespan: 3.5
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
-  dontDeactivateOnImpact: 0
+  _maxSteeringForce: 0
+  _distance: 0
+  _impactParticleEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _destroyedParticleEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _impactSoundEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _destroyedSoundEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  gizmosColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &8502636351339952987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,43 +382,6 @@ MonoBehaviour:
   - {fileID: 4151412576483073660}
   - {fileID: 5787972814994381267}
   _fragmentationDuration: 1
---- !u!114 &8531016207428117549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6643950991633132691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 564fbfb008372d54b966b46bf39ed955, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _test:
-    _keysList: []
-    _valuesList: []
-  _materialIDindexPairs: []
-  _particleEffectIndex:
-    index: 11
-    objectIndex: 0
-    collectionIndex: 8
---- !u!114 &3117445422881322081
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6643950991633132691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85131a71492912142952fb08c5098073, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _materialIDindexPairs: []
-  _soundEffectIndex:
-    index: 41
-    objectIndex: 0
-    collectionIndex: 7
 --- !u!114 &-7828728715635676309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,6 +394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899837e1dcbe69941a6219b841471233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
 --- !u!1001 &3501478861940446102
 PrefabInstance:
   m_ObjectHideFlags: 0

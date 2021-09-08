@@ -75,6 +75,7 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 #endif
 	private Vector2 mateoSpotLightVelocity; 								/// <summary>Mateo Spot Light's Velocity reference.</summary>
 	private bool _deckPresented; 											/// <summary>Was the deck already presented tomm the Player?.</summary>
+	private bool _curtainOpened; 											/// <summary>Has the curtain been opened?.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets destino property.</summary>
@@ -170,6 +171,13 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 		get { return _deckPresented; }
 		set { _deckPresented = value; }
 	}
+
+	/// <summary>Gets and Sets curtainOpened property.</summary>
+	public bool curtainOpened
+	{
+		get { return _curtainOpened; }
+		set { _curtainOpened = value; }
+	}
 #endregion
 	
 #if UNITY_EDITOR
@@ -188,6 +196,7 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
    	protected override void OnAwake()
 	{
 		deckPresented = false;
+		curtainOpened = false;
 
 		/// Deactivate Scenery Objects:
 		devilCeiling.gameObject.SetActive(false);
@@ -203,14 +212,18 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 
 		/// Subscribe to Mateo & Destino's Events:
 		destino.onIDEvent += OnDestinoIDEvent;
-		Game.mateo.onIDEvent += OnMateoIDEvent;
-		
-		Game.mateo.PerformPose();
+		Game.mateo.eventsHandler.onIDEvent += OnMateoIDEvent;
 
 		Game.ResetFSMLoopStates();
 
 		AudioClip clip = AudioController.PlayOneShot(SourceType.Scenario, 0, orchestraTunningSoundIndex);
 		CloseCurtainsWithWeight(WEIGHT_BLENDSHAPE_CURTAIN_CLOSED, 0.0f, null);
+	}
+
+	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>
+	private void Start()
+	{
+		Game.mateo.Meditate();
 	}
 
 	/// <summary>Updates DestinoSceneController's instance at each frame.</summary>
@@ -275,7 +288,11 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 	{
 		switch(_ID)
 		{
-			case Mateo.ID_EVENT_INITIALPOSE_ENDED:
+			case Mateo.ID_EVENT_MEDITATION_ENDS:
+			if(curtainOpened) return;
+
+			curtainOpened = true;
+			
 			AudioClip openingClip = AudioController.PlayOneShot(SourceType.Scenario, 0, curtainOpeningSoundIndex);
 			CloseCurtainsWithWeight(stage1CurtainClosure, openingClip.length * openingClipPercentage, ()=>
 			{

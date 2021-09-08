@@ -53,4 +53,6 @@ MonoBehaviour:
   _swordAttackID: 2
   _frontalFireConjuringID0: 3
   _frontalFireConjuringID1: 4
+  _pauseID: 5
+  _resetID: 6
   _lowSpeedScalar: 0.5

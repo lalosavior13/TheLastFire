@@ -19,11 +19,13 @@ public class GameData : ScriptableObject
 	[Space(5f)]
 	[Header("Tags:")]
 	[SerializeField] private GameObjectTag _playerTag; 							/// <summary>Player's Tag.</summary>
+	[SerializeField] private GameObjectTag _enemyTag; 							/// <summary>Enemy's Tag.</summary>
 	[SerializeField] private GameObjectTag _playerProjectileTag; 				/// <summary>Player Projectile's Tag.</summary>
 	[SerializeField] private GameObjectTag _enemyProjectileTag; 				/// <summary>Enemy Projectile's Tag.</summary>
 	[SerializeField] private GameObjectTag _floorTag; 							/// <summary>Floor surface's Type.</summary>
 	[SerializeField] private GameObjectTag _wallTag; 							/// <summary>Wall surface's Type.</summary>
 	[SerializeField] private GameObjectTag _ceilingTag; 						/// <summary>Ceiling surface's Type.</summary>
+	[SerializeField] private GameObjectTag _outOfBoundsTag; 					/// <summary>Out-Of-Bounds' Tag.</summary>
 	[Space(5f)]
 	[Header("Layers:")]
 	[SerializeField] private LayerValue _outOfBoundsLayer; 						/// <summary>Out of Bounds's Layer.</summary>
@@ -101,6 +103,9 @@ public class GameData : ScriptableObject
 	/// <summary>Gets playerTag property.</summary>
 	public GameObjectTag playerTag { get { return _playerTag; } }
 
+	/// <summary>Gets enemyTag property.</summary>
+	public GameObjectTag enemyTag { get { return _enemyTag; } }
+
 	/// <summary>Gets playerProjectileTag property.</summary>
 	public GameObjectTag playerProjectileTag { get { return _playerProjectileTag; } }
 
@@ -115,6 +120,9 @@ public class GameData : ScriptableObject
 
 	/// <summary>Gets ceilingTag property.</summary>
 	public GameObjectTag ceilingTag { get { return _ceilingTag; } }
+
+	/// <summary>Gets outOfBoundsTag property.</summary>
+	public GameObjectTag outOfBoundsTag { get { return _outOfBoundsTag; } }
 
 	/// <summary>Gets outOfBoundsLayer property.</summary>
 	public LayerValue outOfBoundsLayer { get { return _outOfBoundsLayer; } }

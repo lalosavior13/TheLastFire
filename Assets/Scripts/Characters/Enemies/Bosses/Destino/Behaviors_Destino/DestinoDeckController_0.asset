@@ -27,9 +27,9 @@ MonoBehaviour:
   _cardOffset: 0.2
   _positioningDuration: 0.5
   _spawnEffectIndex:
-    index: 7
+    index: 0
     objectIndex: 0
-    collectionIndex: 8
+    collectionIndex: 7
   _presentationPoint: {x: 0, y: 7, z: 2}
   _cardSpacing: 3.5
   _deckPositioningDuration: 0.5

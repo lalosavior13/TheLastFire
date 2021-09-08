@@ -154,7 +154,7 @@ MonoBehaviour:
   _healthAffectableTags:
   - _tag: Player
     index: 5
-  _damage: 2
+  _damage: 1
   _damageScales:
   - 1
   _impactTags: []
@@ -164,20 +164,12 @@ MonoBehaviour:
   - _tag: Weapon/Player
     index: 9
   _speedMode: 1
-  _speed: 2
-  _lifespan: 7
+  _speed: 4
+  _lifespan: 5
   _cooldownDuration: 1
   _rotateTowardsDirection: 1
   _maxSteeringForce: 15
   _distance: 0.1
-  _motionType: 0
-  _axes:
-    _x: 0
-    _y: 0
-    _z: 0
-  _space: 0
-  _radius: 0
-  _motionSpeed: 0
   _impactParticleEffectIndex:
     index: 0
     objectIndex: 0
@@ -195,13 +187,10 @@ MonoBehaviour:
     objectIndex: 0
     collectionIndex: 0
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}
+  _incrustTolerance: 0
   _incrustTags:
   - _tag: Surface/Floor
     index: 13
-  - _tag: Surface/Wall
-    index: 14
-  - _tag: Surface/Ceiling
-    index: 15
   _tipHitBox: {fileID: 8593723572869265329}
   _chainCollider: {fileID: 647280741651927097}
 --- !u!114 &-2791383928529050341
@@ -340,7 +329,6 @@ GameObject:
   - component: {fileID: 1530763077101750457}
   - component: {fileID: 8593723572869265329}
   - component: {fileID: 800665522206241354}
-  - component: {fileID: 5432239462134262486}
   m_Layer: 0
   m_Name: HitCollider2D_Tip
   m_TagString: Projectile/Enemy
@@ -427,18 +415,6 @@ PolygonCollider2D:
       - {x: -0.25, y: -0.3}
       - {x: 0.15, y: -0.36}
       - {x: 0.9, y: 0}
---- !u!114 &5432239462134262486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5797233557790692728}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41dc8cd0fd58b424ebc7e58d64e28e1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8512971217626198839
 GameObject:
   m_ObjectHideFlags: 0

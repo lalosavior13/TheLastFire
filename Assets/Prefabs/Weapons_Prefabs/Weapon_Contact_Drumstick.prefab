@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -4400695339720409180}
   - component: {fileID: 535627024}
   - component: {fileID: 550762283}
+  - component: {fileID: 842091342409504321}
   m_Layer: 0
   m_Name: Weapon_Contact_Drumstick
   m_TagString: Untagged
@@ -49,16 +50,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableMask:
-    serializedVersion: 2
-    m_Bits: 0
-  _impactAffectableMask:
-    serializedVersion: 2
-    m_Bits: 0
+  _healthAffectableTags:
+  - _tag: Player
+    index: 5
   _damage: 5
-  _hitBoxesInfo:
-  - _hitCollider: {fileID: 751089607533766657}
-    _damageScale: 1
+  _damageScales:
+  - 1
+  _impactTags: []
   _trailRenderers: []
 --- !u!114 &-4400695339720409180
 MonoBehaviour:
@@ -72,6 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes:
+  - {fileID: 751089607533766657}
 --- !u!95 &535627024
 Animator:
   serializedVersion: 3
@@ -103,8 +103,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9837f2f9fd0689b429e499f662bb8f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flags: 0
   _animator: {fileID: 535627024}
   _comboLimits: 01000000
+--- !u!114 &842091342409504321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811553757467805725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0de1b3f35b907f40acd80c31c5e092a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
 --- !u!1 &4549603286287083014
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,7 +131,7 @@ GameObject:
   - component: {fileID: 8654137235358205349}
   - component: {fileID: 1582584910061711882}
   - component: {fileID: 751089607533766657}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: HitCollider2D_DrumstickTip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4549603286287083014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 7.06, z: 23.43}
+  m_LocalPosition: {x: 0, y: 4.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1811553757467805714}
@@ -151,7 +165,7 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -9.480412, y: -1.7036142}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.9865093
 --- !u!50 &1582584910061711882
@@ -163,7 +177,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4549603286287083014}
   m_BodyType: 1
-  m_Simulated: 0
+  m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -189,10 +203,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 32768
-  _affectedTags: []
 --- !u!1001 &6494108231989628237
 PrefabInstance:
   m_ObjectHideFlags: 0

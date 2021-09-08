@@ -125,7 +125,7 @@ public class Boss : Enemy
 	/// <param name="_amount">Amount of health that changed [0.0f by default].</param>
 	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
 	{
-		//Debug.Log("[Boss] Health Event: " + _event.ToString() + ", at Stage: " + currentStage);
+		Debug.Log("[Boss] Health Event: " + _event.ToString() + ", at Stage: " + currentStage);
 
 		switch(_event)
 		{

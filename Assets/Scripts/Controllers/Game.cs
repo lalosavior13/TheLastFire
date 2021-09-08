@@ -161,6 +161,12 @@ public class Game : Singleton<Game>
 		LoadScene(scene.name);
 	}
 
+	/// <summary>Callback invoked when a pause is requested.</summary>
+	public static void OnPause()
+	{
+		LoadScene("Scene_ChangeScenes");
+	}
+
 	/// <summary>Evaluates Surface Type.</summary>
 	/// <param name="u">Up's Normal.</param>
 	/// <param name="n">Face's Normal.</param>
@@ -180,11 +186,14 @@ public class Game : Singleton<Game>
 		return SurfaceType.Undefined;
 	}
 
+	/// <summary>Callback invoked when Mateo invokes an Event.</summary>
+	/// <param name="_ID">Event's ID.</param>
 	private static void OnMateoIDEvent(int _ID)
 	{
 		switch(_ID)
 		{
-			case 0: return;
+			case Mateo.ID_EVENT_DEAD:
+			ResetScene();
 			break;
 		}
 	}

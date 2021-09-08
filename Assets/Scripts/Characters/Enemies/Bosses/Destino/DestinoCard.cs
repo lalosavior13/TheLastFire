@@ -25,6 +25,7 @@ public class DestinoCard : MonoBehaviour
 	[SerializeField] private CollectionIndex _entranceSoundIndex; 	/// <summary>Entrace SFX's Index.</summary>
 	[SerializeField] private Renderer _cardRenderer; 				/// <summary>Card's Renderer.</summary>
 	[SerializeField] private HitCollider2D _hurtBox; 				/// <summary>Card's HurtBox.</summary>
+	[SerializeField] private GameObjectTag[] _hitTags; 				/// <summary>Tags that can hit the card.</summary>
 	[Space(5f)]
 	[Header("Card Travelling's Attributes:")]
 	[Space(2.5f)]
@@ -59,6 +60,9 @@ public class DestinoCard : MonoBehaviour
 
 	/// <summary>Gets hurtBox property.</summary>
 	public HitCollider2D hurtBox { get { return _hurtBox; } }
+
+	/// <summary>Gets hitTags property.</summary>
+	public GameObjectTag[] hitTags { get { return _hitTags; } }
 
 	/// <summary>Gets fallPointData property.</summary>
 	public TransformData fallPointData { get { return _fallPointData; } }
@@ -108,6 +112,12 @@ public class DestinoCard : MonoBehaviour
 		if(hurtBox != null) hurtBox.onTriggerEvent2D += OnTriggerEvent2D;
 	}
 
+	/// <summary>Callback invoked when DestinoCard's instance is going to be destroyed and passed to the Garbage Collector.</summary>
+	private void OnDestroy()
+	{
+		if(behavior != null) behavior.onCoroutineEnds -= OnCardBehaviorEnds;
+	}
+
 	/// <summary>Callback invoked when the card's behavior reaches an end.</summary>
 	private void OnCardBehaviorEnds()
 	{
@@ -118,6 +128,8 @@ public class DestinoCard : MonoBehaviour
 	private void OnCardFalled()
 	{
 		if(hurtBox == null) return;
+
+		Debug.Log("[DestinoCard] Card Falled, tolerance will last " + fallenDuration + " seconds.");
 
 		Vector3 hurtBoxPosition = transform.position;
 		hurtBoxPosition.z = 0.0f;
@@ -131,6 +143,7 @@ public class DestinoCard : MonoBehaviour
 	/// <summary>Callback invoked when the Fallen tolerance finishes.</summary>
 	private void OnFallenToleranceFinished()
 	{
+		Debug.Log("[DestinoCard] Card tolerance finished. coming back to Destino...");
 		hurtBox.Activate(false);
 		if(onCardEvent != null) onCardEvent(this, DestinoCardEvent.FallenToleranceFinished);
 	}
@@ -141,9 +154,19 @@ public class DestinoCard : MonoBehaviour
 	/// <param name="_hitColliderID">Optional ID of the HitCollider2D.</param>
 	public void OnTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _hitColliderID = 0)
 	{
-		this.DispatchCoroutine(ref fallenTolerance);
-		if(onCardEvent != null) onCardEvent(this, DestinoCardEvent.Hit);
-		hurtBox.Activate(false);
+		GameObject obj = _collider.gameObject;
+
+		foreach(GameObjectTag tag in hitTags)
+		{
+			if(obj.CompareTag(tag))
+			{
+				this.DispatchCoroutine(ref fallenTolerance);
+				if(onCardEvent != null) onCardEvent(this, DestinoCardEvent.Hit);
+				hurtBox.Activate(false);
+
+				break;
+			}
+		}
 	}
 }
 }

@@ -30,6 +30,8 @@ public class PlayerController : Singleton<PlayerController>
 	[SerializeField] private int _swordAttackID; 					/// <summary>Sword Attack's Input ID.</summary>
 	[SerializeField] private int _frontalFireConjuringID0; 			/// <summary>Frontal Fire Conjuring's Input ID 0.</summary>
 	[SerializeField] private int _frontalFireConjuringID1; 			/// <summary>Frontal Fire Conjuring's Input ID 1.</summary>
+	[SerializeField] private int _pauseID; 							/// <summary>Pause's Input ID.</summary>
+	[SerializeField] private int _resetID; 							/// <summary>Reset's Input ID.</summary>
 	[Space(5f)]
 	[SerializeField] private float _lowSpeedScalar; 				/// <summary>Low Speed's Scalar.</summary>
 	private int _inputFlags; 										/// <summary>Input Flags.</summary>
@@ -106,6 +108,20 @@ public class PlayerController : Singleton<PlayerController>
 	{
 		get { return _frontalFireConjuringID1; }
 		set { _frontalFireConjuringID1 = value; }
+	}
+
+	/// <summary>Gets and Sets pauseID property.</summary>
+	public int pauseID
+	{
+		get { return _pauseID; }
+		set { _pauseID = value; }
+	}
+
+	/// <summary>Gets and Sets resetID property.</summary>
+	public int resetID
+	{
+		get { return _resetID; }
+		set { _resetID = value; }
 	}
 
 	/// <summary>Gets and Sets inputFlags property.</summary>
@@ -218,6 +234,12 @@ public class PlayerController : Singleton<PlayerController>
 			
 			}
 		}
+
+		/// Pause:
+		if(InputController.InputEnds(pauseID)) Game.OnPause();
+
+		/// Reset:
+		if(InputController.InputEnds(resetID)) Game.ResetScene();
 
 		mateo.OnLeftAxesChange(leftAxes);
 		mateo.OnRightAxesChange(rightAxes);
