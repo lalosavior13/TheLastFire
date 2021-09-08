@@ -19,6 +19,7 @@ public class BombParabolaProjectile : Projectile
 	[Header("Bomb's Attributes:")]
 	[SerializeField] private CollectionIndex _expodableIndex; 	/// <summary>Explodable's Index on the PoolManager.</summary>
 	[SerializeField] private GameObjectTag[] _flamableTags; 	/// <summary>Tags of GameObjects that are considered flamable.</summary>
+	[SerializeField] private LineRenderer _fuse; 				/// <summary>Bomb's Fuse.</summary>
 	private BombState _state; 									/// <summary>Current Bomb's State.</summary>
 
 #region Getters/Setters:
@@ -35,7 +36,21 @@ public class BombParabolaProjectile : Projectile
 		get { return _state; }
 		set { _state = value; }
 	}
+
+	/// <summary>Gets and Sets fuse property.</summary>
+	public LineRenderer fuse
+	{
+		get { return _fuse; }
+		set { _fuse = value; }
+	}
 #endregion
+
+	/// <summary>Updates BombParabolaProjectile's instance at each frame.</summary>
+	protected override void Update()
+	{
+		base.Update();
+		UpdateFuse();
+	}
 
 	/// <summary>Callback invoked when the object is deactivated.</summary>
 	public override void OnObjectDeactivation()
@@ -80,6 +95,17 @@ public class BombParabolaProjectile : Projectile
 				break;
 			}
 		}
+	}
+
+	/// <summary>Updates Fuse.</summary>
+	private void UpdateFuse()
+	{
+		if(fuse == null) return;
+
+		Vector3 origin = fuse.transform.position;
+
+		fuse.SetPosition(0, origin);
+		fuse.SetPosition(1, origin + fuse.transform.forward);
 	}
 }
 }

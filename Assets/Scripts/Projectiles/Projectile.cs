@@ -317,7 +317,8 @@ public class Projectile : ContactWeapon
 
 		GameObject obj = _info.collider.gameObject;
 
-/* OutOfBoundsShiat:
+/*
+#regionOutOfBoundsShiat:
 		int layerMask = 1 << obj.layer;
 		int outOfBoundsMask = Game.data.outOfBoundsLayer.ToLayerMask();
 		
@@ -327,6 +328,7 @@ public class Projectile : ContactWeapon
 			Trigger2DInformation info = default(Trigger2DInformation);
 			InvokeDeactivationEvent(DeactivationCause.LeftBoundaries, info);
 		}
+#endregion
 */
 
 		/// Evaluate for repelment:
