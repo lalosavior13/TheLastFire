@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Tests/Scene_TrainingGround.unity
     guid: 0df3f19b2b3856448878ab5e7bc5ef85
   - enabled: 1
-    path: Assets/Scenes/Scene_BasketBallMiniGame.unity
+    path: Assets/Scenes/Mini-Games/Scene_BasketBallMiniGame.unity
     guid: 60a7388885a3ef647a02330cec83e8aa
   - enabled: 1
     path: Assets/Scenes/Scene_Credits.unity
