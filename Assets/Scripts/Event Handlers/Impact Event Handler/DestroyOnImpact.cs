@@ -6,22 +6,6 @@ using Voidless;
 
 namespace Flamingo
 {
-/*
-	/// Declarations:
-	PoolGameObject[] targets;
-	CollectionIndex targetIndex;
-
-	///When spawning:
-	PoolGameObject target = PoolManager.RequestPoolGameObject(targetIndex, position, rotation);
-	target.onPoolObjectDeactivation += OnTargetDestroyed;
-
-	/// Callback when target is destroyed:
-	void OnTargetDestroyed(IPoolObject poolObject)
-	{
-		poolObject.onPoolObjectDeactivation -= OnTargetDestroyed;
-		score++;
-	}
-*/
 
 [RequireComponent(typeof(ImpactEventHandler))]
 public class DestroyOnImpact : PoolGameObject
@@ -50,6 +34,7 @@ public class DestroyOnImpact : PoolGameObject
 	private void Awake()
 	{
 		impactHandler.eventsHandler.onTriggerEvent += OnTriggerEvent;	
+			
 	}
 
 	/// <summary>Event invoked when a Collision2D intersection is received.</summary>
