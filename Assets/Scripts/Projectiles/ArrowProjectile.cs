@@ -25,15 +25,25 @@ public class ArrowProjectile : Projectile
 
 	[Space(5f)]
 	[Header("Arrow Projectile's Attributes:")]
+	[SerializeField] private int _incrustTolerance; 		/// <summary>How many GameObjects of the incrustable tags can be tolerated before thi projectile may be incrusted.</summary>
 	[SerializeField] private GameObjectTag[] _incrustTags; 	/// <summary>Tags of GameObjects that can be incrusted by the Arrow Projectile.</summary>
 	[SerializeField] private HitCollider2D _tipHitBox; 		/// <summary>Tip's HitBox.</summary>
 	[SerializeField] private BoxCollider2D _chainCollider; 	/// <summary>Chain's BoxCollider.</summary>
 	private LineRenderer _lineRenderer; 					/// <summary>LineRenderer's Component.</summary>
 	private Vector3 _spawnPosition; 						/// <summary>Spawn Position.</summary>
 	private ArrowProjectileState _state; 					/// <summary>Arrow Projectile's State.</summary>
-	private bool inverted;
+	private int _incrustPhase; 								/// <summary>current Incrust's Phase.</summary>
+	private bool _inverted; 								/// <summary>Is the Arrow already inverted?.</summary>
+	private bool _incrusted; 								/// <summary>Is the Arrow Incrusted?.</summary>
 
 #region Getter/Setters:
+	/// <summary>Gets and Sets incrustTolerance property.</summary>
+	public int incrustTolerance
+	{
+		get { return _incrustTolerance; }
+		set { _incrustTolerance = value; }
+	}
+
 	/// <summary>Gets and Sets incrustTags property.</summary>
 	public GameObjectTag[] incrustTags
 	{
@@ -70,25 +80,48 @@ public class ArrowProjectile : Projectile
 		get { return _spawnPosition; }
 		set { _spawnPosition = value; }
 	}
+
+	/// <summary>Gets and Sets incrustPhase property.</summary>
+	public int incrustPhase
+	{
+		get { return _incrustPhase; }
+		set { _incrustPhase = value; }
+	}
+
+	/// <summary>Gets and Sets inverted property.</summary>
+	public bool inverted
+	{
+		get { return _inverted; }
+		set { _inverted = value; }
+	}
+
+	/// <summary>Gets and Sets incrusted property.</summary>
+	public bool incrusted
+	{
+		get { return _incrusted; }
+		set { _incrusted = value; }
+	}
 #endregion
 
 	/// <summary>Callback internally invoked inside Update.</summary>
 	protected override void Update()
 	{
-		switch(state)
+		/*switch(state)
 		{
 			case ArrowProjectileState.Incrusted:
 			base.Update(); /// Only tick its lifespan when it is incrusted
 			break;
-		}
+		}*/
 
+		if(incrusted) base.Update();
 		UpdateChain();
 	}
 
 	/// <summary>Callback internally invoked inside FixedUpdate.</summary>
 	protected override void FixedUpdate()
 	{
-		if(state == ArrowProjectileState.Incrusted) return;
+		//if(state == ArrowProjectileState.Incrusted) return;
+		if(incrusted) return;
 
 		base.FixedUpdate();
 	}
@@ -97,20 +130,20 @@ public class ArrowProjectile : Projectile
 	/// <param name="_info">Trigger2D's Information.</param>
 	/// <param name="_eventType">Type of the event.</param>
 	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
-	public virtual void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
+	public override void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
 #region Debug:
 		StringBuilder builder = new StringBuilder();
 
 		builder.Append("OnTriggerEvent invoked to class ");
 		builder.AppendLine(name);
-		builder.Append("State: ");
-		builder.Append(state.ToString());
+		builder.Append("Incrusted: ");
+		builder.Append(incrusted.ToString());
 
 		Debug.Log(builder.ToString());
 #endregion
 
-		if(state == ArrowProjectileState.Incrusted) return;
+		if(incrusted) return;
 
 		Collider2D collider = _info.collider;
 
@@ -122,7 +155,16 @@ public class ArrowProjectile : Projectile
 		{
 			if(obj.CompareTag(tag))
 			{
-				switch(state)
+				if(incrustPhase < incrustTolerance) incrustPhase++;
+				else
+				{
+					state = ArrowProjectileState.Incrusted;
+					incrusted = true;
+					tipHitBox.SetTrigger(false);
+				}
+
+				/// Ye old one:
+				/*switch(state)
 				{
 					case ArrowProjectileState.NotIntersectedWithIncrustable:
 					state = ArrowProjectileState.IntersectedWithFirstIncrustable;
@@ -132,7 +174,7 @@ public class ArrowProjectile : Projectile
 					state = ArrowProjectileState.Incrusted;
 					tipHitBox.SetTrigger(false);
 					break;
-				}
+				}*/
 
 				Debug.Log("[ArrowProjectile] Interacted with uncrustable object, new state: " + state.ToString());
 			}
@@ -148,6 +190,8 @@ public class ArrowProjectile : Projectile
 		tipHitBox.SetTrigger(true);
 		lineRenderer.enabled = true;
 		inverted = false;
+		incrustPhase = 0;
+		incrusted = false;
 	}
 
 	/// <summary>Callback invoked when the object is deactivated.</summary>

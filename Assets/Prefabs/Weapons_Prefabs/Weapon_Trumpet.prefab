@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8161716192223792834}
   - component: {fileID: 3943347323783565882}
   - component: {fileID: 6693131034922203638}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: HitCollider2D_TrumpetSoundWaveEmitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3768783480542424726}
   m_BodyType: 1
-  m_Simulated: 0
+  m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -97,10 +97,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 32768
-  _affectedTags: []
 --- !u!1 &8552743842173861803
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,6 +110,8 @@ GameObject:
   - component: {fileID: 8985396009874189859}
   - component: {fileID: 1639286627706498988}
   - component: {fileID: 1697131676}
+  - component: {fileID: 8266453308300675526}
+  - component: {fileID: 199522895}
   m_Layer: 0
   m_Name: Weapon_Trumpet
   m_TagString: Untagged
@@ -150,16 +148,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableMask:
-    serializedVersion: 2
-    m_Bits: 0
-  _impactAffectableMask:
-    serializedVersion: 2
-    m_Bits: 0
-  _damage: 1
-  _hitBoxesInfo:
-  - _hitCollider: {fileID: 6693131034922203638}
-    _damageScale: 1
+  _healthAffectableTags:
+  - _tag: Player
+    index: 5
+  _damage: 5
+  _damageScales:
+  - 1
+  _impactTags: []
   _trailRenderers: []
 --- !u!114 &8985396009874189859
 MonoBehaviour:
@@ -173,6 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!95 &1639286627706498988
 Animator:
   serializedVersion: 3
@@ -204,8 +200,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9837f2f9fd0689b429e499f662bb8f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flags: 0
   _animator: {fileID: 1639286627706498988}
   _comboLimits: 01000000
+--- !u!114 &8266453308300675526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8552743842173861803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0de1b3f35b907f40acd80c31c5e092a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+--- !u!114 &199522895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8552743842173861803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37580e75b7b1d7f4c834a8031fa6ff15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _source: 0
+  _volumeScale: 1
 --- !u!1001 &7394842134758947790
 PrefabInstance:
   m_ObjectHideFlags: 0

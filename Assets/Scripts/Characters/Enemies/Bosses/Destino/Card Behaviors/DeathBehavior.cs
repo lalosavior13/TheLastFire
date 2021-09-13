@@ -205,7 +205,7 @@ public class DeathBehavior : DestinoScriptableCoroutine
 			    break;
 			}
 
-			Debug.Log("[DeathBehavior] Animation Attack Event: " + _state.ToString());
+			//Debug.Log("[DeathBehavior] Animation Attack Event: " + _state.ToString());
 		};
 
 		scythe.gameObject.SetActive(true);

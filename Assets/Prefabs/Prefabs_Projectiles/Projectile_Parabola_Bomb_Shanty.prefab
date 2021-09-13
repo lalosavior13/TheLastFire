@@ -274,7 +274,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7807340246942760902}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: fe3f9a783261fb24b813b574ef4f570c, type: 2}
   m_IsTrigger: 0
@@ -295,7 +295,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitBoxes: []
+  _hitBoxes:
+  - {fileID: 7890409840483429500}
 --- !u!114 &7807340246942760897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,14 +331,6 @@ MonoBehaviour:
   _rotateTowardsDirection: 0
   _maxSteeringForce: 5
   _distance: 5
-  _motionType: 0
-  _axes:
-    _x: 0
-    _y: 0
-    _z: 0
-  _space: 0
-  _radius: 0
-  _motionSpeed: 0
   _impactParticleEffectIndex:
     index: 0
     objectIndex: 0
@@ -362,6 +355,7 @@ MonoBehaviour:
   _flamableTags:
   - _tag: Projectile/Player
     index: 11
+  _fuse: {fileID: 8190695335403940318}
 --- !u!114 &-8338976305958156496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,7 +475,7 @@ GameObject:
   - component: {fileID: 7890409840483429501}
   m_Layer: 10
   m_Name: HitBox_BouncingBall
-  m_TagString: Untagged
+  m_TagString: Projectile/Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -550,4 +544,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.7
+  m_Radius: 1

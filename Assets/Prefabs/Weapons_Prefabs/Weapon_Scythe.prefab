@@ -117,10 +117,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: 0
   _detectableHitEvents: 1
-  _affectedLayer:
-    serializedVersion: 2
-    m_Bits: 32768
-  _affectedTags: []
 --- !u!61 &4322603084289528743
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -387,7 +383,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7867322482360255939}
-  m_LocalRotation: {x: 1, y: -0, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -396,7 +392,7 @@ Transform:
   - {fileID: 8786056481783223756}
   m_Father: {fileID: 3953920185387902663}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &8317990646176619689
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,6 +408,7 @@ GameObject:
   - component: {fileID: -5036733490172092263}
   - component: {fileID: 1757930438}
   - component: {fileID: 2338337320028394755}
+  - component: {fileID: 6957770606409311386}
   m_Layer: 0
   m_Name: Weapon_Scythe
   m_TagString: Untagged
@@ -428,7 +425,7 @@ Transform:
   m_GameObject: {fileID: 8317990646176619689}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 7378453862538502009}
   - {fileID: 3897575724827638452}
@@ -448,16 +445,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableMask:
-    serializedVersion: 2
-    m_Bits: 32768
-  _impactAffectableMask:
-    serializedVersion: 2
-    m_Bits: 0
+  _healthAffectableTags:
+  - _tag: Player
+    index: 5
   _damage: 1.1111111e+29
-  _hitBoxesInfo:
-  - _hitCollider: {fileID: 3253121881069287805}
-    _damageScale: 1
+  _damageScales:
+  - 1
+  _impactTags: []
   _trailRenderers:
   - {fileID: 8674326753404516600}
 --- !u!114 &4116937056435194663
@@ -488,6 +482,9 @@ MonoBehaviour:
   _maxSpeed: 10
   _maxForce: 10
   _mass: 1
+  _offset: 0
+  _radius: 0
+  _angleChange: 0
   color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &-5036733490172092263
 MonoBehaviour:
@@ -501,6 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!95 &1757930438
 Animator:
   serializedVersion: 3
@@ -532,8 +530,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9837f2f9fd0689b429e499f662bb8f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flags: 0
   _animator: {fileID: 1757930438}
-  _comboLimits: 010000000100000001000000
+  _comboLimits: 020000000200000002000000
+--- !u!114 &6957770606409311386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8317990646176619689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0de1b3f35b907f40acd80c31c5e092a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
 --- !u!1 &9196257175390086632
 GameObject:
   m_ObjectHideFlags: 0

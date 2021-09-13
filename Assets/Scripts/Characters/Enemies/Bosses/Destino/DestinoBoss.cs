@@ -49,6 +49,9 @@ public class DestinoBoss : Boss
 	[Space(5f)]
 	[Header("Sound FXs' References:")]
 	[Space(5f)]
+	[Header("Destino's Sounds:")]
+	[SerializeField] private CollectionIndex _damageTakenSoundIndex; 	/// <summary>Damage taken's Sound's Index.</summary>
+	[Space(5f)]
 	[Header("Death's Sounds:")]
 	[SerializeField] private CollectionIndex _buildUpSoundIndex; 		/// <summary>Build-Up's Sound's Index.</summary>
 	[SerializeField] private CollectionIndex _swingSoundIndex; 			/// <summary>Swing's Sound's Index.</summary>
@@ -168,6 +171,9 @@ public class DestinoBoss : Boss
 		set { _cymbals = value; }
 	}
 
+	/// <summary>Gets damageTakenSoundIndex property.</summary>
+	public CollectionIndex damageTakenSoundIndex { get { return _damageTakenSoundIndex; } }
+
 	/// <summary>Gets buildUpSoundIndex property.</summary>
 	public CollectionIndex buildUpSoundIndex { get { return _buildUpSoundIndex; } }
 
@@ -243,7 +249,11 @@ public class DestinoBoss : Boss
 		if(trumpet != null) trumpet.gameObject.SetActive(false);
 		if(cymbals != null) cymbals.gameObject.SetActive(false);
 
-		if(deckController != null) deckController.onCardSelected += OnCardSelected;
+		if(deckController != null)
+		{
+			deckController.Reset();
+			deckController.onCardSelected += OnCardSelected;
+		}
 
 		if(cards != null) foreach(DestinoCard card in cards)
 		{
@@ -399,6 +409,21 @@ public class DestinoBoss : Boss
 		removableHead.gameObject.SetActive(true);
 		removableHead.SetParent(null);
 		this.StartCoroutine(removableHead.LerpTowardsData(headFallPointData, fallDuration, TransformProperties.PositionAndRotation, Space.World, OnHeadFalled), ref fallenTolerance);
+	}
+
+	/// <summary>Callback invoked when a Health's event has occured.</summary>
+	/// <param name="_event">Type of Health Event.</param>
+	/// <param name="_amount">Amount of health that changed [0.0f by default].</param>
+	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
+	{
+		base.OnHealthEvent(_event, _amount);
+
+		switch(_event)
+		{
+			case HealthEvent.Depleted:
+			AudioController.PlayOneShot(SourceType.SFX, 0, damageTakenSoundIndex);
+			break;
+		}
 	}
 
 	/// <summary>Callback invoked when the card has been stored [after the fallen tolerance has ended].</summary>

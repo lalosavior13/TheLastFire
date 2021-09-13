@@ -138,6 +138,7 @@ public class Health : MonoBehaviour, IStateMachine
     public void GiveDamage(float _damage, bool _applyHitStun = true, bool _applyInvincibility = true)
     {
         /// If the current state is onInvincibility or the damage to receive is less or equal than '0', do nothing.
+        Debug.Log("[Health] Give Damage. On invencility: " + onInvincibility + " Damage: " + _damage);
         if(onInvincibility || _damage <= 0.0f) return;
 
         _damage = _damage.Clamp(0.0f, hp);

@@ -2,37 +2,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Voidless;
 
 namespace Flamingo
 {
 public class ChangeSceneOnTrigger : MonoBehaviour
 {
-	[SerializeField] private string _scenePath; 	/// <summary>Scene's Path.</summary>
-	[SerializeField] private string _tag; 
-
-	/// <summary>Gets scenePath property.</summary>
-	public string scenePath { get { return _scenePath; } }
-
-	/// <summary>Gets tag property.</summary>
-	public string tag { get { return _tag; } }
+	[SerializeField] private string scene; 			/// <summary>Scene's Name.</summary>
+	[SerializeField] private GameObjectTag[] tags; 	/// <summary>Tags that trigger the Scene Change.</summary>
 
 	/// <summary>Event triggered when this Collider enters another Collider trigger.</summary>
 	/// <param name="col">The other Collider involved in this Event.</param>
 	private void OnTriggerEnter2D(Collider2D col)
 	{
 		GameObject obj = col.gameObject;
-		if(obj.CompareTag(tag))
 	
-		/*switch(obj.tag)
+		foreach(GameObjectTag tag in tags)
 		{
-			case "NULL":
-			break;
-	
-			default:
-			break;
-		}*/
-
-		Game.LoadScene(scenePath);
+			if(obj.CompareTag(tag))
+			{
+				Game.LoadScene(scene);
+				return;
+			}
+		}
 	}
 }
 }

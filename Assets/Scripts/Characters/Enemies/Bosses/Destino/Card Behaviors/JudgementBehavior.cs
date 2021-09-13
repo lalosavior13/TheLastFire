@@ -85,8 +85,8 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 #if UNITY_EDITOR
 	[Space(5f)]
 	[Header("Gizmos' Attributes:")]
-	[SerializeField] private Color gizmosColor; 										/// <summary>Gizmos' Color.</summary>
-	[SerializeField] private float gizmosRadius; 										/// <summary>Gizmos' Radius.</summary>
+	[SerializeField] private Color gizmosColor; 									/// <summary>Gizmos' Color.</summary>
+	[SerializeField] private float gizmosRadius; 									/// <summary>Gizmos' Radius.</summary>
 #endif
 
 #region Getters/Setters:

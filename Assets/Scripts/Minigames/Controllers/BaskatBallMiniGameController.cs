@@ -14,11 +14,11 @@ namespace Flamingo {
 
 
 
-#region Getters/Setters
+        #region Getters/Setters
 
         /// <summary>Gets and Sets basketMiniGame property.</summary>
         public BasketBallMiniGame basketMiniGame { get { return _basketMiniGame; } }
-
+        
         /// <summary>Get and Sets ballInitialPos property.</summary>
         public Vector3 ballInitialPos
         {

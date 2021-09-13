@@ -138,6 +138,8 @@ public class ContactWeapon : PoolGameObject
 		GameObject obj = _info.collider.gameObject;
 		int instanceID = obj.GetInstanceID();
 
+		Debug.Log("[ContactWeapon] OnTriggerEvent. " + gameObject.name + " Against " + obj.name);
+
 /// \TODO Soon to delete (regarding the debugging. I hope at least...)
 /*#region Debug:
 		StringBuilder builder = new StringBuilder();
@@ -166,12 +168,15 @@ public class ContactWeapon : PoolGameObject
 
 				if(obj.CompareTag(tag))
 				{
+					Debug.Log("[ContactWeapon] GameObject " + obj.name + " has tag " + tag);
+
 					objectsIDs.Add(instanceID);
 
 					Health health = obj.GetComponentInParent<Health>();
 					
 					if(health == null)
 					{
+						Debug.Log("[ContactWeapon] Did not have Health, trying to get HealthLinker");
 						HealthLinker linker = obj.GetComponent<HealthLinker>();
 						if(linker != null) health = linker.component;
 					}
@@ -184,12 +189,15 @@ public class ContactWeapon : PoolGameObject
 						
 						health.GiveDamage(damageApplied);
 						OnHealthInstanceDamaged(health);
+
+						break;
 					}
+					else Debug.Log("[ContactWeapon] Health is NULL");
 				}
 				break;
 
 				case HitColliderEventTypes.Exit:
-				if(objectsIDs.Contains(instanceID)) objectsIDs.Remove(instanceID);
+				objectsIDs.Remove(instanceID);
 				break;
 			}
 		}

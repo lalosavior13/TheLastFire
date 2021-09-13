@@ -63,6 +63,8 @@ public class ImpactEventHandler : MonoBehaviour
 
 		foreach(HitCollider2D hitBox in hitBoxes)
 		{
+			hitBox.detectableHitEvents = HitColliderEventTypes.EnterAndExit;
+
 			switch(_subscribe)
 			{
 				case true:
@@ -86,7 +88,7 @@ public class ImpactEventHandler : MonoBehaviour
 	public void OnHitColliderTriggerEvent2D(Collider2D _collider, HitColliderEventTypes _eventType, int _ID = 0)
 	{
 		GameObject obj = _collider.gameObject;
-		Collider2D collider = hitBoxes[_ID].collider;
+		Collider2D collider = hitBoxes[Mathf.Clamp(_ID, 0, hitBoxes.Length - 1)].collider;
 
 #region Debug:
 		/*Debug.Log(

@@ -8,19 +8,12 @@ namespace Flamingo
 {
 public class MotionProjectile : Projectile
 {
-	/// <summary>Resets MotionProjectile's instance to its default values.</summary>
-	private void Reset()
-	{
-		axes = Vector3.up;
-		space = Space.Self;
-	}
-
 	/// <summary>Callback internally invoked inside FixedUpdate.</summary>
 	protected override void FixedUpdate()
 	{
 		base.FixedUpdate();
 
-		if(!activated || impactEventHandler.hitBoxes == null) return;
+		/*if(!activated || impactEventHandler.hitBoxes == null) return;
 
 		time = time < (360.0f * motionSpeed) ? time + (Time.fixedDeltaTime * motionSpeed) : 0.0f;
 
@@ -50,14 +43,14 @@ public class MotionProjectile : Projectile
 			}
 
 			hitBox.transform.position = childPosition;																
-		}
+		}*/
 	}
 
 	/// <summary>Actions made when this Pool Object is being reseted.</summary>
 	public override void OnObjectReset()
 	{
 		base.OnObjectReset();
-		time = 0.0f;
+		//time = 0.0f;
 	}
 }
 }

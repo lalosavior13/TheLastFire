@@ -159,6 +159,14 @@ public class DestinoDeckController : DestinoScriptableCoroutine
 	}
 #endif
 
+	/// <summary>Resets DestinoDeckController's instance to its default values.</summary>
+	public void Reset()
+	{
+		deck = null;
+		onCardSelected = null;
+		selectedCard = null;
+	}
+
 	/// <summary>Creates and shuffles deck from the cards available on the scene.</summary>
 	/// <param name="boss">Boss' Reference.</param>
 	private void CreateDeck(DestinoBoss boss)
@@ -522,7 +530,8 @@ public class DestinoDeckController : DestinoScriptableCoroutine
 		foreach(DestinoCard card in deck)
 		{
 			card.transform.position = boss.transform.position;
-			card.transform.rotation = faceUpRotation;
+			//card.transform.rotation = faceUpRotation;
+			card.transform.rotation = faceDownRotation;
 		}
 
 		while(t < 1.0f)

@@ -102,20 +102,12 @@ MonoBehaviour:
   _projectileType: 0
   _repelTags: []
   _speedMode: 0
-  _speed: 7
+  _speed: 5
   _lifespan: 0
   _cooldownDuration: 0
   _rotateTowardsDirection: 0
-  _maxSteeringForce: 0
-  _distance: 0
-  _motionType: 0
-  _axes:
-    _x: 0
-    _y: 0
-    _z: 1
-  _space: 0
-  _radius: 1
-  _motionSpeed: 0
+  _maxSteeringForce: 2
+  _distance: 5
   _impactParticleEffectIndex:
     index: 6
     objectIndex: 0

@@ -306,6 +306,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1397606416
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1397606417}
+  - component: {fileID: 1397606418}
+  m_Layer: 0
+  m_Name: Clock
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1397606417
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397606416}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.45810702, y: -1.2796788, z: 2.5720625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1397606418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397606416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df800c5cc1e26464bb8080d40cf7b1a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _breakTheTargetsMiniGame:
+    clock:
+      _format: 6
+      _secondsFractioning: 2
 --- !u!1 &2028419547
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,6 +480,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ParticleEffect_Step_Steel
       objectReference: {fileID: 0}
+    - target: {fileID: 2038017754843348876, guid: 841ed073cbc0e5a43968718a41f01a31,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2038017754843348878, guid: 841ed073cbc0e5a43968718a41f01a31,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -501,6 +553,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ParticleEffect_Step_Wood
+      objectReference: {fileID: 0}
+    - target: {fileID: 2757906412654105322, guid: 83815da667b15ec4cb805cb3ec69b11d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2757906412654105324, guid: 83815da667b15ec4cb805cb3ec69b11d,
         type: 3}
@@ -571,6 +628,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ParticleEffect_Step_Grass
       objectReference: {fileID: 0}
+    - target: {fileID: 3740105899325972866, guid: a53bdab9c6abc6847aac2c4a84252f6c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3740105899325972924, guid: a53bdab9c6abc6847aac2c4a84252f6c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -639,6 +701,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ParticleEffect_Dash
+      objectReference: {fileID: 0}
+    - target: {fileID: 4060840464662157289, guid: f8589aeb5fe00274999ba3eb40978dff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4060840464662157291, guid: f8589aeb5fe00274999ba3eb40978dff,
         type: 3}
@@ -764,6 +831,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ParticleEffect_Step_Water
       objectReference: {fileID: 0}
+    - target: {fileID: 4330004709741446442, guid: 4e380b8e94c0faf4987a47cc4e350245,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e380b8e94c0faf4987a47cc4e350245, type: 3}
 --- !u!1001 &6306778630503907533
@@ -832,6 +904,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ParticleEffect_Step_Steel2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306778630193998042, guid: b013666642c319b488e962306595a381,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b013666642c319b488e962306595a381, type: 3}
@@ -902,6 +979,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ParticleEffect_Ripple_Water
       objectReference: {fileID: 0}
+    - target: {fileID: 6972153726185558699, guid: 9050f7f208b708f4d81ef0495d3176d7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9050f7f208b708f4d81ef0495d3176d7, type: 3}
 --- !u!1001 &8794394516191551657
@@ -915,6 +997,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ParticleEffect_Jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 8794394515965911202, guid: 148afe93d2471be48aaef341f52c6c3c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8794394515965911204, guid: 148afe93d2471be48aaef341f52c6c3c,
         type: 3}

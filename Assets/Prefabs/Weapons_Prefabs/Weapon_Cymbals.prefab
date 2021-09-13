@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1547806407}
   - component: {fileID: 8975407156226519100}
   - component: {fileID: 1589161141992018629}
+  - component: {fileID: 4737316508548547063}
+  - component: {fileID: 1515513119}
   m_Layer: 0
   m_Name: Weapon_Cymbals
   m_TagString: Untagged
@@ -67,6 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9837f2f9fd0689b429e499f662bb8f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flags: 0
   _animator: {fileID: 6844656098558936204}
   _comboLimits: 01000000
 --- !u!114 &8975407156226519100
@@ -81,6 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d3693714633eaa44bf44973488f9e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hitBoxes: []
 --- !u!114 &1589161141992018629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,19 +98,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableMask:
-    serializedVersion: 2
-    m_Bits: 32768
-  _impactAffectableMask:
-    serializedVersion: 2
-    m_Bits: 0
-  _damage: 15
-  _hitBoxesInfo:
-  - _hitCollider: {fileID: 2959677360392671994}
-    _damageScale: 1
-  - _hitCollider: {fileID: 5604092616393381133}
-    _damageScale: 1
+  _healthAffectableTags:
+  - _tag: Player
+    index: 5
+  _damage: 5
+  _damageScales:
+  - 1
+  _impactTags: []
   _trailRenderers: []
+--- !u!114 &4737316508548547063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6844656098558936205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0de1b3f35b907f40acd80c31c5e092a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debug: 0
+--- !u!114 &1515513119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6844656098558936205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37580e75b7b1d7f4c834a8031fa6ff15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _source: 0
+  _volumeScale: 1
 --- !u!1001 &4191237304183484443
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -153,6 +179,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1432254407783351743, guid: aebca1820cdcd374b8bab27df92826d5,
+        type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007591000536223373, guid: aebca1820cdcd374b8bab27df92826d5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007591000536223373, guid: aebca1820cdcd374b8bab27df92826d5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007591000536223373, guid: aebca1820cdcd374b8bab27df92826d5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007591000536223373, guid: aebca1820cdcd374b8bab27df92826d5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2587737837715874560, guid: aebca1820cdcd374b8bab27df92826d5,
         type: 3}
@@ -229,6 +280,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cymbal_Right
       objectReference: {fileID: 0}
+    - target: {fileID: 8642399532098561302, guid: aebca1820cdcd374b8bab27df92826d5,
+        type: 3}
+      propertyPath: _detectableHitEvents
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -472744449274132160, guid: aebca1820cdcd374b8bab27df92826d5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: aebca1820cdcd374b8bab27df92826d5, type: 3}
@@ -238,18 +294,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4191237304183484443}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5604092616393381133 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8642399532098561302, guid: aebca1820cdcd374b8bab27df92826d5,
-    type: 3}
-  m_PrefabInstance: {fileID: 4191237304183484443}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1440cb99ae83e4d46a7d5712b3d72c68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6844656098860087276
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -296,6 +340,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1432254407783351743, guid: aebca1820cdcd374b8bab27df92826d5,
+        type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007591000536223373, guid: aebca1820cdcd374b8bab27df92826d5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007591000536223373, guid: aebca1820cdcd374b8bab27df92826d5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007591000536223373, guid: aebca1820cdcd374b8bab27df92826d5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007591000536223373, guid: aebca1820cdcd374b8bab27df92826d5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2587737837715874560, guid: aebca1820cdcd374b8bab27df92826d5,
         type: 3}
@@ -372,6 +441,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cymbal_Left
       objectReference: {fileID: 0}
+    - target: {fileID: 8642399532098561302, guid: aebca1820cdcd374b8bab27df92826d5,
+        type: 3}
+      propertyPath: _detectableHitEvents
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -472744449274132160, guid: aebca1820cdcd374b8bab27df92826d5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: aebca1820cdcd374b8bab27df92826d5, type: 3}
@@ -381,15 +455,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6844656098860087276}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2959677360392671994 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8642399532098561302, guid: aebca1820cdcd374b8bab27df92826d5,
-    type: 3}
-  m_PrefabInstance: {fileID: 6844656098860087276}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1440cb99ae83e4d46a7d5712b3d72c68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

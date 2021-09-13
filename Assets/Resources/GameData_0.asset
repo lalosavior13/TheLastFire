@@ -17,6 +17,9 @@ MonoBehaviour:
   _playerTag:
     _tag: Player
     index: 5
+  _enemyTag:
+    _tag: Enemy
+    index: 8
   _playerProjectileTag:
     _tag: Projectile/Player
     index: 11
@@ -32,6 +35,9 @@ MonoBehaviour:
   _ceilingTag:
     _tag: Surface/Ceiling
     index: 15
+  _outOfBoundsTag:
+    _tag: OutOfBounds
+    index: 17
   _outOfBoundsLayer:
     _value: 0
     _name: Default
@@ -48,12 +54,15 @@ MonoBehaviour:
   - {fileID: 3776002058642984422, guid: d3af5c0f01cb90642b38554e3254f35d, type: 3}
   - {fileID: 2306116881200870646, guid: f51e2828ef1fa8b4d853a93e53bfb622, type: 3}
   - {fileID: -472744449274132160, guid: aebca1820cdcd374b8bab27df92826d5, type: 3}
-  - {fileID: 5372738417912063611, guid: b357b650c486cbc4b92646079ee364d6, type: 3}
-  - {fileID: 4726841204741414268, guid: cf5b5f81cb39cc842bd91381d0bc7f66, type: 3}
-  - {fileID: 4726841204741414268, guid: 1819bf3f37668224a936551a031eb1c1, type: 3}
+  - {fileID: 5251085102362210451, guid: 032d0ca46aab862439e06efc371629cd, type: 3}
+  - {fileID: -3226295003339927436, guid: 0380b24c68b013848903c11da22e42cc, type: 3}
+  - {fileID: 8522993049506712029, guid: fc9fafa8c4ff6614ebc0bd8f32b56eb9, type: 3}
   - {fileID: 653572736473320296, guid: 028be9ba5f0684a4cb4619f942c4f6e9, type: 3}
   - {fileID: 7807340246942760897, guid: 2ad02a0b9d3e89248ba013e0175113d2, type: 3}
   - {fileID: 3776002058642984422, guid: 0ad5472267bf0cd4f93b3848dddd2929, type: 3}
+  - {fileID: 2632912931191212319, guid: d34c65e5215495749b3c218e3d5a7d4b, type: 3}
+  - {fileID: 3571803949416437869, guid: bdf44366f21f2ee47bd94b1b19e29f1e, type: 3}
+  - {fileID: 1822210689705678102, guid: 0dfbc17cfc0cf934a8c089f8df53bb4d, type: 3}
   _poolObjects:
   - {fileID: 5117779936929461291, guid: c8327e899d8297a439efcf717d4dcf1d, type: 3}
   - {fileID: 4116937056435194663, guid: c9c857279d141cb4eb947c325f96b93b, type: 3}
@@ -61,7 +70,6 @@ MonoBehaviour:
   - {fileID: 5278712921402561579, guid: c4677f2a939e498418f5f4e8b7d13968, type: 3}
   - {fileID: 5278712921402561579, guid: 13f2f18aad7c31d4d9dd0424b50e706c, type: 3}
   - {fileID: 2340683740104089345, guid: 8e98f4254b032564893133ce4247e946, type: 3}
-  - {fileID: 1870387948, guid: 032d0ca46aab862439e06efc371629cd, type: 3}
   _FSMLoops:
   - {fileID: 11400000, guid: 89bfa2b1c0f1bb54cae540866022a46e, type: 2}
   - {fileID: 11400000, guid: 3dde1125cb7b12a4eafe806c0c1f6d8b, type: 2}
