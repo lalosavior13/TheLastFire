@@ -339,6 +339,14 @@ public class ParticleEffect : MonoBehaviour, IPoolObject
 	}
 #endregion
 
+	/// <summary>Gets Particle Systems on self-contained children.</summary>
+	public void GetParticleSystems()
+	{
+		ParticleSystem[] particleSystems = transform.GetComponentsInChildren<ParticleSystem>();
+
+		if(particleSystems.Length > 0) systems = particleSystems;
+	}
+
 	/// <summary>Sets Simulation Time for all main modules.</summary>
 	/// <param name="t">New Time.</param>
 	public void SetSimulationTime(float t)

@@ -15,6 +15,7 @@ public class ParticleEffectInspector : Editor
 	private void OnEnable()
 	{
 		particleEffect = target as ParticleEffect;
+		if(particleEffect.systems == null || particleEffect.systems.Length == 0) particleEffect.GetParticleSystems();
 		time = 1.0f;
 	}
 
@@ -35,8 +36,9 @@ public class ParticleEffectInspector : Editor
 		if(!particleEffect.isStopped && GUILayout.Button("Stop")) particleEffect.Stop();
 		if(particleEffect.isPlaying && GUILayout.Button("Clear")) particleEffect.Clear();
 
+
 		EditorUtility.SetDirty(particleEffect);
-   		serializedObject.ApplyModifiedProperties();
+   		//serializedObject.ApplyModifiedProperties();
 	}
 }
 }

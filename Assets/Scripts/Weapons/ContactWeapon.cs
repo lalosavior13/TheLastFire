@@ -99,16 +99,12 @@ public class ContactWeapon : PoolGameObject
 #endregion
 
 	/// <summary>ContactWeapon's instance initialization.</summary>
-	private void Awake()
+	protected virtual void Awake()
 	{
 		objectsIDs = new HashSet<int>();
 		ActivateHitBoxes(false);
 		eventsHandler.onTriggerEvent += OnTriggerEvent;
-		OnAwake();
 	}
-
-	/// <summary>Callback internally invoked after Awake.</summary>
-	protected virtual void OnAwake(){/*...*/}
 
 	/// <summary>Callback invoked when ContactWeapon's instance is going to be destroyed and passed to the Garbage Collector.</summary>
 	private void OnDestroy()
@@ -138,7 +134,7 @@ public class ContactWeapon : PoolGameObject
 		GameObject obj = _info.collider.gameObject;
 		int instanceID = obj.GetInstanceID();
 
-		Debug.Log("[ContactWeapon] OnTriggerEvent. " + gameObject.name + " Against " + obj.name);
+		//Debug.Log("[ContactWeapon] OnTriggerEvent. " + gameObject.name + " Against " + obj.name);
 
 /// \TODO Soon to delete (regarding the debugging. I hope at least...)
 /*#region Debug:
@@ -164,10 +160,10 @@ public class ContactWeapon : PoolGameObject
 			switch(_eventType)
 			{
 				case HitColliderEventTypes.Enter:
-				if(objectsIDs.Contains(instanceID)) return;
-
 				if(obj.CompareTag(tag))
 				{
+					if(objectsIDs.Contains(instanceID)) return;
+					
 					Debug.Log("[ContactWeapon] GameObject " + obj.name + " has tag " + tag);
 
 					objectsIDs.Add(instanceID);
