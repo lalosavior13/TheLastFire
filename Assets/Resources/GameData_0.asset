@@ -20,6 +20,12 @@ MonoBehaviour:
   _enemyTag:
     _tag: Enemy
     index: 8
+  _playerWeaponTag:
+    _tag: Weapon/Player
+    index: 9
+  _enemyWeaponTag:
+    _tag: Weapon/Enemy
+    index: 10
   _playerProjectileTag:
     _tag: Projectile/Player
     index: 11
@@ -164,6 +170,7 @@ MonoBehaviour:
   - {fileID: 6306778630193998037, guid: b013666642c319b488e962306595a381, type: 3}
   - {fileID: 4330004709741446421, guid: 4e380b8e94c0faf4987a47cc4e350245, type: 3}
   - {fileID: 2757906412654105323, guid: 83815da667b15ec4cb805cb3ec69b11d, type: 3}
+  - {fileID: 8116085811945136806, guid: a70113af926a3e840bfb55e7eeb824c9, type: 3}
   _explodables:
   - {fileID: 7757396531229370483, guid: 510f45f4d87997d48933833abca64959, type: 3}
   _ceilingDotProductThreshold:

@@ -14,11 +14,21 @@ public delegate void OnMiniGameEvent(MiniGame _miniGame, int _eventID);
 [Serializable]
 public abstract class MiniGame
 {
-	public const int ID_EVENT_MINIGAME_ENDED = 0; 	/// <summary>Mini-Game's Ended Event ID.</summary>
+	public const int ID_EVENT_MINIGAME_ENDED = 0; 					/// <summary>Mini-Game's Ended Event ID.</summary>
+	public const int ID_EVENT_MINIGAME_SCOREUPDATE_LOCAL = 1;       /// <summary>Local Score's Update Event ID.</summary>
+    public const int ID_EVENT_MINIGAME_SCOREUPDATE_VISITOR = 2;     /// <summary>Visitor Score's Update Event ID.</summary>
 
-	public event OnMiniGameEvent onMiniGameEvent; 	/// <summary>OnMiniGameEvent's Delegate.</summary>
+	public event OnMiniGameEvent onMiniGameEvent; 					/// <summary>OnMiniGameEvent's Delegate.</summary>
 
-	protected Coroutine coroutine; 					/// <summary>Coroutine's Reference.</summary>
+	private bool _running; 											/// <summary>Is the Mini-Game Running?.</summary>
+	protected Coroutine coroutine; 									/// <summary>Coroutine's Reference.</summary>
+
+	/// <summary>Gets and Sets running property.</summary>
+	public bool running
+	{
+		get { return _running; }
+		protected set { _running = value; }
+	}
 
 	/// <summary>Initializes Mini-Game.</summary>
 	/// <param name="_monoBehaviour">MonoBehaviour that will start the coroutine.</param>
@@ -29,6 +39,7 @@ public abstract class MiniGame
 
 		if(onMiniGameEvent != null) this.onMiniGameEvent += onMiniGameEvent; 
 		_monoBehaviour.StartCoroutine(MiniGameCoroutine(), ref coroutine);
+		running = true;
 	}
 
 	/// <summary>Terminates Mini-Game.</summary>
@@ -37,6 +48,14 @@ public abstract class MiniGame
 	{
 		_monoBehaviour.DispatchCoroutine(ref coroutine);
 		onMiniGameEvent = null;
+		running = false;
+	}
+
+	/// <summary>Invokes Event.</summary>
+	/// <param name="_ID">Event's ID.</param>
+	protected void InvokeEvent(int _ID)
+	{
+		if(onMiniGameEvent != null) onMiniGameEvent(this, _ID);
 	}
 
 	/// <summary>Mini-Game's Coroutine.</summary>

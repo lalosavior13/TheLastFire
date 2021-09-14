@@ -128,7 +128,7 @@ public class PoolManager : Singleton<PoolManager>
 		float magnitude = velocity.magnitude;
 
 		projectile.projectileType = ProjectileType.Parabola;
-		projectile.direction = (velocity / magnitude);
+		projectile.direction = velocity;
 		projectile.speed = magnitude;
 		projectile.parabolaTime = t;
 

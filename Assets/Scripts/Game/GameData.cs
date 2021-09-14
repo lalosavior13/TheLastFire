@@ -20,6 +20,8 @@ public class GameData : ScriptableObject
 	[Header("Tags:")]
 	[SerializeField] private GameObjectTag _playerTag; 							/// <summary>Player's Tag.</summary>
 	[SerializeField] private GameObjectTag _enemyTag; 							/// <summary>Enemy's Tag.</summary>
+	[SerializeField] private GameObjectTag _playerWeaponTag; 					/// <summary>Player Weapon's Tag.</summary>
+	[SerializeField] private GameObjectTag _enemyWeaponTag; 					/// <summary>Enemy Weapon's Tag.</summary>
 	[SerializeField] private GameObjectTag _playerProjectileTag; 				/// <summary>Player Projectile's Tag.</summary>
 	[SerializeField] private GameObjectTag _enemyProjectileTag; 				/// <summary>Enemy Projectile's Tag.</summary>
 	[SerializeField] private GameObjectTag _floorTag; 							/// <summary>Floor surface's Type.</summary>
@@ -50,6 +52,9 @@ public class GameData : ScriptableObject
 	[HideInInspector] public FloatWrapper _floorDotProductThreshold; 			/// <summary>Dot-Product Threshold for the Floor.</summary>
 	[HideInInspector] public FloatWrapper _ceilingAngleThreshold; 				/// <summary>Angle Threshold for the Ceiling.</summary>
 	[HideInInspector] public FloatWrapper _floorAngleThreshold; 				/// <summary>Angle Threshold for the Floor.</summary>
+	private GameObjectTag[] _allFactionsTags; 									/// <summary>All Factions' Tags.</summary>
+	private GameObjectTag[] _allWeaponsTags; 									/// <summary>All Weapons' Tags.</summary>
+	private GameObjectTag[] _allProjectilesTags; 								/// <summary>All Projectiles' Tags.</summary>
 	private float _idealDeltaTime; 												/// <summary>Ideal delta time.</summary>
 #if UNITY_EDITOR
 	[HideInInspector] public bool showDotProducts; 								/// <summary>Enable settings for Dot Products' Thresholds? if false, it will show settings for the Angles' Thresholds.</summary>
@@ -106,6 +111,12 @@ public class GameData : ScriptableObject
 	/// <summary>Gets enemyTag property.</summary>
 	public GameObjectTag enemyTag { get { return _enemyTag; } }
 
+	/// <summary>Gets playerWeaponTag property.</summary>
+	public GameObjectTag playerWeaponTag { get { return _playerWeaponTag; } }
+
+	/// <summary>Gets enemyWeaponTag property.</summary>
+	public GameObjectTag enemyWeaponTag { get { return _enemyWeaponTag; } }
+
 	/// <summary>Gets playerProjectileTag property.</summary>
 	public GameObjectTag playerProjectileTag { get { return _playerProjectileTag; } }
 
@@ -153,6 +164,27 @@ public class GameData : ScriptableObject
 
 	/// <summary>Gets explodables property.</summary>
 	public Explodable[] explodables { get { return _explodables; } }
+
+	/// <summary>Gets and Sets allFactionsTags property.</summary>
+	public GameObjectTag[] allFactionsTags
+	{
+		get { return _allFactionsTags; }
+		private set { _allFactionsTags = value; }
+	}
+
+	/// <summary>Gets and Sets allWeaponsTags property.</summary>
+	public GameObjectTag[] allWeaponsTags
+	{
+		get { return _allWeaponsTags; }
+		private set { _allWeaponsTags = value; }
+	}
+
+	/// <summary>Gets and Sets allProjectilesTags property.</summary>
+	public GameObjectTag[] allProjectilesTags
+	{
+		get { return _allProjectilesTags; }
+		private set { _allProjectilesTags = value; }
+	}
 #endregion
 
 	/// This finally fixed the camera issues: https://docs.unity3d.com/ScriptReference/Time-maximumDeltaTime.html
@@ -162,6 +194,10 @@ public class GameData : ScriptableObject
 		Application.targetFrameRate = frameRate;
 		Time.maximumDeltaTime = idealDeltaTime;
 		Time.fixedDeltaTime = idealDeltaTime;
+
+		allFactionsTags = new GameObjectTag[] { playerTag, enemyTag };
+		allWeaponsTags = new GameObjectTag[] { playerWeaponTag, enemyWeaponTag };
+		allProjectilesTags = new GameObjectTag[] { playerProjectileTag, enemyProjectileTag };
 
 		StringBuilder builder = new StringBuilder();
 

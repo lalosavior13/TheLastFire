@@ -316,6 +316,7 @@ public class Projectile : ContactWeapon
 		base.OnTriggerEvent(_info, _eventType, _ID);
 
 		GameObject obj = _info.collider.gameObject;
+		GameObject newOwner = null;
 
 /*
 #regionOutOfBoundsShiat:
@@ -351,27 +352,27 @@ public class Projectile : ContactWeapon
 					case ProjectileType.Parabola:
 					accumulatedVelocity = Vector3.zero;
 
+					/// Assign new ownership...
+					weapon = obj.GetComponentInParent<ContactWeapon>();
+
+					newOwner = weapon != null && weapon.owner != null ? weapon.owner : obj;
+
 					if(owner == null)
 					{
 						direction *= -1.0f;
-					}
-
-					Vector3 velocity = VPhysics.ProjectileDesiredVelocity(parabolaTime, transform.position, owner.transform.position, Physics.gravity);
-					float magnitude = velocity.magnitude;
-
-					velocity /= magnitude; // Normalize
-					direction = velocity;
-					speed = magnitude;
-
-					/// Assign new ownership...
-					weapon = obj.GetComponent<ContactWeapon>();
-
-					if(weapon != null)
+					
+					} else if(newOwner != owner)
 					{
-						GameObject newOwner = weapon.owner;
-						owner = newOwner != null ? newOwner : obj;
+						Vector3 velocity = VPhysics.ProjectileDesiredVelocity(parabolaTime, transform.position, owner.transform.position, Physics.gravity);
+						float magnitude = velocity.magnitude;
+
+						velocity /= magnitude; // Normalize
+						direction = velocity;
+						speed = magnitude;
+						owner = newOwner;
+
+						Debug.DrawRay(transform.position, direction * speed, Color.magenta, 5.0f);
 					}
-					else owner = obj;
 					break;
 
 					case ProjectileType.Homing:
@@ -384,7 +385,7 @@ public class Projectile : ContactWeapon
 					/// Assign new ownership...
 					if(weapon != null)
 					{
-						GameObject newOwner = weapon.owner;
+						newOwner = weapon.owner;
 						owner = newOwner != null ? newOwner : obj;
 					}
 					else owner = obj;

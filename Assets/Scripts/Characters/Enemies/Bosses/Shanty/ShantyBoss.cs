@@ -40,6 +40,7 @@ public class ShantyBoss : Boss
 
 		sword.owner = gameObject;
 		sword.ActivateHitBoxes(false);
+		sword.ActivateHitBoxes(true); /// Temporal testing for the repelling
 	}
 
 	/// <summary>ShantyBoss's starting actions before 1st Update frame.</summary>

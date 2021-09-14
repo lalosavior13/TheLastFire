@@ -218,13 +218,12 @@ GameObject:
   m_Component:
   - component: {fileID: 7807340246942760907}
   - component: {fileID: 7807340246942760900}
-  - component: {fileID: 7807340246942760903}
   - component: {fileID: 7890409840708402997}
   - component: {fileID: 7807340246942760897}
   - component: {fileID: -8338976305958156496}
   m_Layer: 15
   m_Name: Projectile_Parabola_Bomb_Shanty
-  m_TagString: Untagged
+  m_TagString: Projectile/Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -267,22 +266,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &7807340246942760903
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7807340246942760902}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: fe3f9a783261fb24b813b574ef4f570c, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!114 &7890409840708402997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,14 +331,20 @@ MonoBehaviour:
     objectIndex: 0
     collectionIndex: 0
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}
-  _expodableIndex:
-    index: 0
-    objectIndex: 0
-    collectionIndex: 7
   _flamableTags:
   - _tag: Projectile/Player
     index: 11
+  _explodableIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 7
+  _fireEffectIndex:
+    index: 22
+    objectIndex: 0
+    collectionIndex: 6
   _fuse: {fileID: 8190695335403940318}
+  _fuseDuration: 5
+  _fuseLength: 2
 --- !u!114 &-8338976305958156496
 MonoBehaviour:
   m_ObjectHideFlags: 0
