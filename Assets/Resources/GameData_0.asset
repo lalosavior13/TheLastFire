@@ -52,6 +52,7 @@ MonoBehaviour:
     _value: 8
     _name: Surface
     index: 5
+  _projectiles: []
   _playerProjectiles:
   - {fileID: 6441458002429525075, guid: cceb42b80d7bb4d42ad1cb6e830c5a4b, type: 3}
   - {fileID: 8271858034072766596, guid: 6410736574034c8419a8afe9766e808e, type: 3}

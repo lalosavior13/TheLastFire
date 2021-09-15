@@ -34,8 +34,10 @@ public class GameData : ScriptableObject
 	[SerializeField] private LayerValue _surfaceLayer; 							/// <summary>Surface's Layer.</summary>
 	[Space(5f)]
 	[Header("Projectiles:")]
+	[SerializeField] private Projectile[] _projectiles; 						/// <summary>Game's Projectiles.</summary>
 	[SerializeField] private Projectile[] _playerProjectiles; 					/// <summary>Player's Projectiles.</summary>
 	[SerializeField] private Projectile[] _enemyProjectiles; 					/// <summary>Enemy's Projectiles.</summary>
+	[Space(5f)]
 	[SerializeField] private PoolGameObject[] _poolObjects; 					/// <summary>Pool GameObjects.</summary>
 	[Space(5f)]
 	[Header("Audios:")]
@@ -140,6 +142,9 @@ public class GameData : ScriptableObject
 
 	/// <summary>Gets surfaceLayer property.</summary>
 	public LayerValue surfaceLayer { get { return _surfaceLayer; } }
+
+	/// <summary>Gets projectiles property.</summary>
+	public Projectile[] projectiles { get { return _projectiles; } }
 
 	/// <summary>Gets playerProjectiles property.</summary>
 	public Projectile[] playerProjectiles { get { return _playerProjectiles; } }
