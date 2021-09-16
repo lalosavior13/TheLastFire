@@ -275,30 +275,23 @@ MonoBehaviour:
   _rotateTowardsDirection: 0
   _maxSteeringForce: 2
   _distance: 5
-  _motionType: 0
-  _axes:
-    _x: 1
-    _y: 0
-    _z: 0
-  _space: 0
-  _radius: 2
-  _motionSpeed: 2
   _impactParticleEffectIndex:
-    index: 0
+    index: 23
     objectIndex: 0
-    collectionIndex: 6
+    collectionIndex: 7
   _destroyedParticleEffectIndex:
-    index: 0
+    index: 23
     objectIndex: 0
-    collectionIndex: 6
+    collectionIndex: 7
+  _sourceIndex: 1
   _impactSoundEffectIndex:
     index: 43
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 6
   _destroyedSoundEffectIndex:
     index: 43
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 6
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1614921204212439701
 MonoBehaviour:

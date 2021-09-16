@@ -305,10 +305,10 @@ MonoBehaviour:
   _healthDistribution: []
   _distributionSystem:
     _probabilityRanges: []
-  _animator: {fileID: 0}
+  _animator: {fileID: 437732194}
   _phases: 4
   _scaleRange:
-    _min: 1
+    _min: 0.1
     _max: 5
   _sphereColliderSizeRange:
     _min: 1
@@ -335,7 +335,7 @@ MonoBehaviour:
   _projectileIndex:
     index: 9
     objectIndex: 0
-    collectionIndex: 1
+    collectionIndex: 2
   _shootInterval:
     _min: 2.5
     _max: 5
@@ -348,14 +348,33 @@ MonoBehaviour:
   _rotationDuration: 0.5
   _maxMovementMagnitude: 0.25
   _serenityDuration: 2
+  _sourceIndex: 1
   _hurtSoundIndex:
     index: 46
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 6
   _fallenSoundIndex:
     index: 47
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 6
+  _duplicateParticleEffectIndex:
+    index: 7
+    objectIndex: 0
+    collectionIndex: 7
+  _vitalityIDCredential:
+    _tag: VitalityID
+    _ID: -1493647759
+  _tauntIDCredential:
+    _tag: TauntID
+    _ID: 1617400035
+  _locomotionIDCredential:
+    _tag: LocomotionID
+    _ID: 1998392529
+  _attackingIDCredential:
+    _tag: AttackingID
+    _ID: -1194725296
+  _attackAnimationLayer: 1
+  _tauntAnimationLayer: 2
 --- !u!114 &2340683740104089372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,6 +422,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
+--- !u!95 &437732194
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3223080502774902994}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6c78e7370f658ba469e4ca66dad7edca, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &2340683740540276099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -487,6 +525,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b97e4ce644bc5ce47b712a82b0a80a9c, type: 3}
+--- !u!1 &3223080502774902994 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b97e4ce644bc5ce47b712a82b0a80a9c,
+    type: 3}
+  m_PrefabInstance: {fileID: 2340683740540276099}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2878220212255255144 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b97e4ce644bc5ce47b712a82b0a80a9c,

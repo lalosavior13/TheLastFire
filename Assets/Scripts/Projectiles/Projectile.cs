@@ -65,6 +65,7 @@ public class Projectile : ContactWeapon
 	[SerializeField] private CollectionIndex _destroyedParticleEffectIndex; 	/// <summary>Index of ParticleEffect to emit when the projectile is destroyed.</summary>
 	[Space(5f)]
 	[Header("Sound Effects' Attributes:")]
+	[SerializeField] private int _sourceIndex; 									/// <summary>Sound Effect's Source Index.</summary>
 	[SerializeField] private CollectionIndex _impactSoundEffectIndex; 			/// <summary>Index of Sound Effect to emit when the projectile impacts.</summary>
 	[SerializeField] private CollectionIndex _destroyedSoundEffectIndex; 		/// <summary>Index of Sound Effect to emit when the projectile is destroyed.</summary>
 #if UNITY_EDITOR
@@ -206,6 +207,13 @@ public class Projectile : ContactWeapon
 	{
 		get { return _activated; }
 		set { _activated = value; }
+	}
+
+	/// <summary>Gets and Sets sourceIndex property.</summary>
+	public int sourceIndex
+	{
+		get { return _sourceIndex; }
+		set { _sourceIndex = value; }
 	}
 
 	/// <summary>Gets and Sets impactParticleEffectIndex property.</summary>
@@ -524,12 +532,12 @@ public class Projectile : ContactWeapon
 		{
 			case DeactivationCause.Impacted:
 			PoolManager.RequestParticleEffect(impactParticleEffectIndex, transform.position, Quaternion.identity);
-			AudioController.PlayOneShot(SourceType.SFX, 0, impactSoundEffectIndex);
+			AudioController.PlayOneShot(SourceType.SFX, sourceIndex, impactSoundEffectIndex);
 			break;
 
 			case DeactivationCause.Destroyed:
 			PoolManager.RequestParticleEffect(destroyedParticleEffectIndex, transform.position, Quaternion.identity);
-			AudioController.PlayOneShot(SourceType.SFX, 0, destroyedSoundEffectIndex);
+			AudioController.PlayOneShot(SourceType.SFX, sourceIndex, destroyedSoundEffectIndex);
 			break;
 		}
 

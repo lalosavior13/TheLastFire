@@ -38,6 +38,8 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 	[SerializeField] private CollectionIndex _flyLoop; 				/// <summary>Fly's Loop Index.</summary>
 	[SerializeField] private int _remainingMoskarsForLastPiece; 	/// <summary>Maximum required of remaining Moskars for the last piece's loop to be reproduced.</summary>
 	[SerializeField] private int _sampleJumping; 					/// <summary>Sample Jumping by each iteration.</summary>
+	[SerializeField]
+	[Range(0.0f, 1.0f)] private float _moskarSFXVolume; 			/// <summary>Volume for Moskar's SFXs.</summary>
 	private Boundaries2DContainer _moskarBoundaries; 				/// <summary>Moskar's Boundaries.</summary>
 	private HashSet<MoskarBoss> _moskarReproductions; 				/// <summary>Moskar's Reproductions.</summary>
 #if UNITY_EDITOR
@@ -80,6 +82,13 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 	{
 		get { return _reproductionCountdown; }
 		set { _reproductionCountdown = value; }
+	}
+
+	/// <summary>Gets and Sets moskarSFXVolume property.</summary>
+	public float moskarSFXVolume
+	{
+		get { return _moskarSFXVolume; }
+		set { _moskarSFXVolume = value; }
 	}
 
 	/// <summary>Gets and Sets remainingMoskarsForLastPiece property.</summary>
@@ -154,8 +163,6 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 	{
 		moskarReproductions = new HashSet<MoskarBoss>();
 
-		AudioController.Play(SourceType.Scenario, 0, flyLoop, true);
-
 // --- Begins New Implementation: ---
 		if(main != null)
 		{
@@ -191,6 +198,9 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 				AudioController.SetVolume(SourceType.Loop, i, 0.0f);
 			}
 		}
+
+		AudioController.Play(SourceType.Scenario, 0, flyLoop, true);
+		AudioController.SetVolume(SourceType.SFX, main.sourceIndex, moskarSFXVolume);
 	}
 
 	/// <summary>Callback invoked when MoskarSceneController's instance is going to be destroyed and passed to the Garbage Collector.</summary>
@@ -266,6 +276,8 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 			float sphereColliderSize = moskar.sphereColliderSizeRange.Lerp(it);
 
 			phase++;
+
+			PoolManager.RequestParticleEffect(moskar.duplicateParticleEffectIndex, moskar.transform.position, Quaternion.identity);
 
 			for(int i = 0; i < 2; i++)
 			{

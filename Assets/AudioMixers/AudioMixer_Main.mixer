@@ -161,7 +161,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Soundeffects_0
+  m_Name: SFXs_0
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 86cf503100c11834992860312ca30725
   m_Children: []
@@ -248,31 +248,31 @@ AudioMixerController:
   m_UpdateMode: 0
   m_ExposedParameters:
   - guid: 77d03be0dc1ca1b41a42d7cce4229b77
-    name: Volume0
+    name: Volume_Loop_0
   - guid: f2d0648f0b301c442b462eb2020fab35
-    name: Volume1
+    name: Volume_Loop_1
   - guid: ed37451806277614ab8be2098c912edb
-    name: Volume2
+    name: Volume_Loop_2
   - guid: ddf098af142ff0d4fbd89439a573aba3
-    name: Volume3
+    name: Volume_Loop_3
   - guid: c741bc783f7eeea44ace32106b8ed86b
-    name: Volume4
+    name: Volume_Loop_4
   - guid: cdf3356692c4e1242949856b91eac0ec
-    name: Volume5
+    name: Volume_Loop_5
   - guid: d865ed620b7b5624089c4138b067ebd7
-    name: Volume6
+    name: Volume_Loop_6
   - guid: e00867f391d9e1b418ea7cf6d41973c7
-    name: Volume7
+    name: Volume_Loop_7
   - guid: 04f3a3144983e5743a4fddf76bfcbbc9
     name: Volume
   - guid: 4e75e9746321fcc429466c93084fb61e
-    name: Volume
+    name: Volume_Scenario_0
   - guid: e5e3c7d8f34e29f48a49ba90822d327b
-    name: Volume
+    name: Volume_Scenario_1
   - guid: 866479b11d8575146bae0e8844114587
-    name: Volume
+    name: Volume_SFX_0
   - guid: fcc369c1b0d3dbc478f650cfa20d530d
-    name: MyExposedParam 6
+    name: Volume_SFX_1
   m_AudioMixerGroupViews:
   - guids:
     - 56609e5b14a7fc148b3034319bfb0491
@@ -429,7 +429,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Soundeffects_1
+  m_Name: SFXs_1
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 4e964d4953ce53a46822a71f2aa02160
   m_Children: []

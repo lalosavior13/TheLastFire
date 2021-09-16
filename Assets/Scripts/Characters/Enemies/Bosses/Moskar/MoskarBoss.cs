@@ -12,56 +12,75 @@ namespace Flamingo
 [RequireComponent(typeof(CircleCollider2D))]
 public class MoskarBoss : Boss
 {
+	private const int ID_TAUNT_1 = 1; 											/// <summary>Taunt 1's ID.</summary>
+	private const int ID_TAUNT_2 = 2; 											/// <summary>Taunt 1's ID.</summary>
+	private const int ID_LOCOMOTION_IDLE = 1; 									/// <summary>Idle Locomotion's ID.</summary>
+	private const int ID_LOCOMOTION_WALK = 2; 									/// <summary>Walk Locomotion's ID.</summary>
+	private const int ID_LOCOMOTION_FLY = 3; 									/// <summary>Fly Locomotion's ID.</summary>
+	private const int ID_LOCOMOTION_LAND = 4; 									/// <summary>Land Locomotion's ID.</summary>
+
 	[Space(5f)]
 	[Header("Moskar's Attributes:")]
-	[SerializeField] private int _phases; 							/// <summary>Moskar's Phases [how many times it divides].</summary>
-	[SerializeField] private FloatRange _scaleRange; 				/// <summary>Scale's Range.</summary>
-	[SerializeField] private FloatRange _sphereColliderSizeRange; 	/// <summary>Size Range for the SphereCollider that acts as the HitBox.</summary>
-	[SerializeField] private float _projectionTime; 				/// <summary>Moskar's Projection Time.</summary>
+	[SerializeField] private int _phases; 										/// <summary>Moskar's Phases [how many times it divides].</summary>
+	[SerializeField] private FloatRange _scaleRange; 							/// <summary>Scale's Range.</summary>
+	[SerializeField] private FloatRange _sphereColliderSizeRange; 				/// <summary>Size Range for the SphereCollider that acts as the HitBox.</summary>
+	[SerializeField] private float _projectionTime; 							/// <summary>Moskar's Projection Time.</summary>
 	[Space(5f)]
 	[Header("Moskar's Components:")]
-	[SerializeField] private FOVSight2D _sightSensor; 				/// <summary>FOVSight2D's Component.</summary>
-	[SerializeField] private Transform _tail; 						/// <summary>Moskar's Tail's Transform.</summary>
+	[SerializeField] private FOVSight2D _sightSensor; 							/// <summary>FOVSight2D's Component.</summary>
+	[SerializeField] private Transform _tail; 									/// <summary>Moskar's Tail's Transform.</summary>
 	[Space(5f)]
 	[Header("Warning's Attributes:")]
-	[SerializeField] private float _warningSpeed; 					/// <summary>Warning's Steering Speed.</summary>
-	[SerializeField] private float _dangerRadius; 					/// <summary>Danger's Radius.</summary>
-	[SerializeField] private float _fleeDistance; 					/// <summary>Flee distance between Moskar and Mateo.</summary>
+	[SerializeField] private float _warningSpeed; 								/// <summary>Warning's Steering Speed.</summary>
+	[SerializeField] private float _dangerRadius; 								/// <summary>Danger's Radius.</summary>
+	[SerializeField] private float _fleeDistance; 								/// <summary>Flee distance between Moskar and Mateo.</summary>
 	[Space(5f)]
 	[Header("Wander Attributes: ")]
-	[SerializeField] private IntRange _waypointsGeneration; 		/// <summary>Waypoints generated per Wander Round.</summary>
-	[SerializeField] private float _minDistanceToReachWaypoint; 	/// <summary>Minimum distance to reach Waypoint.</summary>
-	[SerializeField] private FloatRange _wanderSpeed; 				/// <summary>Wander's Max Speed's Range.</summary>
-	[SerializeField] private FloatRange _wanderInterval; 			/// <summary>Wander interval between each angle change [as a range].</summary>
+	[SerializeField] private IntRange _waypointsGeneration; 					/// <summary>Waypoints generated per Wander Round.</summary>
+	[SerializeField] private float _minDistanceToReachWaypoint; 				/// <summary>Minimum distance to reach Waypoint.</summary>
+	[SerializeField] private FloatRange _wanderSpeed; 							/// <summary>Wander's Max Speed's Range.</summary>
+	[SerializeField] private FloatRange _wanderInterval; 						/// <summary>Wander interval between each angle change [as a range].</summary>
 	[Space(5f)]
 	[Header("Evasion Attributes: ")]
-	[SerializeField] private FloatRange _evasionSpeed; 				/// <summary>Evasion's Speed's Range.</summary>
+	[SerializeField] private FloatRange _evasionSpeed; 							/// <summary>Evasion's Speed's Range.</summary>
 	[Space(5f)]
 	[Header("Attack's Attributes:")]
-	[SerializeField] private CollectionIndex _projectileIndex; 		/// <summary>Projectile's Index.</summary>
-	[SerializeField] private FloatRange _shootInterval; 			/// <summary>Shooting Interval's Range.</summary>
-	[SerializeField] private IntRange _fireBursts; 					/// <summary>Fire Bursts' Range.</summary>
+	[SerializeField] private CollectionIndex _projectileIndex; 					/// <summary>Projectile's Index.</summary>
+	[SerializeField] private FloatRange _shootInterval; 						/// <summary>Shooting Interval's Range.</summary>
+	[SerializeField] private IntRange _fireBursts; 								/// <summary>Fire Bursts' Range.</summary>
 	[Space(5f)]
 	[Header("Falling's Attributes:")]
-	[SerializeField] private EulerRotation _fallingRotation; 		/// <summary>Moskar's Rotation when Falling.</summary>
-	[SerializeField] private float _rotationDuration; 				/// <summary>Falling Rotation's Duration.</summary>
+	[SerializeField] private EulerRotation _fallingRotation; 					/// <summary>Moskar's Rotation when Falling.</summary>
+	[SerializeField] private float _rotationDuration; 							/// <summary>Falling Rotation's Duration.</summary>
 	[Space(5f)]
 	[Header("Mateo's Serenity's Evaluation Attributes:")]
-	[SerializeField] private float _maxMovementMagnitude; 			/// <summary>Maximum Movement's Magnitude.</summary>
-	[SerializeField] private float _serenityDuration; 				/// <summary>Time that Mateo must have keeping its serenity for Moskar to return to its wander state.</summary>
+	[SerializeField] private float _maxMovementMagnitude; 						/// <summary>Maximum Movement's Magnitude.</summary>
+	[SerializeField] private float _serenityDuration; 							/// <summary>Time that Mateo must have keeping its serenity for Moskar to return to its wander state.</summary>
 	[Space(5f)]
 	[Header("Sounds FXs:")]
-	[SerializeField] private CollectionIndex _hurtSoundIndex; 		/// <summary>Hurt SFX's Index.</summary>
-	[SerializeField] private CollectionIndex _fallenSoundIndex; 	/// <summary>Fallen SFX's Index.</summary>
-	private int _currentPhase; 										/// <summary>Current Phase of this Moskar's Reproduction.</summary>
-	private float _phaseProgress; 									/// <summary>Phase's Normalized Progress.</summary>
-	private SteeringVehicle2D _vehicle; 							/// <summary>SteeringVehicle2D's Component.</summary>
-	private Rigidbody2D _rigidbody; 								/// <summary>Rigidbody2D's Component.</summary>
-	private CircleCollider2D _hurtBox; 								/// <summary>CircleCollider2D's Component.</summary>
-	private VCameraTarget _cameraTarget; 							/// <summary>VCameraTarget's Component.</summary>
-	private Coroutine attackCoroutine; 								/// <summary>AttackBehavior's Coroutine reference.</summary>
-	private Coroutine serenityEvaluation; 							/// <summary>Serenity's Evaluation Coroutine's reference.</summary>
-	private Vector3[] waypoints; 									/// <summary>Allocated the waypoints so it can be visually debuged with Gizmos.</summary>
+	[SerializeField] private int _sourceIndex; 									/// <summary>Source Index where the SFXs are played.</summary>
+	[SerializeField] private CollectionIndex _hurtSoundIndex; 					/// <summary>Hurt SFX's Index.</summary>
+	[SerializeField] private CollectionIndex _fallenSoundIndex; 				/// <summary>Fallen SFX's Index.</summary>
+	[Space(5f)]
+	[Header("Particle Effects' Attributes:")]
+	[SerializeField] private CollectionIndex _duplicateParticleEffectIndex; 	/// <summary>Duplication ParticleEffect's Index.</summary>
+	[Space(5f)]
+	[Header("Animator's Attributes:")]
+	[SerializeField] private AnimatorCredential _vitalityIDCredential; 			/// <summary>Vitality ID's Animattor Credential.</summary>
+	[SerializeField] private AnimatorCredential _tauntIDCredential; 			/// <summary>Taunt ID's Animattor Credential.</summary>
+	[SerializeField] private AnimatorCredential _locomotionIDCredential; 		/// <summary>Locomotion ID's Animattor Credential.</summary>
+	[SerializeField] private AnimatorCredential _attackingIDCredential; 		/// <summary>Attacking ID's Animattor Credential.</summary>
+	[SerializeField] private int _attackAnimationLayer; 						/// <summary>Attack Animation's Layer.</summary>
+	[SerializeField] private int _tauntAnimationLayer; 							/// <summary>Taunt Animation's Layer.</summary>
+	private int _currentPhase; 													/// <summary>Current Phase of this Moskar's Reproduction.</summary>
+	private float _phaseProgress; 												/// <summary>Phase's Normalized Progress.</summary>
+	private SteeringVehicle2D _vehicle; 										/// <summary>SteeringVehicle2D's Component.</summary>
+	private Rigidbody2D _rigidbody; 											/// <summary>Rigidbody2D's Component.</summary>
+	private CircleCollider2D _hurtBox; 											/// <summary>CircleCollider2D's Component.</summary>
+	private VCameraTarget _cameraTarget; 										/// <summary>VCameraTarget's Component.</summary>
+	private Coroutine attackCoroutine; 											/// <summary>AttackBehavior's Coroutine reference.</summary>
+	private Coroutine serenityEvaluation; 										/// <summary>Serenity's Evaluation Coroutine's reference.</summary>
+	private Vector3[] waypoints; 												/// <summary>Allocated the waypoints so it can be visually debuged with Gizmos.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets fallingRotation property.</summary>
@@ -118,6 +137,12 @@ public class MoskarBoss : Boss
 		set { _currentPhase = value; }
 	}
 
+	/// <summary>Gets attackAnimationLayer property.</summary>
+	public int attackAnimationLayer { get { return _attackAnimationLayer; } }
+
+	/// <summary>Gets tauntAnimationLayer property.</summary>
+	public int tauntAnimationLayer { get { return _tauntAnimationLayer; } }
+
 	/// <summary>Gets sightSensor property.</summary>
 	public FOVSight2D sightSensor { get { return _sightSensor; } }
 
@@ -164,6 +189,13 @@ public class MoskarBoss : Boss
 		}
 	}
 
+	/// <summary>Gets and Sets sourceIndex property.</summary>
+	public int sourceIndex
+	{
+		get { return _sourceIndex; }
+		set { _sourceIndex = value; }
+	}
+
 	/// <summary>Gets and Sets projectileIndex property.</summary>
 	public CollectionIndex projectileIndex
 	{
@@ -183,6 +215,13 @@ public class MoskarBoss : Boss
 	{
 		get { return _fallenSoundIndex; }
 		set { _fallenSoundIndex = value; }
+	}
+
+	/// <summary>Gets and Sets duplicateParticleEffectIndex property.</summary>
+	public CollectionIndex duplicateParticleEffectIndex
+	{
+		get { return _duplicateParticleEffectIndex; }
+		set { _duplicateParticleEffectIndex = value; }
 	}
 
 	/// <summary>Gets and Sets wanderSpeed property.</summary>
@@ -254,6 +293,18 @@ public class MoskarBoss : Boss
 		get { return _serenityDuration; }
 		set { _serenityDuration = value; }
 	}
+
+	/// <summary>Gets vitalityIDCredential property.</summary>
+	public AnimatorCredential vitalityIDCredential { get { return _vitalityIDCredential; } }
+
+	/// <summary>Gets tauntIDCredential property.</summary>
+	public AnimatorCredential tauntIDCredential { get { return _tauntIDCredential; } }
+
+	/// <summary>Gets locomotionIDCredential property.</summary>
+	public AnimatorCredential locomotionIDCredential { get { return _locomotionIDCredential; } }
+
+	/// <summary>Gets attackingIDCredential property.</summary>
+	public AnimatorCredential attackingIDCredential { get { return _attackingIDCredential; } }
 #endregion
 
 	/// <summary>Draws Gizmos on Editor mode.</summary>
@@ -271,6 +322,11 @@ public class MoskarBoss : Boss
 	protected override void Awake()
 	{
 		base.Awake();
+
+		animator.SetAllLayersWeight(0.0f);
+		animator.SetInteger(vitalityIDCredential, ID_STATE_ALIVE);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_IDLE);
+		animator.SetBool(attackingIDCredential, false);
 
 		Game.AddTargetToCamera(cameraTarget);
 		sightSensor.onSightEvent += OnSightEvent;
@@ -304,11 +360,11 @@ public class MoskarBoss : Boss
 		switch(_event)
 		{
 			case HealthEvent.Depleted:
-			AudioController.PlayOneShot(SourceType.SFX, 0, hurtSoundIndex);
+			AudioController.PlayOneShot(SourceType.SFX, sourceIndex, hurtSoundIndex);
 			break;
 
 			case HealthEvent.FullyDepleted:
-			AudioController.PlayOneShot(SourceType.SFX, 0, hurtSoundIndex);
+			AudioController.PlayOneShot(SourceType.SFX, sourceIndex, hurtSoundIndex);
 			BeginDeathRoutine();
 			base.OnDeathRoutineEnds();
 			this.RemoveStates(ID_STATE_ALIVE);
@@ -381,12 +437,19 @@ public class MoskarBoss : Boss
 			Debug.Log("[MoskarBoss] Returning to Wander State because Mateo is out of sight.");
 			EnterWanderState();
 		}
+
 		if((_state | ID_STATE_ALIVE) == _state)
 		{
 			Debug.Log("[MoskarBoss] Shush all behaviors");
 			this.DispatchCoroutine(ref behaviorCoroutine);
 			this.DispatchCoroutine(ref attackCoroutine);
 			this.DispatchCoroutine(ref serenityEvaluation);
+		}
+
+		if((_state | ID_STATE_ATTACK) == _state)
+		{
+			animator.SetBool(attackingIDCredential, false);
+			animator.SetLayerWeight(attackAnimationLayer, 0.0f);
 		}
 	}
 
@@ -397,6 +460,10 @@ public class MoskarBoss : Boss
 		Game.AddTargetToCamera(cameraTarget);
 		rigidbody.gravityScale = 0.0f;
 		rigidbody.bodyType = RigidbodyType2D.Kinematic;
+		animator.SetAllLayersWeight(0.0f);
+		animator.SetInteger(vitalityIDCredential, ID_STATE_ALIVE);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_IDLE);
+		animator.SetBool(attackingIDCredential, false);
 	}
 
 	/// <summary>Callback invoked when the object is deactivated.</summary>
@@ -423,6 +490,7 @@ public class MoskarBoss : Boss
 
 		vehicle.maxSpeed = wanderSpeed.Lerp(phaseProgress);
 		sightSensor.gameObject.SetActive(true);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_WALK);
 		this.StartCoroutine(WanderBehaviour(), ref behaviorCoroutine);
 	}
 
@@ -448,6 +516,7 @@ public class MoskarBoss : Boss
 
 		vehicle.maxSpeed = evasionSpeed.Lerp(phaseProgress);
 		sightSensor.gameObject.SetActive(false);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_FLY);
 
 		this.DispatchCoroutine(ref behaviorCoroutine);
 
@@ -604,8 +673,13 @@ public class MoskarBoss : Boss
 				Projectile crap = PoolManager.RequestProjectile(Faction.Enemy, projectileIndex, tail.transform.position, Vector3.down);
 
 				shootWait.ChangeDurationAndReset(crap.cooldownDuration);
+				animator.SetBool(attackingIDCredential, true);
+				animator.SetLayerWeight(attackAnimationLayer, 1.0f);
 
 				while(shootWait.MoveNext()) yield return null;
+
+				animator.SetBool(attackingIDCredential, false);
+				animator.SetLayerWeight(attackAnimationLayer, 0.0f);
 
 				i++;
 				yield return null;
@@ -617,6 +691,9 @@ public class MoskarBoss : Boss
 	/// <param name="onDeathRoutineEnds">Callback invoked when the routine ends.</param>
 	protected override IEnumerator DeathRoutine(Action onDeathRoutineEnds)
 	{
+		animator.SetAllLayersWeight(0.0f);
+		animator.SetInteger(vitalityIDCredential, ID_STATE_DEAD);
+
 		if(currentPhase < (phases - 1) && onDeathRoutineEnds != null)
 		{
 			onDeathRoutineEnds();
@@ -630,7 +707,7 @@ public class MoskarBoss : Boss
 		rigidbody.bodyType = RigidbodyType2D.Dynamic;
 		rigidbody.gravityScale = 1.0f;
 
-		AudioController.PlayOneShot(SourceType.SFX, 0, fallenSoundIndex);
+		AudioController.PlayOneShot(SourceType.SFX, sourceIndex, fallenSoundIndex);
 
 		while(t < 1.0f)
 		{
