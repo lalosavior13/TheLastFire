@@ -148,6 +148,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6a5dab527869c9f4987c8400bf6db9ce, type: 3}
   - {fileID: 8300000, guid: 1a62e796abaf2c140b8010d12d027955, type: 3}
   - {fileID: 8300000, guid: 3d72ffc3afb516e4e84d91fc0c521442, type: 3}
+  - {fileID: 8300000, guid: b624fefbfbe7822419a5b0e86889b57d, type: 3}
+  - {fileID: 8300000, guid: 5de45ec86d0f46142854d6783f7ed8e2, type: 3}
+  - {fileID: 8300000, guid: 2474b62f63366934a992ee6884f689c9, type: 3}
+  - {fileID: 8300000, guid: 22a5087783026ae4ea6e3a473a82790c, type: 3}
   _particleEffects:
   - {fileID: 2948463789655692408, guid: 05729ccca8bca724b80aa225032af021, type: 3}
   - {fileID: 6782677579952761336, guid: 40a16e0a24c989a40b60a9e7cfc239dc, type: 3}
@@ -173,6 +177,7 @@ MonoBehaviour:
   - {fileID: 2757906412654105323, guid: 83815da667b15ec4cb805cb3ec69b11d, type: 3}
   - {fileID: 8116085811945136806, guid: a70113af926a3e840bfb55e7eeb824c9, type: 3}
   - {fileID: 393582703892377902, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
+  - {fileID: 2831254372492750524, guid: a40b64bf23366dc42a892af2c6ff6140, type: 3}
   _explodables:
   - {fileID: 7757396531229370483, guid: 510f45f4d87997d48933833abca64959, type: 3}
   _ceilingDotProductThreshold:

@@ -51,6 +51,7 @@ public enum MaterialID
 public class InteractableMaterial : MonoBehaviour
 {
 	[SerializeField] private MaterialID _ID; 											/// <summary>Material's ID.</summary>
+	[SerializeField] private int _subID; 												/// <summary>Sub-ID.</summary>
 	[SerializeField] private MaterialIDCollectionIndexPair[] _particleEffectsMatrix; 	/// <summary>Matrix of Particle Effects emitted by each specific interaction.</summary>
 	[SerializeField] private MaterialIDCollectionIndexPair[] _soundEffectsMatrix; 		/// <summary>Matrix of Sound Effects emitted by each specific interaction.</summary>
 	[SerializeField] private EventsHandler _eventsHandler; 								/// <summary>EventsHandler's Component.</summary>
@@ -63,6 +64,13 @@ public class InteractableMaterial : MonoBehaviour
 	{
 		get { return _ID; }
 		set { _ID = value; }
+	}
+
+	/// <summary>Gets and Sets subID property.</summary>
+	public int subID
+	{
+		get { return _subID; }
+		set { _subID = value; }
 	}
 
 	/// <summary>Gets and Sets particleEffectsMatrix property.</summary>

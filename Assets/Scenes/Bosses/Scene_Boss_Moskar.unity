@@ -128,26 +128,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
-      propertyPath: _particleEffectsMatrix.Array.data[2].index.collectionIndex
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
-      propertyPath: _soundEffectsMatrix.Array.data[0].index.index
-      value: 23
-      objectReference: {fileID: 0}
-    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
-      propertyPath: _soundEffectsMatrix.Array.data[1].index.index
-      value: 23
-      objectReference: {fileID: 0}
-    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
-      propertyPath: _soundEffectsMatrix.Array.data[2].index.index
-      value: 31
-      objectReference: {fileID: 0}
-    - target: {fileID: 921824200, guid: 90ffb49a39c443c41aefa42ac03f1dfd, type: 3}
-      propertyPath: _soundEffectsMatrix.Array.data[2].index.collectionIndex
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 5122952807910987780, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
         type: 3}
       propertyPath: m_Name
@@ -1165,6 +1145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ID: 128
+  _subID: 0
   _particleEffectsMatrix: []
   _soundEffectsMatrix: []
   _eventsHandler: {fileID: 0}

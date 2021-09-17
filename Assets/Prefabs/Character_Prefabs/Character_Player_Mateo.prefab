@@ -1832,6 +1832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ID: 4
+  _subID: 0
   _particleEffectsMatrix:
   - ID: 1
     index:
@@ -1845,9 +1846,9 @@ MonoBehaviour:
       collectionIndex: 6
   - ID: 128
     index:
-      index: 20
+      index: 16
       objectIndex: 0
-      collectionIndex: 6
+      collectionIndex: 7
   - ID: 512
     index:
       index: 17
@@ -1856,19 +1857,19 @@ MonoBehaviour:
   _soundEffectsMatrix:
   - ID: 1
     index:
-      index: 35
+      index: 23
       objectIndex: 0
       collectionIndex: 7
   - ID: 2
     index:
-      index: 30
+      index: 23
       objectIndex: 0
       collectionIndex: 7
   - ID: 128
     index:
-      index: 34
+      index: 50
       objectIndex: 0
-      collectionIndex: 7
+      collectionIndex: 6
   - ID: 512
     index:
       index: 31
