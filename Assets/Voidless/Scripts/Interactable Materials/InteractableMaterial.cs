@@ -133,6 +133,8 @@ public class InteractableMaterial : MonoBehaviour
 	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
 	private void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
+		if(_eventType != HitColliderEventTypes.Enter) return;
+
 		InteractableMaterial material = _info.collider.GetComponent<InteractableMaterial>();
 
 		if(material == null) return;
@@ -175,7 +177,7 @@ public class InteractableMaterial : MonoBehaviour
 
 		foreach(CollectionIndex index in particleEffectsDictionary[_ID])
 		{
-			PoolManager.RequestParticleEffect(index, _info.contactPoint, Quaternion.LookRotation(_info.direction));
+			PoolManager.RequestParticleEffect(index, _info.contactPoint, /*Quaternion.LookRotation(_info.direction)*/Quaternion.identity);
 		}
 	}
 

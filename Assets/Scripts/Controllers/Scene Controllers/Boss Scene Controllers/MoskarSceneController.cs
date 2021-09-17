@@ -31,6 +31,8 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 	[SerializeField] private float _reproductionDuration; 			/// <summary>Reproduction Duration. Determines how long it lasts the reproduction's displacement and scaling.</summary>
 	[SerializeField] private float _reproductionPushForce; 			/// <summary>Reproduction's Push Force.</summary>
 	[SerializeField] private float _reproductionCountdown; 			/// <summary>Duration before creating another round of moskars.</summary>
+	[SerializeField] private float _speedScale; 					/// <summary>Remaining Moskars Speed Scale.</summary>
+	[SerializeField] private int _remainingMoskarsForSpeedScale; 	/// <summary>Minimum of Remaining Moskars needed for an additional speed scale.</summary>
 	[Space(5f)]
 	[Header("Music's Attributes:")]
 	[SerializeField] private FloatRange _waitBetweenPiece; 			/// <summary>Wait Duration Between each piece.</summary>
@@ -91,6 +93,13 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 		set { _moskarSFXVolume = value; }
 	}
 
+	/// <summary>Gets and Sets speedScale property.</summary>
+	public float speedScale
+	{
+		get { return _speedScale; }
+		set { _speedScale = value; }
+	}
+
 	/// <summary>Gets and Sets remainingMoskarsForLastPiece property.</summary>
 	public int remainingMoskarsForLastPiece
 	{
@@ -103,6 +112,13 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 	{
 		get { return _sampleJumping; }
 		set { _sampleJumping = value; }
+	}
+
+	/// <summary>Gets and Sets remainingMoskarsForSpeedScale property.</summary>
+	public int remainingMoskarsForSpeedScale
+	{
+		get { return _remainingMoskarsForSpeedScale; }
+		set { _remainingMoskarsForSpeedScale = value; }
 	}
 
 	/// <summary>Gets and Sets waitBetweenPiece property.</summary>
@@ -285,6 +301,7 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 				SubscribeToMoskarEvents(reproduction);
 				reproduction.state = 0;
 				reproduction.AddStates(Enemy.ID_STATE_ATTACK);
+				reproduction.AddStates(Enemy.ID_STATE_ALIVE);
 				reproduction.currentPhase = phase;
 				reproduction.health.BeginInvincibilityCooldown();
 				reproduction.meshParent.localScale = scale;
@@ -310,6 +327,17 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 		}
 
 		Debug.Log("[MoskarSceneController] Total Moskars Remaining: " + totalMoskars);
+
+		if(Mathf.Abs(moskarsDestroyed - totalMoskars) <= remainingMoskarsForSpeedScale)
+		{
+			foreach(MoskarBoss reproduction in moskarReproductions)
+			{
+				reproduction.speedScale = speedScale;
+				reproduction.vehicle.maxSpeed *= speedScale;
+				reproduction.vehicle.maxForce *= speedScale;
+			}
+		}
+
 		if(moskarsDestroyed >= totalMoskars)
 		{
 			AudioController.Stop(SourceType.Scenario, 0);

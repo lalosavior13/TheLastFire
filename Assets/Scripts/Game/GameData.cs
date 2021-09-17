@@ -17,6 +17,13 @@ public class GameData : ScriptableObject
 	[SerializeField] [Range(0, 60)] private int _frameRate; 					/// <summary>Game's Frame rate.</summary>
 	[SerializeField] [Range(0.0f, 1.0f)] private float _hurtTimeScale; 			/// <summary>Hurt's Time-Scale.</summary>
 	[Space(5f)]
+	[Header("Camera Configurations:")]
+	[SerializeField] private float _deathZoom; 									/// <summary>Death's Zoom.</summary>
+	[Header("Camera Shaking's Attributes:")]
+	[SerializeField] private FloatRange _damageCameraShakeDuration; 			/// <summary>Camera Shake's Duration when Mateo receives damage.</summary>
+	[SerializeField] private FloatRange _damageCameraShakeSpeed; 				/// <summary>Camera Shake's Speed when Mateo receives damage.</summary>
+	[SerializeField] private FloatRange _damageCameraShakeMagnitude; 			/// <summary>Camera Shake's Magnitude when Mateo receives damage.</summary>
+	[Space(5f)]
 	[Header("Tags:")]
 	[SerializeField] private GameObjectTag _playerTag; 							/// <summary>Player's Tag.</summary>
 	[SerializeField] private GameObjectTag _enemyTag; 							/// <summary>Enemy's Tag.</summary>
@@ -97,6 +104,9 @@ public class GameData : ScriptableObject
 	/// <summary>Gets hurtTimeScale property.</summary>
 	public float hurtTimeScale { get { return _hurtTimeScale; } }
 
+	/// <summary>Gets deathZoom property.</summary>
+	public float deathZoom { get { return _deathZoom; } }
+
 	/// <summary>Gets idealDeltaTime property.</summary>
 	public float idealDeltaTime
 	{
@@ -106,6 +116,15 @@ public class GameData : ScriptableObject
 			return _idealDeltaTime;
 		}
 	}
+
+	/// <summary>Gets damageCameraShakeDuration property.</summary>
+	public FloatRange damageCameraShakeDuration { get { return _damageCameraShakeDuration; } }
+
+	/// <summary>Gets damageCameraShakeSpeed property.</summary>
+	public FloatRange damageCameraShakeSpeed { get { return _damageCameraShakeSpeed; } }
+
+	/// <summary>Gets damageCameraShakeMagnitude property.</summary>
+	public FloatRange damageCameraShakeMagnitude { get { return _damageCameraShakeMagnitude; } }
 
 	/// <summary>Gets playerTag property.</summary>
 	public GameObjectTag playerTag { get { return _playerTag; } }

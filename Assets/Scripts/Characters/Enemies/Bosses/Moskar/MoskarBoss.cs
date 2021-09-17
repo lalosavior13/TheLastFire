@@ -74,6 +74,7 @@ public class MoskarBoss : Boss
 	[SerializeField] private int _tauntAnimationLayer; 							/// <summary>Taunt Animation's Layer.</summary>
 	private int _currentPhase; 													/// <summary>Current Phase of this Moskar's Reproduction.</summary>
 	private float _phaseProgress; 												/// <summary>Phase's Normalized Progress.</summary>
+	private float _speedScale; 													/// <summary>Additional Speed's Scale.</summary>
 	private SteeringVehicle2D _vehicle; 										/// <summary>SteeringVehicle2D's Component.</summary>
 	private Rigidbody2D _rigidbody; 											/// <summary>Rigidbody2D's Component.</summary>
 	private CircleCollider2D _hurtBox; 											/// <summary>CircleCollider2D's Component.</summary>
@@ -128,6 +129,13 @@ public class MoskarBoss : Boss
 	{
 		get { return _rotationDuration; }
 		set { _rotationDuration = value; }
+	}
+
+	/// <summary>Gets and Sets speedScale property.</summary>
+	public float speedScale
+	{
+		get { return _speedScale; }
+		set { _speedScale = value; }
 	}
 
 	/// <summary>Gets and Sets currentPhase property.</summary>
@@ -323,6 +331,10 @@ public class MoskarBoss : Boss
 	{
 		base.Awake();
 
+		this.AddStates(ID_STATE_ALIVE);
+
+		speedScale = 1.0f;
+
 		animator.SetAllLayersWeight(0.0f);
 		animator.SetInteger(vitalityIDCredential, ID_STATE_ALIVE);
 		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_IDLE);
@@ -330,6 +342,7 @@ public class MoskarBoss : Boss
 
 		Game.AddTargetToCamera(cameraTarget);
 		sightSensor.onSightEvent += OnSightEvent;
+		eventsHandler.onTriggerEvent += OnTriggerEvent;
 	}
 
 	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>
@@ -473,6 +486,42 @@ public class MoskarBoss : Boss
 		Game.RemoveTargetToCamera(cameraTarget);
 	}
 
+	/// <summary>Event invoked when a Collision2D intersection is received.</summary>
+	/// <param name="_info">Trigger2D's Information.</param>
+	/// <param name="_eventType">Type of the event.</param>
+	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
+	public  void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
+	{
+		GameObject obj = _info.collider.gameObject;
+
+		if(!this.HasStates(ID_STATE_ALIVE) || _eventType == HitColliderEventTypes.Enter);
+		{
+			if(obj.CompareTag(Game.data.floorTag))
+			{
+				Debug.Log("[MoskarBoss] Moskar with ID " + GetInstanceID() + " received Trigger Event and is going to die...");
+				OnDeathRoutineEnds();
+			}
+		}
+		if(this.HasStates(ID_STATE_ALIVE) && _eventType == HitColliderEventTypes.Enter)
+		{
+			if(obj.CompareTag(Game.data.playerTag))
+			{
+				Health health = obj.GetComponentInParent<Health>();
+
+				if(health == null)
+				{
+					HealthLinker linker = obj.GetComponent<HealthLinker>();
+					if(linker != null) health = linker.component;
+				}
+
+				if(health != null)
+				{
+					health.GiveDamage(1.0f);
+				}
+			}
+		}
+	}
+
 	/// <summary>Simulates Rigidbody and resets its Velocity.</summary>
 	public void SimulateInteractionsAndResetVelocity()
 	{
@@ -488,7 +537,7 @@ public class MoskarBoss : Boss
 		this.DispatchCoroutine(ref attackCoroutine);
 		this.DispatchCoroutine(ref serenityEvaluation);
 
-		vehicle.maxSpeed = wanderSpeed.Lerp(phaseProgress);
+		vehicle.maxSpeed = wanderSpeed.Lerp(phaseProgress) * speedScale;
 		sightSensor.gameObject.SetActive(true);
 		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_WALK);
 		this.StartCoroutine(WanderBehaviour(), ref behaviorCoroutine);
@@ -499,7 +548,7 @@ public class MoskarBoss : Boss
 	{
 		Debug.Log("[MoskarBoss] Entered Warning State.");
 
-		vehicle.maxSpeed = warningSpeed;
+		vehicle.maxSpeed = warningSpeed  * speedScale;
 
 		this.DispatchCoroutine(ref attackCoroutine);
 		this.DispatchCoroutine(ref serenityEvaluation);
@@ -514,7 +563,7 @@ public class MoskarBoss : Boss
 	{
 		Debug.Log("[MoskarBoss] Entered Attack State.");
 
-		vehicle.maxSpeed = evasionSpeed.Lerp(phaseProgress);
+		vehicle.maxSpeed = evasionSpeed.Lerp(phaseProgress) * speedScale;
 		sightSensor.gameObject.SetActive(false);
 		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_FLY);
 
@@ -716,7 +765,7 @@ public class MoskarBoss : Boss
 			yield return null;
 		}
 
-		while(true)
+		/*while(true)
 		{
 			Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, sphereColliderSizeRange.Lerp(phaseProgress));
 			
@@ -730,7 +779,7 @@ public class MoskarBoss : Boss
 			}
 
 			yield return null;
-		}
+		}*/
 	}
 }
 }

@@ -14,6 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _frameRate: 60
   _hurtTimeScale: 0.5
+  _deathZoom: 7
+  _damageCameraShakeDuration:
+    _min: 0.1
+    _max: 0.5
+  _damageCameraShakeSpeed:
+    _min: 10
+    _max: 30
+  _damageCameraShakeMagnitude:
+    _min: 1
+    _max: 3
   _playerTag:
     _tag: Player
     index: 5
@@ -178,6 +188,7 @@ MonoBehaviour:
   - {fileID: 8116085811945136806, guid: a70113af926a3e840bfb55e7eeb824c9, type: 3}
   - {fileID: 393582703892377902, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   - {fileID: 2831254372492750524, guid: a40b64bf23366dc42a892af2c6ff6140, type: 3}
+  - {fileID: 5518850293222957044, guid: 208f4513cff2f1248be14eb87e5a1c1d, type: 3}
   _explodables:
   - {fileID: 7757396531229370483, guid: 510f45f4d87997d48933833abca64959, type: 3}
   _ceilingDotProductThreshold:

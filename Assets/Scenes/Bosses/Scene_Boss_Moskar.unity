@@ -948,6 +948,10 @@ PrefabInstance:
       propertyPath: _reachTolerance
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 292381602, guid: 7a3984e5d3b23354b859410fe3d33e4b, type: 3}
+      propertyPath: _followDuration
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 292381604, guid: 7a3984e5d3b23354b859410fe3d33e4b, type: 3}
       propertyPath: _distanceRange._min
       value: 15
@@ -1868,6 +1872,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _moskarSFXVolume
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6043867682890382777, guid: 5d5fa019b39a6724a830027fc570eb18,
+        type: 3}
+      propertyPath: _remainingMoskarsForSpeedScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6043867682890382777, guid: 5d5fa019b39a6724a830027fc570eb18,
+        type: 3}
+      propertyPath: _speedScale
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6043867682890382778, guid: 5d5fa019b39a6724a830027fc570eb18,
         type: 3}

@@ -98,6 +98,12 @@ public class MiddlePointBetweenTransformsTargetRetriever : VCameraTargetRetrieve
 		if(!targets.ContainsKey(ID)) targets.Add(ID, target);
 	}
 
+	/// <summary>Clears all targets' references.</summary>
+	public void ClearTargets()
+	{
+		targets.Clear();
+	}
+
 	/// <summary>Adds Target's Transform into the internal dictionary.</summary>
 	/// <param name="_target">Target Transform to add.</param>
 	public void AddTarget(VCameraTarget _target)
