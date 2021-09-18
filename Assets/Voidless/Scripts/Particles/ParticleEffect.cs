@@ -231,7 +231,7 @@ public class ParticleEffect : MonoBehaviour, IPoolObject
 		
 		foreach(ParticleSystem system in systems)
 		{
-			system.Clear(_withChildren);
+			if(system != null) system.Clear(_withChildren);
 		}
 
 		StopCooldowns();

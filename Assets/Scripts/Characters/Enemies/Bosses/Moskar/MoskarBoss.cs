@@ -49,13 +49,12 @@ public class MoskarBoss : Boss
 	[SerializeField] private FloatRange _shootInterval; 						/// <summary>Shooting Interval's Range.</summary>
 	[SerializeField] private IntRange _fireBursts; 								/// <summary>Fire Bursts' Range.</summary>
 	[Space(5f)]
-	[Header("Falling's Attributes:")]
+	[Header("Rotations' Attributes:")]
+	[SerializeField] private EulerRotation _walkingRotation; 					/// <summary>Moskar's Walking Rotation.</summary>
+	[SerializeField] private EulerRotation _flyingRotation; 					/// <summary>Moskar's Flying Rotation.</summary>
 	[SerializeField] private EulerRotation _fallingRotation; 					/// <summary>Moskar's Rotation when Falling.</summary>
+	[SerializeField] private float _rotationSpeed; 								/// <summary>Moskar's rotation speed.</summary>
 	[SerializeField] private float _rotationDuration; 							/// <summary>Falling Rotation's Duration.</summary>
-	[Space(5f)]
-	[Header("Mateo's Serenity's Evaluation Attributes:")]
-	[SerializeField] private float _maxMovementMagnitude; 						/// <summary>Maximum Movement's Magnitude.</summary>
-	[SerializeField] private float _serenityDuration; 							/// <summary>Time that Mateo must have keeping its serenity for Moskar to return to its wander state.</summary>
 	[Space(5f)]
 	[Header("Sounds FXs:")]
 	[SerializeField] private int _sourceIndex; 									/// <summary>Source Index where the SFXs are played.</summary>
@@ -80,10 +79,16 @@ public class MoskarBoss : Boss
 	private CircleCollider2D _hurtBox; 											/// <summary>CircleCollider2D's Component.</summary>
 	private VCameraTarget _cameraTarget; 										/// <summary>VCameraTarget's Component.</summary>
 	private Coroutine attackCoroutine; 											/// <summary>AttackBehavior's Coroutine reference.</summary>
-	private Coroutine serenityEvaluation; 										/// <summary>Serenity's Evaluation Coroutine's reference.</summary>
+	private Coroutine rotationCoroutine; 										/// <summary>Rotation Coroutine's Reference.</summary>
 	private Vector3[] waypoints; 												/// <summary>Allocated the waypoints so it can be visually debuged with Gizmos.</summary>
 
 #region Getters/Setters:
+	/// <summary>Gets walkingRotation property.</summary>
+	public EulerRotation walkingRotation { get { return _walkingRotation; } }
+
+	/// <summary>Gets flyingRotation property.</summary>
+	public EulerRotation flyingRotation { get { return _flyingRotation; } }
+
 	/// <summary>Gets fallingRotation property.</summary>
 	public EulerRotation fallingRotation { get { return _fallingRotation; } }
 
@@ -122,6 +127,13 @@ public class MoskarBoss : Boss
 	{
 		get { return _fleeDistance; }
 		set { _fleeDistance = value; }
+	}
+
+	/// <summary>Gets and Sets rotationSpeed property.</summary>
+	public float rotationSpeed
+	{
+		get { return _rotationSpeed; }
+		set { _rotationSpeed = value; }
 	}
 
 	/// <summary>Gets and Sets rotationDuration property.</summary>
@@ -288,20 +300,6 @@ public class MoskarBoss : Boss
 		set { _phaseProgress = value; }
 	}
 
-	/// <summary>Gets and Sets maxMovementMagnitude property.</summary>
-	public float maxMovementMagnitude
-	{
-		get { return _maxMovementMagnitude; }
-		set { _maxMovementMagnitude = value; }
-	}
-
-	/// <summary>Gets and Sets serenityDuration property.</summary>
-	public float serenityDuration
-	{
-		get { return _serenityDuration; }
-		set { _serenityDuration = value; }
-	}
-
 	/// <summary>Gets vitalityIDCredential property.</summary>
 	public AnimatorCredential vitalityIDCredential { get { return _vitalityIDCredential; } }
 
@@ -383,7 +381,6 @@ public class MoskarBoss : Boss
 			this.RemoveStates(ID_STATE_ALIVE);
 			this.DispatchCoroutine(ref behaviorCoroutine);
 			this.DispatchCoroutine(ref attackCoroutine);
-			this.DispatchCoroutine(ref serenityEvaluation);
 			break;
 		}
 	}
@@ -441,7 +438,6 @@ public class MoskarBoss : Boss
 	/// <param name="_state">State's flags that were removed.</param>
 	public override void OnStatesRemoved(int _state)
 	{
-		Debug.Log("[MoskarBoss] Player Not on Sight: " + ((_state | ID_STATE_PLAYERONSIGHT) == _state));
 		if((_state | ID_STATE_PLAYERONSIGHT) == _state
 		&& (state | ID_STATE_ATTACK) != state
 		&& (state | ID_STATE_IDLE) != state
@@ -456,7 +452,6 @@ public class MoskarBoss : Boss
 			Debug.Log("[MoskarBoss] Shush all behaviors");
 			this.DispatchCoroutine(ref behaviorCoroutine);
 			this.DispatchCoroutine(ref attackCoroutine);
-			this.DispatchCoroutine(ref serenityEvaluation);
 		}
 
 		if((_state | ID_STATE_ATTACK) == _state)
@@ -492,18 +487,13 @@ public class MoskarBoss : Boss
 	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
 	public  void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
+		if(_eventType != HitColliderEventTypes.Enter) return;
+
 		GameObject obj = _info.collider.gameObject;
 
-		if(!this.HasStates(ID_STATE_ALIVE) || _eventType == HitColliderEventTypes.Enter);
+		switch(this.HasStates(ID_STATE_ALIVE))
 		{
-			if(obj.CompareTag(Game.data.floorTag))
-			{
-				Debug.Log("[MoskarBoss] Moskar with ID " + GetInstanceID() + " received Trigger Event and is going to die...");
-				OnDeathRoutineEnds();
-			}
-		}
-		if(this.HasStates(ID_STATE_ALIVE) && _eventType == HitColliderEventTypes.Enter)
-		{
+			case true:
 			if(obj.CompareTag(Game.data.playerTag))
 			{
 				Health health = obj.GetComponentInParent<Health>();
@@ -519,6 +509,11 @@ public class MoskarBoss : Boss
 					health.GiveDamage(1.0f);
 				}
 			}
+			break;
+
+			case false:
+			if(obj.CompareTag(Game.data.floorTag)) OnDeathRoutineEnds();
+			break;
 		}
 	}
 
@@ -535,11 +530,12 @@ public class MoskarBoss : Boss
 		Debug.Log("[MoskarBoss] Entered Wander State.");
 
 		this.DispatchCoroutine(ref attackCoroutine);
-		this.DispatchCoroutine(ref serenityEvaluation);
 
 		vehicle.maxSpeed = wanderSpeed.Lerp(phaseProgress) * speedScale;
 		sightSensor.gameObject.SetActive(true);
 		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_WALK);
+
+		this.StartCoroutine(meshParent.PivotToRotation(walkingRotation, rotationDuration, TransformRelativeness.Local), ref rotationCoroutine);
 		this.StartCoroutine(WanderBehaviour(), ref behaviorCoroutine);
 	}
 
@@ -551,11 +547,9 @@ public class MoskarBoss : Boss
 		vehicle.maxSpeed = warningSpeed  * speedScale;
 
 		this.DispatchCoroutine(ref attackCoroutine);
-		this.DispatchCoroutine(ref serenityEvaluation);
 
 		//this.StartCoroutine(WarningBehavior(), ref behaviorCoroutine);
 		this.StartCoroutine(WanderBehaviour(), ref behaviorCoroutine);
-		//this.StartCoroutine(SerenityEvaluation(), ref serenityEvaluation);
 	}
 
 	/// <summary>Enters Attack State.</summary>
@@ -569,9 +563,9 @@ public class MoskarBoss : Boss
 
 		this.DispatchCoroutine(ref behaviorCoroutine);
 
+		this.StartCoroutine(meshParent.PivotToRotation(flyingRotation, rotationDuration, TransformRelativeness.Local), ref rotationCoroutine);
 		this.StartCoroutine(ErraticFlyingBehavior(), ref behaviorCoroutine);
 		this.StartCoroutine(AttackBehavior(), ref attackCoroutine);
-		//this.StartCoroutine(SerenityEvaluation(), ref serenityEvaluation);
 	}
 
 	/// <summary>Wander's Steering Beahviour Coroutine.</summary>
@@ -601,7 +595,8 @@ public class MoskarBoss : Boss
 
 					rigidbody.MoveIn3D(force * Time.fixedDeltaTime);
 					//transform.rotation = VQuaternion.RightLookRotation(force);
-					transform.rotation = VQuaternion.LookRotation(force);
+					//transform.rotation = VQuaternion.LookRotation(force);
+					transform.rotation = Quaternion.RotateTowards(transform.rotation, VQuaternion.LookRotation(force), rotationSpeed * Time.deltaTime);
 					direction = wanderForce - transform.position;
 				}
 
@@ -632,7 +627,8 @@ public class MoskarBoss : Boss
 				fleeForce = vehicle.GetFleeForce(projectedMateoPosition);
 				rigidbody.MoveIn3D(fleeForce * Time.fixedDeltaTime);
 				//transform.rotation = VQuaternion.RightLookRotation(fleeForce);
-				transform.rotation = VQuaternion.LookRotation(fleeForce);
+				//transform.rotation = VQuaternion.LookRotation(fleeForce);
+				transform.rotation = Quaternion.RotateTowards(transform.rotation, VQuaternion.LookRotation(fleeForce), rotationSpeed * Time.deltaTime);
 			}
 
 			if(magnitude <= (dangerRadius * dangerRadius)) this.AddStates(ID_STATE_ATTACK);
@@ -664,7 +660,8 @@ public class MoskarBoss : Boss
 					Vector3 seekForce = vehicle.GetSeekForce(waypoint);
 					rigidbody.MoveIn3D(seekForce * Time.fixedDeltaTime);
 					//transform.rotation = VQuaternion.RightLookRotation(seekForce);
-					transform.rotation = VQuaternion.LookRotation(seekForce);
+					//transform.rotation = Quaternion.LookRotation(seekForce);
+					transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(seekForce), rotationSpeed * Time.deltaTime);
 					direction = waypoint - transform.position;
 
 					yield return VCoroutines.WAIT_PHYSICS_THREAD;
@@ -675,39 +672,13 @@ public class MoskarBoss : Boss
 		this.AddStates(ID_STATE_IDLE);
 	}
 
-	/// <summary>Mateo Serenity's Evaluation.</summary>
-	private IEnumerator SerenityEvaluation()
-	{
-		TransformDeltaCalculator mateoDeltaCalculator = Game.mateo.deltaCalculator;
-		float serenityTime = 0.0f;
-		float magnitude = 0.0f;
-		float squareMagnitude = maxMovementMagnitude * maxMovementMagnitude;
-
-		while(true)
-		{
-			magnitude = mateoDeltaCalculator.velocity.sqrMagnitude;
-
-			if(magnitude <= squareMagnitude)
-			{
-				serenityTime += Time.deltaTime;
-				if(serenityTime >= serenityDuration)
-				{
-					this.ChangeState(ID_STATE_ALIVE | ID_STATE_IDLE);
-					yield break;
-				}
-			}
-			else serenityTime = 0.0f;
-
-			yield return null;
-		}
-	}
-
 	/// <summary>Attack Behavior's Coroutine.</summary>
 	private IEnumerator AttackBehavior()
 	{
 		SecondsDelayWait shootWait = new SecondsDelayWait(0.0f);
 		int bursts = 0;
 		int i = 0;
+		int locomotionID = animator.GetInteger(locomotionIDCredential);
 
 		while(true)
 		{
@@ -723,11 +694,13 @@ public class MoskarBoss : Boss
 
 				shootWait.ChangeDurationAndReset(crap.cooldownDuration);
 				animator.SetBool(attackingIDCredential, true);
+				animator.SetInteger(locomotionIDCredential, 0);
 				animator.SetLayerWeight(attackAnimationLayer, 1.0f);
 
 				while(shootWait.MoveNext()) yield return null;
 
 				animator.SetBool(attackingIDCredential, false);
+				animator.SetInteger(locomotionIDCredential, locomotionID);
 				animator.SetLayerWeight(attackAnimationLayer, 0.0f);
 
 				i++;
@@ -740,6 +713,8 @@ public class MoskarBoss : Boss
 	/// <param name="onDeathRoutineEnds">Callback invoked when the routine ends.</param>
 	protected override IEnumerator DeathRoutine(Action onDeathRoutineEnds)
 	{
+		this.StartCoroutine(meshParent.PivotToRotation(walkingRotation, rotationDuration, TransformRelativeness.Local), ref rotationCoroutine);
+
 		animator.SetAllLayersWeight(0.0f);
 		animator.SetInteger(vitalityIDCredential, ID_STATE_DEAD);
 

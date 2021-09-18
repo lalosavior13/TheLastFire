@@ -365,7 +365,9 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 			Debug.Log("[MoskarSceneController] Mateo Is Meditating!");
 			foreach(MoskarBoss moskar in moskarReproductions)
 			{
-				moskar.ChangeState(Enemy.ID_STATE_IDLE);
+				//moskar.ChangeState(Enemy.ID_STATE_IDLE);
+				moskar.RemoveStates(Enemy.ID_STATE_ATTACK);
+				moskar.AddStates(Enemy.ID_STATE_IDLE);
 			}
 			break;
 		}

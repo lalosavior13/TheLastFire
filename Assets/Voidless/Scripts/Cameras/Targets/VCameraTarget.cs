@@ -84,11 +84,16 @@ public class VCameraTarget : MonoBehaviour
 		weight = 1.0f;
 	}
 
+	/// <returns>Bounds' Center.</returns>
+	public Vector3 GetBoundsCenter()
+	{
+		return GetPosition() + (GetRotation() * centerOffset);
+	}
 
 	/// <returns>Camera's Target.</returns>
 	public virtual Vector3 GetPosition()
 	{
-		return transform.position * weight;
+		return transform.position;
 	}
 
 	/// <returns>Target's Rotation.</returns>
@@ -101,7 +106,7 @@ public class VCameraTarget : MonoBehaviour
 	public virtual Bounds GetBounds()
 	{
 		Vector3 scale = scaleSize ? Vector3.Scale(size, transform.localScale) : size;
-		return new Bounds(GetPosition() + (GetRotation() * centerOffset), scale);
+		return new Bounds(GetBoundsCenter(), scale);
 	}
 }
 }

@@ -325,9 +325,16 @@ MonoBehaviour:
   _fireBursts:
     _min: 4
     _max: 10
+  _walkingRotation:
+    _eulerAngles: {x: 0, y: 0, z: 270}
+    _rotation: {x: 0, y: 0, z: 0.70710677, w: -0.70710677}
+  _flyingRotation:
+    _eulerAngles: {x: 0, y: 0, z: 0}
+    _rotation: {x: 0, y: 0, z: 0, w: 1}
   _fallingRotation:
     _eulerAngles: {x: 0, y: 0, z: 270}
     _rotation: {x: 0, y: 0, z: 0.70710677, w: -0.70710677}
+  _rotationSpeed: 360
   _rotationDuration: 0.5
   _maxMovementMagnitude: 0.25
   _serenityDuration: 2
@@ -341,7 +348,7 @@ MonoBehaviour:
     objectIndex: 0
     collectionIndex: 6
   _duplicateParticleEffectIndex:
-    index: 24
+    index: 23
     objectIndex: 0
     collectionIndex: 7
   _vitalityIDCredential:
@@ -370,9 +377,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 884252873aac96e4599c1a7b35a3e003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weight: 1
+  _weight: 0.4
   _space: 0
-  _size: {x: 1, y: 1, z: 1}
+  _size: {x: 2, y: 2, z: 2}
   _centerOffset: {x: 0, y: 0, z: 0}
   _scaleSize: 0
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}
