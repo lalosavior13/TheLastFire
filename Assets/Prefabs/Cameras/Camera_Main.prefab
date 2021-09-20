@@ -66,7 +66,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 5
-  far clip plane: 60
+  far clip plane: 200
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
+  _weightedBounds: 1
   gizmosColor: {r: 0, g: 0.9322505, b: 1, a: 1}
 --- !u!114 &292381599
 MonoBehaviour:
@@ -212,7 +213,7 @@ MonoBehaviour:
   _relativeToTarget: 1
   _limitFollowingSpeed: 1
   _ignoreAxes: 0
-  _followDuration: 1
+  _followDuration: 0.5
   _maxFollowSpeed: 100
   _reachTolerance: 0
   _displacementOffset:
@@ -232,11 +233,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _distanceRange:
-    _min: 9
-    _max: 30
+    _min: 15
+    _max: 20
   _limitDistanceChangeSpeed: 0
   _distanceChangeDuration: 0.1
-  _maxDistanceChangeSpeed: 0.25
+  _maxDistanceChangeSpeed: 4
 --- !u!114 &292381609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +276,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _space: 0
-  _size: {x: 44, y: 30, z: 0}
-  _center: {x: 0, y: 2.4, z: 0}
-  color: {r: 1, g: 1, b: 1, a: 1}
+  _size: {x: 65, y: 30, z: 0}
+  _center: {x: 0, y: 12.5, z: 0}
+  color: {r: 1, g: 0.49468166, b: 0, a: 1}

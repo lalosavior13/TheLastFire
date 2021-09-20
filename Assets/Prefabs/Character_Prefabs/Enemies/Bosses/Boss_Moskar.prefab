@@ -294,8 +294,8 @@ MonoBehaviour:
     _min: 0.1
     _max: 5
   _sphereColliderSizeRange:
-    _min: 1
-    _max: 5
+    _min: 0.2
+    _max: 3
   _projectionTime: 4
   _sightSensor: {fileID: 2340683739067092507}
   _tail: {fileID: 2340683739127628720}
@@ -380,7 +380,7 @@ MonoBehaviour:
   _size: {x: 2, y: 2, z: 2}
   _centerOffset: {x: 0, y: 0, z: 0}
   _scaleSize: 0
-  gizmosColor: {r: 1, g: 1, b: 1, a: 1}
+  gizmosColor: {r: 1, g: 0.2827691, b: 0, a: 1}
 --- !u!58 &2340683740104089375
 CircleCollider2D:
   m_ObjectHideFlags: 0
