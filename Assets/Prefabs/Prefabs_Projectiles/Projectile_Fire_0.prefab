@@ -189,12 +189,13 @@ MonoBehaviour:
     index: 4
     objectIndex: 0
     collectionIndex: 6
+  _sourceIndex: 0
   _impactSoundEffectIndex:
-    index: 31
+    index: 16
     objectIndex: 0
     collectionIndex: 5
   _destroyedSoundEffectIndex:
-    index: 31
+    index: 16
     objectIndex: 0
     collectionIndex: 5
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}
@@ -238,6 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ID: 32
+  _subID: 0
   _particleEffectsMatrix:
   - ID: 1
     index:
@@ -246,12 +248,12 @@ MonoBehaviour:
       collectionIndex: 7
   - ID: 2
     index:
-      index: 9
+      index: 0
       objectIndex: 0
       collectionIndex: 8
   - ID: 16
     index:
-      index: 10
+      index: 0
       objectIndex: 0
       collectionIndex: 8
   _soundEffectsMatrix:

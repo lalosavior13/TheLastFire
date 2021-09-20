@@ -46,6 +46,7 @@ public class Projectile : ContactWeapon
 
 	public event OnDeactivated onDeactivated; 									/// <summary>OnDeactivated's Event Delegate.</summary>
 
+	[SerializeField] private ParticleEffect effect; 	/// <summary>Description.</summary>
 	[Space(5f)]
 	[Header("Projectile's Attributes:")]
 	[SerializeField] private ProjectileType _projectileType; 					/// <summary>Projectile's Type.</summary>
@@ -432,6 +433,7 @@ public class Projectile : ContactWeapon
 		lastPosition = transform.position;
 		velocity = Vector2.zero;
 		target = null;
+		if(effect != null) effect.Play();
 	}
 #endregion
 

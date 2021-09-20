@@ -59,10 +59,10 @@ How states are set on the following situations:
 [ExecuteInEditMode]
 public class ParticleEffect : MonoBehaviour, IPoolObject
 {
-	private const byte FLAG_IS_ALIVE = 1 << 1; 							/// <summary>Is Alive's Flag.</summary>
-	private const byte FLAG_IS_PLAYING = 1 << 2; 						/// <summary>Is Playing's Flag.</summary>
-	private const byte FLAG_IS_PAUSED = 1 << 3; 						/// <summary>Is Paused's Flag.</summary>
-	private const byte FLAG_IS_STOPPED = 1 << 4; 						/// <summary>Is Stopped's Flag.</summary>
+	private const byte FLAG_IS_ALIVE = 1 << 0; 							/// <summary>Is Alive's Flag.</summary>
+	private const byte FLAG_IS_PLAYING = 1 << 1; 						/// <summary>Is Playing's Flag.</summary>
+	private const byte FLAG_IS_PAUSED = 1 << 2; 						/// <summary>Is Paused's Flag.</summary>
+	private const byte FLAG_IS_STOPPED = 1 << 3; 						/// <summary>Is Stopped's Flag.</summary>
 
 	public event OnPoolObjectDeactivation onPoolObjectDeactivation; 	/// <summary>Event invoked when this Pool Object is being deactivated.</summary>
 
@@ -141,6 +141,7 @@ public class ParticleEffect : MonoBehaviour, IPoolObject
 	private void OnDisable()
 	{
 		if(cooldowns == null) cooldowns = new Dictionary<int, Behavior>();
+		Stop();
 		Clear();
 		if(onPoolObjectDeactivation != null) onPoolObjectDeactivation(this);
 	}
@@ -155,6 +156,12 @@ public class ParticleEffect : MonoBehaviour, IPoolObject
 
 	/// <summary>Callback internally invoked after Awake.</summary>
 	protected virtual void OnAwake() {/*...*/}
+
+	/// <summary>Updates ParticleEffect's instance at each frame.</summary>
+	private void Update()
+	{
+		Debug.Log("[ParticleEffect] GameObject " + gameObject.name + " States: " + statesMask.GetBitChain());
+	}
 
 #region ParticleSystemMethods:
 	/// <summary>Plays all the PArticle Systems.</summary>

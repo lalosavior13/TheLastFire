@@ -207,7 +207,7 @@ PrefabInstance:
     - target: {fileID: 4347027240650942409, guid: 71e76e36a83abf54abea0985dd8d7d3d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4347027240650942409, guid: 71e76e36a83abf54abea0985dd8d7d3d,
         type: 3}
@@ -317,6 +317,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Character_Player_Mateo
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122952807910987794, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
+        type: 3}
+      propertyPath: _projectileID.index
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5122952807910987794, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
+        type: 3}
+      propertyPath: _chargedProjectileID.index
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5122952807910987803, guid: 90ffb49a39c443c41aefa42ac03f1dfd,
         type: 3}
@@ -1218,7 +1228,7 @@ Transform:
   - {fileID: 1749717349}
   - {fileID: 1088015436}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1391755695
 PrefabInstance:

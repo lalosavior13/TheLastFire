@@ -66,6 +66,7 @@ MonoBehaviour:
   _playerProjectiles:
   - {fileID: 6441458002429525075, guid: cceb42b80d7bb4d42ad1cb6e830c5a4b, type: 3}
   - {fileID: 8271858034072766596, guid: 6410736574034c8419a8afe9766e808e, type: 3}
+  - {fileID: 8271858034072766596, guid: 69bd56b9b3c584c49b741e1ce57113e8, type: 3}
   _enemyProjectiles:
   - {fileID: 7381935805205219674, guid: 0dfb82171f0f48a439f888291821ed6d, type: 3}
   - {fileID: 3776002058642984422, guid: d3af5c0f01cb90642b38554e3254f35d, type: 3}
@@ -189,6 +190,8 @@ MonoBehaviour:
   - {fileID: 393582703892377902, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
   - {fileID: 2831254372492750524, guid: a40b64bf23366dc42a892af2c6ff6140, type: 3}
   - {fileID: 5518850293222957044, guid: 208f4513cff2f1248be14eb87e5a1c1d, type: 3}
+  - {fileID: 2349323602256729043, guid: 332c9e1ba1be7ff46b81417eb054266a, type: 3}
+  - {fileID: 7071014092291976372, guid: 9804934245098114f96ca2077a77ff0d, type: 3}
   _explodables:
   - {fileID: 7757396531229370483, guid: 510f45f4d87997d48933833abca64959, type: 3}
   _ceilingDotProductThreshold:
