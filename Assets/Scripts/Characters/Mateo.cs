@@ -91,6 +91,7 @@ public class Mateo : Character
 	[Space(5f)]
 	[SerializeField] private TrailRenderer _extraJumpTrailRenderer; 			/// <summary>Extra-Jump's Trail Renderer.</summary>
 	[Space(5f)]
+	[SerializeField] private ParticleEffect _swordParticuleEffect;
 	[Header("Meditation's Attributes:")]
 	[SerializeField] private float _meditationWaitDuration; 					/// <summary>Meditation Wait's Duration.</summary>
 	private float _meditationWaitTime; 											/// <summary>Current Meditation's Time.</summary>
