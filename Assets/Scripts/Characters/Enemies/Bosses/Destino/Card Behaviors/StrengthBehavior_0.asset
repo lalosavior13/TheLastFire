@@ -18,7 +18,7 @@ MonoBehaviour:
     _min: 5
     _max: 5
   _drumstickSoundIndex:
-    index: 33
+    index: 0
     objectIndex: 0
     collectionIndex: 7
   _drumstickPhaseCredential:
@@ -28,7 +28,7 @@ MonoBehaviour:
     _min: 2
     _max: 4
   _leftDrumstickSpawnPoint: {x: -22, y: 1.25, z: 0}
-  _rightDrumstickSpawnPoint: {x: 22, y: 1.25, z: 0}
+  _rightDrumstickSpawnPoint: {x: 22, y: 0, z: 0}
   _orientationVector:
     _x: 0
     _y: 1
@@ -37,6 +37,7 @@ MonoBehaviour:
     _x: 0
     _y: 0
     _z: 1
+  _drumstickOffsetX: 15
   _dotTolerance: 0.001
   _drumstickShakeDuration: 0.3
   _drumstickShakeSpeed: 5
@@ -102,13 +103,13 @@ MonoBehaviour:
       buildUpEventID: 0
       swingEventID: 0
   _trumpetSoundIndex:
-    index: 32
+    index: 0
     objectIndex: 0
     collectionIndex: 7
   _activateTrumpetCredential:
     _tag: Activate
     _ID: 1326475003
-  _trumpetSpawnPoint: {x: 0, y: 17, z: 0}
+  _trumpetSpawnPoint: {x: 0, y: 55, z: 0}
   _trumpetDestinyPoint: {x: 0, y: 12, z: 0}
   _entranceDuration: 1
   _exitDuration: 0.5
@@ -116,9 +117,9 @@ MonoBehaviour:
   _trumpetShakeDuration: 2
   _trumpetShakeSpeed: 10
   _trumpetShakeMagnitude: 2
-  _cymbalsSpawnPosition: {x: 0, y: 9, z: 0}
+  _cymbalsSpawnPosition: {x: 0, y: 0, z: 0}
   _cymbalSoundIndex:
-    index: 34
+    index: 0
     objectIndex: 0
     collectionIndex: 7
   _cymbalIndex:

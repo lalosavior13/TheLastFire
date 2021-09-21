@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496c778c45035e2448e67e0f6545b9e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _flags: 0
+  _subID: 0
   _startupPercentage:
     value: 0.3
   _activePercentage:
