@@ -103,11 +103,28 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 	}
 #endregion
 
+	/// <summary>Draws Gizmos on Editor mode.</summary>
+	protected override void OnDrawGizmos()
+	{
+		base.OnDrawGizmos();
+
+		if(fuse == null) return;
+
+		Gizmos.DrawRay(fuse.transform.position, (fuse.transform.up * fuseLength));
+	}
+
 	/// <summary>BombParabolaProjectile's instance initialization when loaded [Before scene loads].</summary>
 	protected override void Awake()
 	{
 		base.Awake();
 		currentFuseLength = fuseLength;
+	}
+
+	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>
+	private void Start()
+	{
+		/*this.ChangeState(BombState.WickOff);
+		ActivateHitBoxes(true);*/
 	}
 
 	/// <summary>Updates BombParabolaProjectile's instance at each frame.</summary>
@@ -128,12 +145,14 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 			break;
 
 			case BombState.WickOn:
-			fuseFire = PoolManager.RequestParticleEffect(fireEffectIndex, fuse.transform.position, fuse.transform.rotation);
+			fuseFire = PoolManager.RequestParticleEffect(fireEffectIndex, fuse.transform.position + (fuse.transform.up * fuseLength), fuse.transform.rotation);
+			fuseFire.transform.parent = transform;
 			this.StartCoroutine(FuseOnRoutine(), ref fuseRoutine);
 			break;
 
 			case BombState.Exploding:
 			Explodable explosion = PoolManager.RequestExplodable(explodableIndex, transform.position, transform.rotation);
+			OnObjectDeactivation();
 			break;
 		}
 
@@ -147,6 +166,8 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 		switch(_state)
 		{
 			case BombState.WickOn:
+			fuseFire.transform.parent = null;
+			fuseFire.OnObjectDeactivation();
 			fuseFire = null;
 			this.DispatchCoroutine(ref fuseRoutine);
 			break;
@@ -173,7 +194,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
 	public override void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
-		Debug.Log("[BombParabolaProjectile] OnTriggerEvent invoked...");
+		//Debug.Log("[BombParabolaProjectile] OnTriggerEvent invoked...");
 
 		if(state == BombState.Exploding) return;
 
@@ -181,16 +202,8 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 		GameObject obj = collider.gameObject;
 
 		base.OnTriggerEvent(_info, _eventType, _ID);
-	
-		/*if((healthAffectableMask | layer) == healthAffectableMask)
-		{
-			state = BombState.Exploding;
-			/*explodable.Explode(
-			()=>
-			{
-				state = BombState.WickOff;
-			});*/
-		//}*/
+
+		//Debug.Log("[BombParabolaProjectile] I am here. This is happening...");
 
 		switch(state)
 		{
@@ -199,7 +212,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 			{
 				if(obj.CompareTag(tag))
 				{
-					state = BombState.WickOn;
+					this.ChangeState(BombState.WickOn);
 					break;
 				}
 			}
@@ -229,9 +242,9 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 		fuse.SetPosition(0, origin);
 		fuse.SetPosition(1, fuseTip);
 
-		if(state != BombState.WickOn || (state == BombState.WickOn && fuseFire == null)) return;
+		if(state != BombState.WickOn || fuseFire == null) return;
 
-		fuseFire.transform.position = origin + fuseTip;
+		fuseFire.transform.position = fuseTip;
 		fuseFire.transform.rotation = fuse.transform.rotation;
 	}
 

@@ -76,6 +76,7 @@ public class Game : Singleton<Game>
 		{
 			AddTargetToCamera(mateo.cameraTarget);
 			mateo.eventsHandler.onIDEvent += OnMateoIDEvent;
+			mateo.health.onHealthEvent += OnMateoHealthEvent;
 		}
 	}
 
@@ -193,9 +194,36 @@ public class Game : Singleton<Game>
 		switch(_ID)
 		{
 			case Mateo.ID_EVENT_DEAD:
-			ResetScene();
+			//ResetScene();
 			break;
 		}
+	}
+
+	/// <summary>Callback invoked when the health of the character is depleted.</summary>
+	protected static void OnMateoHealthEvent(HealthEvent _event, float _amount = 0.0f)
+	{
+		switch(_event)
+		{
+			case HealthEvent.Depleted:
+			float t = (1.0f - mateo.health.hpRatio);
+			float duration = data.damageCameraShakeDuration.Lerp(t); 
+			float speed = data.damageCameraShakeSpeed.Lerp(t); 	
+			float magnitude = data.damageCameraShakeMagnitude.Lerp(t);
+
+			if(cameraController == null) return;
+
+			Instance.StartCoroutine(cameraController.transform.ShakePosition(duration, speed, magnitude));
+			Instance.StartCoroutine(cameraController.transform.ShakeRotation(duration, speed, magnitude));
+			break;
+
+			case HealthEvent.FullyDepleted:
+			cameraController.middlePointTargetRetriever.ClearTargets();
+			AddTargetToCamera(mateo.cameraTarget);
+			cameraController.distanceAdjuster.distanceRange = data.deathZoom;
+			break;
+		}
+
+		Debug.Log("[Game] OnMateoHealthEvent called with Event Type: " + _event.ToString());
 	}
 }
 }

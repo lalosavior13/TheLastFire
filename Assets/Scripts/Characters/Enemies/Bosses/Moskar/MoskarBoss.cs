@@ -12,58 +12,83 @@ namespace Flamingo
 [RequireComponent(typeof(CircleCollider2D))]
 public class MoskarBoss : Boss
 {
+	private const int ID_TAUNT_1 = 1; 											/// <summary>Taunt 1's ID.</summary>
+	private const int ID_TAUNT_2 = 2; 											/// <summary>Taunt 1's ID.</summary>
+	private const int ID_LOCOMOTION_IDLE = 1; 									/// <summary>Idle Locomotion's ID.</summary>
+	private const int ID_LOCOMOTION_WALK = 2; 									/// <summary>Walk Locomotion's ID.</summary>
+	private const int ID_LOCOMOTION_FLY = 3; 									/// <summary>Fly Locomotion's ID.</summary>
+	private const int ID_LOCOMOTION_LAND = 4; 									/// <summary>Land Locomotion's ID.</summary>
+
 	[Space(5f)]
 	[Header("Moskar's Attributes:")]
-	[SerializeField] private int _phases; 							/// <summary>Moskar's Phases [how many times it divides].</summary>
-	[SerializeField] private FloatRange _scaleRange; 				/// <summary>Scale's Range.</summary>
-	[SerializeField] private FloatRange _sphereColliderSizeRange; 	/// <summary>Size Range for the SphereCollider that acts as the HitBox.</summary>
-	[SerializeField] private float _projectionTime; 				/// <summary>Moskar's Projection Time.</summary>
+	[SerializeField] private int _phases; 										/// <summary>Moskar's Phases [how many times it divides].</summary>
+	[SerializeField] private FloatRange _scaleRange; 							/// <summary>Scale's Range.</summary>
+	[SerializeField] private FloatRange _sphereColliderSizeRange; 				/// <summary>Size Range for the SphereCollider that acts as the HitBox.</summary>
+	[SerializeField] private float _projectionTime; 							/// <summary>Moskar's Projection Time.</summary>
 	[Space(5f)]
 	[Header("Moskar's Components:")]
-	[SerializeField] private FOVSight2D _sightSensor; 				/// <summary>FOVSight2D's Component.</summary>
-	[SerializeField] private Transform _tail; 						/// <summary>Moskar's Tail's Transform.</summary>
+	[SerializeField] private FOVSight2D _sightSensor; 							/// <summary>FOVSight2D's Component.</summary>
+	[SerializeField] private Transform _tail; 									/// <summary>Moskar's Tail's Transform.</summary>
 	[Space(5f)]
 	[Header("Warning's Attributes:")]
-	[SerializeField] private float _warningSpeed; 					/// <summary>Warning's Steering Speed.</summary>
-	[SerializeField] private float _dangerRadius; 					/// <summary>Danger's Radius.</summary>
-	[SerializeField] private float _fleeDistance; 					/// <summary>Flee distance between Moskar and Mateo.</summary>
+	[SerializeField] private float _warningSpeed; 								/// <summary>Warning's Steering Speed.</summary>
+	[SerializeField] private float _dangerRadius; 								/// <summary>Danger's Radius.</summary>
+	[SerializeField] private float _fleeDistance; 								/// <summary>Flee distance between Moskar and Mateo.</summary>
 	[Space(5f)]
 	[Header("Wander Attributes: ")]
-	[SerializeField] private IntRange _waypointsGeneration; 		/// <summary>Waypoints generated per Wander Round.</summary>
-	[SerializeField] private float _minDistanceToReachWaypoint; 	/// <summary>Minimum distance to reach Waypoint.</summary>
-	[SerializeField] private FloatRange _wanderSpeed; 				/// <summary>Wander's Max Speed's Range.</summary>
-	[SerializeField] private FloatRange _wanderInterval; 			/// <summary>Wander interval between each angle change [as a range].</summary>
+	[SerializeField] private IntRange _waypointsGeneration; 					/// <summary>Waypoints generated per Wander Round.</summary>
+	[SerializeField] private float _minDistanceToReachWaypoint; 				/// <summary>Minimum distance to reach Waypoint.</summary>
+	[SerializeField] private FloatRange _wanderSpeed; 							/// <summary>Wander's Max Speed's Range.</summary>
+	[SerializeField] private FloatRange _wanderInterval; 						/// <summary>Wander interval between each angle change [as a range].</summary>
 	[Space(5f)]
 	[Header("Evasion Attributes: ")]
-	[SerializeField] private FloatRange _evasionSpeed; 				/// <summary>Evasion's Speed's Range.</summary>
+	[SerializeField] private FloatRange _evasionSpeed; 							/// <summary>Evasion's Speed's Range.</summary>
 	[Space(5f)]
 	[Header("Attack's Attributes:")]
-	[SerializeField] private CollectionIndex _projectileIndex; 		/// <summary>Projectile's Index.</summary>
-	[SerializeField] private FloatRange _shootInterval; 			/// <summary>Shooting Interval's Range.</summary>
-	[SerializeField] private IntRange _fireBursts; 					/// <summary>Fire Bursts' Range.</summary>
+	[SerializeField] private CollectionIndex _projectileIndex; 					/// <summary>Projectile's Index.</summary>
+	[SerializeField] private FloatRange _shootInterval; 						/// <summary>Shooting Interval's Range.</summary>
+	[SerializeField] private IntRange _fireBursts; 								/// <summary>Fire Bursts' Range.</summary>
 	[Space(5f)]
-	[Header("Falling's Attributes:")]
-	[SerializeField] private EulerRotation _fallingRotation; 		/// <summary>Moskar's Rotation when Falling.</summary>
-	[SerializeField] private float _rotationDuration; 				/// <summary>Falling Rotation's Duration.</summary>
-	[Space(5f)]
-	[Header("Mateo's Serenity's Evaluation Attributes:")]
-	[SerializeField] private float _maxMovementMagnitude; 			/// <summary>Maximum Movement's Magnitude.</summary>
-	[SerializeField] private float _serenityDuration; 				/// <summary>Time that Mateo must have keeping its serenity for Moskar to return to its wander state.</summary>
+	[Header("Rotations' Attributes:")]
+	[SerializeField] private EulerRotation _walkingRotation; 					/// <summary>Moskar's Walking Rotation.</summary>
+	[SerializeField] private EulerRotation _flyingRotation; 					/// <summary>Moskar's Flying Rotation.</summary>
+	[SerializeField] private EulerRotation _fallingRotation; 					/// <summary>Moskar's Rotation when Falling.</summary>
+	[SerializeField] private float _rotationSpeed; 								/// <summary>Moskar's rotation speed.</summary>
+	[SerializeField] private float _rotationDuration; 							/// <summary>Falling Rotation's Duration.</summary>
 	[Space(5f)]
 	[Header("Sounds FXs:")]
-	[SerializeField] private CollectionIndex _hurtSoundIndex; 		/// <summary>Hurt SFX's Index.</summary>
-	[SerializeField] private CollectionIndex _fallenSoundIndex; 	/// <summary>Fallen SFX's Index.</summary>
-	private int _currentPhase; 										/// <summary>Current Phase of this Moskar's Reproduction.</summary>
-	private float _phaseProgress; 									/// <summary>Phase's Normalized Progress.</summary>
-	private SteeringVehicle2D _vehicle; 							/// <summary>SteeringVehicle2D's Component.</summary>
-	private Rigidbody2D _rigidbody; 								/// <summary>Rigidbody2D's Component.</summary>
-	private CircleCollider2D _hurtBox; 								/// <summary>CircleCollider2D's Component.</summary>
-	private VCameraTarget _cameraTarget; 							/// <summary>VCameraTarget's Component.</summary>
-	private Coroutine attackCoroutine; 								/// <summary>AttackBehavior's Coroutine reference.</summary>
-	private Coroutine serenityEvaluation; 							/// <summary>Serenity's Evaluation Coroutine's reference.</summary>
-	private Vector3[] waypoints; 									/// <summary>Allocated the waypoints so it can be visually debuged with Gizmos.</summary>
+	[SerializeField] private int _sourceIndex; 									/// <summary>Source Index where the SFXs are played.</summary>
+	[SerializeField] private CollectionIndex _hurtSoundIndex; 					/// <summary>Hurt SFX's Index.</summary>
+	[SerializeField] private CollectionIndex _fallenSoundIndex; 				/// <summary>Fallen SFX's Index.</summary>
+	[Space(5f)]
+	[Header("Particle Effects' Attributes:")]
+	[SerializeField] private CollectionIndex _duplicateParticleEffectIndex; 	/// <summary>Duplication ParticleEffect's Index.</summary>
+	[Space(5f)]
+	[Header("Animator's Attributes:")]
+	[SerializeField] private AnimatorCredential _vitalityIDCredential; 			/// <summary>Vitality ID's Animattor Credential.</summary>
+	[SerializeField] private AnimatorCredential _tauntIDCredential; 			/// <summary>Taunt ID's Animattor Credential.</summary>
+	[SerializeField] private AnimatorCredential _locomotionIDCredential; 		/// <summary>Locomotion ID's Animattor Credential.</summary>
+	[SerializeField] private AnimatorCredential _attackingIDCredential; 		/// <summary>Attacking ID's Animattor Credential.</summary>
+	[SerializeField] private int _attackAnimationLayer; 						/// <summary>Attack Animation's Layer.</summary>
+	[SerializeField] private int _tauntAnimationLayer; 							/// <summary>Taunt Animation's Layer.</summary>
+	private int _currentPhase; 													/// <summary>Current Phase of this Moskar's Reproduction.</summary>
+	private float _phaseProgress; 												/// <summary>Phase's Normalized Progress.</summary>
+	private float _speedScale; 													/// <summary>Additional Speed's Scale.</summary>
+	private SteeringVehicle2D _vehicle; 										/// <summary>SteeringVehicle2D's Component.</summary>
+	private Rigidbody2D _rigidbody; 											/// <summary>Rigidbody2D's Component.</summary>
+	private CircleCollider2D _hurtBox; 											/// <summary>CircleCollider2D's Component.</summary>
+	private VCameraTarget _cameraTarget; 										/// <summary>VCameraTarget's Component.</summary>
+	private Coroutine attackCoroutine; 											/// <summary>AttackBehavior's Coroutine reference.</summary>
+	private Coroutine rotationCoroutine; 										/// <summary>Rotation Coroutine's Reference.</summary>
+	private Vector3[] waypoints; 												/// <summary>Allocated the waypoints so it can be visually debuged with Gizmos.</summary>
 
 #region Getters/Setters:
+	/// <summary>Gets walkingRotation property.</summary>
+	public EulerRotation walkingRotation { get { return _walkingRotation; } }
+
+	/// <summary>Gets flyingRotation property.</summary>
+	public EulerRotation flyingRotation { get { return _flyingRotation; } }
+
 	/// <summary>Gets fallingRotation property.</summary>
 	public EulerRotation fallingRotation { get { return _fallingRotation; } }
 
@@ -104,11 +129,25 @@ public class MoskarBoss : Boss
 		set { _fleeDistance = value; }
 	}
 
+	/// <summary>Gets and Sets rotationSpeed property.</summary>
+	public float rotationSpeed
+	{
+		get { return _rotationSpeed; }
+		set { _rotationSpeed = value; }
+	}
+
 	/// <summary>Gets and Sets rotationDuration property.</summary>
 	public float rotationDuration
 	{
 		get { return _rotationDuration; }
 		set { _rotationDuration = value; }
+	}
+
+	/// <summary>Gets and Sets speedScale property.</summary>
+	public float speedScale
+	{
+		get { return _speedScale; }
+		set { _speedScale = value; }
 	}
 
 	/// <summary>Gets and Sets currentPhase property.</summary>
@@ -117,6 +156,12 @@ public class MoskarBoss : Boss
 		get { return _currentPhase; }
 		set { _currentPhase = value; }
 	}
+
+	/// <summary>Gets attackAnimationLayer property.</summary>
+	public int attackAnimationLayer { get { return _attackAnimationLayer; } }
+
+	/// <summary>Gets tauntAnimationLayer property.</summary>
+	public int tauntAnimationLayer { get { return _tauntAnimationLayer; } }
 
 	/// <summary>Gets sightSensor property.</summary>
 	public FOVSight2D sightSensor { get { return _sightSensor; } }
@@ -164,6 +209,13 @@ public class MoskarBoss : Boss
 		}
 	}
 
+	/// <summary>Gets and Sets sourceIndex property.</summary>
+	public int sourceIndex
+	{
+		get { return _sourceIndex; }
+		set { _sourceIndex = value; }
+	}
+
 	/// <summary>Gets and Sets projectileIndex property.</summary>
 	public CollectionIndex projectileIndex
 	{
@@ -183,6 +235,13 @@ public class MoskarBoss : Boss
 	{
 		get { return _fallenSoundIndex; }
 		set { _fallenSoundIndex = value; }
+	}
+
+	/// <summary>Gets and Sets duplicateParticleEffectIndex property.</summary>
+	public CollectionIndex duplicateParticleEffectIndex
+	{
+		get { return _duplicateParticleEffectIndex; }
+		set { _duplicateParticleEffectIndex = value; }
 	}
 
 	/// <summary>Gets and Sets wanderSpeed property.</summary>
@@ -241,19 +300,17 @@ public class MoskarBoss : Boss
 		set { _phaseProgress = value; }
 	}
 
-	/// <summary>Gets and Sets maxMovementMagnitude property.</summary>
-	public float maxMovementMagnitude
-	{
-		get { return _maxMovementMagnitude; }
-		set { _maxMovementMagnitude = value; }
-	}
+	/// <summary>Gets vitalityIDCredential property.</summary>
+	public AnimatorCredential vitalityIDCredential { get { return _vitalityIDCredential; } }
 
-	/// <summary>Gets and Sets serenityDuration property.</summary>
-	public float serenityDuration
-	{
-		get { return _serenityDuration; }
-		set { _serenityDuration = value; }
-	}
+	/// <summary>Gets tauntIDCredential property.</summary>
+	public AnimatorCredential tauntIDCredential { get { return _tauntIDCredential; } }
+
+	/// <summary>Gets locomotionIDCredential property.</summary>
+	public AnimatorCredential locomotionIDCredential { get { return _locomotionIDCredential; } }
+
+	/// <summary>Gets attackingIDCredential property.</summary>
+	public AnimatorCredential attackingIDCredential { get { return _attackingIDCredential; } }
 #endregion
 
 	/// <summary>Draws Gizmos on Editor mode.</summary>
@@ -272,8 +329,18 @@ public class MoskarBoss : Boss
 	{
 		base.Awake();
 
+		this.AddStates(ID_STATE_ALIVE);
+
+		speedScale = 1.0f;
+
+		animator.SetAllLayersWeight(0.0f);
+		animator.SetInteger(vitalityIDCredential, ID_STATE_ALIVE);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_IDLE);
+		animator.SetBool(attackingIDCredential, false);
+
 		Game.AddTargetToCamera(cameraTarget);
 		sightSensor.onSightEvent += OnSightEvent;
+		eventsHandler.onTriggerEvent += OnTriggerEvent;
 	}
 
 	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>
@@ -304,17 +371,16 @@ public class MoskarBoss : Boss
 		switch(_event)
 		{
 			case HealthEvent.Depleted:
-			AudioController.PlayOneShot(SourceType.SFX, 0, hurtSoundIndex);
+			AudioController.PlayOneShot(SourceType.SFX, sourceIndex, hurtSoundIndex);
 			break;
 
 			case HealthEvent.FullyDepleted:
-			AudioController.PlayOneShot(SourceType.SFX, 0, hurtSoundIndex);
+			AudioController.PlayOneShot(SourceType.SFX, sourceIndex, hurtSoundIndex);
 			BeginDeathRoutine();
 			base.OnDeathRoutineEnds();
 			this.RemoveStates(ID_STATE_ALIVE);
 			this.DispatchCoroutine(ref behaviorCoroutine);
 			this.DispatchCoroutine(ref attackCoroutine);
-			this.DispatchCoroutine(ref serenityEvaluation);
 			break;
 		}
 	}
@@ -372,7 +438,6 @@ public class MoskarBoss : Boss
 	/// <param name="_state">State's flags that were removed.</param>
 	public override void OnStatesRemoved(int _state)
 	{
-		Debug.Log("[MoskarBoss] Player Not on Sight: " + ((_state | ID_STATE_PLAYERONSIGHT) == _state));
 		if((_state | ID_STATE_PLAYERONSIGHT) == _state
 		&& (state | ID_STATE_ATTACK) != state
 		&& (state | ID_STATE_IDLE) != state
@@ -381,12 +446,18 @@ public class MoskarBoss : Boss
 			Debug.Log("[MoskarBoss] Returning to Wander State because Mateo is out of sight.");
 			EnterWanderState();
 		}
+
 		if((_state | ID_STATE_ALIVE) == _state)
 		{
 			Debug.Log("[MoskarBoss] Shush all behaviors");
 			this.DispatchCoroutine(ref behaviorCoroutine);
 			this.DispatchCoroutine(ref attackCoroutine);
-			this.DispatchCoroutine(ref serenityEvaluation);
+		}
+
+		if((_state | ID_STATE_ATTACK) == _state)
+		{
+			animator.SetBool(attackingIDCredential, false);
+			animator.SetLayerWeight(attackAnimationLayer, 0.0f);
 		}
 	}
 
@@ -397,6 +468,10 @@ public class MoskarBoss : Boss
 		Game.AddTargetToCamera(cameraTarget);
 		rigidbody.gravityScale = 0.0f;
 		rigidbody.bodyType = RigidbodyType2D.Kinematic;
+		animator.SetAllLayersWeight(0.0f);
+		animator.SetInteger(vitalityIDCredential, ID_STATE_ALIVE);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_IDLE);
+		animator.SetBool(attackingIDCredential, false);
 	}
 
 	/// <summary>Callback invoked when the object is deactivated.</summary>
@@ -404,6 +479,42 @@ public class MoskarBoss : Boss
 	{
 		base.OnObjectDeactivation();
 		Game.RemoveTargetToCamera(cameraTarget);
+	}
+
+	/// <summary>Event invoked when a Collision2D intersection is received.</summary>
+	/// <param name="_info">Trigger2D's Information.</param>
+	/// <param name="_eventType">Type of the event.</param>
+	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
+	public  void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
+	{
+		if(_eventType != HitColliderEventTypes.Enter) return;
+
+		GameObject obj = _info.collider.gameObject;
+
+		switch(this.HasStates(ID_STATE_ALIVE))
+		{
+			case true:
+			if(obj.CompareTag(Game.data.playerTag))
+			{
+				Health health = obj.GetComponentInParent<Health>();
+
+				if(health == null)
+				{
+					HealthLinker linker = obj.GetComponent<HealthLinker>();
+					if(linker != null) health = linker.component;
+				}
+
+				if(health != null)
+				{
+					health.GiveDamage(1.0f);
+				}
+			}
+			break;
+
+			case false:
+			if(obj.CompareTag(Game.data.floorTag)) OnDeathRoutineEnds();
+			break;
+		}
 	}
 
 	/// <summary>Simulates Rigidbody and resets its Velocity.</summary>
@@ -419,10 +530,12 @@ public class MoskarBoss : Boss
 		Debug.Log("[MoskarBoss] Entered Wander State.");
 
 		this.DispatchCoroutine(ref attackCoroutine);
-		this.DispatchCoroutine(ref serenityEvaluation);
 
-		vehicle.maxSpeed = wanderSpeed.Lerp(phaseProgress);
+		vehicle.maxSpeed = wanderSpeed.Lerp(phaseProgress) * speedScale;
 		sightSensor.gameObject.SetActive(true);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_WALK);
+
+		this.StartCoroutine(meshParent.PivotToRotation(walkingRotation, rotationDuration, TransformRelativeness.Local), ref rotationCoroutine);
 		this.StartCoroutine(WanderBehaviour(), ref behaviorCoroutine);
 	}
 
@@ -431,14 +544,12 @@ public class MoskarBoss : Boss
 	{
 		Debug.Log("[MoskarBoss] Entered Warning State.");
 
-		vehicle.maxSpeed = warningSpeed;
+		vehicle.maxSpeed = warningSpeed  * speedScale;
 
 		this.DispatchCoroutine(ref attackCoroutine);
-		this.DispatchCoroutine(ref serenityEvaluation);
 
 		//this.StartCoroutine(WarningBehavior(), ref behaviorCoroutine);
 		this.StartCoroutine(WanderBehaviour(), ref behaviorCoroutine);
-		//this.StartCoroutine(SerenityEvaluation(), ref serenityEvaluation);
 	}
 
 	/// <summary>Enters Attack State.</summary>
@@ -446,14 +557,15 @@ public class MoskarBoss : Boss
 	{
 		Debug.Log("[MoskarBoss] Entered Attack State.");
 
-		vehicle.maxSpeed = evasionSpeed.Lerp(phaseProgress);
+		vehicle.maxSpeed = evasionSpeed.Lerp(phaseProgress) * speedScale;
 		sightSensor.gameObject.SetActive(false);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_FLY);
 
 		this.DispatchCoroutine(ref behaviorCoroutine);
 
+		this.StartCoroutine(meshParent.PivotToRotation(flyingRotation, rotationDuration, TransformRelativeness.Local), ref rotationCoroutine);
 		this.StartCoroutine(ErraticFlyingBehavior(), ref behaviorCoroutine);
 		this.StartCoroutine(AttackBehavior(), ref attackCoroutine);
-		//this.StartCoroutine(SerenityEvaluation(), ref serenityEvaluation);
 	}
 
 	/// <summary>Wander's Steering Beahviour Coroutine.</summary>
@@ -483,7 +595,8 @@ public class MoskarBoss : Boss
 
 					rigidbody.MoveIn3D(force * Time.fixedDeltaTime);
 					//transform.rotation = VQuaternion.RightLookRotation(force);
-					transform.rotation = VQuaternion.LookRotation(force);
+					//transform.rotation = VQuaternion.LookRotation(force);
+					transform.rotation = Quaternion.RotateTowards(transform.rotation, VQuaternion.LookRotation(force), rotationSpeed * Time.deltaTime);
 					direction = wanderForce - transform.position;
 				}
 
@@ -514,7 +627,8 @@ public class MoskarBoss : Boss
 				fleeForce = vehicle.GetFleeForce(projectedMateoPosition);
 				rigidbody.MoveIn3D(fleeForce * Time.fixedDeltaTime);
 				//transform.rotation = VQuaternion.RightLookRotation(fleeForce);
-				transform.rotation = VQuaternion.LookRotation(fleeForce);
+				//transform.rotation = VQuaternion.LookRotation(fleeForce);
+				transform.rotation = Quaternion.RotateTowards(transform.rotation, VQuaternion.LookRotation(fleeForce), rotationSpeed * Time.deltaTime);
 			}
 
 			if(magnitude <= (dangerRadius * dangerRadius)) this.AddStates(ID_STATE_ATTACK);
@@ -546,7 +660,8 @@ public class MoskarBoss : Boss
 					Vector3 seekForce = vehicle.GetSeekForce(waypoint);
 					rigidbody.MoveIn3D(seekForce * Time.fixedDeltaTime);
 					//transform.rotation = VQuaternion.RightLookRotation(seekForce);
-					transform.rotation = VQuaternion.LookRotation(seekForce);
+					//transform.rotation = Quaternion.LookRotation(seekForce);
+					transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(seekForce), rotationSpeed * Time.deltaTime);
 					direction = waypoint - transform.position;
 
 					yield return VCoroutines.WAIT_PHYSICS_THREAD;
@@ -557,39 +672,13 @@ public class MoskarBoss : Boss
 		this.AddStates(ID_STATE_IDLE);
 	}
 
-	/// <summary>Mateo Serenity's Evaluation.</summary>
-	private IEnumerator SerenityEvaluation()
-	{
-		TransformDeltaCalculator mateoDeltaCalculator = Game.mateo.deltaCalculator;
-		float serenityTime = 0.0f;
-		float magnitude = 0.0f;
-		float squareMagnitude = maxMovementMagnitude * maxMovementMagnitude;
-
-		while(true)
-		{
-			magnitude = mateoDeltaCalculator.velocity.sqrMagnitude;
-
-			if(magnitude <= squareMagnitude)
-			{
-				serenityTime += Time.deltaTime;
-				if(serenityTime >= serenityDuration)
-				{
-					this.ChangeState(ID_STATE_ALIVE | ID_STATE_IDLE);
-					yield break;
-				}
-			}
-			else serenityTime = 0.0f;
-
-			yield return null;
-		}
-	}
-
 	/// <summary>Attack Behavior's Coroutine.</summary>
 	private IEnumerator AttackBehavior()
 	{
 		SecondsDelayWait shootWait = new SecondsDelayWait(0.0f);
 		int bursts = 0;
 		int i = 0;
+		int locomotionID = animator.GetInteger(locomotionIDCredential);
 
 		while(true)
 		{
@@ -604,8 +693,15 @@ public class MoskarBoss : Boss
 				Projectile crap = PoolManager.RequestProjectile(Faction.Enemy, projectileIndex, tail.transform.position, Vector3.down);
 
 				shootWait.ChangeDurationAndReset(crap.cooldownDuration);
+				animator.SetBool(attackingIDCredential, true);
+				animator.SetInteger(locomotionIDCredential, 0);
+				animator.SetLayerWeight(attackAnimationLayer, 1.0f);
 
 				while(shootWait.MoveNext()) yield return null;
+
+				animator.SetBool(attackingIDCredential, false);
+				animator.SetInteger(locomotionIDCredential, locomotionID);
+				animator.SetLayerWeight(attackAnimationLayer, 0.0f);
 
 				i++;
 				yield return null;
@@ -617,6 +713,11 @@ public class MoskarBoss : Boss
 	/// <param name="onDeathRoutineEnds">Callback invoked when the routine ends.</param>
 	protected override IEnumerator DeathRoutine(Action onDeathRoutineEnds)
 	{
+		this.StartCoroutine(meshParent.PivotToRotation(walkingRotation, rotationDuration, TransformRelativeness.Local), ref rotationCoroutine);
+
+		animator.SetAllLayersWeight(0.0f);
+		animator.SetInteger(vitalityIDCredential, ID_STATE_DEAD);
+
 		if(currentPhase < (phases - 1) && onDeathRoutineEnds != null)
 		{
 			onDeathRoutineEnds();
@@ -630,7 +731,7 @@ public class MoskarBoss : Boss
 		rigidbody.bodyType = RigidbodyType2D.Dynamic;
 		rigidbody.gravityScale = 1.0f;
 
-		AudioController.PlayOneShot(SourceType.SFX, 0, fallenSoundIndex);
+		AudioController.PlayOneShot(SourceType.SFX, sourceIndex, fallenSoundIndex);
 
 		while(t < 1.0f)
 		{
@@ -639,7 +740,7 @@ public class MoskarBoss : Boss
 			yield return null;
 		}
 
-		while(true)
+		/*while(true)
 		{
 			Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, sphereColliderSizeRange.Lerp(phaseProgress));
 			
@@ -653,7 +754,7 @@ public class MoskarBoss : Boss
 			}
 
 			yield return null;
-		}
+		}*/
 	}
 }
 }

@@ -1593,29 +1593,29 @@ MonoBehaviour:
   _projectileID:
     index: 0
     objectIndex: 0
-    collectionIndex: 0
+    collectionIndex: 1
   _speedRange:
     _min: 20
     _max: 50
   _chargedProjectileID:
     index: 1
     objectIndex: 0
-    collectionIndex: 0
+    collectionIndex: 1
   _minimumCharge: 0.3
   _chargeDuration: 0.65
   _speedChargeDuration: 1.2
   _projectileCreationSoundIndex:
     index: 23
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 6
   _maxChargeSoundIndex:
     index: 28
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 6
   _releaseSoundIndex:
     index: 30
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 6
 --- !u!114 &3247047400570744615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1628,8 +1628,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d59d79583039794bb43d7e0d805727c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHP: 10
-  _hitStunDuration: 0.5
+  _maxHP: 5
+  _hitStunDuration: 0.3
   _invincibilityDuration: 1
 --- !u!114 &3247047400570744628
 MonoBehaviour:
@@ -1832,6 +1832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ID: 4
+  _subID: 0
   _particleEffectsMatrix:
   - ID: 1
     index:
@@ -1845,9 +1846,9 @@ MonoBehaviour:
       collectionIndex: 6
   - ID: 128
     index:
-      index: 20
+      index: 16
       objectIndex: 0
-      collectionIndex: 6
+      collectionIndex: 7
   - ID: 512
     index:
       index: 17
@@ -1856,22 +1857,12 @@ MonoBehaviour:
   _soundEffectsMatrix:
   - ID: 1
     index:
-      index: 35
+      index: 23
       objectIndex: 0
       collectionIndex: 7
   - ID: 2
     index:
-      index: 30
-      objectIndex: 0
-      collectionIndex: 7
-  - ID: 128
-    index:
-      index: 34
-      objectIndex: 0
-      collectionIndex: 7
-  - ID: 512
-    index:
-      index: 31
+      index: 23
       objectIndex: 0
       collectionIndex: 7
   _eventsHandler: {fileID: 0}

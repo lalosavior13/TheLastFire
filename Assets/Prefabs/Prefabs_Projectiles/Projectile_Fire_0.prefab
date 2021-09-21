@@ -172,6 +172,7 @@ MonoBehaviour:
   - _tag: Enemy
     index: 8
   _trailRenderers: []
+  effect: {fileID: 0}
   _projectileType: 0
   _repelTags: []
   _speedMode: 0
@@ -182,19 +183,20 @@ MonoBehaviour:
   _maxSteeringForce: 0
   _distance: 0
   _impactParticleEffectIndex:
-    index: 4
+    index: 28
     objectIndex: 0
-    collectionIndex: 6
+    collectionIndex: 7
   _destroyedParticleEffectIndex:
     index: 4
     objectIndex: 0
     collectionIndex: 6
+  _sourceIndex: 0
   _impactSoundEffectIndex:
-    index: 31
+    index: 24
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 6
   _destroyedSoundEffectIndex:
-    index: 31
+    index: 16
     objectIndex: 0
     collectionIndex: 5
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}
@@ -238,6 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ID: 32
+  _subID: 0
   _particleEffectsMatrix:
   - ID: 1
     index:
@@ -246,12 +249,12 @@ MonoBehaviour:
       collectionIndex: 7
   - ID: 2
     index:
-      index: 9
+      index: 0
       objectIndex: 0
       collectionIndex: 8
   - ID: 16
     index:
-      index: 10
+      index: 0
       objectIndex: 0
       collectionIndex: 8
   _soundEffectsMatrix:

@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 3776002058642984422}
   - component: {fileID: 1614921204212439701}
   - component: {fileID: -9040860490006554968}
+  - component: {fileID: 361476487889030304}
   m_Layer: 0
   m_Name: Projectile_Poop
   m_TagString: Projectile/Enemy
@@ -275,30 +276,23 @@ MonoBehaviour:
   _rotateTowardsDirection: 0
   _maxSteeringForce: 2
   _distance: 5
-  _motionType: 0
-  _axes:
-    _x: 1
-    _y: 0
-    _z: 0
-  _space: 0
-  _radius: 2
-  _motionSpeed: 2
   _impactParticleEffectIndex:
-    index: 0
+    index: 23
     objectIndex: 0
-    collectionIndex: 6
+    collectionIndex: 7
   _destroyedParticleEffectIndex:
-    index: 0
+    index: 23
     objectIndex: 0
-    collectionIndex: 6
+    collectionIndex: 7
+  _sourceIndex: 1
   _impactSoundEffectIndex:
     index: 43
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 6
   _destroyedSoundEffectIndex:
     index: 43
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 6
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1614921204212439701
 MonoBehaviour:
@@ -327,3 +321,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debug: 0
+--- !u!114 &361476487889030304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4968317203677032462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef852ac5d6ee0047b3ff3d23f972637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ID: 0
+  _subID: 0
+  _particleEffectsMatrix:
+  - ID: 128
+    index:
+      index: 25
+      objectIndex: 0
+      collectionIndex: 7
+  _soundEffectsMatrix: []
+  _eventsHandler: {fileID: 0}

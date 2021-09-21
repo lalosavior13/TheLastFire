@@ -32,6 +32,7 @@ public class AudioController : Singleton<AudioController>
 	private Coroutine volumeFading; 								/// <summary>Volume Fading's Coroutine Reference.</summary>
 	private Coroutine[] loopFSMCoroutines; 							/// <summary>Coroutines' references for the Loops' FSM AudioClips.</summary>
 	private Coroutine[] loopVolumeFadings; 							/// <summary>Coroutines' references for the Loops' volume's fading.</summary>
+	private StringBuilder _builder; 								/// <summary>String Builder used for name concatenations.</summary>
 
 	/// <summary>Gets exposedVolumeParameterName property.</summary>
 	public string exposedVolumeParameterName { get { return _exposedVolumeParameterName; } }
@@ -61,6 +62,13 @@ public class AudioController : Singleton<AudioController>
 		}
 	}
 
+	/// <summary>Gets and Sets builder property.</summary>
+	public StringBuilder builder
+	{
+		get { return _builder; }
+		private set { _builder = value; }
+	}
+
 	/// <summary>Callback called on Awake if this Object is the Singleton's Instance.</summary>
    	protected override void OnAwake()
 	{
@@ -70,6 +78,8 @@ public class AudioController : Singleton<AudioController>
 
 		loopFSMCoroutines = new Coroutine[length];
 		loopVolumeFadings = new Coroutine[length];
+
+		builder = new StringBuilder();
 	}
 
 	/// <summary>Gets AudioSource according to the provided type, on the located index.</summary>
@@ -132,12 +142,14 @@ public class AudioController : Singleton<AudioController>
 		if(mixer != null && (source.clip != null && source.clip != clip))
 		{ /// If there is an AudioMixer and there is a current AudioClip being played on the selected source that is not this Clip, fade the prior one before playing the new one.
 
+			string parameterName = Instance.GetExposedParameterName(_type, _sourceIndex);
+
 			/// Fade-Out last piece -> Set new piece -> Fade-In new piece.
-			Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 0.0f, 
+			Instance.StartCoroutine(mixer.FadeVolume(parameterName, Instance.fadeOutDuration, 0.0f, 
 			()=>
 			{
 				source.PlaySound(clip, _loop);
-				Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 1.0f, 
+				Instance.StartCoroutine(mixer.FadeVolume(parameterName, Instance.fadeOutDuration, 1.0f, 
 				()=>
 				{
 					Instance.DispatchCoroutine(ref Instance.volumeFading);
@@ -190,14 +202,16 @@ public class AudioController : Singleton<AudioController>
 		{ /// If there is an AudioMixer and there is a current AudioClip being played on the selected source that is not this Clip, fade the prior one before playing the new one.
 
 			float mixerVolume = 0.0f;
-			mixer.GetFloat(Instance.exposedVolumeParameterName, out mixerVolume);
+			string parameterName = Instance.GetExposedParameterName(SourceType.Loop, _sourceIndex);
+
+			mixer.GetFloat(parameterName, out mixerVolume);
 
 			/// Fade-Out last piece -> Set new piece -> Fade-In new piece.
-			/*if(mixerVolume > 0.0f) */Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 0.0f, 
+			/*if(mixerVolume > 0.0f) */Instance.StartCoroutine(mixer.FadeVolume(parameterName, Instance.fadeOutDuration, 0.0f, 
 			()=>
 			{
 				Instance.PlayFSMAudioClip(source, FSMClip, ref Instance.loopFSMCoroutines[_sourceIndex], _loop, false, null);
-				Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 1.0f, 
+				Instance.StartCoroutine(mixer.FadeVolume(parameterName, Instance.fadeOutDuration, 1.0f, 
 				()=>
 				{
 					Instance.DispatchCoroutine(ref Instance.loopVolumeFadings[_sourceIndex]);
@@ -206,7 +220,7 @@ public class AudioController : Singleton<AudioController>
 			}), ref Instance.loopVolumeFadings[_sourceIndex]);
 			/*else
 			{
-				mixer.SetFloat(Instance.exposedVolumeParameterName, 1.0f);
+				mixer.SetFloat(parameterName, 1.0f);
 				Instance.PlayFSMAudioClip(source, FSMClip, ref Instance.loopFSMCoroutines[_sourceIndex], _loop, false, null);
 			}*/
 		}
@@ -229,12 +243,14 @@ public class AudioController : Singleton<AudioController>
 
 		if(mixer != null)
 		{
-			Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 0.0f,
+			string parameterName = Instance.GetExposedParameterName(_type, _sourceIndex);
+
+			Instance.StartCoroutine(mixer.FadeVolume(parameterName, Instance.fadeOutDuration, 0.0f,
 			()=>
 			{
 				source.Stop();
 				//source.clip = null;
-				mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
+				mixer.SetVolume(parameterName,  1.0f);
 				source.time = 0.0f;
 				if(onStopEnds != null) onStopEnds();
 
@@ -244,7 +260,7 @@ public class AudioController : Singleton<AudioController>
 		{
 			source.Stop();
 			source.clip = null;
-			//mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
+			//mixer.SetVolume(parameterName,  1.0f);
 			source.time = 0.0f;
 			if(onStopEnds != null) onStopEnds();
 		}
@@ -264,13 +280,15 @@ public class AudioController : Singleton<AudioController>
 
 		if(mixer != null)
 		{
-			Instance.StartCoroutine(mixer.FadeVolume(Instance.exposedVolumeParameterName, Instance.fadeOutDuration, 0.0f,
+			string parameterName = Instance.GetExposedParameterName(SourceType.Loop, _sourceIndex);
+
+			Instance.StartCoroutine(mixer.FadeVolume(parameterName, Instance.fadeOutDuration, 0.0f,
 			()=>
 			{
 				source.clip = null;
 				//Instance.StopFSMAudioClip(source, ref Instance.loopFSMCoroutines[_sourceIndex]);
 				source.Stop();
-				mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
+				mixer.SetVolume(parameterName,  1.0f);
 				source.time = 0.0f;
 				if(onStopEnds != null) onStopEnds();
 			}));
@@ -280,7 +298,7 @@ public class AudioController : Singleton<AudioController>
 			source.clip = null;
 			//Instance.StopFSMAudioClip(source, ref Instance.loopFSMCoroutines[_sourceIndex]);
 			source.Stop();
-			//mixer.SetVolume(Instance.exposedVolumeParameterName,  1.0f);
+			//mixer.SetVolume(Instance.GetExposedParameterName(_type, _sourceIndex),  1.0f);
 			source.time = 0.0f;
 			if(onStopEnds != null) onStopEnds();
 		}
@@ -300,9 +318,10 @@ public class AudioController : Singleton<AudioController>
 		AudioMixer mixer = source.outputAudioMixerGroup.audioMixer;
 
 		if(mixer == null) return;
+		string parameterName = Instance.GetExposedParameterName(_type, _sourceIndex);
 		float x = 0.0f;
-		mixer.GetFloat(Instance.exposedVolumeParameterName, out x);
-		mixer.SetVolume(Instance.exposedVolumeParameterName + _sourceIndex, _volume);
+		mixer.GetFloat(parameterName, out x);
+		mixer.SetVolume(parameterName, _volume);
 	}
 
 	/// <summary>Stacks and plays AudioClip on the given AudioSource.</summary>
@@ -327,6 +346,27 @@ public class AudioController : Singleton<AudioController>
 	public static AudioClip PlayOneShot(int _index, float _volumeScale = 1.0f)
 	{
 		return PlayOneShot(SourceType.Default, 0, _index, _volumeScale);
+	}
+
+	/// <summary>Gets proper exposed parameter name given the sourcetype and source index.</summary>
+	/// <param name="_type">Source's Type [Default by default].</param>
+	/// <param name="_sourceIndex">Source's Index [0 by default].</param>
+	/// <returns>Proper Exposed Parameter Name for the Volume.</returns>
+	public string GetExposedParameterName(SourceType _type = SourceType.Default, int _sourceIndex = 0)
+	{
+		builder.Clear();
+
+		builder.Append(exposedVolumeParameterName);
+
+		if(_type != SourceType.Default)
+		{
+			builder.Append("_");
+			builder.Append(_type.ToString());
+			builder.Append("_");
+			builder.Append(_sourceIndex.ToString());
+		}
+
+		return builder.ToString();
 	}
 }
 }

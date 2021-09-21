@@ -152,6 +152,26 @@ public static class VString
 	}
 
 	/// <summary>Gets Bit Chain from Integer.</summary>
+	/// <param name="x">Byte to get Bit Chain from.</param>
+	/// <returns>String representing Bit Chain.</returns>
+	public static string GetBitChain(this byte x)
+	{
+		StringBuilder builder = new StringBuilder();
+
+		builder.Append("{ ");
+
+		for(int i = SIZE_BITS_INT ; i > -1; i--)
+		{
+			builder.Append((x | (1 << i)) == x ? 1 : 0);
+			if(i > 0) builder.Append(", ");
+		}
+
+		builder.Append(" }");
+
+		return builder.ToString();
+	}
+
+	/// <summary>Gets Bit Chain from Integer.</summary>
 	/// <param name="x">Integer to get Bit Chain from.</param>
 	/// <returns>String representing Bit Chain.</returns>
 	public static string GetBitChain(this int x)

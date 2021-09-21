@@ -14,6 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _frameRate: 60
   _hurtTimeScale: 0.5
+  _deathZoom: 7
+  _damageCameraShakeDuration:
+    _min: 0.1
+    _max: 0.5
+  _damageCameraShakeSpeed:
+    _min: 10
+    _max: 30
+  _damageCameraShakeMagnitude:
+    _min: 1
+    _max: 3
   _playerTag:
     _tag: Player
     index: 5
@@ -52,9 +62,12 @@ MonoBehaviour:
     _value: 8
     _name: Surface
     index: 5
+  _projectiles: []
   _playerProjectiles:
   - {fileID: 6441458002429525075, guid: cceb42b80d7bb4d42ad1cb6e830c5a4b, type: 3}
   - {fileID: 8271858034072766596, guid: 6410736574034c8419a8afe9766e808e, type: 3}
+  - {fileID: 8271858034072766596, guid: 69bd56b9b3c584c49b741e1ce57113e8, type: 3}
+  - {fileID: 8271858034072766596, guid: 95723413e0f437d4e93f5798e3121470, type: 3}
   _enemyProjectiles:
   - {fileID: 7381935805205219674, guid: 0dfb82171f0f48a439f888291821ed6d, type: 3}
   - {fileID: 3776002058642984422, guid: d3af5c0f01cb90642b38554e3254f35d, type: 3}
@@ -141,12 +154,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6578e6d68ac696648a9ce597be9c21e0, type: 3}
   - {fileID: 8300000, guid: 3bf7a74ff182f6848b79406b57705f0a, type: 3}
   - {fileID: 8300000, guid: fc7010f347399764cb3fcf759c90fd86, type: 3}
-  - {fileID: 8300000, guid: 0f47530e83fb397449aa99a0e5640d33, type: 3}
+  - {fileID: 8300000, guid: 1b8726c296aeeba43bd4a682304cb4d2, type: 3}
   - {fileID: 8300000, guid: b545047d42338ac4e9e02f7a76f64baf, type: 3}
   - {fileID: 8300000, guid: 79db4ee46fe0b2747ad1bde40e187dbb, type: 3}
   - {fileID: 8300000, guid: 6a5dab527869c9f4987c8400bf6db9ce, type: 3}
   - {fileID: 8300000, guid: 1a62e796abaf2c140b8010d12d027955, type: 3}
   - {fileID: 8300000, guid: 3d72ffc3afb516e4e84d91fc0c521442, type: 3}
+  - {fileID: 8300000, guid: b624fefbfbe7822419a5b0e86889b57d, type: 3}
+  - {fileID: 8300000, guid: 5de45ec86d0f46142854d6783f7ed8e2, type: 3}
+  - {fileID: 8300000, guid: 2474b62f63366934a992ee6884f689c9, type: 3}
+  - {fileID: 8300000, guid: 22a5087783026ae4ea6e3a473a82790c, type: 3}
   _particleEffects:
   - {fileID: 2948463789655692408, guid: 05729ccca8bca724b80aa225032af021, type: 3}
   - {fileID: 6782677579952761336, guid: 40a16e0a24c989a40b60a9e7cfc239dc, type: 3}
@@ -171,6 +188,13 @@ MonoBehaviour:
   - {fileID: 4330004709741446421, guid: 4e380b8e94c0faf4987a47cc4e350245, type: 3}
   - {fileID: 2757906412654105323, guid: 83815da667b15ec4cb805cb3ec69b11d, type: 3}
   - {fileID: 8116085811945136806, guid: a70113af926a3e840bfb55e7eeb824c9, type: 3}
+  - {fileID: 393582703892377902, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
+  - {fileID: 2831254372492750524, guid: a40b64bf23366dc42a892af2c6ff6140, type: 3}
+  - {fileID: 5518850293222957044, guid: 208f4513cff2f1248be14eb87e5a1c1d, type: 3}
+  - {fileID: 2349323602256729043, guid: 332c9e1ba1be7ff46b81417eb054266a, type: 3}
+  - {fileID: 7071014092291976372, guid: 9804934245098114f96ca2077a77ff0d, type: 3}
+  - {fileID: 6537018968927894713, guid: fc78da998a6f1d749bf61a8d687bf399, type: 3}
+  - {fileID: 2349323602256729043, guid: 332c9e1ba1be7ff46b81417eb054266a, type: 3}
   _explodables:
   - {fileID: 7757396531229370483, guid: 510f45f4d87997d48933833abca64959, type: 3}
   _ceilingDotProductThreshold:

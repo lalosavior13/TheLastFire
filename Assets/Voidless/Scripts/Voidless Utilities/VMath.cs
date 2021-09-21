@@ -873,6 +873,29 @@ public static class VMath
 	}
 #endregion
 
+#region Steering1DFunctions:
+	/// <summary>Gets Seek force on 1-Axis (as if 1D).</summary>
+	/// <param name="c">Current value.</param>
+	/// <param name="t">Target Value.</param>
+	/// <param name="v">Current Velocity's reference.</param>
+	/// <param name="s">Maximum's Speed.</param>
+	/// <param name="f">Maximum's Steering Force.</param>
+	/// <param name="m">Maxx [1.0f by default].</param>
+	public static float GetSeekforce(float c, float t, ref float v, float s, float f, float m = 1.0f)
+	{
+		float d = Mathf.Sign(t - c) * s; 				/// As if we normalized the delta multiplied by maxSpeed.
+		float steering = Mathf.Clamp((d - v), -f, f); 	/// As if we clamped the magnitude by maxForce.
+
+		if(m != 1.0f) steering /= m;
+
+		v = Mathf.Clamp((v + steering), -s, s);
+
+		return v;
+	}
+
+	/// \TODO Do the rest of the Steering Functions...
+#endregion
+
 #region Ray2DOperations:
 	/// <summary>Calculates a 2X2 determinant, given two bidimensional Rays.</summary>
 	/// <param name="_rayA">Ray A.</param>

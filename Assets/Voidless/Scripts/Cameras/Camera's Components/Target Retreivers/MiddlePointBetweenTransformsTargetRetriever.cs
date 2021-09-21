@@ -7,12 +7,22 @@ namespace Voidless
 {
 public class MiddlePointBetweenTransformsTargetRetriever : VCameraTargetRetriever
 {
+	[Space(5f)]
+	[SerializeField] private bool _weightedBounds; 		/// <summary>Take the targets' weights into consideration for their bounds?.</summary>
 #if UNITY_EDITOR
 	[Space(5f)]
 	[Header("Gizmos' Attributes:")]
-	[SerializeField] private Color gizmosColor; 				/// <summary>Gizmos' Color.</summary>
+	[SerializeField] private Color gizmosColor; 		/// <summary>Gizmos' Color.</summary>
 #endif
 	private Dictionary<int, VCameraTarget> _targets; 	/// <summary>Targets' Transforms.</summary>
+	private List<Bounds> _boundsList; 					/// <summary>Targets' Bounds' List.</summary>
+
+	/// <summary>Gets and Sets weightedBounds property.</summary>
+	public bool weightedBounds
+	{
+		get { return _weightedBounds; }
+		set { _weightedBounds = value; }
+	}
 
 	/// <summary>Gets and Sets target property.</summary>
 	public override VCameraTarget target
@@ -49,6 +59,13 @@ public class MiddlePointBetweenTransformsTargetRetriever : VCameraTargetRetrieve
 			return _targets;
 		}
 		private set { _targets = value; }
+	}
+
+	/// <summary>Gets and Sets boundsList property.</summary>
+	public List<Bounds> boundsList
+	{
+		get { return _boundsList; }
+		private set { _boundsList = value; }
 	}
 
 #if UNITY_EDITOR
@@ -90,12 +107,19 @@ public class MiddlePointBetweenTransformsTargetRetriever : VCameraTargetRetrieve
 	protected override void Awake()
 	{
 		if(targets == null) targets = new Dictionary<int, VCameraTarget>();
+		if(boundsList == null) boundsList = new List<Bounds>();
 
 		if(target == null) return;
 
 		int ID = target.GetInstanceID();
 
 		if(!targets.ContainsKey(ID)) targets.Add(ID, target);
+	}
+
+	/// <summary>Clears all targets' references.</summary>
+	public void ClearTargets()
+	{
+		targets.Clear();
 	}
 
 	/// <summary>Adds Target's Transform into the internal dictionary.</summary>
@@ -127,14 +151,20 @@ public class MiddlePointBetweenTransformsTargetRetriever : VCameraTargetRetrieve
 	{
 		if(targets == null) return Vector3.zero;
 
+		Vector3 position = transform.position;
 		Vector3 positions = Vector3.zero;
+		float w = 0.0f;
 		float count = 0.0f;
 
 		foreach(VCameraTarget target in targets.Values)
 		{
 			if(target == null || !target.gameObject.activeSelf) continue;
 
-			positions += target.GetPosition();
+			w = target.weight;
+
+			if(w <= 0.0f) continue;
+
+			positions += Vector3.Lerp(position, (position +  (target.GetPosition() - position)), w);
 			count++;
 		}
 
@@ -154,16 +184,32 @@ public class MiddlePointBetweenTransformsTargetRetriever : VCameraTargetRetrieve
 	{
 		if(targets == null) return target != null ? target.GetBounds() : default(Bounds);
 
-		Bounds[] targetsBounds = new Bounds[targets.Count];
-		int i = 0;
+		boundsList.Clear();
+		/*Bounds[] targetsBounds = new Bounds[targets.Count];
+		int i = 0;*/
 
 		foreach(VCameraTarget target in targets.Values)
 		{
-			targetsBounds[i] = target.GetBounds();
-			i++;
+			Bounds bounds = target.GetBounds();
+
+			if(weightedBounds)
+			{
+				Vector3 p = transform.position;
+				float w = target.weight;
+
+				if(w <= 0.0f) continue;
+
+				bounds.center = Vector3.Lerp(p, (p + (target.GetBoundsCenter() - p)), w);
+				boundsList.Add(bounds);
+			}
+			else boundsList.Add(bounds);
+
+			/*targetsBounds[i] = bounds;
+			i++;*/
 		}
 
-		return VBounds.GetBoundsToFitSet(targetsBounds);
+		return VBounds.GetBoundsToFitSet(boundsList.ToArray());
+		//return VBounds.GetBoundsToFitSet(targetsBounds);
 	}
 }
 }

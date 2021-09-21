@@ -8,6 +8,7 @@ namespace Flamingo
 {
 public class PoolManager : Singleton<PoolManager>
 {
+	private GameObjectPool<Projectile>[] _projectilesPools; 						/// <summary>Pools Projectiles.</summary>
 	private GameObjectPool<Projectile>[] _playerProjectilesPools; 					/// <summary>Pool of Player's Projectiles.</summary>
 	private GameObjectPool<Projectile>[] _enemyProjectilesPools; 					/// <summary>Pool of Enemy's Projectiles.</summary>
 	private GameObjectPool<PoolGameObject>[] _gameObjectsPools; 					/// <summary>PoolGameObjects' Pools.</summary>
@@ -15,45 +16,53 @@ public class PoolManager : Singleton<PoolManager>
 	private GameObjectPool<Explodable>[] _explodablesPools; 						/// <summary>Pools of Explodables.</summary>
 
 #region Getters/Setters:
+	/// <summary>Gets and Sets projectilesPools property.</summary>
+	public GameObjectPool<Projectile>[] projectilesPools
+	{
+		get { return _projectilesPools; }
+		private set { _projectilesPools = value; }
+	}
+
 	/// <summary>Gets and Sets playerProjectilesPools property.</summary>
 	public GameObjectPool<Projectile>[] playerProjectilesPools
 	{
 		get { return _playerProjectilesPools; }
-		set { _playerProjectilesPools = value; }
+		private set { _playerProjectilesPools = value; }
 	}
 
 	/// <summary>Gets and Sets enemyProjectilesPools property.</summary>
 	public GameObjectPool<Projectile>[] enemyProjectilesPools
 	{
 		get { return _enemyProjectilesPools; }
-		set { _enemyProjectilesPools = value; }
+		private set { _enemyProjectilesPools = value; }
 	}
 
 	/// <summary>Gets and Sets gameObjectsPools property.</summary>
 	public GameObjectPool<PoolGameObject>[] gameObjectsPools
 	{
 		get { return _gameObjectsPools; }
-		set { _gameObjectsPools = value; }
+		private set { _gameObjectsPools = value; }
 	}
 
 	/// <summary>Gets and Sets particleEffectsPools property.</summary>
 	public GameObjectPool<ParticleEffect>[] particleEffectsPools
 	{
 		get { return _particleEffectsPools; }
-		set { _particleEffectsPools = value; }
+		private set { _particleEffectsPools = value; }
 	}
 
 	/// <summary>Gets and Sets explodablesPools property.</summary>
 	public GameObjectPool<Explodable>[] explodablesPools
 	{
 		get { return _explodablesPools; }
-		set { _explodablesPools = value; }
+		private set { _explodablesPools = value; }
 	}
 #endregion
 
 	/// <summary>PoolManager's instance initialization.</summary>
 	protected override void OnAwake()
 	{
+		projectilesPools = GameObjectPool<Projectile>.PopulatedPools(Game.data.projectiles);
 		playerProjectilesPools = GameObjectPool<Projectile>.PopulatedPools(Game.data.playerProjectiles);
 		enemyProjectilesPools = GameObjectPool<Projectile>.PopulatedPools(Game.data.enemyProjectiles);
 		gameObjectsPools = GameObjectPool<PoolGameObject>.PopulatedPools(Game.data.poolObjects);

@@ -31,6 +31,8 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 	[SerializeField] private float _reproductionDuration; 			/// <summary>Reproduction Duration. Determines how long it lasts the reproduction's displacement and scaling.</summary>
 	[SerializeField] private float _reproductionPushForce; 			/// <summary>Reproduction's Push Force.</summary>
 	[SerializeField] private float _reproductionCountdown; 			/// <summary>Duration before creating another round of moskars.</summary>
+	[SerializeField] private float _speedScale; 					/// <summary>Remaining Moskars Speed Scale.</summary>
+	[SerializeField] private int _remainingMoskarsForSpeedScale; 	/// <summary>Minimum of Remaining Moskars needed for an additional speed scale.</summary>
 	[Space(5f)]
 	[Header("Music's Attributes:")]
 	[SerializeField] private FloatRange _waitBetweenPiece; 			/// <summary>Wait Duration Between each piece.</summary>
@@ -38,6 +40,8 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 	[SerializeField] private CollectionIndex _flyLoop; 				/// <summary>Fly's Loop Index.</summary>
 	[SerializeField] private int _remainingMoskarsForLastPiece; 	/// <summary>Maximum required of remaining Moskars for the last piece's loop to be reproduced.</summary>
 	[SerializeField] private int _sampleJumping; 					/// <summary>Sample Jumping by each iteration.</summary>
+	[SerializeField]
+	[Range(0.0f, 1.0f)] private float _moskarSFXVolume; 			/// <summary>Volume for Moskar's SFXs.</summary>
 	private Boundaries2DContainer _moskarBoundaries; 				/// <summary>Moskar's Boundaries.</summary>
 	private HashSet<MoskarBoss> _moskarReproductions; 				/// <summary>Moskar's Reproductions.</summary>
 #if UNITY_EDITOR
@@ -82,6 +86,20 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 		set { _reproductionCountdown = value; }
 	}
 
+	/// <summary>Gets and Sets moskarSFXVolume property.</summary>
+	public float moskarSFXVolume
+	{
+		get { return _moskarSFXVolume; }
+		set { _moskarSFXVolume = value; }
+	}
+
+	/// <summary>Gets and Sets speedScale property.</summary>
+	public float speedScale
+	{
+		get { return _speedScale; }
+		set { _speedScale = value; }
+	}
+
 	/// <summary>Gets and Sets remainingMoskarsForLastPiece property.</summary>
 	public int remainingMoskarsForLastPiece
 	{
@@ -94,6 +112,13 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 	{
 		get { return _sampleJumping; }
 		set { _sampleJumping = value; }
+	}
+
+	/// <summary>Gets and Sets remainingMoskarsForSpeedScale property.</summary>
+	public int remainingMoskarsForSpeedScale
+	{
+		get { return _remainingMoskarsForSpeedScale; }
+		set { _remainingMoskarsForSpeedScale = value; }
 	}
 
 	/// <summary>Gets and Sets waitBetweenPiece property.</summary>
@@ -154,8 +179,6 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 	{
 		moskarReproductions = new HashSet<MoskarBoss>();
 
-		AudioController.Play(SourceType.Scenario, 0, flyLoop, true);
-
 // --- Begins New Implementation: ---
 		if(main != null)
 		{
@@ -191,6 +214,9 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 				AudioController.SetVolume(SourceType.Loop, i, 0.0f);
 			}
 		}
+
+		AudioController.Play(SourceType.Scenario, 0, flyLoop, true);
+		AudioController.SetVolume(SourceType.SFX, main.sourceIndex, moskarSFXVolume);
 	}
 
 	/// <summary>Callback invoked when MoskarSceneController's instance is going to be destroyed and passed to the Garbage Collector.</summary>
@@ -267,12 +293,15 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 
 			phase++;
 
+			PoolManager.RequestParticleEffect(moskar.duplicateParticleEffectIndex, moskar.transform.position, Quaternion.identity);
+
 			for(int i = 0; i < 2; i++)
 			{
 				reproduction = PoolManager.RequestPoolGameObject(moskarIndex, moskar.transform.position, moskar.transform.rotation) as MoskarBoss;
 				SubscribeToMoskarEvents(reproduction);
 				reproduction.state = 0;
 				reproduction.AddStates(Enemy.ID_STATE_ATTACK);
+				reproduction.AddStates(Enemy.ID_STATE_ALIVE);
 				reproduction.currentPhase = phase;
 				reproduction.health.BeginInvincibilityCooldown();
 				reproduction.meshParent.localScale = scale;
@@ -298,6 +327,17 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 		}
 
 		Debug.Log("[MoskarSceneController] Total Moskars Remaining: " + totalMoskars);
+
+		if(Mathf.Abs(moskarsDestroyed - totalMoskars) <= remainingMoskarsForSpeedScale)
+		{
+			foreach(MoskarBoss reproduction in moskarReproductions)
+			{
+				reproduction.speedScale = speedScale;
+				reproduction.vehicle.maxSpeed *= speedScale;
+				reproduction.vehicle.maxForce *= speedScale;
+			}
+		}
+
 		if(moskarsDestroyed >= totalMoskars)
 		{
 			AudioController.Stop(SourceType.Scenario, 0);
@@ -325,7 +365,9 @@ public class MoskarSceneController : Singleton<MoskarSceneController>
 			Debug.Log("[MoskarSceneController] Mateo Is Meditating!");
 			foreach(MoskarBoss moskar in moskarReproductions)
 			{
-				moskar.ChangeState(Enemy.ID_STATE_IDLE);
+				//moskar.ChangeState(Enemy.ID_STATE_IDLE);
+				moskar.RemoveStates(Enemy.ID_STATE_ATTACK);
+				moskar.AddStates(Enemy.ID_STATE_IDLE);
 			}
 			break;
 		}

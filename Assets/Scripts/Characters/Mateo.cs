@@ -35,7 +35,8 @@ public class Mateo : Character
 	public const int ID_EVENT_INITIALPOSE_ENDED = 1; 							/// <summary>Mateo Initial-Pose-Finished's Event ID.</summary>
 	public const int ID_EVENT_MEDITATION_BEGINS = 2; 							/// <summary>Meditation Begins' Event.</summary>
 	public const int ID_EVENT_MEDITATION_ENDS = 3; 								/// <summary>Meditation Ends' Event.</summary>
-	public const int ID_EVENT_DEAD = 4; 										/// <summary>Mateo's Dead Event.</summary>
+	public const int ID_EVENT_HURT = 4; 										/// <summary>Mateo's Hurt Event.</summary>
+	public const int ID_EVENT_DEAD = 5; 										/// <summary>Mateo's Dead Event.</summary>
 
 	[Header("Rotations:")]
 	[SerializeField] private EulerRotation _stareAtBossRotation; 				/// <summary>Stare at Boss's Rotation.</summary>
@@ -584,13 +585,16 @@ public class Mateo : Character
 			break;
 
 			case HealthEvent.Replenished:
+			animator.SetInteger(vitalityIDCredential, STATE_FLAG_ALIVE);
+			break;
+
 			case HealthEvent.HitStunEnds:
 			animator.SetInteger(vitalityIDCredential, STATE_FLAG_ALIVE);
+			Time.timeScale = 1.0f;
 			break;
 
 			case HealthEvent.InvincibilityEnds:
 			animator.SetInteger(vitalityIDCredential, STATE_FLAG_ALIVE);
-			Time.timeScale = 1.0f;
 			break;
 
 			case HealthEvent.FullyDepleted:
