@@ -7,13 +7,13 @@ namespace Voidless
 {
 public static class VRay
 {
-	/// <summary>Converts Ray to Line.</summary>
+	/*/// <summary>Converts Ray to Line.</summary>
 	/// <param name="_ray">Reference Ray.</param>
 	/// <returns>Line from given Ray.</returns>
 	public static Line ToLine(this Ray _ray)
 	{
 		return new Line(_ray.origin, _ray.origin + _ray.direction);
-	}
+	}*/
 
 	/// <summary>Interpolates ray towards direction, given a time t.</summary>
 	/// <param name="_ray">Ray to interpolate.</param>

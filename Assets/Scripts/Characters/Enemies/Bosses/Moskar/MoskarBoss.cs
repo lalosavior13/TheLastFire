@@ -352,19 +352,6 @@ public class MoskarBoss : Boss
 		this.AddStates(ID_STATE_IDLE);
 	}
 
-	/*/// <summary>Event triggered when this Collider enters another Collider trigger.</summary>
-	/// <param name="col">The other Collider involved in this Event.</param>
-	private void OnTriggerEnter2D(Collider2D col)
-	{
-		GameObject obj = col.gameObject;
-		
-		if(obj.CompareTag(Game.data.floorTag) && (state | ID_STATE_ALIVE) != state)
-		{
-			Debug.Log("[MoskarBoss] TU MAMA");
-
-		}
-	}*/
-
 	/// <summary>Callback invoked when the health of the character is depleted.</summary>
 	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
 	{
@@ -494,6 +481,8 @@ public class MoskarBoss : Boss
 		switch(this.HasStates(ID_STATE_ALIVE))
 		{
 			case true:
+			if(health.invincibilityCooldown.onCooldown) return;
+
 			if(obj.CompareTag(Game.data.playerTag))
 			{
 				Health health = obj.GetComponentInParent<Health>();
