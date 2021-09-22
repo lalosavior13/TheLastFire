@@ -16,6 +16,8 @@ public class TransformDataDrawer : VPropertyDrawer
 	private SerializedProperty rotation;
 	private SerializedProperty eulerAngles;
 	private SerializedProperty scale;
+	private SerializedProperty hideScale;
+	private SerializedProperty showForLinePath;
 	private SerializedProperty showHandles;
 	private Transform parentTransform;
 	private bool subscribedToSceneGUI;
@@ -26,6 +28,17 @@ public class TransformDataDrawer : VPropertyDrawer
 	/// <param name="_label">The Label of this Property.</param>
 	public override void OnGUI(Rect _position, SerializedProperty _property, GUIContent _label)
 	{
+		position = _property.FindPropertyRelative("_position");
+		rotation = _property.FindPropertyRelative("_rotation");
+		eulerAngles = _property.FindPropertyRelative("_eulerAngles");
+		scale = _property.FindPropertyRelative("_scale");
+		hideScale = _property.FindPropertyRelative("hideScale");
+		showForLinePath = _property.FindPropertyRelative("showForLinePath");
+		showHandles = _property.FindPropertyRelative("showHandles");
+
+		SceneView.onSceneGUIDelegate -= OnSceneGUI;
+		SceneView.onSceneGUIDelegate += OnSceneGUI;
+
 		float width = _position.width;
 		float fieldDimension = width * RATIO_WIDTH_FIELD;
 		float labelDimension = width * RATIO_WIDTH_LABEL;
@@ -34,13 +47,16 @@ public class TransformDataDrawer : VPropertyDrawer
 		BeginPropertyDrawing(_position, _property, _label);
 		EditorGUIUtility.labelWidth = labelDimension;
 
-		/*AddVerticalSpace();
-		positionRect.width = labelDimension;
-		EditorGUI.LabelField(positionRect, "Parent: ");
-		positionRect.x += horizontalDisplacement;
-		positionRect.width = fieldDimension;
-		EditorGUI.PropertyField(positionRect, parent, new GUIContent());
-		positionRect.x -= horizontalDisplacement;*/
+		if(!showForLinePath.boolValue)
+		{
+			AddVerticalSpace();
+			positionRect.width = labelDimension;
+			EditorGUI.LabelField(positionRect, "Show Handles: ");
+			positionRect.x += horizontalDisplacement;
+			positionRect.width = fieldDimension;
+			EditorGUI.PropertyField(positionRect, showHandles, new GUIContent());
+			positionRect.x -= horizontalDisplacement;
+		}
 		AddVerticalSpace();
 		positionRect.width = labelDimension;
 		EditorGUI.LabelField(positionRect, "Position: ");
@@ -60,38 +76,16 @@ public class TransformDataDrawer : VPropertyDrawer
 		positionRect.x += horizontalDisplacement;
 		EditorGUI.LabelField(positionRect, rotation.quaternionValue.ToString());
 		positionRect.x -= horizontalDisplacement;
-		AddVerticalSpace();
-		positionRect.width = labelDimension;
-		EditorGUI.LabelField(positionRect, "Scale: ");
-		positionRect.x += horizontalDisplacement;
-		positionRect.width = fieldDimension;
-		EditorGUI.PropertyField(positionRect, scale, new GUIContent());
-		/*positionRect.x -= horizontalDisplacement;
-		AddVerticalSpace();
-		positionRect.width = labelDimension;
-		EditorGUI.LabelField(positionRect, "Show Handles: ");
-		positionRect.x += horizontalDisplacement;
-		positionRect.width = fieldDimension;
-		EditorGUI.PropertyField(positionRect, showHandles, new GUIContent());*/
-
-		/*if(parent.objectReferenceValue != null)
+		
+		if(!hideScale.boolValue)
 		{
-			parentTransform = parent.objectReferenceValue as Transform;
-			Vector3 offset = position.vector3Value - parentTransform.position;
-			Quaternion relativeRotation = parentTransform.rotation * rotation.quaternionValue;
-			Vector3 relativeScale = Vector3.Scale(parentTransform.localScale, scale.vector3Value);
-
-			positionRect.x -= horizontalDisplacement;
-			positionRect.width = labelDimension + fieldDimension;
 			AddVerticalSpace();
-			EditorGUI.LabelField(positionRect, "Local Position: " + (parentTransform.position + (relativeRotation * offset)));
-			AddVerticalSpace();
-			EditorGUI.LabelField(positionRect, "Local Rotation: " + relativeRotation);
-			AddVerticalSpace();
-			EditorGUI.LabelField(positionRect, "Local Scale: " + relativeScale);
-		}*/
-
-		//OnSceneGUI(SceneView.lastActiveSceneView);
+			positionRect.width = labelDimension;
+			EditorGUI.LabelField(positionRect, "Scale: ");
+			positionRect.x += horizontalDisplacement;
+			positionRect.width = fieldDimension;
+			EditorGUI.PropertyField(positionRect, scale, new GUIContent());
+		}
 
 		EndPropertyDrawing(_property);
 	}
@@ -102,60 +96,56 @@ public class TransformDataDrawer : VPropertyDrawer
 	{
 		try
 		{
+			if(showHandles == null || !showHandles.boolValue) return;
+
 			switch(Tools.current)
 			{
 				case Tool.View:
 				break;
 
 				case Tool.Move:
-				if(position != null)
+				if(position == null) return;
+				
+				EditorGUI.BeginChangeCheck();
+				Vector3 newPosition = Handles.PositionHandle(position.vector3Value, rotation.quaternionValue);
+				if(EditorGUI.EndChangeCheck())
 				{
-					EditorGUI.BeginChangeCheck();
-					Vector3 newPosition = Handles.PositionHandle(position.vector3Value, rotation.quaternionValue);
-					if(EditorGUI.EndChangeCheck())
-					{
-						position.vector3Value = newPosition;
-						position.serializedObject.ApplyModifiedProperties();
-					}
+					position.vector3Value = newPosition;
+					position.serializedObject.ApplyModifiedProperties();
 				}
 				break;
 
 				case Tool.Rotate:
-				if(rotation != null)
+				if(rotation == null) return;
+				
+				EditorGUI.BeginChangeCheck();
+				Quaternion newRotation = Handles.RotationHandle(rotation.quaternionValue, position.vector3Value);
+				if(EditorGUI.EndChangeCheck())
 				{
-					EditorGUI.BeginChangeCheck();
-					Quaternion newRotation = Handles.RotationHandle(rotation.quaternionValue, position.vector3Value);
-					if(EditorGUI.EndChangeCheck())
-					{
-						rotation.quaternionValue = newRotation;
-						eulerAngles.vector3Value = newRotation.eulerAngles;
-						eulerAngles.serializedObject.ApplyModifiedProperties();
-						rotation.serializedObject.ApplyModifiedProperties();
-					}
+					rotation.quaternionValue = newRotation;
+					eulerAngles.vector3Value = newRotation.eulerAngles;
+					eulerAngles.serializedObject.ApplyModifiedProperties();
+					rotation.serializedObject.ApplyModifiedProperties();
 				}
 				break;
 
 				case Tool.Scale:
-				if(scale != null)
+				if(scale == null) return;
+				
+				EditorGUI.BeginChangeCheck();
+				Vector3 newScale = Handles.ScaleHandle(scale.vector3Value, position.vector3Value, rotation.quaternionValue, scale.vector3Value.GetAverage() * LENGHT_SCALE_RAY);
+				if(EditorGUI.EndChangeCheck())
 				{
-					EditorGUI.BeginChangeCheck();
-					Vector3 newScale = Handles.ScaleHandle(scale.vector3Value, position.vector3Value, rotation.quaternionValue, scale.vector3Value.GetAverage() * LENGHT_SCALE_RAY);
-					if(EditorGUI.EndChangeCheck())
-					{
-						scale.vector3Value = newScale;
-						scale.serializedObject.ApplyModifiedProperties();
-					}
+					scale.vector3Value = newScale;
+					scale.serializedObject.ApplyModifiedProperties();
 				}
 				break;
 			}
 		}
 		catch(Exception exception)
 		{
-			Debug.LogWarning("[TransformDataDrawer] Catched Exception when trying to reload SceneGUI: " + exception.Message);
-			/*subscribedToSceneGUI = false;
-			SceneView.onSceneGUIDelegate -= OnSceneGUI;*/
+			Debug.Log("[TransformDataDrawer] Catched Exception when trying to reload SceneGUI: " + exception.Message);
 		}	
-
 	}
 
 	/// <summary>Override this method to specify how tall the GUI for this field is in pixels.</summary>
@@ -163,21 +153,8 @@ public class TransformDataDrawer : VPropertyDrawer
 	/// <param name="_label">The label of this property.</param>
 	public override float GetPropertyHeight(SerializedProperty _property, GUIContent _label)
 	{
-		/*if(!subscribedToSceneGUI)
-		{
-			SceneView.onSceneGUIDelegate += OnSceneGUI;
-			subscribedToSceneGUI = true;
-		}
-		//SceneView.onSceneGUIDelegate += OnSceneGUI;*/
-
-		//parent = _property.FindPropertyRelative("_parent");
-		position = _property.FindPropertyRelative("_position");
-		rotation = _property.FindPropertyRelative("_rotation");
-		eulerAngles = _property.FindPropertyRelative("_eulerAngles");
-		scale = _property.FindPropertyRelative("_scale");
-		//showHandles = _property.FindPropertyRelative("showHandles");
-
-		return SPACE_VERTICAL * 6.0f;
+		hideScale = _property.FindPropertyRelative("hideScale");
+		return SPACE_VERTICAL * (!hideScale.boolValue ? 6.0f : 5.0f);
 	}
 }
 }

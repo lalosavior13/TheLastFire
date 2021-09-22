@@ -91,7 +91,7 @@ public class Mateo : Character
 	[Space(5f)]
 	[SerializeField] private TrailRenderer _extraJumpTrailRenderer; 			/// <summary>Extra-Jump's Trail Renderer.</summary>
 	[Space(5f)]
-	[SerializeField] private ParticleEffect _swordParticuleEffect;
+	[SerializeField] private ParticleEffect _swordParticleEffect; 				/// <summary>Sword's Particle Effect when slashing.</summary>
 	[Header("Meditation's Attributes:")]
 	[SerializeField] private float _meditationWaitDuration; 					/// <summary>Meditation Wait's Duration.</summary>
 	private float _meditationWaitTime; 											/// <summary>Current Meditation's Time.</summary>
@@ -228,6 +228,9 @@ public class Mateo : Character
 
 	/// <summary>Gets walledCredential property.</summary>
 	public AnimatorCredential walledCredential { get { return _walledCredential; } }
+
+	/// <summary>Gets swordParticleEffect property.</summary>
+	public ParticleEffect swordParticleEffect { get { return _swordParticleEffect; } }
 
 	/// <summary>Gets extraJumpTrailRenderer property.</summary>
 	public TrailRenderer extraJumpTrailRenderer { get { return _extraJumpTrailRenderer; } }
@@ -550,6 +553,7 @@ public class Mateo : Character
 
 		    case AnimationCommandState.Startup:
 		    sword.ActivateHitBoxes(false);
+		    if(swordParticleEffect != null) swordParticleEffect.gameObject.SetActive(true);
 		    //jumpAbility.gravityApplier.RequestScaleChange(GetInstanceID(), gravityScale, scaleChangePriority);
 		    break;
 
@@ -599,9 +603,14 @@ public class Mateo : Character
 			break;
 
 			case HealthEvent.FullyDepleted:
+			animator.SetAllLayersWeight(0.0f);
+			animator.SetLayerWeight(1, 1.0f);
 			animator.SetInteger(vitalityIDCredential, STATE_FLAG_DEAD);
 			CancelSwordAttack();
 			CancelJump();
+			dashAbility.CancelDash();
+			DischargeFire();
+			Move(Vector2.zero);
 			leftAxes = Vector2.zero;
 			this.ChangeState(ID_STATE_DEAD);
 			this.StartCoroutine(animator.WaitForAnimatorState(0, 0.0f,
@@ -774,6 +783,7 @@ public class Mateo : Character
 	/// <summary>Cancels Attacks.</summary>
 	public void CancelSwordAttack()
 	{
+		if(swordParticleEffect != null) swordParticleEffect.gameObject.SetActive(false);
 		attacksHandler.CancelAttack();
 		sword.ActivateHitBoxes(false);
 		jumpAbility.gravityApplier.RejectScaleChange(GetInstanceID());
