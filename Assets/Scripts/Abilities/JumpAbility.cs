@@ -49,6 +49,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	[SerializeField]
 	[Range(0.0f, 1.0f)] private float _progressForExtraJump; 	/// <summary>Minimum Progress required for extra jump.</summary>
 	[SerializeField] private ForceInformation2D[] _forcesInfo; 	/// <summary>Force's Information.</summary>
+	[SerializeField] private CollectionIndex[] _SFXsIndices; 	/// <summary>Sound Effects' Indices.</summary>
 	[Space(5f)]
 	[SerializeField] private float _landingDuration; 			/// <summary>Landing's Duration.</summary>
 	private TimeConstrainedForceApplier2D[] _forcesAppliers; 	/// <summary>Forces' Appliers.</summary>
@@ -166,6 +167,13 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	{
 		get { return _forcesAppliers; }
 		set { _forcesAppliers = value; }
+	}
+
+	/// <summary>Gets and Sets SFXsIndices property.</summary>
+	public CollectionIndex[] SFXsIndices
+	{
+		get { return _SFXsIndices; }
+		set { _SFXsIndices = value; }
 	}
 
 	/// <summary>Gets and Sets scalarWrapper property.</summary>
@@ -404,6 +412,13 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		else forceApplier.force = forcesInfo[currentJumpIndex].force;
 
 		forceApplier.ApplyForce();
+
+		if(SFXsIndices != null && SFXsIndices.Length > 0)
+		{
+			int index = Mathf.Clamp(currentJumpIndex, 0, SFXsIndices.Length);
+			AudioController.PlayOneShot(SourceType.SFX, 0, SFXsIndices[index]);
+		}
+
 		this.ChangeState(STATE_ID_JUMPING);
 	}
 
