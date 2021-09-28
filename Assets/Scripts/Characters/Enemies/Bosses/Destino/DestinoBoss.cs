@@ -417,7 +417,8 @@ public class DestinoBoss : Boss
 	/// <summary>Callback invoked when a Health's event has occured.</summary>
 	/// <param name="_event">Type of Health Event.</param>
 	/// <param name="_amount">Amount of health that changed [0.0f by default].</param>
-	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
+	/// <param name="_object">GameObject that caused the event, null be default.</param>
+	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f, GameObject _object = null)
 	{
 		base.OnHealthEvent(_event, _amount);
 

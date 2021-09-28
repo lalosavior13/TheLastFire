@@ -7,6 +7,7 @@ using Voidless;
 
 namespace Flamingo
 {
+[RequireComponent(typeof(AnimationEventInvoker))]
 public class Boss : Enemy
 {
 	public event OnIDEvent onIDEvent; 										/// <summary>OnIDEvent's delegate.</summary>
@@ -28,6 +29,7 @@ public class Boss : Enemy
 	[SerializeField] private float[] _healthDistribution; 					/// <summary>Health Distribution across the Stages.</summary>
 	[SerializeField] private RandomDistributionSystem _distributionSystem; 	/// <summary>Distribution System.</summary>
 	[SerializeField] private Animator _animator; 							/// <summary>Animator's Component.</summary>
+	[SerializeField] private AnimationEventInvoker _animationEventInvoker; 	/// <summary>AnimationEventInvoker's Component.</summary>
 	private int _currentStage; 
 
 	/// <summary>Gets and Sets stages property.</summary>
@@ -61,6 +63,13 @@ public class Boss : Enemy
 		}
 	}
 
+	/// <summary>Gets and Sets animationEventInvoker property.</summary>
+	public AnimationEventInvoker animationEventInvoker
+	{
+		get { return _animationEventInvoker; }
+		set { _animationEventInvoker = value; }
+	}
+
 #region UnityMethods:
 	/// <summary>Resets Boss's instance to its default values.</summary>
 	public override void Reset()
@@ -82,6 +91,8 @@ public class Boss : Enemy
 	protected override void Start()
 	{
 		base.Start();
+
+		if(animationEventInvoker != null) animationEventInvoker.AddIntActionListener(OnAnimationIntEvent);
 	}
 #endregion
 
@@ -123,7 +134,8 @@ public class Boss : Enemy
 	/// <summary>Callback invoked when a Health's event has occured.</summary>
 	/// <param name="_event">Type of Health Event.</param>
 	/// <param name="_amount">Amount of health that changed [0.0f by default].</param>
-	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
+	/// <param name="_object">GameObject that caused the event, null be default.</param>
+	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f, GameObject _object = null)
 	{
 		Debug.Log("[Boss] Health Event: " + _event.ToString() + ", at Stage: " + currentStage);
 
@@ -135,6 +147,10 @@ public class Boss : Enemy
 			break;
 		}
 	}
+
+	/// <summary>Callback invoked when an Animation Event is invoked.</summary>
+	/// <param name="_ID">Int argument.</param>
+	protected virtual void OnAnimationIntEvent(int _ID) { /*...*/ }
 
 	/// <returns>String representing enemy's stats.</returns>
 	public override string ToString()

@@ -380,6 +380,7 @@ public class Projectile : ContactWeapon
 						speed = magnitude;
 						owner = newOwner;
 
+						projectileEventsHandler.InvokeProjectileEvent(this, ID_EVENT_REPELLED);
 						Debug.DrawRay(transform.position, direction * speed, Color.magenta, 5.0f);
 					}
 					break;
@@ -400,7 +401,6 @@ public class Projectile : ContactWeapon
 					else owner = obj;
 					break;
 				}
-				//InvokeProjectileEvent(ID_EVENT_REPELLED);
 			}
 		}
 	}

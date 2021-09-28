@@ -30,7 +30,7 @@ public class DamageApplier : MonoBehaviour
     /// <param name="_damageScale">Damage's Scale [1.0f by default].</param>
     public void ApplyDamage(Health _health, float _damageScale = 1.0f)
     {
-        if(_health != null) _health.GiveDamage(damage * _damageScale);
+        if(_health != null) _health.GiveDamage(damage * _damageScale, true, gameObject);
     }
 }
 }

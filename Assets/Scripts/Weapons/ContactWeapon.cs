@@ -197,7 +197,7 @@ public class ContactWeapon : PoolGameObject
 						float damageScale = damageScales != null ? damageScales[Mathf.Clamp(_ID, 0, damageScales.Length)] : 1.0f;
 						float damageApplied = damage * damageScale;
 						
-						health.GiveDamage(damageApplied);
+						health.GiveDamage(damageApplied, gameObject);
 						OnHealthInstanceDamaged(health);
 
 						break;

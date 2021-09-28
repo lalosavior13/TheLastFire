@@ -127,7 +127,8 @@ public class Enemy : PoolGameObject, IStateMachine
 
 #region Callbacks:
 	/// <summary>Callback invoked when the health of the character is depleted.</summary>
-	protected virtual void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
+	/// <param name="_object">GameObject that caused the event, null be default.</param>
+	protected virtual void OnHealthEvent(HealthEvent _event, float _amount = 0.0f, GameObject _object = null)
 	{
 		switch(_event)
 		{

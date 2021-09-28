@@ -44,7 +44,7 @@ public class ProjectileEventsHandler : EventsHandler
 	/// <param name="_projectile">Projectile that invokes the event.</param>
 	/// <param name="_ID">Event's ID.</param>
 	/// <param name="_info">Trigger2D's Information.</param>
-	protected void InvokeProjectileEvent(Projectile _projectile, int _ID, Trigger2DInformation _info = default(Trigger2DInformation))
+	public void InvokeProjectileEvent(Projectile _projectile, int _ID, Trigger2DInformation _info = default(Trigger2DInformation))
 	{
 		Debug.Log(
 			"[ProjectileEventsHandler] "

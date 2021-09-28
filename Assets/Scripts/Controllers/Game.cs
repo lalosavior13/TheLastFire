@@ -200,7 +200,8 @@ public class Game : Singleton<Game>
 	}
 
 	/// <summary>Callback invoked when the health of the character is depleted.</summary>
-	protected static void OnMateoHealthEvent(HealthEvent _event, float _amount = 0.0f)
+	/// <param name="_object">GameObject that caused the event, null be default.</param>
+	protected static void OnMateoHealthEvent(HealthEvent _event, float _amount = 0.0f, GameObject _object = null)
 	{
 		switch(_event)
 		{

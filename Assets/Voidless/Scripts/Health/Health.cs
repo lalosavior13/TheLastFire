@@ -18,13 +18,15 @@ public enum HealthEvent
 /// <summary>Event invoked when a Health's event has occured.</summary>
 /// <param name="_event">Type of Health Event.</param>
 /// <param name="_amount">Amount of health that changed [0.0f by default].</param>
-public delegate void OnHealthEvent(HealthEvent _event, float _amount = 0.0f);
+/// <param name="_object">GameObject that caused the event, null be default.</param>
+public delegate void OnHealthEvent(HealthEvent _event, float _amount = 0.0f, GameObject _object = null);
 
 /// <summary>Event invoked when an event of a Health's instance has occured.</summary>
 /// <param name="_health">Health's Instance.</param>
 /// <param name="_event">Type of Health Event.</param>
 /// <param name="_amount">Amount of health that changed [0.0f by default].</param>
-public delegate void OnHealthInstanceEvent(Health _health, HealthEvent _event, float _amount = 0.0f);
+/// <param name="_object">GameObject that caused the event, null be default.</param>
+public delegate void OnHealthInstanceEvent(Health _health, HealthEvent _event, float _amount = 0.0f, GameObject _object = null);
 
 public class Health : MonoBehaviour, IStateMachine
 {
@@ -135,7 +137,8 @@ public class Health : MonoBehaviour, IStateMachine
     /// <param name="_damage">Damage to inflict.</param>
     /// <param name="_applyInvincibility">Apply Hit-Stun? True by default.</param>
     /// <param name="_applyInvincibility">Apply Invincibility? True by default.</param>
-    public void GiveDamage(float _damage, bool _applyHitStun = true, bool _applyInvincibility = true)
+    /// <param name="_object">GameObject that applies the damage, null be default.</param>
+    public void GiveDamage(float _damage, bool _applyHitStun = true, bool _applyInvincibility = true, GameObject _object = null)
     {
         /// If the current state is onInvincibility or the damage to receive is less or equal than '0', do nothing.
         Debug.Log("[Health] Give Damage. On invencility: " + onInvincibility + " Damage: " + _damage);
@@ -146,13 +149,13 @@ public class Health : MonoBehaviour, IStateMachine
     	
     	if(hp > 0.0f)
         {
-            if(onHealthEvent != null) onHealthEvent(HealthEvent.Depleted, _damage);
-            if(onHealthInstanceEvent != null) onHealthInstanceEvent(this, HealthEvent.Depleted, _damage);
+            if(onHealthEvent != null) onHealthEvent(HealthEvent.Depleted, _damage, _object);
+            if(onHealthInstanceEvent != null) onHealthInstanceEvent(this, HealthEvent.Depleted, _damage, _object);
 
         } else if(hp == 0.0)
         {
-            if(onHealthEvent != null) onHealthEvent(HealthEvent.FullyDepleted);
-            if(onHealthInstanceEvent != null) onHealthInstanceEvent(this, HealthEvent.FullyDepleted, _damage);
+            if(onHealthEvent != null) onHealthEvent(HealthEvent.FullyDepleted, _damage, _object);
+            if(onHealthInstanceEvent != null) onHealthInstanceEvent(this, HealthEvent.FullyDepleted, _damage, _object);
         }
 
         if(hitStunDuration > 0.0f && _applyHitStun && hp > 0.0f)
