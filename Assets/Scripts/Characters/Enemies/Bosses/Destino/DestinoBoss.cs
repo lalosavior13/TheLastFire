@@ -381,7 +381,10 @@ public class DestinoBoss : Boss
 	{
 		FiniteStateAudioClip clip = Game.data.FSMLoops[DestinoSceneController.Instance.mainLoopVoiceIndex];
 		animator.SetInteger(stateIDCredential, ID_STATE_CHANT);
-		animator.Play("Song_Full", 0, clip.normalizedTime);
+		animator.Play("Song_Full", 0, clip.normalizedTime /*clip.GetCurrentStateTime()*/);
+		clip.SetStateToCurrentTime();
+		
+
 	}
 
 	/// <summary>Callback invoked when the fallen's tolerance duration of a card reached its end.</summary>
