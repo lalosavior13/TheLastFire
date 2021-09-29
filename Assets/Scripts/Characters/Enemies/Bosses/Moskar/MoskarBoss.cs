@@ -82,6 +82,10 @@ public class MoskarBoss : Boss
 	private Coroutine rotationCoroutine; 										/// <summary>Rotation Coroutine's Reference.</summary>
 	private Vector3[] waypoints; 												/// <summary>Allocated the waypoints so it can be visually debuged with Gizmos.</summary>
 
+	private bool introEnded = false;
+	public float secondsToTaunt;
+	public float secondOfIntro;
+
 #region Getters/Setters:
 	/// <summary>Gets walkingRotation property.</summary>
 	public EulerRotation walkingRotation { get { return _walkingRotation; } }
@@ -334,22 +338,55 @@ public class MoskarBoss : Boss
 		speedScale = 1.0f;
 
 		animator.SetAllLayersWeight(0.0f);
-		animator.SetInteger(vitalityIDCredential, ID_STATE_ALIVE);
+		
+		StartCoroutine(TestIntroRoutine());
+		/*animator.SetInteger(vitalityIDCredential, ID_STATE_ALIVE);
 		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_IDLE);
-		animator.SetBool(attackingIDCredential, false);
+		animator.SetBool(attackingIDCredential, false);*/
 
 		Game.AddTargetToCamera(cameraTarget);
 		sightSensor.onSightEvent += OnSightEvent;
 		eventsHandler.onTriggerEvent += OnTriggerEvent;
 	}
 
+
+	private IEnumerator TestIntroRoutine()
+	{
+
+		animator.SetLayerWeight(1,1f);
+		animator.SetInteger(vitalityIDCredential, ID_STATE_ALIVE);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_FLY);
+	
+
+		yield return new WaitForSeconds(secondsToTaunt);
+		animator.SetLayerWeight(tauntAnimationLayer,1f);
+		animator.SetInteger(locomotionIDCredential, 0);
+		animator.SetInteger(tauntIDCredential, ID_TAUNT_2);
+		yield return new WaitForSeconds(1f);
+		animator.SetLayerWeight(tauntAnimationLayer,0f);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_FLY);
+	
+		yield return new WaitForSeconds(secondOfIntro);
+		animator.SetAllLayersWeight(0.0f);
+		this.AddStates(ID_STATE_IDLE);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_IDLE);
+		animator.SetBool(attackingIDCredential, false);
+		introEnded = true;
+
+	}
+
+
 	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>
 	protected override void Start()
 	{
 		base.Start();
 
-		if(currentPhase == 0)
-		this.AddStates(ID_STATE_IDLE);
+		if(introEnded)
+		{
+			if(currentPhase == 0)
+			this.AddStates(ID_STATE_IDLE);
+
+		}
 	}
 
 	/// <summary>Callback invoked when the health of the character is depleted.</summary>
