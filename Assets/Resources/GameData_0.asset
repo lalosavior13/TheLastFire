@@ -42,6 +42,9 @@ MonoBehaviour:
   _enemyProjectileTag:
     _tag: Projectile/Enemy
     index: 12
+  _explodableTag:
+    _tag: Untagged
+    index: 0
   _floorTag:
     _tag: Surface/Floor
     index: 13
@@ -197,6 +200,7 @@ MonoBehaviour:
   - {fileID: 2349323602256729043, guid: 332c9e1ba1be7ff46b81417eb054266a, type: 3}
   - {fileID: 5387609264246145010, guid: 7431cfcb2d342ea4499d36bd84c7c949, type: 3}
   - {fileID: 684699459189545107, guid: bf430f4564c05364481da2de15e0abba, type: 3}
+  - {fileID: 3565319406568861894, guid: 171a1e6316e533e42a2c67fcd68e1c0e, type: 3}
   _explodables:
   - {fileID: 7757396531229370483, guid: 510f45f4d87997d48933833abca64959, type: 3}
   _ceilingDotProductThreshold:
