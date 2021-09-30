@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: ChariotBehavior_0
   m_EditorClassIdentifier: 
   drawGizmos: 0
-  _run: 0
+  _run: 1
   _projectileSpawnPosition: {x: 0, y: 9, z: 0}
   _petrolSphereID:
     index: 1
     objectIndex: 0
-    collectionIndex: 1
+    collectionIndex: 2
   _marbleSphereID:
     index: 0
     objectIndex: 0
-    collectionIndex: 1
+    collectionIndex: 2
   _homingPetrolSphereID:
     index: 1
     objectIndex: 0

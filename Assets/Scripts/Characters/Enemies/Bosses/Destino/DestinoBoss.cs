@@ -488,7 +488,7 @@ public class DestinoBoss : Boss
 		float distance = 0.0f;
 		bool activatedEvent = false;
 
-		while(true)
+		while(t < 1.0f)
 		{
 			distance = (rigHead.position - _card.transform.position).sqrMagnitude;
 			lookRotation = Quaternion.LookRotation(rigHead.up);

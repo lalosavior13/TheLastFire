@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: DevilBehavior_0
   m_EditorClassIdentifier: 
   drawGizmos: 0
-  _run: 0
+  _run: 1
   _arrowProjectileIndex:
     index: 2
     objectIndex: 0
-    collectionIndex: 1
+    collectionIndex: 2
   _rounds:
     _min: 0
     _max: 0

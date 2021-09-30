@@ -338,6 +338,8 @@ MonoBehaviour:
   - _tag: Weapon/Player
     index: 9
   _trailRenderers: []
+  _particleEffects: []
+  effect: {fileID: 0}
   _projectileType: 0
   _repelTags: []
   _speedMode: 1
@@ -355,14 +357,15 @@ MonoBehaviour:
     index: 0
     objectIndex: 0
     collectionIndex: 0
+  _sourceIndex: 0
   _impactSoundEffectIndex:
-    index: 0
+    index: 41
     objectIndex: 0
-    collectionIndex: 0
+    collectionIndex: 6
   _destroyedSoundEffectIndex:
-    index: 0
+    index: 41
     objectIndex: 0
-    collectionIndex: 0
+    collectionIndex: 6
   gizmosColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &8502636351339952987
 MonoBehaviour:
