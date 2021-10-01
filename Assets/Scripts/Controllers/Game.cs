@@ -38,6 +38,7 @@ public class Game : Singleton<Game>
 	[SerializeField] private PlayerController _mateoController; 			/// <summary>Mateo's Controller.</summary>
 	[SerializeField] private Mateo _mateo; 									/// <summary>Mateo's Reference.</summary>
 	[SerializeField] private GameplayCameraController _cameraController; 	/// <summary>Gameplay's Camera Controller.</summary>
+	private Boundaries2D _defaultCameraBoundaries; 							/// <summary>Default Camera's Boundaries2D.</summary>
 
 	/// <summary>Gets and Sets data property.</summary>
 	public static GameData data
@@ -67,10 +68,23 @@ public class Game : Singleton<Game>
 		set { Instance._cameraController = value; }
 	}
 
+	/// <summary>Gets and Sets defaultCameraBoundaries property.</summary>
+	public static Boundaries2D defaultCameraBoundaries
+	{
+		get { return Instance._defaultCameraBoundaries; }
+		set { Instance._defaultCameraBoundaries = value; }
+	}
+
 	/// <summary>Callback internally called immediately after Awake.</summary>
 	protected override void OnAwake()
 	{
 		data.Initialize();
+
+		defaultCameraBoundaries = new Boundaries2D(
+			cameraController.boundariesContainer.size,
+			cameraController.boundariesContainer.center,
+			cameraController.boundariesContainer.space
+		);
 
 		if(mateo != null)
 		{
@@ -131,6 +145,14 @@ public class Game : Singleton<Game>
 	public static Vector2 GetMateoMaxJumpingHeight(bool _allJumps = true)
 	{
 		return _allJumps ? mateo.jumpAbility.PredictForces() : mateo.jumpAbility.PredictForce(0);
+	}
+
+	/// <summary>Sets default Boundaries2D's settings for the camera.</summary>
+	public static void SetDefaultCameraBoundaries2D()
+	{
+		cameraController.boundariesContainer.space = defaultCameraBoundaries.space;
+		cameraController.boundariesContainer.size = defaultCameraBoundaries.size;
+		cameraController.boundariesContainer.center = defaultCameraBoundaries.center;
 	}
 
 	/// <summary>Adds Target's VCameraTarget into the Camera.</summary>

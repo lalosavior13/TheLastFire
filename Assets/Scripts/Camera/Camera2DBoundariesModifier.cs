@@ -18,8 +18,12 @@ public class Camera2DBoundariesModifier : MonoBehaviour
 	private Boundaries2DContainer _boundariesContainer; 						/// <summary>Boundaries2DContainer's Component.</summary>
 	private BoxCollider2D _boxCollider; 										/// <summary>BoxCollider2D's Component.</summary>
 
-	/// <summary>Gets playerTag property.</summary>
-	public GameObjectTag playerTag { get { return _playerTag; } }
+	/// <summary>Gets and Sets playerTag property.</summary>
+	public GameObjectTag playerTag
+	{
+		get { return _playerTag; }
+		private set { _playerTag = value; }
+	}
 
 	/// <summary>Gets boundariesContainer Component.</summary>
 	public Boundaries2DContainer boundariesContainer
@@ -52,6 +56,14 @@ public class Camera2DBoundariesModifier : MonoBehaviour
 	{
 		if(!Application.isPlaying)
 		UpdateBoxCollider();
+	}
+
+	/// <summary>Resets Camera2DBoundariesModifier's instance to its default values.</summary>
+	private void Reset()
+	{
+		boundariesContainer.space = Space.Self;
+		boxCollider.isTrigger = true;
+		playerTag = Game.data.playerTag;
 	}
 
 	/// <summary>Updates BoxCollider2D.</summary>
@@ -92,12 +104,15 @@ public class Camera2DBoundariesModifier : MonoBehaviour
 
 			if(boundariesModifiers.Contains(this)) boundariesModifiers.Remove(this);
 
-			if(boundariesModifiers.Count == 0) return;
+			if(boundariesModifiers.Count == 0)
+			{
+				Game.SetDefaultCameraBoundaries2D();
+				return;
+			}
 
 			Boundaries2DContainer boundaries = boundariesModifiers.First().boundariesContainer;
 
-			cameraBoundariesContainer.center = boundaries.center;
-			cameraBoundariesContainer.size = boundaries.size;
+			cameraBoundariesContainer.InterpolateTowards(boundaries.ToBoundaries2D());
 		}
 	}
 }

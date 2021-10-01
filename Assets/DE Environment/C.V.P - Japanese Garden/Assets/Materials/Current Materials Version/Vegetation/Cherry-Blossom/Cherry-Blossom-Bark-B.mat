@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Cherry-Blossom-Bark-B
+  m_Shader: {fileID: 4800000, guid: b4b0069bb246a414ea3f417f7125ef56, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 103cf12d008a0604f99adc3bab897046, type: 3}
+        m_Scale: {x: 1, y: 0.4}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 2800000, guid: fb167827942a71548af57389fb017ecc, type: 3}
+        m_Scale: {x: 4, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 2800000, guid: 291ad41921b418c40941a86d7dfaedf0, type: 3}
+        m_Scale: {x: 2, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: b4f5510fa2306ae42bb79452940b6151, type: 3}
+        m_Scale: {x: 1, y: 0.4}
+        m_Offset: {x: 0, y: 0}
+    - _Metal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 2800000, guid: 6ee3eaa07213e38428c44dea80d9f7b8, type: 3}
+        m_Scale: {x: 1, y: 0.4}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessMap:
+        m_Texture: {fileID: 2800000, guid: ec62dfd0ed7e10945b39a1bc5419a424, type: 3}
+        m_Scale: {x: 1, y: 0.4}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AOSource: 1
+    - _AlbedoDetail: 0
+    - _AlphaCutoff: 0.5
+    - _BlendColor: 0
+    - _BlendHeight: 0.436
+    - _Brightness: 1
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _CullMode: 0
+    - _Cutoff: 0.5
+    - _DetailBlendHeight: 0.434
+    - _DetailBlendInfluence: 1
+    - _DetailBlendSmooth: 0.01
+    - _DetailBrightness: 1
+    - _DetailNormalMapScale: 1
+    - _DetailOffsetXDetail: 0
+    - _DetailOffsetXDetailMask: 0
+    - _DetailOffsetYDetail: 0
+    - _DetailOffsetYDetailMask: 0
+    - _DetailTilingXDetail: 4
+    - _DetailTilingXDetailMask: 1
+    - _DetailTilingYDetail: 2
+    - _DetailTilingYDetailMask: 1
+    - _Detail_BlendAmountMask: 0.5
+    - _Detail_BlendFalloffMask: 0.5
+    - _Detail_BlendHardnessMask: 1
+    - _DisplayAO: 1
+    - _DoubleSidedNormalMode: 0
+    - _DstBlend: 0
+    - _EnableDetailMap: 1
+    - _EnableDetailMask: 0
+    - _GlobalWindInfluence: 1
+    - _GlobalWindInfluenceOther: 1
+    - _GlossMapScale: 1
+    - _Glossiness: 1
+    - _GlossyReflections: 1
+    - _Height: 0.034
+    - _LocalRandomWindOffset: 0.2
+    - _LocalWindDirection: 1
+    - _LocalWindPulse: 0.1
+    - _LocalWindStrength: 0.3
+    - _Metallic: 0.1
+    - _MetallicSource: 0
+    - _MetallicStrength: 0.1
+    - _Mode: 0
+    - _NormalStrength: 1
+    - _OcclusionSourceMode: 1
+    - _OcclusionStrength: 0.333
+    - _OcclusionStrengthAO: 0.8
+    - _OffsetX: 0
+    - _OffsetY: 0
+    - _Parallax: 0.02
+    - _Smooth: 0.039
+    - _SmoothnessModeSurface: 2
+    - _SmoothnessMultiplier: 0.65
+    - _SmoothnessSource: 1
+    - _SmoothnessStrength: 1
+    - _SmoothnessTextureChannel: 0
+    - _SmoothnessThreshold: 0
+    - _SmoothnessType: 0
+    - _SmoothnessVariance: 0.2
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _TextureInfluence: 0.323
+    - _TilingX: 1
+    - _TilingY: 1
+    - _TillingMode: 0
+    - _TillingModeDetail: 0
+    - _UVSec: 0
+    - _WindMode: 1
+    - _ZTestMode: 4
+    - _ZWrite: 1
+    - _ZWriteMode: 1
+    - __dirty: 1
+    m_Colors:
+    - _Color: {r: 0.8058473, g: 0.8584906, b: 0.8584906, a: 1}
+    - _ColorDetail: {r: 0.69803923, g: 0.6509804, b: 0.5764706, a: 1}
+    - _DetailColor1: {r: 0.6981132, g: 0.65051925, b: 0.57627267, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []
