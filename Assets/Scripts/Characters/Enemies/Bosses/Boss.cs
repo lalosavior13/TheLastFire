@@ -29,6 +29,7 @@ public class Boss : Enemy
 	[SerializeField] private float[] _healthDistribution; 					/// <summary>Health Distribution across the Stages.</summary>
 	[SerializeField] private RandomDistributionSystem _distributionSystem; 	/// <summary>Distribution System.</summary>
 	[SerializeField] private Animator _animator; 							/// <summary>Animator's Component.</summary>
+	[SerializeField] private Animation _animation; 							/// <summary>Animation's Component.</summary>
 	[SerializeField] private AnimationEventInvoker _animationEventInvoker; 	/// <summary>AnimationEventInvoker's Component.</summary>
 	private int _currentStage; 
 
@@ -60,6 +61,16 @@ public class Boss : Enemy
 		{
 			if(_animator == null) _animator = GetComponent<Animator>();
 			return _animator;
+		}
+	}
+
+	/// <summary>Gets animation Component.</summary>
+	public Animation animation
+	{ 
+		get
+		{
+			if(_animation == null) _animation = GetComponent<Animation>();
+			return _animation;
 		}
 	}
 

@@ -346,61 +346,8 @@ public class Projectile : ContactWeapon
 		{
 			if(obj.CompareTag(tag))
 			{
-				Debug.Log("[Projectile] The Projectile ought to be repellable...");
-				ContactWeapon weapon = null;
-
-				switch(projectileType)
-				{
-					case ProjectileType.Normal:
-					float inversion = -1.0f;
-
-					direction *= inversion;
-					accumulatedVelocity *= inversion;
-					break;
-
-					case ProjectileType.Parabola:
-					accumulatedVelocity = Vector3.zero;
-
-					/// Assign new ownership...
-					weapon = obj.GetComponentInParent<ContactWeapon>();
-
-					newOwner = weapon != null && weapon.owner != null ? weapon.owner : obj;
-
-					if(owner == null)
-					{
-						direction *= -1.0f;
-					
-					} else if(newOwner != owner)
-					{
-						Vector3 velocity = VPhysics.ProjectileDesiredVelocity(parabolaTime, transform.position, owner.transform.position, Physics.gravity);
-						float magnitude = velocity.magnitude;
-
-						velocity /= magnitude; // Normalize
-						direction = velocity;
-						speed = magnitude;
-						owner = newOwner;
-
-						projectileEventsHandler.InvokeProjectileEvent(this, ID_EVENT_REPELLED);
-						Debug.DrawRay(transform.position, direction * speed, Color.magenta, 5.0f);
-					}
-					break;
-
-					case ProjectileType.Homing:
-					if(owner == null) return;
-
-					target = owner.transform;
-
-					weapon = obj.GetComponent<ContactWeapon>();
-
-					/// Assign new ownership...
-					if(weapon != null)
-					{
-						newOwner = weapon.owner;
-						owner = newOwner != null ? newOwner : obj;
-					}
-					else owner = obj;
-					break;
-				}
+				RequestRepel(obj);
+				return;
 			}
 		}
 	}
@@ -436,6 +383,54 @@ public class Projectile : ContactWeapon
 		if(effect != null) effect.Play();
 	}
 #endregion
+
+	/// <summary>Request the projectile ro be repelled [without physical interaction].</summary>
+	/// <param name="_requester">Requester and potential new owner.</param>
+	public void RequestRepel(GameObject _requester)
+	{
+		if(_requester == null || _requester == owner) return;
+
+		ContactWeapon weapon = _requester.GetComponentInParent<ContactWeapon>();
+		GameObject newOwner = weapon != null  && weapon.owner != null ? weapon.owner : _requester;
+
+		switch(projectileType)
+		{
+			case ProjectileType.Normal:
+			float inversion = -1.0f;
+
+			direction *= inversion;
+			accumulatedVelocity *= inversion;
+			break;
+
+			case ProjectileType.Parabola:
+			accumulatedVelocity = Vector3.zero;
+
+			if(owner == null)
+			{
+				direction *= -1.0f;
+			
+			} else if(newOwner != owner)
+			{
+				Vector3 velocity = VPhysics.ProjectileDesiredVelocity(parabolaTime, transform.position, owner.transform.position, Physics.gravity);
+				float magnitude = velocity.magnitude;
+
+				velocity /= magnitude; // Normalize
+				direction = velocity;
+				speed = magnitude;
+				//Debug.DrawRay(transform.position, direction * speed, Color.magenta, 5.0f);
+			}
+			break;
+
+			case ProjectileType.Homing:
+			if(owner == null) return;
+
+			target = owner.transform;
+			break;
+		}
+
+		owner = newOwner;
+		projectileEventsHandler.InvokeProjectileEvent(this, ID_EVENT_REPELLED);
+	}
 
 	/// <returns>Projectile's Position.</returns>
 	public Vector2 GetPosition()

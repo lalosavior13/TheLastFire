@@ -65,6 +65,12 @@ public class ShantySceneController : Singleton<ShantySceneController>
 	private void Awake()
 	{
 		AudioController.Play(SourceType.Loop, 0, loopIndex);
+		
+		if(shanty != null)
+		{
+			shanty.onIDEvent += OnShantyIDEvent;
+			if(shantyShip != null) shanty.ship = shantyShip;
+		}
 	}
 
 	/// <summary>ShantySceneController's starting actions before 1st Update frame.</summary>
@@ -88,6 +94,41 @@ public class ShantySceneController : Singleton<ShantySceneController>
 	}
 
 #region Callbacks:
+	/// <summary>Callback invoked when Shanty invokes an ID's Event.</summary>
+	/// <param name="_ID">Event's ID.</param>
+	private void OnShantyIDEvent(int _ID)
+	{
+		switch(_ID)
+		{
+			case Boss.ID_EVENT_STAGE_CHANGED:
+			if(stage1Group == null
+			|| stage2Group == null
+			|| stage3Group == null) return;
+
+			int stageID = shanty.currentStage;
+
+			stage1Group.gameObject.SetActive(false);
+			stage2Group.gameObject.SetActive(false);
+			stage3Group.gameObject.SetActive(false);
+
+			switch(stageID)
+			{
+				case Boss.STAGE_1:
+				stage1Group.gameObject.SetActive(true);
+				break;
+
+				case Boss.STAGE_2:
+				stage2Group.gameObject.SetActive(true);
+				break;
+
+				case Boss.STAGE_3:
+				stage3Group.gameObject.SetActive(true);
+				break;
+			}
+			break;
+		}
+	}
+
 	/// <summary>Event invoked when this Hit Collider2D intersects with another GameObject.</summary>
 	/// <param name="_collider">Collider2D that was involved on the Hit Event.</param>
 	/// <param name="_eventType">Type of the event.</param>

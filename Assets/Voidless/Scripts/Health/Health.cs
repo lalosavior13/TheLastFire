@@ -33,12 +33,13 @@ public class Health : MonoBehaviour, IStateMachine
 	public event OnHealthEvent onHealthEvent;                   /// <summary>OnHealthEvent Event Delegate.</summary>
     public event OnHealthInstanceEvent onHealthInstanceEvent;   /// <summary>OnHealthInstanceEvent Event Delegate.</summary>
 
-    public const int ID_STATE_ONHITSTUN = 1 << 1;               /// <summary>On Hit-Stun State's ID.</summary>
+    public const int ID_STATE_ONHITSTUN = 1 << 0;               /// <summary>On Hit-Stun State's ID.</summary>
     public const int ID_STATE_ONINVINCIBILITY = 1 << 1;         /// <summary>On Invincibility State's ID.</summary>
 
     [SerializeField] private float _maxHP;                      /// <summary>Maximum amount of Health.</summary>
     [SerializeField] private float _hitStunDuration;            /// <summary>Cooldown duration when on Hit-Stun mode.</summary>
     [SerializeField] private float _invincibilityDuration;      /// <summary>Cooldown duration when on Invincible mode.</summary>
+    [SerializeField] private GameObjectTag[] _inmunities;       /// <summary>Inmunities' Set.</summary>
     private Cooldown _invincibilityCooldown;                    /// <summary>Invincibility Cooldown's reference.</summary>
     private Cooldown _hitStunCooldown;                          /// <summary>Hit-Stun Cooldown's reference.</summary>
     private float _hp;                                          /// <summary>Current HP.</summary>
@@ -73,6 +74,13 @@ public class Health : MonoBehaviour, IStateMachine
     {
     	get { return _hp; }
     	set { _hp = value; }
+    }
+
+    /// <summary>Gets and Sets inmunities property.</summary>
+    public GameObjectTag[] inmunities
+    {
+        get { return _inmunities; }
+        set { _inmunities = value; }
     }
 
     /// <summary>Gets hpRatio property.</summary>
@@ -140,8 +148,12 @@ public class Health : MonoBehaviour, IStateMachine
     /// <param name="_object">GameObject that applies the damage, null be default.</param>
     public void GiveDamage(float _damage, bool _applyHitStun = true, bool _applyInvincibility = true, GameObject _object = null)
     {
+        if(inmunities != null && _object != null) foreach(GameObjectTag tag in inmunities)
+        {
+            if(_object.CompareTag(tag)) return;
+        }
+
         /// If the current state is onInvincibility or the damage to receive is less or equal than '0', do nothing.
-        Debug.Log("[Health] Give Damage. On invencility: " + onInvincibility + " Damage: " + _damage);
         if(onInvincibility || _damage <= 0.0f) return;
 
         _damage = _damage.Clamp(0.0f, hp);

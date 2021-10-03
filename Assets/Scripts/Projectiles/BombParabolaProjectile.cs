@@ -120,13 +120,6 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 		currentFuseLength = fuseLength;
 	}
 
-	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>
-	private void Start()
-	{
-		/*this.ChangeState(BombState.WickOff);
-		ActivateHitBoxes(true);*/
-	}
-
 	/// <summary>Updates BombParabolaProjectile's instance at each frame.</summary>
 	protected override void Update()
 	{
@@ -152,7 +145,6 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 
 			case BombState.Exploding:
 			Explodable explosion = PoolManager.RequestExplodable(explodableIndex, transform.position, transform.rotation);
-			OnObjectDeactivation();
 			break;
 		}
 
@@ -166,9 +158,12 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 		switch(_state)
 		{
 			case BombState.WickOn:
-			fuseFire.transform.parent = null;
-			fuseFire.OnObjectDeactivation();
-			fuseFire = null;
+			if(fuseFire != null)
+			{
+				fuseFire.transform.parent = null;
+				fuseFire.OnObjectDeactivation();
+				fuseFire = null;
+			}
 			this.DispatchCoroutine(ref fuseRoutine);
 			break;
 		}
@@ -179,6 +174,13 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 	{
 		base.OnObjectDeactivation();
 		rigidbody.Sleep();
+
+		if(fuseFire != null && gameObject.activeSelf)
+		{
+			fuseFire.transform.parent = null;
+			fuseFire.OnObjectDeactivation();
+			fuseFire = null;
+		}
 	}
 
 	/// <summary>Actions made when this Pool Object is being reseted.</summary>
@@ -186,6 +188,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 	{
 		base.OnObjectReset();
 		state = BombState.WickOff;
+		if(fuseFire != null) fuseFire.gameObject.SetActive(false);
 	}
 
 	/// <summary>Event invoked when a Collision2D intersection is received.</summary>
@@ -194,16 +197,12 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
 	public override void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
-		//Debug.Log("[BombParabolaProjectile] OnTriggerEvent invoked...");
-
 		if(state == BombState.Exploding) return;
-
-		Collider2D collider = _info.collider;
-		GameObject obj = collider.gameObject;
 
 		base.OnTriggerEvent(_info, _eventType, _ID);
 
-		//Debug.Log("[BombParabolaProjectile] I am here. This is happening...");
+		Collider2D collider = _info.collider;
+		GameObject obj = collider.gameObject;
 
 		switch(state)
 		{
@@ -223,12 +222,22 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 			{
 				if(obj.CompareTag(tag))
 				{
+					InvokeDeactivationEvent(DeactivationCause.Destroyed, _info);
 					this.ChangeState(BombState.Exploding);
 					break;
 				}
 			}
 			break;
 		}
+	}
+
+	/// <summary>Callback internally called when there was an impact.</summary>
+	/// <param name="_info">Trigger2D's Information.</param>
+	/// <param name="_ID">ID of the HitCollider2D.</param>
+	protected override void OnImpact(Trigger2DInformation _info, int _ID = 0)
+	{
+		if(state == BombState.WickOn) this.ChangeState(BombState.Exploding);
+		base.OnImpact(_info, _ID);
 	}
 
 	/// <summary>Updates Fuse.</summary>

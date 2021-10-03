@@ -38,6 +38,7 @@ public class Mateo : Character
 	public const int ID_EVENT_HURT = 4; 										/// <summary>Mateo's Hurt Event.</summary>
 	public const int ID_EVENT_DEAD = 5; 										/// <summary>Mateo's Dead Event.</summary>
 
+	[SerializeField] private GameObject hurtBox; 								/// <summary>HurtBox's Container.</summary>
 	[Header("Rotations:")]
 	[SerializeField] private EulerRotation _stareAtBossRotation; 				/// <summary>Stare at Boss's Rotation.</summary>
 	[SerializeField] private EulerRotation _stareAtPlayerRotation; 				/// <summary>SSStare At Player's Rotation.</summary>
@@ -583,6 +584,13 @@ public class Mateo : Character
 	{
 		base.OnHealthEvent(_event, _amount);
 
+		Debug.Log(
+			"[Mateo] Received HealthEvent: "
+			+ _event.ToString()
+			+ " , from: "
+			+ (_object != null ? _object.name : "NONE")
+		);
+
 		switch(_event)
 		{
 			case HealthEvent.Depleted:
@@ -764,7 +772,8 @@ public class Mateo : Character
 		|| attacksHandler.state == AttackState.Waiting
 		|| wallEvaluator.state == WallEvaluationEvent.Bouncing
 		|| jumpAbility.HasStates(JumpAbility.STATE_ID_LANDING)) return;
-			
+		
+		hurtBox.SetActive(false);
 		Meditate(false);
 
 		int index = 0;
@@ -785,6 +794,7 @@ public class Mateo : Character
 	/// <summary>Cancels Attacks.</summary>
 	public void CancelSwordAttack()
 	{
+		hurtBox.SetActive(true);
 		if(swordParticleEffect != null) swordParticleEffect.gameObject.SetActive(false);
 		attacksHandler.CancelAttack();
 		sword.ActivateHitBoxes(false);

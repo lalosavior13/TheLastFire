@@ -15,6 +15,7 @@ TagManager:
   - Surface/Ceiling
   - FxTemporaire
   - OutOfBounds
+  - Explodable
   layers:
   - Default
   - TransparentFX

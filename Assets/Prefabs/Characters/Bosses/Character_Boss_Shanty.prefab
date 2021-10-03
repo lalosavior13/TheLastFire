@@ -82,8 +82,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 2.7, y: 4.5}
+  m_Offset: {x: 0, y: 0.75}
+  m_Size: {x: 2.7000003, y: 3}
   m_Direction: 0
 --- !u!114 &2006140374
 MonoBehaviour:
@@ -110,6 +110,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f9cfc0b8c1b904ba71e57978632732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!111 &1066620322
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441690556088964233}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &8868339792694712148
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,19 +211,35 @@ MonoBehaviour:
   _dontDestroyOnLoad: 0
   _meshParent: {fileID: 2254677512724909619}
   _stages: 0
-  _healthDistribution: []
+  _healthDistribution:
+  - 5
+  - 5
+  - 5
   _distributionSystem:
     _probabilityRanges: []
   _animator: {fileID: 5308078836216910921}
+  _animation: {fileID: 1066620322}
   _animationEventInvoker: {fileID: 1386651793}
   _bombIndex:
     index: 8
     objectIndex: 0
     collectionIndex: 2
-  _projectionTime: 1.5
+  _TNTIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 0
+  _projectionTime: 1.2
   _sword: {fileID: 5290782370821791005}
   _falseSword: {fileID: 3436076110708076366}
-  _windowPercentage: 0
+  _windowPercentage: 0.05
+  _stage1HealthPercentageLimit: 0.2
+  _stage2HealthPercentageLimit: 0.2
+  _stage1Inmunities:
+  - _tag: Weapon/Player
+    index: 9
+  - _tag: Projectile/Player
+    index: 11
+  _stage2Inmunities: []
   _stateIDCredential:
     _tag: StateID
     _ID: 1106997947
@@ -221,6 +252,25 @@ MonoBehaviour:
   _vitalityIDCredential:
     _tag: VitalityID
     _ID: -1493647759
+  tied0Annimation: {fileID: 7400000, guid: 1f0defd75885bdf438f0e5806729a28f, type: 2}
+  tied1Annimation: {fileID: 7400000, guid: 1f0defd75885bdf438f0e5806729a28f, type: 2}
+  tied2Annimation: {fileID: 7400000, guid: 02b0de6c704475f4ba0597d5eac1563a, type: 2}
+  tied3Annimation: {fileID: 7400000, guid: 1f0defd75885bdf438f0e5806729a28f, type: 2}
+  tied4Annimation: {fileID: 7400000, guid: 02b0de6c704475f4ba0597d5eac1563a, type: 2}
+  untiedAnnimation: {fileID: 7400000, guid: 2bbada70e7d38ef44af6d90b6b9b6a53, type: 2}
+  idleAnimation: {fileID: 7400000, guid: ee9dcadc4a4b1cd4ea23f329ad5df140, type: 2}
+  laughAnimation: {fileID: 7400000, guid: 6284e2f81dcd15849bd8944dd9f4ae41, type: 2}
+  tauntAnimation: {fileID: 7400000, guid: a13924459ba1c1c4195375c4020332ef, type: 2}
+  tiredAnimation: {fileID: 7400000, guid: 116b94f6cad461743b2691d9617a88d5, type: 2}
+  shootAnimation: {fileID: 7400000, guid: ecb9ea6061cd3e94899efe3cf6148536, type: 2}
+  throwBarrelAnimation: {fileID: 7400000, guid: dc58c74b127b53443970e77d82b8aa59,
+    type: 2}
+  throwBombAnimation: {fileID: 7400000, guid: 83d78ad8b8fd05d4a999a9f0f3d4e98f, type: 2}
+  tenninsHitAnimation: {fileID: 7400000, guid: 60c4b00a106f9cd4a9ddceb050625567, type: 2}
+  hitBombAnimation: {fileID: 7400000, guid: c9734d79b33bef34cbac9db889d771b4, type: 2}
+  hitBarrelAnimation: {fileID: 7400000, guid: 2066e0938a3ae8b4f8eff65d66746d93, type: 2}
+  hitSwordAnimation: {fileID: 7400000, guid: 1c65bacc5b983384093fc18146c87068, type: 2}
+  cryAnimation: {fileID: 7400000, guid: 2b5b7dd4d66638549a287759d5f5002a, type: 2}
 --- !u!114 &57488059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,6 +299,7 @@ MonoBehaviour:
   _maxHP: 50
   _hitStunDuration: 1
   _invincibilityDuration: 1
+  _inmunities: []
 --- !u!1001 &5686542918379201879
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -402,6 +453,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.0030546135
+      objectReference: {fileID: 0}
+    - target: {fileID: 522625587181465886, guid: fe373787ff0759b448086cf50027d997,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 550564341600439503, guid: fe373787ff0759b448086cf50027d997,
         type: 3}

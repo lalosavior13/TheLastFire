@@ -298,8 +298,12 @@ MonoBehaviour:
   _damage: 1
   _damageScales:
   - 1
-  _impactTags: []
+  _impactTags:
+  - _tag: Surface/Floor
+    index: 13
   _trailRenderers: []
+  _particleEffects: []
+  effect: {fileID: 0}
   _projectileType: 1
   _repelTags:
   - _tag: Weapon/Player
@@ -323,13 +327,13 @@ MonoBehaviour:
     collectionIndex: 0
   _sourceIndex: 0
   _impactSoundEffectIndex:
-    index: 0
+    index: 25
     objectIndex: 0
-    collectionIndex: 0
+    collectionIndex: 6
   _destroyedSoundEffectIndex:
-    index: 0
+    index: 30
     objectIndex: 0
-    collectionIndex: 0
+    collectionIndex: 6
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}
   _flamableTags:
   - _tag: Projectile/Player
