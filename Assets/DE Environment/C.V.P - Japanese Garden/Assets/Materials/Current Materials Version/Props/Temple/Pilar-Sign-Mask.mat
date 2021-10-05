@@ -166,7 +166,6 @@ Material:
     - _Gradient_Top: {r: 0.2825315, g: 0.35686275, b: 0.10134903, a: 0}
     - _Gradient_TopSide: {r: 0.50573057, g: 0.5529412, b: 0.3726824, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-  m_BuildTextureStacks: []
 --- !u!114 &5915913252263520213
 MonoBehaviour:
   m_ObjectHideFlags: 11

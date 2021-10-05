@@ -76,7 +76,7 @@ Material:
     - _AlphaCutoff: 0.5
     - _BlendColor: 0
     - _BlendHeight: 1
-    - _Brightness: 1
+    - _Brightness: 2
     - _BumpScale: 1
     - _ColorMask: 15
     - _CullMode: 0
@@ -98,9 +98,9 @@ Material:
     - _DetailTilingXDetailMask: 1
     - _DetailTilingYDetail: 1
     - _DetailTilingYDetailMask: 1
-    - _Detail_BlendAmountMask: 0.5
-    - _Detail_BlendFalloffMask: 0.5
-    - _Detail_BlendHardnessMask: 1
+    - _Detail_BlendAmountMask: 0.283
+    - _Detail_BlendFalloffMask: 0.307
+    - _Detail_BlendHardnessMask: 1.08
     - _DisplacementOffset: 0
     - _DisplacementStrength: 0.00125
     - _DisplacementTiling: 1
@@ -113,7 +113,7 @@ Material:
     - _Glossiness: 1
     - _GlossyReflections: 1
     - _Metallic: 0
-    - _MetallicStrength: 0.1
+    - _MetallicStrength: 0
     - _Mode: 0
     - _NormalStrength: 1
     - _OcclusionSourceMode: 0
@@ -137,8 +137,8 @@ Material:
     - _TessellationDistanceMax: 5
     - _TessellationDistanceMin: 0
     - _TessellationMode: 1
-    - _TessellationPhong: 0.5
-    - _TessellationStrength: 6
+    - _TessellationPhong: 0.643
+    - _TessellationStrength: 13.4
     - _Tiling: 1
     - _TilingX: 1
     - _TilingY: 1
@@ -151,8 +151,7 @@ Material:
     - __dirty: 1
     m_Colors:
     - _AlbedoTint: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.8279312, g: 1, b: 0.13679245, a: 1}
     - _ColorDetail: {r: 1, g: 1, b: 1, a: 1}
     - _DetailTint: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-  m_BuildTextureStacks: []

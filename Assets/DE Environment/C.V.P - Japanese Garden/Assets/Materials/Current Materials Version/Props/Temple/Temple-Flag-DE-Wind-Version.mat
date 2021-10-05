@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Temple-Flag-DE-Wind-Version
-  m_Shader: {fileID: 4800000, guid: ba4bebe0d0e51d240897c60ddd480203, type: 3}
+  m_Shader: {fileID: 4800000, guid: 6901529278378ff458c25d26ba8d5661, type: 3}
   m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -52,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 6077eb549e82e204cb046bef8d6ff5f0, type: 3}
+        m_Texture: {fileID: 2800000, guid: c7450d916b8ac3d439496430e7a08d28, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskMap:
@@ -106,7 +106,9 @@ Material:
     m_Floats:
     - _AOSource: 1
     - _AlbedoDetail: 0
+    - _AlphaCutoff: 0.5
     - _AlphaCutoffBias: 0.5
+    - _AlphaCutoffBiasShadow: 0.5
     - _AlphatoCoverage: 0
     - _Brightness: 1
     - _BumpScale: 1.5
