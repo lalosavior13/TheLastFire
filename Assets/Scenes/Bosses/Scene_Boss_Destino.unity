@@ -6512,6 +6512,7 @@ MonoBehaviour:
   _maxHP: 20
   _hitStunDuration: 0.2
   _invincibilityDuration: 0.2
+  _inmunities: []
 --- !u!114 &1520681129
 MonoBehaviour:
   m_ObjectHideFlags: 0
