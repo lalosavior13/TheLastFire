@@ -86,6 +86,8 @@ public class Projectile : ContactWeapon
 	private Projectile _parentProjectile; 										/// <summary>Parent Projectile.</summary>
 	protected Vector2 velocity; 												/// <summary>Velocity's Vector.</summary>
 
+	//Gil hash set
+	private HashSet<int> _swordSet = new HashSet<int>();
 #region Getters/Setters:
 	/// <summary>Gets and Sets projectileType property.</summary>
 	public ProjectileType projectileType
@@ -274,6 +276,12 @@ public class Projectile : ContactWeapon
 			return _cameraTarget;
 		}
 	}
+	/// <summary>Gets and Sets sword hashset property.</summary>
+	public HashSet<int> swordSet
+	{
+		get { return _swordSet; }
+		set { _swordSet = value; }
+	}
 #endregion
 
 #if UNITY_EDITOR
@@ -322,10 +330,12 @@ public class Projectile : ContactWeapon
 	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
 	public override void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
+
 		base.OnTriggerEvent(_info, _eventType, _ID);
 
 		GameObject obj = _info.collider.gameObject;
 		GameObject newOwner = null;
+		int ID  = obj.GetInstanceID();
 
 /*
 #regionOutOfBoundsShiat:
@@ -341,15 +351,45 @@ public class Projectile : ContactWeapon
 #endregion
 */
 
+		//Gil testing attempt
+		switch(_eventType)
+		{
+			case HitColliderEventTypes.Enter:
+			if(swordSet.Contains(ID))
+			{
+				return;
+			}else{
+				//Evaluate for repelment
+				if(repelTags != null) foreach(GameObjectTag tag in repelTags)
+				{
+					if(obj.CompareTag(tag))
+					{
+						RequestRepel(obj);
+						swordSet.Add(ID);
+						return;
+
+					}
+				}
+			}
+			break;
+
+
+			case HitColliderEventTypes.Exit :
+
+			swordSet.Remove(ID);
+			break;
+
+		}
+
 		/// Evaluate for repelment:
-		if(repelTags != null) foreach(GameObjectTag tag in repelTags)
+		/*if(repelTags != null) foreach(GameObjectTag tag in repelTags)
 		{
 			if(obj.CompareTag(tag))
 			{
 				RequestRepel(obj);
 				return;
 			}
-		}
+		}*/
 	}
 
 	/// <summary>Callback internally called when there was an impact.</summary>
@@ -393,6 +433,8 @@ public class Projectile : ContactWeapon
 		ContactWeapon weapon = _requester.GetComponentInParent<ContactWeapon>();
 		GameObject newOwner = weapon != null  && weapon.owner != null ? weapon.owner : _requester;
 
+
+
 		switch(projectileType)
 		{
 			case ProjectileType.Normal:
@@ -400,6 +442,7 @@ public class Projectile : ContactWeapon
 
 			direction *= inversion;
 			accumulatedVelocity *= inversion;
+
 			break;
 
 			case ProjectileType.Parabola:
