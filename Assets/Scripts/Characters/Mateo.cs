@@ -475,7 +475,7 @@ public class Mateo : Character
 			case JumpAbility.STATE_ID_JUMPING:
 			animator.SetInteger(jumpStateIDCredential, JumpAbility.STATE_FLAG_JUMPING);
 			
-			if(jumpAbility.currentJumpIndex > 0 && extraJumpTrailRenderer != null)
+			if(jumpAbility.GetJumpIndex() > 0 && extraJumpTrailRenderer != null)
 			{
 				extraJumpTrailRenderer.Clear();
 				extraJumpTrailRenderer.enabled = true;
@@ -734,7 +734,7 @@ public class Mateo : Character
 
 		jumpAbility.Jump(_axes);
 
-		/*if(jumpAbility.currentJumpIndex > 0 && extraJumpTrailRenderer != null)
+		/*if(jumpAbility.GetJumpIndex() > 0 && extraJumpTrailRenderer != null)
 		{
 			extraJumpTrailRenderer.Clear();
 			extraJumpTrailRenderer.enabled = true; 

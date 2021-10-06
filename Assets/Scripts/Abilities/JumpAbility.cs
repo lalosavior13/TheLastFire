@@ -286,7 +286,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	/// <param name="_state">State's flags that were added.</param>
 	public void OnStatesAdded(int _state)
 	{
-		InvokeOnGroundedStateChange(_state, currentJumpIndex);
+		InvokeOnGroundedStateChange(_state, GetJumpIndex());
 	}
 
 	/// <summary>Callback invoked when new state's flags are removed.</summary>
@@ -337,6 +337,9 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		if(onJumpStateChange != null) onJumpStateChange(_stateID, _jumpLevel);
 	}
 #endregion
+
+	/// <returns>Clamped Jump Index.</returns>
+	public int GetJumpIndex() { return Mathf.Clamp(currentJumpIndex, 0, forcesInfo.Length - 1); }
 
 	/// <summary>Adds Gravity Scalar given  an _ax.</summary>
 	public void AddGravityScalar(float _axis)
