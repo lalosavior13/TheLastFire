@@ -232,7 +232,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		UpdateForcesAppliers();
 		landingCooldown = new Cooldown(this, landingDuration, OnLandingCooldownEnds);
 		gravityApplier.onGroundedStateChange += OnGroundedStateChange;
-		currentJumpIndex = 0;
+		currentJumpIndex = -1;
 	}
 
 	/// <summary>Updates JumpAbility's instance at each Physics Thread's frame.</summary>
@@ -249,7 +249,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 			scalarWrapper.value = groundedScale;
 			gravityApplier.RequestScaleChange(GetInstanceID(), _scalarWrapper, scaleChangePriority);
 			CancelForce(currentJumpIndex);
-			currentJumpIndex = 0;
+			currentJumpIndex = -1;
 			this.RemoveStates(STATE_ID_JUMPING);
 			break;
 
@@ -389,14 +389,20 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		int limit = forcesAppliers.Length - 1;
 		TimeConstrainedForceApplier2D forceApplier = null;
 
-		if(this.HasStates(STATE_ID_GROUNDED) && currentJumpIndex == 0)
+
+
+		if(this.HasStates(STATE_ID_GROUNDED) && currentJumpIndex <= 0)
 		{
+			currentJumpIndex++; /// Equals 0 on first jump
 			forceApplier = forcesAppliers[currentJumpIndex];
 
 		} else if(this.HasAnyOfTheStates(STATE_ID_JUMPING | STATE_ID_FALLING) && currentJumpIndex < limit)
 		{
-			forceApplier = forcesAppliers[currentJumpIndex];
-			forceApplier.CancelForce();
+			if(currentJumpIndex > 0)
+			{ /// If above the 1st jump, cancel the prior jump force.
+				forceApplier = forcesAppliers[currentJumpIndex - 1];
+				forceApplier.CancelForce();
+			}
 			currentJumpIndex++;
 			forceApplier = forcesAppliers[currentJumpIndex];
 		}
