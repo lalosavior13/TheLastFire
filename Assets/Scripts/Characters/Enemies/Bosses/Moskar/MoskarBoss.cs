@@ -30,6 +30,11 @@ public class MoskarBoss : Boss
 	[SerializeField] private FOVSight2D _sightSensor; 							/// <summary>FOVSight2D's Component.</summary>
 	[SerializeField] private Transform _tail; 									/// <summary>Moskar's Tail's Transform.</summary>
 	[Space(5f)]
+	[Header("Introduction's Attributes:")]
+	[SerializeField] private float _waitBeforeTaunt; 							/// <summary>Seconds to wait before Taunting.</summary>
+	[SerializeField] private float _waitBeforeEndingTaunt; 						/// <summary>Seconds to wait before ceasing taunt.</summary>
+	[SerializeField] private float _waitBeforeIntro; 							/// <summary>Seconds to wait before beginning the Introduction.</summary>
+	[Space(5f)]
 	[Header("Warning's Attributes:")]
 	[SerializeField] private float _warningSpeed; 								/// <summary>Warning's Steering Speed.</summary>
 	[SerializeField] private float _dangerRadius; 								/// <summary>Danger's Radius.</summary>
@@ -65,12 +70,13 @@ public class MoskarBoss : Boss
 	[SerializeField] private CollectionIndex _duplicateParticleEffectIndex; 	/// <summary>Duplication ParticleEffect's Index.</summary>
 	[Space(5f)]
 	[Header("Animator's Attributes:")]
+	[SerializeField] private int _introAnimationLayer; 							/// <summary>Introduction Animation's Layer.</summary>
+	[SerializeField] private int _attackAnimationLayer; 						/// <summary>Attack Animation's Layer.</summary>
+	[SerializeField] private int _tauntAnimationLayer; 							/// <summary>Taunt Animation's Layer.</summary>
 	[SerializeField] private AnimatorCredential _vitalityIDCredential; 			/// <summary>Vitality ID's Animattor Credential.</summary>
 	[SerializeField] private AnimatorCredential _tauntIDCredential; 			/// <summary>Taunt ID's Animattor Credential.</summary>
 	[SerializeField] private AnimatorCredential _locomotionIDCredential; 		/// <summary>Locomotion ID's Animattor Credential.</summary>
 	[SerializeField] private AnimatorCredential _attackingIDCredential; 		/// <summary>Attacking ID's Animattor Credential.</summary>
-	[SerializeField] private int _attackAnimationLayer; 						/// <summary>Attack Animation's Layer.</summary>
-	[SerializeField] private int _tauntAnimationLayer; 							/// <summary>Taunt Animation's Layer.</summary>
 	private int _currentPhase; 													/// <summary>Current Phase of this Moskar's Reproduction.</summary>
 	private float _phaseProgress; 												/// <summary>Phase's Normalized Progress.</summary>
 	private float _speedScale; 													/// <summary>Additional Speed's Scale.</summary>
@@ -81,10 +87,6 @@ public class MoskarBoss : Boss
 	private Coroutine attackCoroutine; 											/// <summary>AttackBehavior's Coroutine reference.</summary>
 	private Coroutine rotationCoroutine; 										/// <summary>Rotation Coroutine's Reference.</summary>
 	private Vector3[] waypoints; 												/// <summary>Allocated the waypoints so it can be visually debuged with Gizmos.</summary>
-
-	private bool introEnded = false;
-	public float secondsToTaunt;
-	public float secondOfIntro;
 
 #region Getters/Setters:
 	/// <summary>Gets walkingRotation property.</summary>
@@ -111,6 +113,15 @@ public class MoskarBoss : Boss
 		get { return _projectionTime; }
 		set { _projectionTime = value; }
 	}
+
+	/// <summary>Gets waitBeforeTaunt property.</summary>
+	public float waitBeforeTaunt { get { return _waitBeforeTaunt; } }
+
+	/// <summary>Gets waitBeforeEndingTaunt property.</summary>
+	public float waitBeforeEndingTaunt { get { return _waitBeforeEndingTaunt; } }
+
+	/// <summary>Gets waitBeforeIntro property.</summary>
+	public float waitBeforeIntro { get { return _waitBeforeIntro; } }
 
 	/// <summary>Gets and Sets warningSpeed property.</summary>
 	public float warningSpeed
@@ -160,6 +171,9 @@ public class MoskarBoss : Boss
 		get { return _currentPhase; }
 		set { _currentPhase = value; }
 	}
+
+	/// <summary>Gets introAnimationLayer property.</summary>
+	public int introAnimationLayer { get { return _introAnimationLayer; } }
 
 	/// <summary>Gets attackAnimationLayer property.</summary>
 	public int attackAnimationLayer { get { return _attackAnimationLayer; } }
@@ -339,7 +353,7 @@ public class MoskarBoss : Boss
 
 		animator.SetAllLayersWeight(0.0f);
 		
-		StartCoroutine(TestIntroRoutine());
+		this.StartCoroutine(IntroductionRoutine(), ref behaviorCoroutine);
 		/*animator.SetInteger(vitalityIDCredential, ID_STATE_ALIVE);
 		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_IDLE);
 		animator.SetBool(attackingIDCredential, false);*/
@@ -347,46 +361,17 @@ public class MoskarBoss : Boss
 		Game.AddTargetToCamera(cameraTarget);
 		sightSensor.onSightEvent += OnSightEvent;
 		eventsHandler.onTriggerEvent += OnTriggerEvent;
+
+		//animator.GetComponent<AnimationEventInvoker>().AddActionListener(()=>{ Debug.Log("[MoskarBoss] Animation ended, position: " + transform.position); });
 	}
-
-
-	private IEnumerator TestIntroRoutine()
-	{
-
-		animator.SetLayerWeight(1,1f);
-		animator.SetInteger(vitalityIDCredential, ID_STATE_ALIVE);
-		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_FLY);
-	
-
-		yield return new WaitForSeconds(secondsToTaunt);
-		animator.SetLayerWeight(tauntAnimationLayer,1f);
-		animator.SetInteger(locomotionIDCredential, 0);
-		animator.SetInteger(tauntIDCredential, ID_TAUNT_2);
-		yield return new WaitForSeconds(1f);
-		animator.SetLayerWeight(tauntAnimationLayer,0f);
-		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_FLY);
-	
-		yield return new WaitForSeconds(secondOfIntro);
-		animator.SetAllLayersWeight(0.0f);
-		this.AddStates(ID_STATE_IDLE);
-		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_IDLE);
-		animator.SetBool(attackingIDCredential, false);
-		introEnded = true;
-
-	}
-
 
 	/// <summary>Callback invoked when scene loads, one frame before the first Update's tick.</summary>
 	protected override void Start()
 	{
 		base.Start();
 
-		if(introEnded)
-		{
-			if(currentPhase == 0)
-			this.AddStates(ID_STATE_IDLE);
-
-		}
+		/*if(currentPhase == 0)
+		this.AddStates(ID_STATE_IDLE);*/
 	}
 
 	/// <summary>Callback invoked when the health of the character is depleted.</summary>
@@ -595,6 +580,45 @@ public class MoskarBoss : Boss
 		this.StartCoroutine(AttackBehavior(), ref attackCoroutine);
 	}
 
+#region Coroutines:
+	/// <summary>Introduction's Routine.</summary>
+	private IEnumerator IntroductionRoutine()
+	{
+		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
+
+		animator.SetLayerWeight(introAnimationLayer, 1.0f);
+		animator.SetInteger(vitalityIDCredential, ID_STATE_ALIVE);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_FLY);
+	
+		wait.ChangeDurationAndReset(waitBeforeTaunt);
+		while(wait.MoveNext()) yield return null;
+
+		animator.SetLayerWeight(tauntAnimationLayer, 1.0f);
+		animator.SetInteger(locomotionIDCredential, 0);
+		animator.SetInteger(tauntIDCredential, ID_TAUNT_2);
+
+		wait.ChangeDurationAndReset(waitBeforeEndingTaunt);
+		while(wait.MoveNext()) yield return null;
+
+		animator.SetLayerWeight(tauntAnimationLayer, 0.0f);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_FLY);
+	
+		wait.ChangeDurationAndReset(waitBeforeIntro);
+		while(wait.MoveNext()) yield return null;
+
+		animator.SetAllLayersWeight(0.0f);
+		this.AddStates(ID_STATE_IDLE);
+		animator.SetInteger(locomotionIDCredential, ID_LOCOMOTION_IDLE);
+		animator.SetBool(attackingIDCredential, false);
+
+		/// Previously called inside Start():
+		if(currentPhase == 0)
+		this.AddStates(ID_STATE_IDLE);
+
+		transform.position = animator.transform.position;
+		animator.transform.localPosition = Vector3.zero;
+	}
+
 	/// <summary>Wander's Steering Beahviour Coroutine.</summary>
 	private IEnumerator WanderBehaviour()
 	{
@@ -783,5 +807,7 @@ public class MoskarBoss : Boss
 			yield return null;
 		}*/
 	}
+#endregion
+
 }
 }

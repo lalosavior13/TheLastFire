@@ -7,45 +7,11 @@ using Random = UnityEngine.Random;
 
 namespace Voidless
 {
-[Serializable]
-public struct Boundaries2D
-{
-	public Space space; 	/// <summary>Space Relativeness.</summary>
-	public Vector3 size; 	/// <summary>Size.</summary>
-	public Vector3 center; 	/// <summary>Center.</summary>
-
-	/// <summary>Boundaries 2D's Constructor.</summary>
-	public Boundaries2D(Vector3 _size, Vector3 _center = default(Vector3), Space _space = Space.Self)
-	{
-		space = _space;
-		size = _size;
-		center = _center;
-	}
-
-	/// <summary>Lerps Between Boundares2D A and B.</summary>
-	/// <param name="a">Boundaries2D A.</param>
-	/// <param name="b">Boundaries2D B.</param>
-	/// <param name="t">Normalized Time t [internally clamped].</param>
-	/// <returns>Interpolation between A and B.</returns>
-	public static Boundaries2D Lerp(Boundaries2D a, Boundaries2D b, float t)
-	{
-		t = Mathf.Clamp(t, 0.0f, 1.0f);
-
-		return new Boundaries2D(
-			Vector3.Lerp(a.size, b.size, t),
-			Vector3.Lerp(a.center, b.center, t),
-			t == 1.0f ? b.space : a.space
-		);
-	}
-}
-
 public class Boundaries2DContainer : MonoBehaviour
 {
-	[SerializeField] private Space _space; 					/// <summary>Boundaries' Space Relativeness.</summary>
+	[SerializeField] private Space _space; 					/// <summary>Space Relativeness.</summary>
 	[SerializeField] private Vector3 _size; 				/// <summary>Boundaries' Size.</summary>
 	[SerializeField] private Vector3 _center; 				/// <summary>Boundaries' Center.</summary>
-	[Space(5f)]
-	[SerializeField] private float _interpolationDuration; 	/// <summary>Boundaries' Interpolation's Duration.</summary>
 #if UNITY_EDITOR
 	[Space(5f)]
 	[SerializeField] private Color color; 					/// <summary>Gizmos' Color.</summary>
@@ -69,15 +35,8 @@ public class Boundaries2DContainer : MonoBehaviour
 	/// <summary>Gets and Sets center property.</summary>
 	public Vector3 center
 	{
-		get { return space == Space.World ? _center : transform.position + _center; }
+		get { return space == Space.World ? _center : (transform.position + _center); }
 		set { _center = value; }
-	}
-
-	/// <summary>Gets and Sets interpolationDuration property.</summary>
-	public float interpolationDuration
-	{
-		get { return _interpolationDuration; }
-		set { _interpolationDuration = value; }
 	}
 
 	/// <summary>Gets min property.</summary>
@@ -107,9 +66,13 @@ public class Boundaries2DContainer : MonoBehaviour
 	/// <summary>Resets VCamera2DBoundariesContainer's instance to its default values.</summary>
 	private void Reset()
 	{
+		space = Space.Self;
 		color = Color.white;
 	}
 #endif
+
+	/// <returns>Position of the Boundaries 2D in World-Space [center relative to the position of the container].</returns>
+	public Vector3 GetPosition() { return transform.position + _center; }
 
 	/// <returns>Random point inside boundaries.</returns>
 	public Vector3 Random()
@@ -125,17 +88,35 @@ public class Boundaries2DContainer : MonoBehaviour
 		);
 	}
 
+	/// <param name="_space">Space Relativeness.</param>
 	/// <returns>Data to Boundaries2D.</returns>
-	public Boundaries2D ToBoundaries2D()
+	public Boundaries2D ToBoundaries2D(Space _space = Space.World)
 	{
-		return new Boundaries2D(size, center, space);
+		Vector3 c = Vector3.zero;
+
+		if(space != _space)
+		{
+			switch(_space)
+			{
+				case Space.World:
+				/// Convert from Self to World:
+				c = center;
+				break;
+
+				case Space.Self:
+				/// Convert from World to Self:
+				c = _center;
+				break;
+			}
+		}
+
+		return new Boundaries2D(size, c);
 	}
 
 	/// <summary>Sets Boundaries2D's data.</summary>
 	/// <param name="b">Boundaries2D's data.</param>
 	public void Set(Boundaries2D b)
 	{
-		space = b.space;
 		size = b.size;
 		center = b.center;
 	}
@@ -148,15 +129,8 @@ public class Boundaries2DContainer : MonoBehaviour
 		this.StartCoroutine(InterpolateTowardsBoundaries(b, d, OnInterpolationEnds), ref boundaries2DInterpolation);
 	}
 
-	/// <summary>Interpolates towards Boundaries2D.</summary>
-	/// <param name="b">Boundaries2D's data.</param>
-	public void InterpolateTowards(Boundaries2D b)
-	{
-		InterpolateTowards(b, interpolationDuration);
-	}
-
 	/// <summary>Callback invoked when the Boundaries2D's interpolation ends.</summary>
-	private void OnInterpolationEnds()
+	public void OnInterpolationEnds()
 	{
 		this.DispatchCoroutine(ref boundaries2DInterpolation);
 	}
@@ -167,7 +141,7 @@ public class Boundaries2DContainer : MonoBehaviour
 	/// <param name="onInterpolationEnds">Callback invoked when interpolation ends.</param>
 	private IEnumerator InterpolateTowardsBoundaries(Boundaries2D b, float d, Action onInterpolationEnds = null)
 	{
-		Boundaries2D a = new Boundaries2D(size, center, space);
+		Boundaries2D a = ToBoundaries2D();
 		float t = 0.0f;
 		float iD = 1.0f / d;
 

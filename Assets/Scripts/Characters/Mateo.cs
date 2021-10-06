@@ -773,7 +773,8 @@ public class Mateo : Character
 		|| wallEvaluator.state == WallEvaluationEvent.Bouncing
 		|| jumpAbility.HasStates(JumpAbility.STATE_ID_LANDING)) return;
 		
-		hurtBox.SetActive(false);
+		//hurtBox.SetActive(false);
+		health.BeginInvincibilityCooldown();
 		Meditate(false);
 
 		int index = 0;
@@ -794,7 +795,8 @@ public class Mateo : Character
 	/// <summary>Cancels Attacks.</summary>
 	public void CancelSwordAttack()
 	{
-		hurtBox.SetActive(true);
+		//hurtBox.SetActive(true);
+		health.OnInvincibilityCooldownEnds();
 		if(swordParticleEffect != null) swordParticleEffect.gameObject.SetActive(false);
 		attacksHandler.CancelAttack();
 		sword.ActivateHitBoxes(false);

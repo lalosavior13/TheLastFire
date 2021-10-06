@@ -243,11 +243,11 @@ public class ShantyBoss : Boss
 		{
 			case STAGE_1:
 			if(health.hpRatio <=  stage1HealthPercentageLimit)
-				BeginBombThrowingRoutine();
-				//BeginTNTThrowingRoutine();
-			else
-				BeginTNTThrowingRoutine();
 				//BeginBombThrowingRoutine();
+				BeginTNTThrowingRoutine();
+			else
+				//BeginTNTThrowingRoutine();
+				BeginBombThrowingRoutine();
 			break;
 
 			case STAGE_2:

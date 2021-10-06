@@ -8,12 +8,14 @@ namespace Flamingo
 {
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(ImpactEventHandler))]
+[RequireComponent(typeof(EventsHandler))]
 public class BouncingBall : MonoBehaviour
 {
 	[SerializeField] private GameObjectTag[] _impactTags; 	/// <summary>Impacts' Tags.</summary>
 	[SerializeField] private Vector3 _force; 				/// <summary>Extra Force Applied when impacting.</summary>
 	private Rigidbody2D _rigidbody; 						/// <summary>Rigidbody's Component.</summary>
 	private ImpactEventHandler _impactHandler; 				/// <summary>ImpactEventHandler's Component.</summary>
+	private EventsHandler _eventsHandler; 					/// <summary>EventsHandler's Component.</summary>
 
 	/// <summary>Gets and Sets impactTags property.</summary>
 	public GameObjectTag[] impactTags
@@ -49,10 +51,20 @@ public class BouncingBall : MonoBehaviour
 		}
 	}
 
+	/// <summary>Gets eventsHandler Component.</summary>
+	public EventsHandler eventsHandler
+	{ 
+		get
+		{
+			if(_eventsHandler == null) _eventsHandler = GetComponent<EventsHandler>();
+			return _eventsHandler;
+		}
+	}
+
 	/// <summary>BouncingBall's instance initialization.</summary>
 	private void Awake()
 	{
-		impactHandler.eventsHandler.onTriggerEvent += OnImpactEvent;
+		eventsHandler.onTriggerEvent += OnImpactEvent;
 	}
 
 	/// <summary>BouncingBall's starting actions before 1st Update frame.</summary>
@@ -67,7 +79,8 @@ public class BouncingBall : MonoBehaviour
 	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
 	private void OnImpactEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
-		if(impactTags == null || impactTags.Length == 0) return;
+		Debug.Log("[BouncingBall] " + gameObject.name + " impacted");
+		if(impactTags == null || impactTags.Length == 0 || _eventType != HitColliderEventTypes.Enter) return;
 
 		GameObject obj = _info.collider.gameObject;
 

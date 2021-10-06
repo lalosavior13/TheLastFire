@@ -38,8 +38,11 @@ public class Game : Singleton<Game>
 	[SerializeField] private PlayerController _mateoController; 			/// <summary>Mateo's Controller.</summary>
 	[SerializeField] private Mateo _mateo; 									/// <summary>Mateo's Reference.</summary>
 	[SerializeField] private GameplayCameraController _cameraController; 	/// <summary>Gameplay's Camera Controller.</summary>
+	[SerializeField] private GameObject _gameplayCanvas; 					/// <summary>Gameplay's Canvas.</summary>
 	private Boundaries2D _defaultCameraBoundaries; 							/// <summary>Default Camera's Boundaries2D.</summary>
+	private FloatRange _defaultDistanceRange; 								/// <summary>Default Camera's Distance Range.</summary>
 
+#region Getters/Setters:
 	/// <summary>Gets and Sets data property.</summary>
 	public static GameData data
 	{
@@ -68,6 +71,13 @@ public class Game : Singleton<Game>
 		set { Instance._cameraController = value; }
 	}
 
+	/// <summary>Gets and Sets gameplayCanvas property.</summary>
+	public static GameObject gameplayCanvas
+	{
+		get { return Instance._gameplayCanvas; }
+		set { Instance._gameplayCanvas = value; }
+	}
+
 	/// <summary>Gets and Sets defaultCameraBoundaries property.</summary>
 	public static Boundaries2D defaultCameraBoundaries
 	{
@@ -75,16 +85,21 @@ public class Game : Singleton<Game>
 		set { Instance._defaultCameraBoundaries = value; }
 	}
 
+	/// <summary>Gets and Sets defaultDistanceRange property.</summary>
+	public static FloatRange defaultDistanceRange
+	{
+		get { return Instance._defaultDistanceRange; }
+		set { Instance._defaultDistanceRange = value; }
+	}
+#endregion
+
 	/// <summary>Callback internally called immediately after Awake.</summary>
 	protected override void OnAwake()
 	{
 		data.Initialize();
 
-		defaultCameraBoundaries = new Boundaries2D(
-			cameraController.boundariesContainer.size,
-			cameraController.boundariesContainer.center,
-			cameraController.boundariesContainer.space
-		);
+		defaultCameraBoundaries = cameraController.boundariesContainer.ToBoundaries2D();
+		defaultDistanceRange = cameraController.distanceAdjuster.distanceRange;
 
 		if(mateo != null)
 		{
@@ -150,9 +165,13 @@ public class Game : Singleton<Game>
 	/// <summary>Sets default Boundaries2D's settings for the camera.</summary>
 	public static void SetDefaultCameraBoundaries2D()
 	{
-		cameraController.boundariesContainer.space = defaultCameraBoundaries.space;
-		cameraController.boundariesContainer.size = defaultCameraBoundaries.size;
-		cameraController.boundariesContainer.center = defaultCameraBoundaries.center;
+		cameraController.boundariesContainer.Set(defaultCameraBoundaries);
+	}
+
+	/// <summary>Sets default distance range settigns for the camera.</summary>
+	public static void SetDefaultCameraDistanceRange()
+	{
+		cameraController.distanceAdjuster.distanceRange = defaultDistanceRange;
 	}
 
 	/// <summary>Adds Target's VCameraTarget into the Camera.</summary>

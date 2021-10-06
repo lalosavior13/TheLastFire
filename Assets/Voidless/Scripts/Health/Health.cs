@@ -222,7 +222,7 @@ public class Health : MonoBehaviour, IStateMachine
     }
 
     /// <summary>Callback internally invoked when the Hit-Stun Cooldown ends.</summary>
-    private void OnHitStunCooldownEnds()
+    public void OnHitStunCooldownEnds()
     {
         this.RemoveStates(ID_STATE_ONHITSTUN);
         if(onHealthEvent != null) onHealthEvent(HealthEvent.HitStunEnds);
@@ -230,7 +230,7 @@ public class Health : MonoBehaviour, IStateMachine
     }
 
     /// <summary>Callback internally invoked when the Invincibility Cooldown ends.</summary>
-    private void OnInvincibilityCooldownEnds()
+    public void OnInvincibilityCooldownEnds()
     {
         this.RemoveStates(ID_STATE_ONINVINCIBILITY);
         //if(invincibilityCooldown != null) invincibilityCooldown.End(); /// This provokes a StackOverflowException...

@@ -270,6 +270,7 @@ MonoBehaviour:
   _maxHP: 1
   _hitStunDuration: 1
   _invincibilityDuration: 1
+  _inmunities: []
 --- !u!114 &2340683740104089345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +290,7 @@ MonoBehaviour:
   _distributionSystem:
     _probabilityRanges: []
   _animator: {fileID: 437732194}
+  _animation: {fileID: 0}
   _animationEventInvoker: {fileID: 0}
   _phases: 5
   _scaleRange:
@@ -300,6 +302,9 @@ MonoBehaviour:
   _projectionTime: 4
   _sightSensor: {fileID: 2340683739067092507}
   _tail: {fileID: 2340683739127628720}
+  _waitBeforeTaunt: 3.15
+  _waitBeforeEndingTaunt: 1
+  _waitBeforeIntro: 2
   _warningSpeed: 0.1
   _dangerRadius: 5
   _fleeDistance: 15
@@ -350,6 +355,9 @@ MonoBehaviour:
     index: 23
     objectIndex: 0
     collectionIndex: 7
+  _introAnimationLayer: 1
+  _attackAnimationLayer: 2
+  _tauntAnimationLayer: 3
   _vitalityIDCredential:
     _tag: VitalityID
     _ID: -1493647759
@@ -362,8 +370,6 @@ MonoBehaviour:
   _attackingIDCredential:
     _tag: AttackingID
     _ID: -1194725296
-  _attackAnimationLayer: 1
-  _tauntAnimationLayer: 2
 --- !u!114 &2340683740104089372
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,14 +15,43 @@ public class Camera2DBoundariesModifier : MonoBehaviour
 	protected static HashSet<Camera2DBoundariesModifier> boundariesModifiers; 	/// <summary>Boundaries' Modifiers.</summary>
 
 	[SerializeField] private GameObjectTag _playerTag; 							/// <summary>Player's Tag.</summary>
+	[Space(5f)]
+	[SerializeField] private float _interpolationDuration; 						/// <summary>Interpolation's Duration.</summary>
+	[Space(5f)]
+	[Header("Distance Settings:")]
+	[SerializeField] private bool _setDistance; 								/// <summary>Set Camera's Distance?.</summary>
+	[SerializeField] private FloatRange _distanceRange; 						/// <summary>Camera's Distance Range.</summary>
 	private Boundaries2DContainer _boundariesContainer; 						/// <summary>Boundaries2DContainer's Component.</summary>
 	private BoxCollider2D _boxCollider; 										/// <summary>BoxCollider2D's Component.</summary>
+	private bool _entered; 														/// <summary>Has the GameObject of interest already entered the zone?.</summary>
 
+#region Getters/Setters:
 	/// <summary>Gets and Sets playerTag property.</summary>
 	public GameObjectTag playerTag
 	{
 		get { return _playerTag; }
 		private set { _playerTag = value; }
+	}
+
+	/// <summary>Gets and Sets interpolationDuration property.</summary>
+	public float interpolationDuration
+	{
+		get { return _interpolationDuration; }
+		set { _interpolationDuration = value; }
+	}
+
+	/// <summary>Gets and Sets setDistance property.</summary>
+	public bool setDistance
+	{
+		get { return _setDistance; }
+		set { _setDistance = value; }
+	}
+
+	/// <summary>Gets and Sets distanceRange property.</summary>
+	public FloatRange distanceRange
+	{
+		get { return _distanceRange; }
+		set { _distanceRange = value; }
 	}
 
 	/// <summary>Gets boundariesContainer Component.</summary>
@@ -45,9 +74,18 @@ public class Camera2DBoundariesModifier : MonoBehaviour
 		}
 	}
 
+	/// <summary>Gets and Sets entered property.</summary>
+	public bool entered
+	{
+		get { return _entered; }
+		set { _entered = value; }
+	}
+#endregion
+
 	/// <summary>Camera2DBoundariesModifier's instance initialization when loaded [Before scene loads].</summary>
 	private void Awake()
 	{
+		entered = false;
 		if(boundariesModifiers == null) boundariesModifiers = new HashSet<Camera2DBoundariesModifier>();
 	}
 
@@ -56,12 +94,22 @@ public class Camera2DBoundariesModifier : MonoBehaviour
 	{
 		if(!Application.isPlaying)
 		UpdateBoxCollider();
+
+		if(!setDistance) return;
+
+		Vector3 center = boundariesContainer.GetPosition();
+		Vector3 minPoint = center + (Vector3.back * distanceRange.Min());
+		Vector3 maxPoint = center + (Vector3.back * distanceRange.Max());
+
+		Gizmos.DrawLine(center, minPoint);
+		Gizmos.DrawLine(center, maxPoint);
+		Gizmos.DrawWireSphere(minPoint, 0.05f);
+		Gizmos.DrawWireSphere(maxPoint, 0.05f);
 	}
 
 	/// <summary>Resets Camera2DBoundariesModifier's instance to its default values.</summary>
 	private void Reset()
 	{
-		boundariesContainer.space = Space.Self;
 		boxCollider.isTrigger = true;
 		playerTag = Game.data.playerTag;
 	}
@@ -76,6 +124,8 @@ public class Camera2DBoundariesModifier : MonoBehaviour
 	/// <param name="col">The other Collider2D involved in this Event.</param>
 	private void OnTriggerEnter2D(Collider2D col)
 	{
+		if(entered) return;
+
 		GameObject obj = col.gameObject;
 	
 		if(obj.CompareTag(playerTag))
@@ -84,9 +134,10 @@ public class Camera2DBoundariesModifier : MonoBehaviour
 
 			if(cameraBoundariesContainer == null) return;
 
-			cameraBoundariesContainer.center = boundariesContainer.center;
-			cameraBoundariesContainer.size = boundariesContainer.size;
+			cameraBoundariesContainer.InterpolateTowards(boundariesContainer.ToBoundaries2D(), interpolationDuration);
+			if(setDistance) Game.cameraController.distanceAdjuster.distanceRange = distanceRange;
 			boundariesModifiers.Add(this);
+			entered = true;
 		}
 	}
 
@@ -94,25 +145,36 @@ public class Camera2DBoundariesModifier : MonoBehaviour
 	/// <param name="col">The other Collider2D involved in this Event.</param>
 	private void OnTriggerExit2D(Collider2D col)
 	{
+		if(!entered) return;
+
 		GameObject obj = col.gameObject;
 	
 		if(obj.CompareTag(playerTag))
 		{
 			Boundaries2DContainer cameraBoundariesContainer = Game.cameraController.boundariesContainer;
 
-			if(cameraBoundariesContainer == null) return;
+			if(cameraBoundariesContainer == null || !boundariesModifiers.Contains(this)) return;
 
-			if(boundariesModifiers.Contains(this)) boundariesModifiers.Remove(this);
+			boundariesModifiers.Remove(this);
+			entered = false;
+			boundariesContainer.OnInterpolationEnds();
 
+			/// If this was the last container registered upon the object exit, make its default parameters return
 			if(boundariesModifiers.Count == 0)
 			{
 				Game.SetDefaultCameraBoundaries2D();
-				return;
+				Game.SetDefaultCameraDistanceRange();
 			}
+			else
+			{
+				Camera2DBoundariesModifier modifier = boundariesModifiers.First();
 
-			Boundaries2DContainer boundaries = boundariesModifiers.First().boundariesContainer;
+				if(modifier.entered) return;
 
-			cameraBoundariesContainer.InterpolateTowards(boundaries.ToBoundaries2D());
+				Boundaries2DContainer boundaries = modifier.boundariesContainer;
+				cameraBoundariesContainer.InterpolateTowards(boundaries.ToBoundaries2D(), interpolationDuration);
+				if(modifier.setDistance) Game.cameraController.distanceAdjuster.distanceRange = modifier.distanceRange;
+			}
 		}
 	}
 }
