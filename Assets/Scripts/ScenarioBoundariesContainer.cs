@@ -71,5 +71,15 @@ public class ScenarioBoundariesContainer : MonoBehaviour
 		gizmosColor = Color.green.WithAlpha(0.5f);
 	}
 #endif
+
+	/// <summary>Enables boundaries.</summary>
+	/// <param name="_enable">Enable? true by default.</param>
+	public void Enable(bool _enable = true)
+	{
+		if(ceiling != null) ceiling.gameObject.SetActive(_enable);
+		if(floor != null) floor.gameObject.SetActive(_enable);
+		if(leftWall != null) leftWall.gameObject.SetActive(_enable);
+		if(rightWall != null) rightWall.gameObject.SetActive(_enable);
+	}
 }
 }

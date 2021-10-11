@@ -7,6 +7,8 @@ using Voidless;
 namespace Flamingo
 {
 [RequireComponent(typeof(Skeleton))]
+[RequireComponent(typeof(JumpAbility))]
+[RequireComponent(typeof(RigidbodyMovementAbility))]
 public class ShantyBoss : Boss
 {
 	public const int ID_ANIMATIONEVENT_PICKBOMB = 0;
@@ -104,11 +106,14 @@ public class ShantyBoss : Boss
 	[SerializeField] private AnimationClip cryAnimation; 				/// <summary>Cry's Animation.</summary>
 	[SerializeField] private AnimationClip normalAttackAnimation; 		/// <summary>Normal Attack's Animation.</summary>
 	[SerializeField] private AnimationClip strongAttackAnimation; 		/// <summary>Strong Attack's Animation.</summary>
+	[SerializeField] private AnimationClip backStepAnimation; 			/// <summary>Back-Setp Animation.</summary>
 	private Skeleton _skeleton; 										/// <summary>Skeleton's Component.</summary>
 	private Coroutine coroutine; 										/// <summary>Coroutine's Reference.</summary>
 	private Behavior attackBehavior; 									/// <summary>Attack's Behavior [it is behavior so it can be paused].</summary>
 	private Projectile _bomb; 											/// <summary>Bomb's Reference.</summary>
 	private Projectile _TNT; 											/// <summary>TNT's Reference.</summary>
+	private JumpAbility _jumpAbility; 									/// <summary>JumpAbility's Component.</summary>
+	private RigidbodyMovementAbility _movementAbility; 					/// <summary>MovementAbility's Component.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets ship property.</summary>
@@ -210,6 +215,26 @@ public class ShantyBoss : Boss
 		get { return _TNT; }
 		private set { _TNT = value; }
 	}
+
+	/// <summary>Gets jumpAbility Component.</summary>
+	public JumpAbility jumpAbility
+	{ 
+		get
+		{
+			if(_jumpAbility == null) _jumpAbility = GetComponent<JumpAbility>();
+			return _jumpAbility;
+		}
+	}
+
+	/// <summary>Gets movementAbility Component.</summary>
+	public RigidbodyMovementAbility movementAbility
+	{ 
+		get
+		{
+			if(_movementAbility == null) _movementAbility = GetComponent<RigidbodyMovementAbility>();
+			return _movementAbility;
+		}
+	}
 #endregion
 
 	/// <summary>ShantyBoss's instance initialization.</summary>
@@ -218,6 +243,7 @@ public class ShantyBoss : Boss
 		base.Awake();
 
 		ActivateSword(false);
+		jumpAbility.gravityApplier.enabled = false;
 
 		animation.AddClips(
 			tied0Annimation,
@@ -269,6 +295,7 @@ public class ShantyBoss : Boss
 	public void BeginAttackRoutine()
 	{
 		Debug.Log("[ShantyBoss] Beginning Attack Routine at Stage: " + currentStage);
+		this.RemoveStates(ID_STATE_IDLE);
 		this.AddStates(ID_STATE_ATTACK);
 		//animator.SetInteger(stateIDCredential, ID_ANIMATIONSTATE_ATTACK);
 
@@ -800,6 +827,51 @@ public class ShantyBoss : Boss
 
 			yield return null;
 		}
+	}
+
+	/// <summary>Front Attack's routine.</summary>
+	private IEnumerator FrontAttackRoutine()
+	{
+		AnimationState animationState = null;
+		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
+
+		animation.Play(normalAttackAnimation);
+		animationState = animation.GetAnimationState(normalAttackAnimation);
+		
+		wait.ChangeDurationAndReset(animationState.length);
+		
+		while(wait.MoveNext())
+		{
+			/// Displace while doing the attack....
+			movementAbility.Move(Vector3.left);
+			yield return null;
+		}
+
+		yield return null;
+	}
+
+	/// <summary>Strong Attack's Routine.</summary>
+	private IEnumerator StrongAttackRoutine()
+	{
+		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
+		AnimationState animationState = null;
+		float duration = 0.0f;
+		float t = 0.0f;
+
+		animation.Play(strongAttackAnimation);
+		animationState = animation.GetAnimationState(strongAttackAnimation);
+
+		while(!jumpAbility.HasStates(JumpAbility.STATE_ID_FALLING))
+		{
+			jumpAbility.Jump(Vector3.up);
+			t += Time.deltaTime;
+			yield return null;
+		}
+
+		duration = Mathf.Max((animationState.length - t), 0.0f);
+		wait.ChangeDurationAndReset(duration);
+
+		while(wait.MoveNext()) yield return null;
 	}
 }
 }

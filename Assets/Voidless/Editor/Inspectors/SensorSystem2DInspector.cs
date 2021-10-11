@@ -29,7 +29,7 @@ public class SensorSystem2DInspector : Editor
 	{	
 		DrawSubsystems();
 
-		EditorUtility.SetDirty(sensorsystem2D);
+		//EditorUtility.SetDirty(sensorsystem2D);
 		serializedObject.ApplyModifiedProperties();
 	}
 

@@ -320,7 +320,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_Tree_Dead_B (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: c5b4d1dba95bd69479e2e8d5d30584bb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c5b4d1dba95bd69479e2e8d5d30584bb, type: 3}
 --- !u!4 &25782904 stripped
 Transform:
@@ -1541,6 +1542,54 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8ad962f32c05f64f8c2663776f63164, type: 3}
+--- !u!1 &193389427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 193389428}
+  - component: {fileID: 193389429}
+  m_Layer: 0
+  m_Name: BoundariesContainer_Ship
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &193389428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193389427}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1717256427}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &193389429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193389427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 775cf7140ece2b040b42bbb3caf1c6f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ceiling: {fileID: 57491155}
+  _floor: {fileID: 251060051}
+  _leftWall: {fileID: 518840554}
+  _rightWall: {fileID: 2134638765}
+  gizmosColor: {r: 0, g: 1, b: 0, a: 0.5}
 --- !u!1001 &210336359
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2263,7 +2312,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_Tree_Dead_A
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: eadd63f4be7f7e948bcf94853a005791, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: eadd63f4be7f7e948bcf94853a005791, type: 3}
 --- !u!4 &268553586 stripped
 Transform:
@@ -4023,7 +4073,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_Crate_Large_Damaged
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: c8212df907e054e49994487f6d0712ff, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c8212df907e054e49994487f6d0712ff, type: 3}
 --- !u!4 &473334126 stripped
 Transform:
@@ -4277,7 +4328,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_TreasureChest_Open_Bottom
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: 271bf220a76738f4abad631ce4981781, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 271bf220a76738f4abad631ce4981781, type: 3}
 --- !u!4 &529094539 stripped
 Transform:
@@ -4966,6 +5018,11 @@ MonoBehaviour:
   _stage1Group: {fileID: 1247094662}
   _stage2Group: {fileID: 1872688793}
   _stage3Group: {fileID: 457181386}
+  _dockBoundaries: {fileID: 2066830581}
+  _shipBoundaries: {fileID: 193389429}
+  _waitBeforeFade: 1
+  _fadeInDuration: 1
+  _fadeOutDuration: 0.5
   _whackAMoleWaypointsPairs:
   - a: {x: -6, y: 1.6, z: 12}
     b: {x: -4, y: 1.6, z: 12}
@@ -5353,7 +5410,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_BW_Post_Single_A (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: 88021d17f4872e145a80a86a2cde4c76, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 88021d17f4872e145a80a86a2cde4c76, type: 3}
 --- !u!4 &651121808 stripped
 Transform:
@@ -6841,7 +6899,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_Tree_Dead_B
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: c5b4d1dba95bd69479e2e8d5d30584bb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c5b4d1dba95bd69479e2e8d5d30584bb, type: 3}
 --- !u!4 &872779955 stripped
 Transform:
@@ -6928,36 +6987,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 873980737}
   m_Mesh: {fileID: -126651345792928137, guid: 5e5069e96a3f3c7439d66f996989d803, type: 3}
---- !u!1 &876235586
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 876235587}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &876235587
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 876235586}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 878828136}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &878828135
 GameObject:
   m_ObjectHideFlags: 0
@@ -6987,7 +7016,6 @@ Transform:
   m_Children:
   - {fileID: 765847107}
   - {fileID: 57488056}
-  - {fileID: 876235587}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7080,7 +7108,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_BrokenPlank_3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: 43a60b28d49f908408c5f03504b61653, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 43a60b28d49f908408c5f03504b61653, type: 3}
 --- !u!4 &917049368 stripped
 Transform:
@@ -7171,7 +7200,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_BW_Crossroads_Rope_Damaged
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: e4d9dc1c2eb67844c80335ed5c1293a7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e4d9dc1c2eb67844c80335ed5c1293a7, type: 3}
 --- !u!4 &937937315 stripped
 Transform:
@@ -7616,7 +7646,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_BrokenPlank_5 (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: 371cfe756c4b7974ab39addcdaec2db2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 371cfe756c4b7974ab39addcdaec2db2, type: 3}
 --- !u!4 &1031973791 stripped
 Transform:
@@ -7805,7 +7836,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_BW_Bridge_Sag_Half_B
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: bc2908cbf7ff93e408904d4b1cf1ade2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: bc2908cbf7ff93e408904d4b1cf1ade2, type: 3}
 --- !u!4 &1047074833 stripped
 Transform:
@@ -7996,7 +8028,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_Tree_Dead_A (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: eadd63f4be7f7e948bcf94853a005791, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: eadd63f4be7f7e948bcf94853a005791, type: 3}
 --- !u!4 &1072759769 stripped
 Transform:
@@ -9315,7 +9348,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_BW_Stairs_B
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: 226b14aba71030444bf0151fb50da4b9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 226b14aba71030444bf0151fb50da4b9, type: 3}
 --- !u!4 &1201482742 stripped
 Transform:
@@ -9410,7 +9444,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_TreasureChest_Closed
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: d81ea75dc89e2a94d99d4e08d00c7616, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d81ea75dc89e2a94d99d4e08d00c7616, type: 3}
 --- !u!4 &1221313004 stripped
 Transform:
@@ -13238,7 +13273,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_BW_Intersection_Damaged
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: 1fc587bcd355a164c8291dc483542e3a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1fc587bcd355a164c8291dc483542e3a, type: 3}
 --- !u!4 &1601140997 stripped
 Transform:
@@ -14226,7 +14262,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_Bottle_1 (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: 240ef89c9e8099d4d82795572369076e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 240ef89c9e8099d4d82795572369076e, type: 3}
 --- !u!4 &1712222078 stripped
 Transform:
@@ -14234,6 +14271,38 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1712222077}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1717256426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1717256427}
+  m_Layer: 0
+  m_Name: Group_ScenarioBoundaries
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1717256427
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717256426}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2066830580}
+  - {fileID: 193389428}
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1730932363 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 423296649581411533, guid: 4669d47321dc2914490bd42ebaed5721,
@@ -15313,7 +15382,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_BrokenPlank_5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: 371cfe756c4b7974ab39addcdaec2db2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 371cfe756c4b7974ab39addcdaec2db2, type: 3}
 --- !u!4 &1845519175 stripped
 Transform:
@@ -16019,7 +16089,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_Tree_Dead_A (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: eadd63f4be7f7e948bcf94853a005791, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: eadd63f4be7f7e948bcf94853a005791, type: 3}
 --- !u!4 &1891864532 stripped
 Transform:
@@ -16427,7 +16498,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_Rowboat_Broken
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: f2efa42cd9180a54bb69f3e2fe433d13, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f2efa42cd9180a54bb69f3e2fe433d13, type: 3}
 --- !u!4 &1999696079 stripped
 Transform:
@@ -16555,6 +16627,54 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1755604409}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2066830579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2066830580}
+  - component: {fileID: 2066830581}
+  m_Layer: 0
+  m_Name: BoundariesContainer_Dock
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2066830580
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066830579}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1717256427}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2066830581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066830579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 775cf7140ece2b040b42bbb3caf1c6f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ceiling: {fileID: 57491155}
+  _floor: {fileID: 251060051}
+  _leftWall: {fileID: 518840554}
+  _rightWall: {fileID: 2134638765}
+  gizmosColor: {r: 0, g: 1, b: 0, a: 0.5}
 --- !u!4 &2081834353 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7664947894925966430, guid: 134ad172c3a0e6545bb3b5ff3867fd89,
@@ -16670,7 +16790,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirate_BW_Bridge_Sag_Half_A
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -6860895033569716450, guid: 5ed8cf4881129144fa3a382bc60fae20, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5ed8cf4881129144fa3a382bc60fae20, type: 3}
 --- !u!4 &2090698154 stripped
 Transform:
@@ -34167,86 +34288,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 878828136}
     m_Modifications:
     - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _TNTIndex.collectionIndex
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _TNTIndex.index
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
       propertyPath: _ship
       value: 
       objectReference: {fileID: 110486715}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _TNTThrowTimeScale
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _stages
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _bombProjectionTime
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _TNTProjectionTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _TNTTimeScaleChangeProgress
-      value: 0.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _bombProjectionPercentage
-      value: 0.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _healthDistribution.Array.data[0]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _healthDistribution.Array.data[1]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _healthDistribution.Array.data[2]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _stage1HealthPercentageLimit
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 57488058, guid: 3582a29e0a62e46429e0fe77a3c54893, type: 3}
-      propertyPath: _stage2HealthPercentageLimit
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2254677512793192180, guid: 3582a29e0a62e46429e0fe77a3c54893,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2254677512793192180, guid: 3582a29e0a62e46429e0fe77a3c54893,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2254677512793192180, guid: 3582a29e0a62e46429e0fe77a3c54893,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 8608564361057280901, guid: 3582a29e0a62e46429e0fe77a3c54893,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8608564361057280901, guid: 3582a29e0a62e46429e0fe77a3c54893,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 8868339792694712148, guid: 3582a29e0a62e46429e0fe77a3c54893,
         type: 3}
       propertyPath: m_Name
