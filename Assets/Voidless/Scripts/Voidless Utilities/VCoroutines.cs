@@ -896,24 +896,49 @@ public static class VCoroutines
 	/// <param name="_duration">Time's Duration.</param>
 	public static IEnumerator PlayAndSincronizeAnimationWithTime(this Animation _animation, AnimationClip _clip, int _frame, float _duration, Action onAnimationEnds = null)
 	{
+		//_frame = Mathf.Max(_frame - 1, 0);
+		_duration -= Time.deltaTime;
 		AnimationState state = _animation.GetAnimationState(_clip);
+
+		state.speed = 1.0f;
+
 		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
 		float f = (float)_frame;
 		float dt = 1.0f / _clip.frameRate;						/// Ideal Delta Time.
 		float time = (f * dt) / state.speed; 					/// Time in frames it will take to reach the desired frame.
+		float difference = _duration - time;
 
-		if(_duration > time) state.speed = time / _duration; 	/// Slower, so it reaches the desired frame on time.
-		else
-		{
-			float d = Mathf.Abs(time - _duration);
+		Debug.Log(
+			"[VCoroutines] Frame:"
+			+ f
+			+ ", Frame Rate: "
+			+ _clip.frameRate
+			+ ", Delta Time (1.0/fr): "
+			+ dt
+			+ ", Time ([f * dt / speed]): "
+			+ time
+			+ ", Duration: "
+			+ _duration
+			+ ", Difference: "
+			+ difference
+			+ ", Speed: "
+			+ state.speed
+		);
 
-			if(d > 0.0f)
-			{
-				wait.ChangeDurationAndReset(d);
-				while(wait.MoveNext()) yield return null;
-			}
+		if(difference > 0.0f)
+		{ /// Duration lasts more than the desired frame.
+			Debug.Log("[VCoroutines] Time before wait: " + Time.time);
+			wait.ChangeDurationAndReset(difference - Time.deltaTime);
+			while(wait.MoveNext()) yield return null;
+			Debug.Log("[VCoroutines] Time after wait: " + Time.time);
+
+		} else if(difference < 0.0f)
+		{ /// Time towards desired frame lasts more than duration.
+			state.speed = time / _duration; 					/// Make speed faster so it synchs with time.
+			Debug.Log("[VCoroutines] Speed adjusted to " + state.speed.ToString());
 		}
 
+		Debug.Log("[VCoroutines] Time before playing animation: " + Time.time);
 		_animation.Play(_clip);
 		wait.ChangeDurationAndReset(state.length * state.speed);
 		while(wait.MoveNext()) yield return null;

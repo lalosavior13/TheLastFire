@@ -154,7 +154,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7290089623913638290}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.5, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 1.5, z: 2}
   m_Children:
   - {fileID: 2096425626481282947}
@@ -292,24 +292,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableTags:
-  - _tag: Player
-    index: 5
+  _healthAffectableTags: []
   _damage: 1
   _damageScales:
   - 1
   _impactTags:
   - _tag: Surface/Floor
     index: 13
+  - _tag: Projectile/Player
+    index: 11
   _trailRenderers: []
   _particleEffects: []
   effect: {fileID: 0}
   _projectileType: 1
-  _repelTags:
-  - _tag: Weapon/Player
-    index: 9
-  - _tag: Weapon/Enemy
-    index: 10
+  _repelTags: []
   _speedMode: 1
   _speed: 5
   _lifespan: 0
@@ -389,7 +385,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7890409840483429379}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7807340246942760907}

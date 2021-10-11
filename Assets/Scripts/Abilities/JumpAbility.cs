@@ -392,8 +392,6 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		int limit = forcesAppliers.Length - 1;
 		TimeConstrainedForceApplier2D forceApplier = null;
 
-
-
 		if(this.HasStates(STATE_ID_GROUNDED) && currentJumpIndex <= 0)
 		{
 			currentJumpIndex++; /// Equals 0 on first jump

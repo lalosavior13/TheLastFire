@@ -38,7 +38,7 @@ public class Game : Singleton<Game>
 	[SerializeField] private PlayerController _mateoController; 			/// <summary>Mateo's Controller.</summary>
 	[SerializeField] private Mateo _mateo; 									/// <summary>Mateo's Reference.</summary>
 	[SerializeField] private GameplayCameraController _cameraController; 	/// <summary>Gameplay's Camera Controller.</summary>
-	[SerializeField] private GameObject _gameplayCanvas; 					/// <summary>Gameplay's Canvas.</summary>
+	[SerializeField] private GameplayGUIController _gameplayGUIController; 	/// <summary>Gameplay's GUI Controller.</summary>
 	private Boundaries2D _defaultCameraBoundaries; 							/// <summary>Default Camera's Boundaries2D.</summary>
 	private FloatRange _defaultDistanceRange; 								/// <summary>Default Camera's Distance Range.</summary>
 
@@ -71,11 +71,11 @@ public class Game : Singleton<Game>
 		set { Instance._cameraController = value; }
 	}
 
-	/// <summary>Gets and Sets gameplayCanvas property.</summary>
-	public static GameObject gameplayCanvas
+	/// <summary>Gets and Sets gameplayGUIController property.</summary>
+	public static GameplayGUIController gameplayGUIController
 	{
-		get { return Instance._gameplayCanvas; }
-		set { Instance._gameplayCanvas = value; }
+		get { return Instance._gameplayGUIController; }
+		set { Instance._gameplayGUIController = value; }
 	}
 
 	/// <summary>Gets and Sets defaultCameraBoundaries property.</summary>
@@ -106,6 +106,11 @@ public class Game : Singleton<Game>
 			AddTargetToCamera(mateo.cameraTarget);
 			mateo.eventsHandler.onIDEvent += OnMateoIDEvent;
 			mateo.health.onHealthEvent += OnMateoHealthEvent;
+		}
+
+		if(gameplayGUIController != null)
+		{
+			gameplayGUIController.canvas.worldCamera = cameraController.camera;
 		}
 	}
 
@@ -152,6 +157,13 @@ public class Game : Singleton<Game>
 	public static Vector2 ProjectMateoPosition(float t)
 	{
 		return mateo != null ? mateo.transform.position + (mateo.deltaCalculator.velocity * t) : Vector3.zero;
+	}
+
+	/// <summary>Enables player control.</summary>
+	/// <param name="_enable">Enable? True by default.</param>
+	public static void EnablePlayerControl(bool _enable = true)
+	{
+		mateoController.enabled = _enable;
 	}
 
 	/// <summary>Gets Mateo's Maximum Jump Force.</summary>

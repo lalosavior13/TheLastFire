@@ -16,6 +16,7 @@ public class ShantyBoss : Boss
 	public const int ID_ANIMATIONEVENT_GOIDLE = 4; 						/// <summary>Go Idle's Animation Event's ID.</summary>
 	public const int ID_ANIMATIONEVENT_PICKTNT = 5; 					/// <summary>Pick TNT's Animation Event's ID.</summary>
 	public const int ID_ANIMATIONEVENT_THROWTNT = 6; 					/// <summary>Throw TNT's Animation Event's ID.</summary>
+	public const int ID_ANIMATIONEVENT_REPELBOMB = 7; 					/// <summary>Repel Bomb's Animation Event's ID.</summary>
 	public const int ID_ANIMATIONSTATE_INTRO = 0; 						/// <summary>Intro's State ID [for AnimatorController].</summary>
 	public const int ID_ANIMATIONSTATE_TIED = 1; 						/// <summary>Intro's State ID [for AnimatorController].</summary>
 	public const int ID_ANIMATIONSTATE_IDLE = 2; 						/// <summary>Idle's State ID [for AnimatorController].</summary>
@@ -46,10 +47,14 @@ public class ShantyBoss : Boss
 	[Header("Bomb's Attributes:")]
 	[SerializeField] private CollectionIndex _bombIndex; 				/// <summary>Bomb's Index.</summary>
 	[SerializeField] private float _bombProjectionTime; 				/// <summary>Bomb's Projection Time.</summary>
+	[SerializeField]
+	[Range(0.0f, 1.0f)] private float _bombProjectionPercentage; 		/// <summary>Bomb Projection Time's Percentage.</summary>
 	[Space(5f)]
 	[Header("TNT's Attributes:")]
 	[SerializeField] private CollectionIndex _TNTIndex; 				/// <summary>TNT's Index.</summary>
 	[SerializeField] private float _TNTProjectionTime; 					/// <summary>TNT's Projection Time.</summary>
+	[SerializeField]
+	[Range(0.0f, 1.0f)] private float _TNTProjectionPercentage; 		/// <summary>TNT Projection Time's Percentage.</summary>
 	[SerializeField]
 	[Range(0.0f, 1.0f)] private float _TNTTimeScaleChangeProgress; 		/// <summary>TNT parabolas' progress necessary to slow down time.</summary>
 	[SerializeField]
@@ -59,6 +64,14 @@ public class ShantyBoss : Boss
 	[Range(0.0f, 1.0f)] private float _stage1HealthPercentageLimit; 	/// <summary>Health Limit's Percentage for TNT.</summary>
 	[SerializeField]
 	[Range(0.0f, 1.0f)] private float _stage2HealthPercentageLimit; 	/// <summary>Health Limit's Percentage for TNT.</summary>
+	[Space(5f)]
+	[Header("Whack-A-Mole's Attributes:")]
+	[SerializeField] private float _vectorPairInterpolationDuration; 	/// <summary>Interpolation duration for Whack-A-Mole's Waypoints.</summary>
+	[Space(5f)]
+	[Header("Duel's Attributes:")]
+	[SerializeField] private float _movementSpeed; 						/// <summary>Movement's Speed.</summary>
+	[SerializeField] private float _rotationSpeed; 						/// <summary>Rotation's Speed.</summary>
+	[SerializeField] private float _attackDistance; 					/// <summary>Attack's Distance.</summary>
 	[Space(5f)]
 	[Header("Inmunities:")]
 	[SerializeField] private GameObjectTag[] _stage1Inmunities; 		/// <summary>Inmunities on Stage 1.</summary>
@@ -89,6 +102,8 @@ public class ShantyBoss : Boss
 	[SerializeField] private AnimationClip hitBarrelAnimation; 			/// <summary>Hit Barrel's Animation.</summary>
 	[SerializeField] private AnimationClip hitSwordAnimation; 			/// <summary>Hit Sword's Animation.</summary>
 	[SerializeField] private AnimationClip cryAnimation; 				/// <summary>Cry's Animation.</summary>
+	[SerializeField] private AnimationClip normalAttackAnimation; 		/// <summary>Normal Attack's Animation.</summary>
+	[SerializeField] private AnimationClip strongAttackAnimation; 		/// <summary>Strong Attack's Animation.</summary>
 	private Skeleton _skeleton; 										/// <summary>Skeleton's Component.</summary>
 	private Coroutine coroutine; 										/// <summary>Coroutine's Reference.</summary>
 	private Behavior attackBehavior; 									/// <summary>Attack's Behavior [it is behavior so it can be paused].</summary>
@@ -112,8 +127,14 @@ public class ShantyBoss : Boss
 	/// <summary>Gets bombProjectionTime property.</summary>
 	public float bombProjectionTime { get { return _bombProjectionTime; } }
 
+	/// <summary>Gets bombProjectionPercentage property.</summary>
+	public float bombProjectionPercentage { get { return _bombProjectionPercentage; } }
+
 	/// <summary>Gets TNTProjectionTime property.</summary>
 	public float TNTProjectionTime { get { return _TNTProjectionTime; } }
+
+	/// <summary>Gets TNTProjectionPercentage property.</summary>
+	public float TNTProjectionPercentage { get { return _TNTProjectionPercentage; } }
 
 	/// <summary>Gets TNTTimeScaleChangeProgress property.</summary>
 	public float TNTTimeScaleChangeProgress { get { return _TNTTimeScaleChangeProgress; } }
@@ -129,6 +150,18 @@ public class ShantyBoss : Boss
 
 	/// <summary>Gets stage2HealthPercentageLimit property.</summary>
 	public float stage2HealthPercentageLimit { get { return _stage2HealthPercentageLimit; } }
+
+	/// <summary>Gets vectorPairInterpolationDuration property.</summary>
+	public float vectorPairInterpolationDuration { get { return _vectorPairInterpolationDuration; } }
+
+	/// <summary>Gets movementSpeed property.</summary>
+	public float movementSpeed { get { return _movementSpeed; } }
+
+	/// <summary>Gets rotationSpeed property.</summary>
+	public float rotationSpeed { get { return _rotationSpeed; } }
+
+	/// <summary>Gets attackDistance property.</summary>
+	public float attackDistance { get { return _attackDistance; } }
 
 	/// <summary>Gets sword property.</summary>
 	public ContactWeapon sword { get { return _sword; } }
@@ -251,9 +284,12 @@ public class ShantyBoss : Boss
 			break;
 
 			case STAGE_2:
+			this.StartCoroutine(WhackAMoleRoutine(), ref behaviorCoroutine);
 			break;
 
 			case STAGE_3:
+			this.StartCoroutine(DuelRoutine(), ref behaviorCoroutine);
+			this.StartCoroutine(RotateTowardsMateo(), ref coroutine);
 			break;
 		}		
 	}
@@ -263,6 +299,7 @@ public class ShantyBoss : Boss
 	public void BeginBombThrowingRoutine()
 	{
 		//Debug.Log("[ShantyBoss] Beggining Bombing Routine...");
+		ActivateSword(false);
 		animation.Play(throwBombAnimation);
 		animation.PlayQueued(idleAnimation.name);
 		/// During the throw animation, a callback will be invoked that will then invoke ThrowBomb()
@@ -277,6 +314,7 @@ public class ShantyBoss : Boss
 
 		bomb = PoolManager.RequestParabolaProjectile(Faction.Enemy, bombIndex, skeleton.rightHand.position, Game.mateo.transform.position, bombProjectionTime, gameObject);
 		bomb.activated = false;
+		bomb.ActivateHitBoxes(false);
 		bomb.transform.parent = skeleton.rightHand;
 	}
 
@@ -294,6 +332,7 @@ public class ShantyBoss : Boss
 		bomb.projectileEventsHandler.onProjectileDeactivated -= OnBombDeactivated;
 		bomb.projectileEventsHandler.onProjectileDeactivated += OnBombDeactivated;
 		bomb.activated = true;
+		bomb.ActivateHitBoxes(true);
 
 		//animator.SetInteger(stateIDCredential, ID_ANIMATIONSTATE_IDLE);
 	}
@@ -307,6 +346,7 @@ public class ShantyBoss : Boss
 		/// During the throw animation, a callback will be invoked that will then invoke ThrowTNT()
 		//animator.SetInteger(stateIDCredential, ID_ATTACK_BARREL_THROW);
 		//animator.SetInteger(attackIDCredential, ID_ANIMATIONSTATE_ATTACK);
+		ActivateSword(false);
 		animation.Play(throwBarrelAnimation);
 		animation.PlayQueued(idleAnimation.name);
 	}
@@ -318,7 +358,11 @@ public class ShantyBoss : Boss
 
 		TNT = PoolManager.RequestParabolaProjectile(Faction.Enemy, TNTIndex, skeleton.rightHand.position, Game.mateo.transform.position, TNTProjectionTime, gameObject);
 		TNT.activated = false;
+		TNT.ActivateHitBoxes(false);
 		TNT.transform.parent = skeleton.rightHand;
+
+		BombParabolaProjectile TNTBomb = TNT as BombParabolaProjectile;
+		TNTBomb.ChangeState(BombState.WickOn);
 	}
 
 	/// <summary>Throws TNT.</summary>
@@ -329,6 +373,7 @@ public class ShantyBoss : Boss
 		TNT.transform.parent = null;
 		TNT.OnObjectDeactivation();
 		TNT = PoolManager.RequestParabolaProjectile(Faction.Enemy, TNTIndex, skeleton.rightHand.position, Game.mateo.transform.position, TNTProjectionTime, gameObject);
+		TNT.ActivateHitBoxes(true);
 
 		TNT.projectileEventsHandler.onProjectileEvent -= OnBombEvent;
 		TNT.projectileEventsHandler.onProjectileEvent += OnBombEvent;
@@ -428,6 +473,7 @@ public class ShantyBoss : Boss
 		switch(_ID)
 		{
 			case ID_ANIMATIONEVENT_PICKBOMB:
+			ActivateSword(false);
 			PickBomb();
 			break;
 
@@ -436,6 +482,7 @@ public class ShantyBoss : Boss
 			break;
 
 			case ID_ANIMATIONEVENT_SWORD_UNSHEATH:
+			Debug.Log("[ShantyBoss] Time of Unsheath: " + Time.time);
 			ActivateSword(true);
 			//animator.SetInteger(stateIDCredential, ID_ANIMATIONSTATE_IDLE);
 			break;
@@ -455,6 +502,14 @@ public class ShantyBoss : Boss
 
 			case ID_ANIMATIONEVENT_THROWTNT:
 			ThrowTNT();
+			break;
+
+			case ID_ANIMATIONEVENT_REPELBOMB:
+			if(bomb != null) bomb.RequestRepel(gameObject);
+			break;
+
+			case 10:
+			Debug.Log("[ShantyBoss] Time when animation starts: " + Time.time);
 			break;
 		}
 
@@ -490,7 +545,7 @@ public class ShantyBoss : Boss
 
 			ActivateSword(false);
 			animation.Stop();
-			this.StartCoroutine(animation.PlayAndSincronizeAnimationWithTime(tenninsHitAnimation, 23, _projectile.parabolaTime), ref behaviorCoroutine);
+			this.StartCoroutine(animation.PlayAndSincronizeAnimationWithTime(tenninsHitAnimation, 14, _projectile.parabolaTime * bombProjectionPercentage), ref behaviorCoroutine);
 			break;
 		}
 	}
@@ -647,6 +702,104 @@ public class ShantyBoss : Boss
 		while(wait.MoveNext()) yield return null;
 
 		Time.timeScale = 1.0f;
+	}
+
+	/// <summary>Whack-A-Mole's Routine.</summary>
+	private IEnumerator WhackAMoleRoutine()
+	{
+		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
+		Vector3Pair[] waypointsPairs = ShantySceneController.Instance.whackAMoleWaypointsPairs.Randomized();
+		AnimationClip clip = null;
+		AnimationState animationState = null;
+		float t = 0.0f;
+		float inverseDuration = 1.0f / vectorPairInterpolationDuration;
+
+		EnableHurtBoxes(false);
+
+		while(true)
+		{
+			foreach(Vector3Pair pair in waypointsPairs)
+			{
+				t = 0.0f;
+
+				while(t < 1.0f)
+				{
+					transform.position = Vector3.Lerp(pair.a, pair.b, t);
+
+					t += (Time.deltaTime * inverseDuration);
+					yield return null;
+				}
+
+				transform.position = pair.b;
+				EnableHurtBoxes(true);
+				animation.Play(throwBombAnimation);
+				animationState = animation.GetAnimationState(throwBombAnimation);
+				wait.ChangeDurationAndReset(animationState.length);
+
+				while(wait.MoveNext()) yield return null;
+
+				t = 0.0f;
+
+				while(t < 1.0f)
+				{
+					transform.position = Vector3.Lerp(pair.b, pair.a, t);
+
+					t += (Time.deltaTime * inverseDuration);
+					yield return null;
+				}
+
+				transform.position = pair.a;
+				EnableHurtBoxes(false);
+			}
+
+			waypointsPairs = waypointsPairs.Randomized();
+		}
+
+		yield return null;
+	}
+
+	/// <summary>Duel's Routine.</summary>
+	private IEnumerator DuelRoutine()
+	{
+		AnimationClip clip = null;
+		AnimationState animationState = null;
+		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
+		Vector3 direction = Vector3.zero;
+		float sqrDistance = attackDistance * attackDistance;
+
+		while(true)
+		{
+			direction = Game.mateo.transform.position - transform.position;
+
+			if(direction.sqrMagnitude <= sqrDistance)
+			{
+				animation.Play(normalAttackAnimation);
+				animationState = animation.GetAnimationState(normalAttackAnimation);
+
+				wait.ChangeDurationAndReset(normalAttackAnimation.length);
+
+				while(wait.MoveNext()) yield return null; 
+			}
+
+			yield return null;
+		}
+	}
+
+	/// <summary>Rotate Towards Mateo's Routine.</summary>
+	private IEnumerator RotateTowardsMateo()
+	{
+		float x = 0.0f;
+		Vector3 direction = Vector3.zero;
+
+		while(true)
+		{
+			x = Game.mateo.transform.position.x - transform.position.x;
+			direction = x > 0.0f ? Vector3.right : Vector3.left;
+
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Time.deltaTime);
+
+			yield return null;
+		}
 	}
 }
 }

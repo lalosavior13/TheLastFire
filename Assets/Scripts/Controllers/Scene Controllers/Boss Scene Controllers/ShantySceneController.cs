@@ -6,26 +6,40 @@ using Voidless;
 
 namespace Flamingo
 {
+[Serializable] public struct Vector3Pair { public Vector3 a; public Vector3 b; }
+
 public class ShantySceneController : Singleton<ShantySceneController>
 {
 	[Space(5f)]
-	[SerializeField] private ShantyBoss _shanty; 			/// <summary>Captain Shanty's Reference.</summary>
+	[SerializeField] private ShantyBoss _shanty; 						/// <summary>Captain Shanty's Reference.</summary>
 	[Space(5f)]
-	[SerializeField] private Vector3 _tiePosition; 			/// <summary>Tie's Position.</summary>
+	[SerializeField] private Vector3 _tiePosition; 						/// <summary>Tie's Position.</summary>
 	[Space(5f)]
 	[Header("Ship's Attributes:")]
-	[SerializeField] private ShantyShip _shantyShip; 		/// <summary>Shanty's Ship.</summary>
+	[SerializeField] private ShantyShip _shantyShip; 					/// <summary>Shanty's Ship.</summary>
 	[Space(5f)]
 	[Header("Audio's Attributes:")]
-	[SerializeField] private CollectionIndex _loopIndex; 	/// <summary>Loop's Index.</summary>
+	[SerializeField] private CollectionIndex _loopIndex; 				/// <summary>Loop's Index.</summary>
 	[Space(5f)]
-	[SerializeField] private Transform _stage1Group; 		/// <summary>Stage 1's Group.</summary>
-	[SerializeField] private Transform _stage2Group; 		/// <summary>Stage 2's Group.</summary>
-	[SerializeField] private Transform _stage3Group; 		/// <summary>Stage 3's Group.</summary>
+	[SerializeField] private Transform[] _stage1ObjectsToDeactivate; 	/// <summary>Stage 1's Objects to deactivate.</summary>
+	[SerializeField] private Transform[] _stage2ObjectsToDeactivate; 	/// <summary>Stage 2's Objects to deactivate.</summary>
+	[SerializeField] private Transform[] _stage3ObjectsToDeactivate; 	/// <summary>Stage 3's Objects to deactivate.</summary>
+	[SerializeField] private Transform _stage1Group; 					/// <summary>Stage 1's Group.</summary>
+	[SerializeField] private Transform _stage2Group; 					/// <summary>Stage 2's Group.</summary>
+	[SerializeField] private Transform _stage3Group; 					/// <summary>Stage 3's Group.</summary>
+	[Space(5f)]
+	[Header("Stage 2's Attributes:")]
+	[SerializeField] private Vector3Pair[] _whackAMoleWaypointsPairs; 	/// <summary>Waypoint pairs for the Whack-a-Mole phase.</summary>
+	[Space(5f)]
+	[Header("Particle Effects:")]
+	[SerializeField] private Vector3[] _smokeSpawnPositions; 			/// <summary>Spawn Positions for the Some's ParticleEffect.</summary>
+	[SerializeField] private CollectionIndex _smokeEffectIndex; 		/// <summary>Smoke ParticleEffect's Index.</summary>
+	[Space(5f)]
+	[SerializeField] private TransformData _stage2ShipTransformData; 	/// <summary>Stage 2's Ship Transform Data.</summary>
 #if UNITY_EDITOR
 	[Space(5f)]
 	[Header("Gizmos' Attributes:")]
-	[SerializeField] private Color gizmosColor; 			/// <summary>Gizmos' Color.</summary>
+	[SerializeField] private Color gizmosColor; 						/// <summary>Gizmos' Color.</summary>
 #endif
 
 #region Getters/Setters:
@@ -35,11 +49,20 @@ public class ShantySceneController : Singleton<ShantySceneController>
 	/// <summary>Gets tiePosition property.</summary>
 	public Vector3 tiePosition { get { return _tiePosition; } }
 
+	/// <summary>Gets smokeSpawnPositions property.</summary>
+	public Vector3[] smokeSpawnPositions { get { return _smokeSpawnPositions; } }
+
+	/// <summary>Gets whackAMoleWaypointsPairs property.</summary>
+	public Vector3Pair[] whackAMoleWaypointsPairs { get { return _whackAMoleWaypointsPairs; } }
+
 	/// <summary>Gets shantyShip property.</summary>
 	public ShantyShip shantyShip { get { return _shantyShip; } }
 
 	/// <summary>Gets loopIndex property.</summary>
 	public CollectionIndex loopIndex { get { return _loopIndex; } }
+
+	/// <summary>Gets smokeEffectIndex property.</summary>
+	public CollectionIndex smokeEffectIndex { get { return _smokeEffectIndex; } }
 
 	/// <summary>Gets stage1Group property.</summary>
 	public Transform stage1Group { get { return _stage1Group; } }
@@ -49,6 +72,9 @@ public class ShantySceneController : Singleton<ShantySceneController>
 
 	/// <summary>Gets stage3Group property.</summary>
 	public Transform stage3Group { get { return _stage3Group; } }
+
+	/// <summary>Gets stage2ShipTransformData property.</summary>
+	public TransformData stage2ShipTransformData { get { return _stage2ShipTransformData; } }
 #endregion
 	
 #if UNITY_EDITOR
@@ -58,6 +84,17 @@ public class ShantySceneController : Singleton<ShantySceneController>
 		Gizmos.color = gizmosColor;
 
 		Gizmos.DrawWireSphere(tiePosition, 0.5f);
+
+		if(smokeSpawnPositions != null) foreach(Vector3 position in smokeSpawnPositions)
+		{
+			Gizmos.DrawWireSphere(position, 0.5f);
+		}
+
+		if(whackAMoleWaypointsPairs != null && shantyShip != null) foreach(Vector3Pair pair in whackAMoleWaypointsPairs)
+		{
+			Gizmos.DrawWireSphere(shantyShip.transform.TransformPoint(pair.a), 0.5f);
+			Gizmos.DrawWireSphere(shantyShip.transform.TransformPoint(pair.b), 0.5f);
+		}
 	}
 #endif
 
@@ -107,24 +144,75 @@ public class ShantySceneController : Singleton<ShantySceneController>
 
 			int stageID = shanty.currentStage;
 
-			stage1Group.gameObject.SetActive(false);
-			stage2Group.gameObject.SetActive(false);
-			stage3Group.gameObject.SetActive(false);
-
 			switch(stageID)
 			{
 				case Boss.STAGE_1:
-				stage1Group.gameObject.SetActive(true);
+				Game.EnablePlayerControl(false);
+				ParticleEffect effect = null;
+				ParticleSystem.MainModule mainModule = default(ParticleSystem.MainModule);
+
+				foreach(Vector3 position in smokeSpawnPositions)
+				{
+					effect = PoolManager.RequestParticleEffect(smokeEffectIndex, position, Quaternion.identity);
+				}
+				mainModule = effect.systems[0].main;
+
+				this.StartCoroutine(this.WaitSeconds(mainModule.duration, ()=>
+				{
+					Game.gameplayGUIController.screenFaderGUI.FadeIn(Color.white, 1.0f,
+					()=>
+					{
+						shantyShip.transform.position = stage2ShipTransformData.position;
+						shantyShip.transform.rotation = stage2ShipTransformData.rotation;
+						ActivateStage(stageID);
+						this.StartCoroutine(this.WaitSeconds(mainModule.startLifetime.constantMax, ()=>
+						{
+							Game.gameplayGUIController.screenFaderGUI.FadeOut(Color.white, 1.0f,
+							()=>
+							{
+								Game.EnablePlayerControl(true);
+							});
+						}));
+					});
+				}));
 				break;
 
 				case Boss.STAGE_2:
-				stage2Group.gameObject.SetActive(true);
+				ActivateStage(stageID);
 				break;
 
 				case Boss.STAGE_3:
-				stage3Group.gameObject.SetActive(true);
+				ActivateStage(stageID);
 				break;
 			}
+			break;
+		}
+	}
+
+	/// <summary>Activates Stage.</summary>
+	/// <param name="index">Stage's Index.</param>
+	private void ActivateStage(int index)
+	{
+		stage1Group.gameObject.SetActive(false);
+		stage2Group.gameObject.SetActive(false);
+		stage3Group.gameObject.SetActive(false);
+
+		switch(index)
+		{
+			case Boss.STAGE_1:
+			stage1Group.SetActive(true);
+			break;
+
+			case Boss.STAGE_2:
+			stage2Group.SetActive(true);
+			break;
+
+			case Boss.STAGE_3:
+			stage3Group.SetActive(true);
+			break;
+
+			default:
+			Debug.LogError("[ShantySceneController] Imbecile, you provided the wrong stage number (" + index + ") when activating Stage...");
 			break;
 		}
 	}

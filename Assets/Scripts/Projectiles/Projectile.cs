@@ -428,12 +428,18 @@ public class Projectile : ContactWeapon
 	/// <param name="_requester">Requester and potential new owner.</param>
 	public void RequestRepel(GameObject _requester)
 	{
-		if(_requester == null || _requester == owner) return;
-
 		ContactWeapon weapon = _requester.GetComponentInParent<ContactWeapon>();
 		GameObject newOwner = weapon != null  && weapon.owner != null ? weapon.owner : _requester;
 
+		Debug.Log(
+			"[Projectile] Repel Requested { Requester: "
+			+ newOwner.name
+			+ ", Current Owner: "
+			+ (owner != null ? owner.name : "NONE")
+			+ " }"
+		);
 
+		if(newOwner == null || newOwner == owner) return;
 
 		switch(projectileType)
 		{
