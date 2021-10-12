@@ -17,6 +17,7 @@ public class Enemy : PoolGameObject, IStateMachine
 	public const int ID_STATE_FOLLOWPLAYER = 1 << 3; 		/// <summary>Follow Player's State Flag.</summary>
 	public const int ID_STATE_ATTACK = 1 << 4; 				/// <summary>Attack's State Flag.</summary>
 	public const int ID_STATE_VULNERABLE = 1 << 5; 			/// <summary>Vulnerable's State Flag (it means the enemy is available to be attacked).</summary>
+	public const int ID_STATE_HURT = 1 << 6; 				/// <summary>Hurt's State Flag.</summary>
 
 	[SerializeField] private Transform _meshParent; 		/// <summary>Mesh's Parent.</summary>
 	private Health _health; 								/// <summary>Health's Component.</summary>
@@ -127,7 +128,8 @@ public class Enemy : PoolGameObject, IStateMachine
 
 #region Callbacks:
 	/// <summary>Callback invoked when the health of the character is depleted.</summary>
-	protected virtual void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
+	/// <param name="_object">GameObject that caused the event, null be default.</param>
+	protected virtual void OnHealthEvent(HealthEvent _event, float _amount = 0.0f, GameObject _object = null)
 	{
 		switch(_event)
 		{
@@ -140,8 +142,10 @@ public class Enemy : PoolGameObject, IStateMachine
 		Debug.Log(
 		"[Enemy] Invoked Health Event: "
 		+ _event.ToString()
-		+ " with amount: "
+		+ "\nWith amount: "
 		+ _amount
+		+ "\nDamaged by: "
+		+ _object.name
 		);
 	}
 #endregion
@@ -164,6 +168,8 @@ public class Enemy : PoolGameObject, IStateMachine
 		builder.AppendLine(this.HasState(ID_STATE_ATTACK).ToString());
 		builder.Append("Vulnerable: ");
 		builder.Append(this.HasState(ID_STATE_VULNERABLE).ToString());
+		builder.Append("Hurt: ");
+		builder.Append(this.HasState(ID_STATE_HURT).ToString());
 
 		return builder.ToString();
 	}

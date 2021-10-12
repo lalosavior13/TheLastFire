@@ -74,7 +74,25 @@ public static class VInterfaces
 
 		_sm.previousState = states;
 		_sm.state = _state;
+		_sm.OnExitState(states);
 		_sm.OnEnterState(_state);
+		if(addedStates != 0) _sm.OnStatesAdded(addedStates);
+		if(removedStates != 0) _sm.OnStatesRemoved(removedStates);
+	}
+
+	/// <summary>Returns to previous State, if there is.</summary>
+	/// <param name="_sm">FiniteStateMachine implementer.</param>
+	public static void ReturnToPreviousState(this IStateMachine _sm)
+	{
+		int states = _sm.state;
+		int previousStates = _sm.previousState;
+		int addedStates = (~previousStates & states);
+		int removedStates = (previousStates & ~states);
+		
+		_sm.previousState = states;
+		_sm.state = states;
+		_sm.OnExitState(states);
+		_sm.OnEnterState(previousStates);
 		if(addedStates != 0) _sm.OnStatesAdded(addedStates);
 		if(removedStates != 0) _sm.OnStatesRemoved(removedStates);
 	}
@@ -152,6 +170,30 @@ public static class VInterfaces
 			_sm.OnStatesRemoved(reset);
 			_sm.OnStatesAdded(reset);
 		}
+	}
+
+	/// <summary>Removes flags and adds flags to IFiniteStateMachine's state.</summary>
+	/// <param name="_sm">State Machine.</param>
+	/// <param name="_removeStates">States to remove.</param>
+	/// <param name="_addStates">States to add.</param>
+	public static void RemoveAndAddStates(this IStateMachine _sm, int _removeStates, int _addStates)
+	{
+		int states = _sm.state;
+
+		/*/// Use XOR on both flags to avoid duplicate bit entries between each flag:
+		_removeStates ^= _addStates;
+		_addStates ^= _removeStates;*/
+
+		_sm.previousState = states;
+		states &= ~_removeStates;
+		states |= _addStates;
+		_sm.state = states;
+
+		int removedStates = states & _removeStates;
+		int addedStates = ~states & _addStates;
+
+		if(removedStates != 0) _sm.OnStatesRemoved(removedStates);
+		if(addedStates != 0) _sm.OnStatesAdded(addedStates);
 	}
 #endregion
 

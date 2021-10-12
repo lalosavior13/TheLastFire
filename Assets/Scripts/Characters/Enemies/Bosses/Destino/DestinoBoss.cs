@@ -381,7 +381,10 @@ public class DestinoBoss : Boss
 	{
 		FiniteStateAudioClip clip = Game.data.FSMLoops[DestinoSceneController.Instance.mainLoopVoiceIndex];
 		animator.SetInteger(stateIDCredential, ID_STATE_CHANT);
-		animator.Play("Song_Full", 0, clip.normalizedTime);
+		animator.Play("Song_Full", 0, clip.normalizedTime /*clip.GetCurrentStateTime()*/);
+		clip.SetStateToCurrentTime();
+		
+
 	}
 
 	/// <summary>Callback invoked when the fallen's tolerance duration of a card reached its end.</summary>
@@ -414,7 +417,8 @@ public class DestinoBoss : Boss
 	/// <summary>Callback invoked when a Health's event has occured.</summary>
 	/// <param name="_event">Type of Health Event.</param>
 	/// <param name="_amount">Amount of health that changed [0.0f by default].</param>
-	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
+	/// <param name="_object">GameObject that caused the event, null be default.</param>
+	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f, GameObject _object = null)
 	{
 		base.OnHealthEvent(_event, _amount);
 
@@ -484,7 +488,7 @@ public class DestinoBoss : Boss
 		float distance = 0.0f;
 		bool activatedEvent = false;
 
-		while(true)
+		while(t < 1.0f)
 		{
 			distance = (rigHead.position - _card.transform.position).sqrMagnitude;
 			lookRotation = Quaternion.LookRotation(rigHead.up);

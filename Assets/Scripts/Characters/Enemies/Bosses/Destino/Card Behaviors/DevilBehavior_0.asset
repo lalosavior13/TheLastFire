@@ -17,7 +17,7 @@ MonoBehaviour:
   _arrowProjectileIndex:
     index: 2
     objectIndex: 0
-    collectionIndex: 1
+    collectionIndex: 2
   _rounds:
     _min: 0
     _max: 0

@@ -23,6 +23,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 	[SerializeField] private Vector3 _rightDrumstickSpawnPoint; 				/// <summary>Right Drumstick's Spawn Position.</summary>
 	[SerializeField] private NormalizedVector3 _orientationVector; 				/// <summary>Drumstick's Orientation Vector.</summary>
 	[SerializeField] private NormalizedVector3 _rotationAxis; 					/// <summary>Drumstick's Rotation Axis.</summary>
+	[SerializeField] private float _drumstickOffsetX;							/// <summaty>Drumstrick spawn point offset  </summary>
 	[SerializeField] [Range(0.0f, 1.0f)] private float _dotTolerance; 			/// <summary>Dot Product's Tolerance.</summary>
 	[SerializeField] private float _drumstickShakeDuration; 					/// <summary>Drumstick's ShakeDuration.</summary>
 	[SerializeField] private float _drumstickShakeSpeed; 						/// <summary>Drumstick's Shake Speed.</summary>
@@ -95,6 +96,9 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 
 	/// <summary>Gets rotationAxis property.</summary>
 	public NormalizedVector3 rotationAxis { get { return _rotationAxis; } }
+
+	/// <summary>Gets drumstickOffsetX property.</summary>
+	public float drumstickOffsetX { get { return _drumstickOffsetX;}}
 
 	/// <summary>Gets dotTolerance property.</summary>
 	public float dotTolerance { get { return _dotTolerance; } }
@@ -270,13 +274,16 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 		FloatRange leftDrumstickLimits = new FloatRange(-drumstickLength, -drumstickLength * 2.0f);
 		FloatRange rightDrumstickLimits = new FloatRange(drumstickLength, drumstickLength * 2.0f);
 		IEnumerator[] sequence = new IEnumerator[drumBeatsSequence.Random()];
+		
+		//Left Drumstick Attack Action
 		Action<RotationEvent, int> onLeftDrumstickRotationEvent = (rotationEvent, ID)=>
 		{
 			switch(rotationEvent)
 			{
 				case RotationEvent.BuildUpEnds:
 				Vector3 projectedMateoPosition = Game.ProjectMateoPosition(1.0f);
-				leftDrumstick.transform.position = leftDrumstickSpawnPoint.WithX(leftDrumstickLimits.Clamp(projectedMateoPosition.x - drumstickLength));
+		
+				//leftDrumstick.transform.position = leftDrumstickSpawnPoint.WithX(leftDrumstickLimits.Clamp(projectedMateoPosition.x - drumstickLength));
 				break;
 
 				case RotationEvent.BuildingUp:
@@ -298,7 +305,8 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 			{
 				case RotationEvent.BuildUpEnds:
 				Vector3 projectedMateoPosition = Game.ProjectMateoPosition(1.0f);
-				rightDrumstick.transform.position = rightDrumstickSpawnPoint.WithX(rightDrumstickLimits.Clamp(projectedMateoPosition.x + drumstickLength));
+				
+				//rightDrumstick.transform.position = rightDrumstickSpawnPoint.WithX(rightDrumstickLimits.Clamp(projectedMateoPosition.x + drumstickLength));
 				break;
 
 				case RotationEvent.BuildingUp:
@@ -340,11 +348,13 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 			    case AnimationCommandState.End:
 			    if(index < drumstickCombo.Length)
 			    {
+			 
 			    	drumstickAnimator.SetInteger(drumstickPhaseCredential, drumstickCombo[index]);
 			    	index++;
 			    }
 			    else
 			    {
+
 			    	drumstickAnimator.SetInteger(drumstickPhaseCredential, 0);
 			    	drumstickAttackFinished = true;
 			    }
@@ -372,6 +382,27 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 #region SequenceCombo:
 		for(int i = 0; i < drumstickCombo.Length; i++)
 		{
+			//Set Position of drumstrick acording to mateo position
+			Vector3 _drumstickSpawnPoint = new Vector3();
+			_drumstickSpawnPoint.y = Game.ProjectMateoPosition(1.0f).y + drumstickLength / 2.5f;
+
+			switch(drumstickCombo[i])
+			{
+				case 1: 
+				_drumstickSpawnPoint.x = leftDrumstickLimits.Clamp( Game.ProjectMateoPosition(1.0f).x - (drumstickLength - drumstickOffsetX));
+				//_drumstickSpawnPoint.x = Game.ProjectMateoPosition(1.0f).x - drumstickLength;
+					break;
+
+				case 2:
+				_drumstickSpawnPoint.x = rightDrumstickLimits.Clamp( Game.ProjectMateoPosition(1.0f).x + (drumstickLength - drumstickOffsetX));
+					break;
+			}
+				
+		
+				
+				drumstickAnimator.transform.position = _drumstickSpawnPoint;
+
+				//
 			rightDrumstick.SetActive(true);
 			drumstickAnimator.SetInteger(drumstickPhaseCredential, drumstickCombo[i]);
 
@@ -432,9 +463,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 		AnimationAttacksHandler trumpetAttacksHandler = trumpet.GetComponent<AnimationAttacksHandler>();
 		SecondsDelayWait wait = new SecondsDelayWait(soundEmissionDuration);
 		Vector3 projectedMateoPosition = Game.ProjectMateoPosition(1.0f);
-		float x = projectedMateoPosition.x;
-		Vector3 spawnPosition = trumpetSpawnPoint.WithX(x);
-		Vector3 destinyPoint = trumpetDestinyPoint.WithX(x);
+		Vector3 entryPosition = new Vector3();
 		float t = 0.0f;
 		float inverseDuration = 1.0f / entranceDuration;
 		bool trumpetAttackFinished = false;
@@ -477,7 +506,16 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 		wait.ChangeDurationAndReset(cooldownAfterSoundNote);
 		while(wait.MoveNext()) yield return null;
 
+		//<summary> Initialize values for spawn point </summary>
+		entryPosition.y = trumpetSpawnPoint.y;
+		entryPosition.x = projectedMateoPosition.x;
+
+
 		trumpetAnimator.SetTrigger(activateTrumpetCredential);
+		trumpetAnimator.transform.position = entryPosition;
+		
+
+	
 		//AudioController.PlayOneShot(SourceType.SFX, 1, trumpetSoundIndex);
 
 		yield return null;
@@ -534,6 +572,10 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 		AnimationAttacksHandler cymbalsAttacksHandler = cymbals.GetComponent<AnimationAttacksHandler>();
 		SecondsDelayWait wait = new SecondsDelayWait(clip.length);
 		bool cymbalAttackEnded = false;
+		Vector3 projectedMateoPosition = Game.ProjectMateoPosition(1.0f);
+		Vector3 initialPos = new Vector3();
+
+
 		OnAnimationAttackEvent onAnimationAttackEvent = (_state)=>
 		{
 			switch(_state)
@@ -566,7 +608,7 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 		cymbals.ActivateHitBoxes(true);
 
 		cymbals.gameObject.SetActive(true);
-		cymbals.transform.position = cymbalsSpawnPosition;
+		//cymbals.transform.position = cymbalsSpawnPosition;
 
 		while(wait.MoveNext()) yield return null;
 
@@ -575,7 +617,12 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 		wait.ChangeDurationAndReset(cooldownAfterSoundNote);
 		while(wait.MoveNext()) yield return null;
 
+		//<summary> Set initial position </summary>
+		initialPos.y = projectedMateoPosition.y;
+
 		cymbalsAnimator.SetTrigger(activateCymbalsCredential);
+		cymbalsAnimator.transform.position = initialPos;
+
 		//AudioController.PlayOneShot(SourceType.SFX, 1, cymbalSoundIndex);
 
 		yield return null;

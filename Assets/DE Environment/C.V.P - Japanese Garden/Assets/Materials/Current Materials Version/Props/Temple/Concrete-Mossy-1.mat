@@ -1,0 +1,395 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Concrete-Mossy-1
+  m_Shader: {fileID: 4800000, guid: 8d2bb70cbf9db8d4da26e15b26e74248, type: 3}
+  m_ShaderKeywords: _GLOSSINESS_FROM_BASE_ALPHA _NORMALMAP _SPECULAR_COLOR
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 1de9c7099bc0a8f42b4fdce8caba0cb9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Bottom_BumpMap:
+        m_Texture: {fileID: 2800000, guid: 263fdddbe088afd489499ff5d5650189, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Bottom_MainTex:
+        m_Texture: {fileID: 2800000, guid: 1de9c7099bc0a8f42b4fdce8caba0cb9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Bottom_MetallicMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Bottom_OcclusionMap:
+        m_Texture: {fileID: 2800000, guid: a7bded2f81101564a8f3f599a0d3c7a6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Bottom_SmoothnessMap:
+        m_Texture: {fileID: 2800000, guid: 4cd16158e7cc151448b7f784bd7f5b92, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 263fdddbe088afd489499ff5d5650189, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _Curvaturewear_GrungeMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Curvaturewear_GrungeMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Curvaturewear_GrungeNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 2800000, guid: c43ac15161d942c439aaaf9d797699f3, type: 3}
+        m_Scale: {x: 8, y: 8}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 2800000, guid: 725c9cec842225f47b69874a7aacf56f, type: 3}
+        m_Scale: {x: 8, y: 8}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Horizontalwear_GrungeMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Horizontalwear_GrungeMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Horizontalwear_GrungeNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 1de9c7099bc0a8f42b4fdce8caba0cb9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Metal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 2800000, guid: a7bded2f81101564a8f3f599a0d3c7a6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SmoothnessMap:
+        m_Texture: {fileID: 2800000, guid: 4cd16158e7cc151448b7f784bd7f5b92, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Top_BumpMap:
+        m_Texture: {fileID: 2800000, guid: 725c9cec842225f47b69874a7aacf56f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Top_MainTex:
+        m_Texture: {fileID: 2800000, guid: c43ac15161d942c439aaaf9d797699f3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Top_MetallicMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Top_OcclusionMap:
+        m_Texture: {fileID: 2800000, guid: 0388726e0b560494f9f760c5321c14fe, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Top_SmoothnessMap:
+        m_Texture: {fileID: 2800000, guid: c2d0727b7cd704e4ca32caa56099421f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Verticalwear_GrungeMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Verticalwear_GrungeMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Verticalwear_GrungeNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AOSource: 1
+    - _AlbedoDetail: 0
+    - _AlphaClip: 0
+    - _AlphaCutoff: 0.5
+    - _AlphaCutoffBias: 0.5
+    - _AlphaCutoffBiasShadow: 0.5
+    - _AlphatoCoverage: 0
+    - _Blend: 0
+    - _BlendColor: 0
+    - _BlendHeight: 1
+    - _Blend_CoverageAmount: 0.565
+    - _Blend_CoverageFactor: 0.05
+    - _Blend_CoverageFalloff: 0.669
+    - _Blend_Space: 1
+    - _Bottom_Brightness: 0.5
+    - _Bottom_MetallicStrength: 0.05
+    - _Bottom_NormalStrength: 1
+    - _Bottom_OcclusionSourceMode: 0
+    - _Bottom_OcclusionStrengthAO: 1
+    - _Bottom_OffsetX: 0
+    - _Bottom_OffsetY: 0
+    - _Bottom_SmoothnessMode: 2
+    - _Bottom_SmoothnessStrength: 1
+    - _Bottom_SmoothnessThreshold: 0
+    - _Bottom_SmoothnessType: 0
+    - _Bottom_SmoothnessVariance: 0.429
+    - _Bottom_TilingX: 1
+    - _Bottom_TilingY: 1
+    - _Brightness: 1
+    - _BumpScale: 1
+    - _ColorMask: 15
+    - _Cull: 2
+    - _CullMode: 2
+    - _Curvaturewear_BlendHardness: 2
+    - _Curvaturewear_BlendMix: 0
+    - _Curvaturewear_BlendStrength: 0.5
+    - _Curvaturewear_MaskingColorFuzziness: 0.1
+    - _Curvaturewear_MaskingColorRange: 0.2
+    - _Curvaturewear_MaskingSource: 0
+    - _Curvaturewear_Metallic: 0
+    - _Curvaturewear_Mode: 0
+    - _Curvaturewear_NormalMultiplier: 1
+    - _Curvaturewear_OffsetX: 0
+    - _Curvaturewear_OffsetXMask: 0
+    - _Curvaturewear_OffsetY: 0
+    - _Curvaturewear_OffsetYMask: 0
+    - _Curvaturewear_Rotation: 0
+    - _Curvaturewear_Saturation: 1
+    - _Curvaturewear_Smoothness: 0
+    - _Curvaturewear_TilingX: 1
+    - _Curvaturewear_TilingXMask: 1
+    - _Curvaturewear_TilingY: 1
+    - _Curvaturewear_TilingYMask: 1
+    - _Curvaturewear_UVPosition: 1
+    - _Cutoff: 0.5
+    - _DetailBlendHeight: 1.136
+    - _DetailBlendInfluence: 1.75
+    - _DetailBlendSmooth: 0.5
+    - _DetailBrightness: 1
+    - _DetailNormalMapScale: 1
+    - _DetailOffsetXDetail: 0
+    - _DetailOffsetXDetailMask: 0
+    - _DetailOffsetYDetail: 0
+    - _DetailOffsetYDetailMask: 0
+    - _DetailTilingXDetail: 8
+    - _DetailTilingXDetailMask: 1
+    - _DetailTilingYDetail: 8
+    - _DetailTilingYDetailMask: 1
+    - _Detail_BlendAmountMask: 0.5
+    - _Detail_BlendFalloffMask: 0.5
+    - _Detail_BlendHardnessMask: 1
+    - _Detail_UVSet: 0
+    - _DisplacementStrength: 0.00125
+    - _Displacement_Mode: 0
+    - _Displacement_Strength: 0
+    - _DoubleSidedNormalMode: 0
+    - _DstBlend: 0
+    - _EdgeLength: 15
+    - _EnableDetailMap: 1
+    - _EnableDetailMask: 0
+    - _GlancingClipMode: 1
+    - _GlobalWindInfluence: 0
+    - _GlobalWindInfluenceBillboard: 1
+    - _GlobalWindInfluenceOther: 0.3
+    - _GlossMapScale: 1
+    - _Glossiness: 1
+    - _GlossinessSource: 0
+    - _GlossyReflections: 1
+    - _Gradient_Contrast: 0
+    - _Gradient_Height: 0.4
+    - _Gradient_Mode: 1
+    - _Gradient_Ramp: 0.23
+    - _Gradient_UVPosition: 0
+    - _Height: 0.918
+    - _Horizontalwear_BlendMix: 1
+    - _Horizontalwear_BlendStrength: 0.5
+    - _Horizontalwear_MaskingColorFuzziness: 0.1
+    - _Horizontalwear_MaskingColorRange: 0.2
+    - _Horizontalwear_MaskingSource: 0
+    - _Horizontalwear_Metallic: 0
+    - _Horizontalwear_Mode: 0
+    - _Horizontalwear_NormalMultiplier: 1
+    - _Horizontalwear_OffsetX: 0
+    - _Horizontalwear_OffsetXMask: 0
+    - _Horizontalwear_OffsetY: 0
+    - _Horizontalwear_OffsetYMask: 0
+    - _Horizontalwear_Rotation: 0
+    - _Horizontalwear_Saturation: 1
+    - _Horizontalwear_Smoothness: 0
+    - _Horizontalwear_TilingX: 1
+    - _Horizontalwear_TilingXMask: 1
+    - _Horizontalwear_TilingY: 1
+    - _Horizontalwear_TilingYMask: 1
+    - _Horizontalwear_UVPosition: 0
+    - _LocalRandomWindOffset: 0.2
+    - _LocalWindDirection: 1
+    - _LocalWindPulse: 0.1
+    - _LocalWindStrength: 0.3
+    - _Metallic: 0.1
+    - _MetallicSource: 0
+    - _MetallicStrength: 0.1
+    - _Mian_UVSet: 0
+    - _Mode: 0
+    - _NormalMode: 0
+    - _NormalStrength: 1
+    - _OcclusionSourceMode: 0
+    - _OcclusionStrength: 1
+    - _OcclusionStrengthAO: 1
+    - _OffsetX: 0
+    - _OffsetY: 0
+    - _Parallax: 0.02
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Shininess: 0
+    - _Smooth: 0.352
+    - _Smoothness: 0
+    - _SmoothnessModeCutout: 3
+    - _SmoothnessModeSurface: 2
+    - _SmoothnessMultiplier: 0.85
+    - _SmoothnessSource: 1
+    - _SmoothnessStrength: 1
+    - _SmoothnessTextureChannel: 0
+    - _SmoothnessThreshold: 0
+    - _SmoothnessType: 0
+    - _SmoothnessVariance: 0.2
+    - _SpecSource: 0
+    - _SpecularHighlights: 0
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _TessellationDistanceMax: 5
+    - _TessellationDistanceMin: 0
+    - _TessellationMode: 0
+    - _TessellationPhong: 0.5
+    - _TessellationStrength: 6
+    - _TextureInfluence: 0.25
+    - _TilingX: 4
+    - _TilingY: 4
+    - _TillingMode: 0
+    - _TillingModeDetail: 0
+    - _Top_Brightness: 0.945
+    - _Top_MetallicStrength: 0.1
+    - _Top_NormalStrength: 1
+    - _Top_OcclusionSourceMode: 0
+    - _Top_OcclusionStrengthAO: 1
+    - _Top_OffsetX: 0
+    - _Top_OffsetY: 0
+    - _Top_SmoothnessMode: 2
+    - _Top_SmoothnessStrength: 0.5
+    - _Top_SmoothnessThreshold: 0
+    - _Top_SmoothnessType: 1
+    - _Top_SmoothnessVariance: 0.2
+    - _Top_TilingX: 0.33
+    - _Top_TilingY: 0.33
+    - _UVSec: 0
+    - _Verticalwear_BlendMix: 1
+    - _Verticalwear_BlendStrength: 0.5
+    - _Verticalwear_MaskingColorFuzziness: 0.1
+    - _Verticalwear_MaskingColorRange: 0.2
+    - _Verticalwear_MaskingSource: 0
+    - _Verticalwear_Metallic: 0
+    - _Verticalwear_Mode: 0
+    - _Verticalwear_NormalMultiplier: 1
+    - _Verticalwear_OffsetX: 0
+    - _Verticalwear_OffsetXMask: 0
+    - _Verticalwear_OffsetY: 0
+    - _Verticalwear_OffsetYMask: 0
+    - _Verticalwear_Rotation: 395.55
+    - _Verticalwear_Saturation: 1
+    - _Verticalwear_Smoothness: 0
+    - _Verticalwear_TilingX: 1
+    - _Verticalwear_TilingXMask: 1
+    - _Verticalwear_TilingY: 1
+    - _Verticalwear_TilingYMask: 1
+    - _Verticalwear_UVPosition: 0
+    - _WindMode: 0
+    - _ZTestMode: 4
+    - _ZWrite: 1
+    - _ZWriteMode: 1
+    - __dirty: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
+    - _Bottom_Color: {r: 1, g: 0.98333335, b: 0.95, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorDetail: {r: 1, g: 1, b: 1, a: 1}
+    - _Curvaturewear_MaskingColor: {r: 0.5019608, g: 0, b: 0, a: 0}
+    - _Curvaturewear_Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _DetailColor1: {r: 1, g: 1, b: 1, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Gradient_Bottom: {r: 0.1981132, g: 0.123546615, b: 0, a: 0}
+    - _Gradient_BottomSide: {r: 0.14150941, g: 0.11161299, b: 0.10079208, a: 0}
+    - _Gradient_TintCurvature: {r: 0.5, g: 0.5, b: 0.5, a: 0}
+    - _Gradient_Top: {r: 0.36917144, g: 0.4245283, b: 0, a: 0}
+    - _Gradient_TopSide: {r: 0.20921457, g: 0.21698111, b: 0, a: 0}
+    - _Horizontalwear_MaskingColor: {r: 0.5019608, g: 0, b: 0, a: 0}
+    - _Horizontalwear_Tint: {r: 1, g: 1, b: 1, a: 0}
+    - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+    - _Top_Color: {r: 1, g: 0.90296495, b: 0.7877358, a: 0}
+    - _Verticalwear_MaskingColor: {r: 0.5019608, g: 0, b: 0, a: 0}
+    - _Verticalwear_Tint: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &2217051304804032130
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 2

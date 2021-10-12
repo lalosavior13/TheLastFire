@@ -159,7 +159,7 @@ public class Explodable : PoolGameObject
 						if(linker != null) health = linker.component;
 					}
 
-					if(health != null) health.GiveDamage(damage);
+					if(health != null) health.GiveDamage(damage, true, true, gameObject);
 
 					return;
 				}

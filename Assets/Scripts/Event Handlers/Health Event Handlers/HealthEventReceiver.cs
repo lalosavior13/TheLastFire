@@ -45,7 +45,8 @@ public abstract class HealthEventReceiver : MonoBehaviour
 	/// <summary>Event invoked when a Health's event has occured.</summary>
 	/// <param name="_event">Type of Health Event.</param>
 	/// <param name="_amount">Amount of health that changed [0.0f by default].</param>
-	private void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
+	/// <param name="_object">GameObject that caused the event, null be default.</param>
+	private void OnHealthEvent(HealthEvent _event, float _amount = 0.0f, GameObject _object = null)
 	{
 		Debug.Log("[HealthEventReceiver] " + name + " Invoked Health Event: " + _event.ToString() + ", With Amount: " + _amount.ToString());
 		if(_event == invokeAt) this.StartCoroutine(Routine(), ref routine);

@@ -18,25 +18,28 @@ public enum HealthEvent
 /// <summary>Event invoked when a Health's event has occured.</summary>
 /// <param name="_event">Type of Health Event.</param>
 /// <param name="_amount">Amount of health that changed [0.0f by default].</param>
-public delegate void OnHealthEvent(HealthEvent _event, float _amount = 0.0f);
+/// <param name="_object">GameObject that caused the event, null be default.</param>
+public delegate void OnHealthEvent(HealthEvent _event, float _amount = 0.0f, GameObject _object = null);
 
 /// <summary>Event invoked when an event of a Health's instance has occured.</summary>
 /// <param name="_health">Health's Instance.</param>
 /// <param name="_event">Type of Health Event.</param>
 /// <param name="_amount">Amount of health that changed [0.0f by default].</param>
-public delegate void OnHealthInstanceEvent(Health _health, HealthEvent _event, float _amount = 0.0f);
+/// <param name="_object">GameObject that caused the event, null be default.</param>
+public delegate void OnHealthInstanceEvent(Health _health, HealthEvent _event, float _amount = 0.0f, GameObject _object = null);
 
 public class Health : MonoBehaviour, IStateMachine
 {
 	public event OnHealthEvent onHealthEvent;                   /// <summary>OnHealthEvent Event Delegate.</summary>
     public event OnHealthInstanceEvent onHealthInstanceEvent;   /// <summary>OnHealthInstanceEvent Event Delegate.</summary>
 
-    public const int ID_STATE_ONHITSTUN = 1 << 1;               /// <summary>On Hit-Stun State's ID.</summary>
+    public const int ID_STATE_ONHITSTUN = 1 << 0;               /// <summary>On Hit-Stun State's ID.</summary>
     public const int ID_STATE_ONINVINCIBILITY = 1 << 1;         /// <summary>On Invincibility State's ID.</summary>
 
     [SerializeField] private float _maxHP;                      /// <summary>Maximum amount of Health.</summary>
     [SerializeField] private float _hitStunDuration;            /// <summary>Cooldown duration when on Hit-Stun mode.</summary>
     [SerializeField] private float _invincibilityDuration;      /// <summary>Cooldown duration when on Invincible mode.</summary>
+    [SerializeField] private GameObjectTag[] _inmunities;       /// <summary>Inmunities' Set.</summary>
     private Cooldown _invincibilityCooldown;                    /// <summary>Invincibility Cooldown's reference.</summary>
     private Cooldown _hitStunCooldown;                          /// <summary>Hit-Stun Cooldown's reference.</summary>
     private float _hp;                                          /// <summary>Current HP.</summary>
@@ -71,6 +74,13 @@ public class Health : MonoBehaviour, IStateMachine
     {
     	get { return _hp; }
     	set { _hp = value; }
+    }
+
+    /// <summary>Gets and Sets inmunities property.</summary>
+    public GameObjectTag[] inmunities
+    {
+        get { return _inmunities; }
+        set { _inmunities = value; }
     }
 
     /// <summary>Gets hpRatio property.</summary>
@@ -135,10 +145,15 @@ public class Health : MonoBehaviour, IStateMachine
     /// <param name="_damage">Damage to inflict.</param>
     /// <param name="_applyInvincibility">Apply Hit-Stun? True by default.</param>
     /// <param name="_applyInvincibility">Apply Invincibility? True by default.</param>
-    public void GiveDamage(float _damage, bool _applyHitStun = true, bool _applyInvincibility = true)
+    /// <param name="_object">GameObject that applies the damage, null be default.</param>
+    public void GiveDamage(float _damage, bool _applyHitStun = true, bool _applyInvincibility = true, GameObject _object = null)
     {
+        if(inmunities != null && _object != null) foreach(GameObjectTag tag in inmunities)
+        {
+            if(_object.CompareTag(tag)) return;
+        }
+
         /// If the current state is onInvincibility or the damage to receive is less or equal than '0', do nothing.
-        Debug.Log("[Health] Give Damage. On invencility: " + onInvincibility + " Damage: " + _damage);
         if(onInvincibility || _damage <= 0.0f) return;
 
         _damage = _damage.Clamp(0.0f, hp);
@@ -146,13 +161,13 @@ public class Health : MonoBehaviour, IStateMachine
     	
     	if(hp > 0.0f)
         {
-            if(onHealthEvent != null) onHealthEvent(HealthEvent.Depleted, _damage);
-            if(onHealthInstanceEvent != null) onHealthInstanceEvent(this, HealthEvent.Depleted, _damage);
+            if(onHealthEvent != null) onHealthEvent(HealthEvent.Depleted, _damage, _object);
+            if(onHealthInstanceEvent != null) onHealthInstanceEvent(this, HealthEvent.Depleted, _damage, _object);
 
         } else if(hp == 0.0)
         {
-            if(onHealthEvent != null) onHealthEvent(HealthEvent.FullyDepleted);
-            if(onHealthInstanceEvent != null) onHealthInstanceEvent(this, HealthEvent.FullyDepleted, _damage);
+            if(onHealthEvent != null) onHealthEvent(HealthEvent.FullyDepleted, _damage, _object);
+            if(onHealthInstanceEvent != null) onHealthInstanceEvent(this, HealthEvent.FullyDepleted, _damage, _object);
         }
 
         if(hitStunDuration > 0.0f && _applyHitStun && hp > 0.0f)
@@ -207,7 +222,7 @@ public class Health : MonoBehaviour, IStateMachine
     }
 
     /// <summary>Callback internally invoked when the Hit-Stun Cooldown ends.</summary>
-    private void OnHitStunCooldownEnds()
+    public void OnHitStunCooldownEnds()
     {
         this.RemoveStates(ID_STATE_ONHITSTUN);
         if(onHealthEvent != null) onHealthEvent(HealthEvent.HitStunEnds);
@@ -215,7 +230,7 @@ public class Health : MonoBehaviour, IStateMachine
     }
 
     /// <summary>Callback internally invoked when the Invincibility Cooldown ends.</summary>
-    private void OnInvincibilityCooldownEnds()
+    public void OnInvincibilityCooldownEnds()
     {
         this.RemoveStates(ID_STATE_ONINVINCIBILITY);
         //if(invincibilityCooldown != null) invincibilityCooldown.End(); /// This provokes a StackOverflowException...

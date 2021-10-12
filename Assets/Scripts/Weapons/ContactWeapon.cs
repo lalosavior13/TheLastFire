@@ -22,6 +22,7 @@ public class ContactWeapon : PoolGameObject
 	[Space(5f)]
 	[Header("Trail's References:")]
 	[SerializeField] private TrailRenderer[] _trailRenderers; 			/// <summary>TrailRenderers' Component.</summary>
+	[SerializeField] private ParticleEffect[] _particleEffects; 		/// <summary>ParticleEffects' Component.</summary>
 	private GameObject _owner; 											/// <summary>Weapon's current owner.</summary>
 	private HashSet<int> _objectsIDs; 									/// <summary>Set of GameObject's IDs that are already inside of HitBoxes [to avoid repetition of actions].</summary>
 	private EventsHandler _eventsHandler; 								/// <summary>EventsHandler's Component.</summary>
@@ -61,6 +62,13 @@ public class ContactWeapon : PoolGameObject
 	{
 		get { return _trailRenderers; }
 		set { _trailRenderers = value; }
+	}
+
+	/// <summary>Gets and Sets particleEffects property.</summary>
+	public ParticleEffect[] particleEffects
+	{
+		get { return _particleEffects; }
+		set { _particleEffects = value; }
 	}
 
 	/// <summary>Gets and Sets owner property.</summary>
@@ -120,6 +128,12 @@ public class ContactWeapon : PoolGameObject
 		foreach(TrailRenderer trailRenderer in trailRenderers)
 		{
 			trailRenderer.emitting = _activate;
+		}
+
+		if(particleEffects != null)
+		foreach(ParticleEffect particleEffect in particleEffects)
+		{
+			particleEffect.gameObject.SetActive(_activate);
 		}
 
 		impactEventHandler.ActivateHitBoxes(_activate);
@@ -183,7 +197,7 @@ public class ContactWeapon : PoolGameObject
 						float damageScale = damageScales != null ? damageScales[Mathf.Clamp(_ID, 0, damageScales.Length)] : 1.0f;
 						float damageApplied = damage * damageScale;
 						
-						health.GiveDamage(damageApplied);
+						health.GiveDamage(damageApplied, true, true, gameObject);
 						OnHealthInstanceDamaged(health);
 
 						break;

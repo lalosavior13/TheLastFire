@@ -18,11 +18,11 @@ MonoBehaviour:
   _petrolSphereID:
     index: 1
     objectIndex: 0
-    collectionIndex: 1
+    collectionIndex: 2
   _marbleSphereID:
     index: 0
     objectIndex: 0
-    collectionIndex: 1
+    collectionIndex: 2
   _homingPetrolSphereID:
     index: 1
     objectIndex: 0

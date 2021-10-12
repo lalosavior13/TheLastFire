@@ -86,6 +86,8 @@ public class Projectile : ContactWeapon
 	private Projectile _parentProjectile; 										/// <summary>Parent Projectile.</summary>
 	protected Vector2 velocity; 												/// <summary>Velocity's Vector.</summary>
 
+	//Gil hash set
+	private HashSet<int> _swordSet = new HashSet<int>();
 #region Getters/Setters:
 	/// <summary>Gets and Sets projectileType property.</summary>
 	public ProjectileType projectileType
@@ -274,6 +276,12 @@ public class Projectile : ContactWeapon
 			return _cameraTarget;
 		}
 	}
+	/// <summary>Gets and Sets sword hashset property.</summary>
+	public HashSet<int> swordSet
+	{
+		get { return _swordSet; }
+		set { _swordSet = value; }
+	}
 #endregion
 
 #if UNITY_EDITOR
@@ -322,10 +330,12 @@ public class Projectile : ContactWeapon
 	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
 	public override void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
+
 		base.OnTriggerEvent(_info, _eventType, _ID);
 
 		GameObject obj = _info.collider.gameObject;
 		GameObject newOwner = null;
+		int ID  = obj.GetInstanceID();
 
 /*
 #regionOutOfBoundsShiat:
@@ -341,68 +351,45 @@ public class Projectile : ContactWeapon
 #endregion
 */
 
+		//Gil testing attempt
+		switch(_eventType)
+		{
+			case HitColliderEventTypes.Enter:
+			if(swordSet.Contains(ID))
+			{
+				return;
+			}else{
+				//Evaluate for repelment
+				if(repelTags != null) foreach(GameObjectTag tag in repelTags)
+				{
+					if(obj.CompareTag(tag))
+					{
+						RequestRepel(obj);
+						swordSet.Add(ID);
+						return;
+
+					}
+				}
+			}
+			break;
+
+
+			case HitColliderEventTypes.Exit :
+
+			swordSet.Remove(ID);
+			break;
+
+		}
+
 		/// Evaluate for repelment:
-		if(repelTags != null) foreach(GameObjectTag tag in repelTags)
+		/*if(repelTags != null) foreach(GameObjectTag tag in repelTags)
 		{
 			if(obj.CompareTag(tag))
 			{
-				Debug.Log("[Projectile] The Projectile ought to be repellable...");
-				ContactWeapon weapon = null;
-
-				switch(projectileType)
-				{
-					case ProjectileType.Normal:
-					float inversion = -1.0f;
-
-					direction *= inversion;
-					accumulatedVelocity *= inversion;
-					break;
-
-					case ProjectileType.Parabola:
-					accumulatedVelocity = Vector3.zero;
-
-					/// Assign new ownership...
-					weapon = obj.GetComponentInParent<ContactWeapon>();
-
-					newOwner = weapon != null && weapon.owner != null ? weapon.owner : obj;
-
-					if(owner == null)
-					{
-						direction *= -1.0f;
-					
-					} else if(newOwner != owner)
-					{
-						Vector3 velocity = VPhysics.ProjectileDesiredVelocity(parabolaTime, transform.position, owner.transform.position, Physics.gravity);
-						float magnitude = velocity.magnitude;
-
-						velocity /= magnitude; // Normalize
-						direction = velocity;
-						speed = magnitude;
-						owner = newOwner;
-
-						Debug.DrawRay(transform.position, direction * speed, Color.magenta, 5.0f);
-					}
-					break;
-
-					case ProjectileType.Homing:
-					if(owner == null) return;
-
-					target = owner.transform;
-
-					weapon = obj.GetComponent<ContactWeapon>();
-
-					/// Assign new ownership...
-					if(weapon != null)
-					{
-						newOwner = weapon.owner;
-						owner = newOwner != null ? newOwner : obj;
-					}
-					else owner = obj;
-					break;
-				}
-				//InvokeProjectileEvent(ID_EVENT_REPELLED);
+				RequestRepel(obj);
+				return;
 			}
-		}
+		}*/
 	}
 
 	/// <summary>Callback internally called when there was an impact.</summary>
@@ -436,6 +423,63 @@ public class Projectile : ContactWeapon
 		if(effect != null) effect.Play();
 	}
 #endregion
+
+	/// <summary>Request the projectile ro be repelled [without physical interaction].</summary>
+	/// <param name="_requester">Requester and potential new owner.</param>
+	public void RequestRepel(GameObject _requester)
+	{
+		ContactWeapon weapon = _requester.GetComponentInParent<ContactWeapon>();
+		GameObject newOwner = weapon != null  && weapon.owner != null ? weapon.owner : _requester;
+
+		Debug.Log(
+			"[Projectile] Repel Requested { Requester: "
+			+ newOwner.name
+			+ ", Current Owner: "
+			+ (owner != null ? owner.name : "NONE")
+			+ " }"
+		);
+
+		if(newOwner == null || newOwner == owner) return;
+
+		switch(projectileType)
+		{
+			case ProjectileType.Normal:
+			float inversion = -1.0f;
+
+			direction *= inversion;
+			accumulatedVelocity *= inversion;
+
+			break;
+
+			case ProjectileType.Parabola:
+			accumulatedVelocity = Vector3.zero;
+
+			if(owner == null)
+			{
+				direction *= -1.0f;
+			
+			} else if(newOwner != owner)
+			{
+				Vector3 velocity = VPhysics.ProjectileDesiredVelocity(parabolaTime, transform.position, owner.transform.position, Physics.gravity);
+				float magnitude = velocity.magnitude;
+
+				velocity /= magnitude; // Normalize
+				direction = velocity;
+				speed = magnitude;
+				//Debug.DrawRay(transform.position, direction * speed, Color.magenta, 5.0f);
+			}
+			break;
+
+			case ProjectileType.Homing:
+			if(owner == null) return;
+
+			target = owner.transform;
+			break;
+		}
+
+		owner = newOwner;
+		projectileEventsHandler.InvokeProjectileEvent(this, ID_EVENT_REPELLED);
+	}
 
 	/// <returns>Projectile's Position.</returns>
 	public Vector2 GetPosition()

@@ -49,6 +49,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	[SerializeField]
 	[Range(0.0f, 1.0f)] private float _progressForExtraJump; 	/// <summary>Minimum Progress required for extra jump.</summary>
 	[SerializeField] private ForceInformation2D[] _forcesInfo; 	/// <summary>Force's Information.</summary>
+	[SerializeField] private CollectionIndex[] _SFXsIndices; 	/// <summary>Sound Effects' Indices.</summary>
 	[Space(5f)]
 	[SerializeField] private float _landingDuration; 			/// <summary>Landing's Duration.</summary>
 	private TimeConstrainedForceApplier2D[] _forcesAppliers; 	/// <summary>Forces' Appliers.</summary>
@@ -168,6 +169,13 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		set { _forcesAppliers = value; }
 	}
 
+	/// <summary>Gets and Sets SFXsIndices property.</summary>
+	public CollectionIndex[] SFXsIndices
+	{
+		get { return _SFXsIndices; }
+		set { _SFXsIndices = value; }
+	}
+
 	/// <summary>Gets and Sets scalarWrapper property.</summary>
 	public FloatWrapper scalarWrapper
 	{
@@ -224,7 +232,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		UpdateForcesAppliers();
 		landingCooldown = new Cooldown(this, landingDuration, OnLandingCooldownEnds);
 		gravityApplier.onGroundedStateChange += OnGroundedStateChange;
-		currentJumpIndex = 0;
+		currentJumpIndex = -1;
 	}
 
 	/// <summary>Updates JumpAbility's instance at each Physics Thread's frame.</summary>
@@ -241,7 +249,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 			scalarWrapper.value = groundedScale;
 			gravityApplier.RequestScaleChange(GetInstanceID(), _scalarWrapper, scaleChangePriority);
 			CancelForce(currentJumpIndex);
-			currentJumpIndex = 0;
+			currentJumpIndex = -1;
 			this.RemoveStates(STATE_ID_JUMPING);
 			break;
 
@@ -278,7 +286,7 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 	/// <param name="_state">State's flags that were added.</param>
 	public void OnStatesAdded(int _state)
 	{
-		InvokeOnGroundedStateChange(_state, currentJumpIndex);
+		InvokeOnGroundedStateChange(_state, GetJumpIndex());
 	}
 
 	/// <summary>Callback invoked when new state's flags are removed.</summary>
@@ -329,6 +337,9 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		if(onJumpStateChange != null) onJumpStateChange(_stateID, _jumpLevel);
 	}
 #endregion
+
+	/// <returns>Clamped Jump Index.</returns>
+	public int GetJumpIndex() { return Mathf.Clamp(currentJumpIndex, 0, forcesInfo.Length - 1); }
 
 	/// <summary>Adds Gravity Scalar given  an _ax.</summary>
 	public void AddGravityScalar(float _axis)
@@ -381,14 +392,18 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		int limit = forcesAppliers.Length - 1;
 		TimeConstrainedForceApplier2D forceApplier = null;
 
-		if(this.HasStates(STATE_ID_GROUNDED) && currentJumpIndex == 0)
+		if(this.HasStates(STATE_ID_GROUNDED) && currentJumpIndex <= 0)
 		{
+			currentJumpIndex++; /// Equals 0 on first jump
 			forceApplier = forcesAppliers[currentJumpIndex];
 
 		} else if(this.HasAnyOfTheStates(STATE_ID_JUMPING | STATE_ID_FALLING) && currentJumpIndex < limit)
 		{
-			forceApplier = forcesAppliers[currentJumpIndex];
-			forceApplier.CancelForce();
+			if(currentJumpIndex > 0)
+			{ /// If above the 1st jump, cancel the prior jump force.
+				forceApplier = forcesAppliers[currentJumpIndex - 1];
+				forceApplier.CancelForce();
+			}
 			currentJumpIndex++;
 			forceApplier = forcesAppliers[currentJumpIndex];
 		}
@@ -404,6 +419,13 @@ public class JumpAbility : MonoBehaviour, IStateMachine
 		else forceApplier.force = forcesInfo[currentJumpIndex].force;
 
 		forceApplier.ApplyForce();
+
+		if(SFXsIndices != null && SFXsIndices.Length > 0)
+		{
+			int index = Mathf.Clamp(currentJumpIndex, 0, SFXsIndices.Length);
+			AudioController.PlayOneShot(SourceType.SFX, 0, SFXsIndices[index]);
+		}
+
 		this.ChangeState(STATE_ID_JUMPING);
 	}
 

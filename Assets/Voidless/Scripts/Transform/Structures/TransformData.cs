@@ -9,14 +9,19 @@ namespace Voidless
 [Serializable]
 public struct TransformData : ISerializationCallbackReceiver
 {
-	[SerializeField] private Transform _parent; 	/// <summary>Transform's Data Parent Reference.</summary>
-	[SerializeField] private Vector3 _position; 	/// <summary>Transform's Data Position.</summary>
-	[SerializeField] private Quaternion _rotation; 	/// <summary>Transform's Data Rotation.</summary>
-	[SerializeField] private Vector3 _eulerAngles; 	/// <summary>Rotation representaiton in angles.</summary>
-	[SerializeField] private Vector3 _scale; 		/// <summary>Transform's Data Scale.</summary>
-	private Vector3 _right; 						/// <summary>Transform's Data Local Right Vector.</summary>
-	private Vector3 _up; 							/// <summary>Transform's Data Local Up Vector.</summary>
-	private Vector3 _forward; 						/// <summary>Transform's Data Local Forward Vector.</summary>
+	[SerializeField] private Transform _parent; 							/// <summary>Transform's Data Parent Reference.</summary>
+	[SerializeField] private Vector3 _position; 							/// <summary>Transform's Data Position.</summary>
+	[SerializeField] private Quaternion _rotation; 							/// <summary>Transform's Data Rotation.</summary>
+	[SerializeField] private Vector3 _eulerAngles; 							/// <summary>Rotation representaiton in angles.</summary>
+	[SerializeField] private Vector3 _scale; 								/// <summary>Transform's Data Scale.</summary>
+	private Vector3 _right; 												/// <summary>Transform's Data Local Right Vector.</summary>
+	private Vector3 _up; 													/// <summary>Transform's Data Local Up Vector.</summary>
+	private Vector3 _forward; 												/// <summary>Transform's Data Local Forward Vector.</summary>
+#if UNITY_EDITOR
+	public bool hideScale; 													/// <summary>Hide Scale?.</summary>
+	public bool showForLinePath; 											/// <summary>Show for Line Path?.</summary>
+	public bool showHandles; 												/// <summary>Show Handles on Editor Mode?.</summary>
+#endif
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets parent property.</summary>

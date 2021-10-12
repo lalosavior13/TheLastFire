@@ -11,6 +11,7 @@ public struct Trigger2DInformation
 	private Collider2D _collider; 	/// <summary>Collider that has been intersected with.</summary>
 	private Vector3 _contactPoint;	/// <summary>The point of intersection.</summary>
 	private Vector3 _direction; 	/// <summary>Direction of the Collider2D A towards Collider2D B.</summary>
+	private Vector3 _velocity; 		/// <summary>Object's Velocity.</summary>
 
 	/// <summary>Gets and Sets collider property.</summary>
 	public Collider2D collider
@@ -33,10 +34,17 @@ public struct Trigger2DInformation
 		set { _direction = value; }
 	}
 
+	/// <summary>Gets and Sets velocity property.</summary>
+	public Vector3 velocity
+	{
+		get { return _velocity; }
+		private set { _velocity = value; }
+	}
+
 	/// <summary>Trigger2DInformation's Constructor.</summary>
 	/// <param name="_collider">Collider2D's reference.</param>
 	/// <param name="_contactPoint">Point of contact.</param>
-	public Trigger2DInformation(Collider2D a, Collider2D b) : this()
+	public Trigger2DInformation(Collider2D a, Collider2D b, Vector3 _velocity = default(Vector3)) : this()
 	{
 		if(a == null || b == null) return;
 
@@ -45,15 +53,16 @@ public struct Trigger2DInformation
 		collider = b;
 		contactPoint = point;
 		direction = point - a.transform.position;
+		velocity = _velocity;
 	}
 
 	/// <summary>Creates a Trigger2DInformation structore from 2 Collider2Ds.</summary>
 	/// <param name="a">Collider2D A.</param>
 	/// <param name="b">Collider2D B.</param>
 	/// <returns>Trigger2DInformation given two Collider2Ds.</returns>
-	public static Trigger2DInformation Create(Collider2D a, Collider2D b)
+	public static Trigger2DInformation Create(Collider2D a, Collider2D b, Vector3 _velocity = default(Vector3))
 	{
-		return new Trigger2DInformation(a, b);
+		return new Trigger2DInformation(a, b, _velocity);
 	}
 
 	/// <returns>String representing this Trigger2D's Information.</returns>
@@ -73,6 +82,8 @@ public struct Trigger2DInformation
 		builder.AppendLine(contactPoint.ToString());
 		builder.Append("Direction: ");
 		builder.Append(direction.ToString());
+		builder.Append("Velocity: ");
+		builder.Append(velocity.ToString());
 
 		return builder.ToString();
 	}

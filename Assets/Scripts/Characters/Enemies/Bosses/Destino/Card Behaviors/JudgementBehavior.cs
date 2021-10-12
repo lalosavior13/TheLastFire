@@ -287,10 +287,10 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		/// If you wanna test all:
 #region SignsShowcase:
 		IEnumerator[] routines = VArray.RandomSet(FireShowRoutine(boss), SwordShowRoutine(boss), DanceShowRoutine(boss));
-		/*IEnumerator[] routines = new IEnumerator[3];
-		routines[0] = FireShowRoutine(boss);
-		routines[1] = SwordShowRoutine(boss);
-		routines[2] = DanceShowRoutine(boss);*/
+		//IEnumerator[] routines = new IEnumerator[3];
+		//routines[0] = FireShowRoutine(boss);
+		//routines[1] = SwordShowRoutine(boss);
+		//routines[2] = DanceShowRoutine(boss);
 
 		/*foreach(IEnumerator routine in routines)
 		{
@@ -357,25 +357,41 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		int targetsPerRound = 0;
 		int count = 0;
 		float targetsDestroyed = 0.0f;
+		//Gil Properties Test Area
+		HashSet<int> projectileSet = new HashSet<int>();
+
+		
 		OnProjectileDeactivated onTargetDeactivation = (projectile, cause, info)=>
 		{
-			switch(cause)
-			{
-				case DeactivationCause.Destroyed:
-				targetsDestroyed++;
-				count++;
-				break;
 
-				case DeactivationCause.LeftBoundaries:
-				Ray ray = fireShowWaypoints.GetTargetOriginAndDirection();
-				projectile.OnObjectReset();
-				//projectile.transform.position = ray.origin;
-				//projectile.direction = direction;
-				projectile.direction = -projectile.direction;
-				projectile.activated = true;
-				projectile.transform.position += (projectile.direction * 3.0f);
-				//Debug.DrawRay(ray.origin, ray.direction * 5.0f, Color.cyan, 5.0f);*/
-				break;
+			int ID = projectile.GetInstanceID();
+			
+
+			//Gil Modification Test
+			if(projectileSet.Contains(ID))
+			{
+				return;
+			}
+			else{
+				switch(cause)
+				{
+					case DeactivationCause.LeftBoundaries:
+					Ray ray = fireShowWaypoints.GetTargetOriginAndDirection();
+					projectile.OnObjectReset();
+					//projectile.transform.position = ray.origin;
+					//projectile.direction = direction;
+					projectile.direction = -projectile.direction;
+					projectile.activated = true;
+					projectile.transform.position += (projectile.direction * 3.0f);
+					//Debug.DrawRay(ray.origin, ray.direction * 5.0f, Color.cyan, 5.0f);*/
+					break;
+
+					default:
+						targetsDestroyed++;
+						count++;
+					break;
+				}
+				projectileSet.Add(ID);
 			}
 
 			Debug.Log("[JudgementBehavior] Targets: " + targetsPerRound + ", Targets Destroyed: " + targetsDestroyed);
@@ -388,7 +404,7 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		wait.waitDuration = clip.length;
 		targetsPerRound = fireShowTargetsPerRound.Random();
 		float fTargetsPerRound = (float)targetsPerRound;
-		targetsDestroyed = 0.0f;
+		//targetsDestroyed = 0.0f;
 		Projectile[] targets = new Projectile[targetsPerRound];
 
 		for(int j = 0; j < targetsPerRound; j++)
@@ -452,20 +468,37 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 		int targetsPerRound = 0;
 		int count = 0;
 		float targetsDestroyed = 0.0f;
+		//Gil Properties
+		HashSet<int> projectileSet = new HashSet<int>();
+
+
 		OnProjectileDeactivated onTargetDeactivation = (projectile, cause, info)=>
 		{
-			switch(cause)
+			int ID = projectile.GetInstanceID();
+			
+			
+			if(projectileSet.Contains(ID))
 			{
-				case DeactivationCause.Destroyed:
-				targetsDestroyed++;
-				count++;
-				break;
+				return;
+			}else{
 
-				case DeactivationCause.LeftBoundaries:
-				case DeactivationCause.LifespanOver:
-				count++;
-				break;
+				switch(cause)
+				{
+
+					case DeactivationCause.LeftBoundaries:
+					case DeactivationCause.LifespanOver:
+					count++;
+					break;
+
+					default:
+					targetsDestroyed++;
+					count++;
+					break;
+				}
+			projectileSet.Add(ID);
 			}
+
+			Debug.Log("[JudgementBehavior] Targets: " + targetsPerRound + ", Targets Destroyed: " + targetsDestroyed);
 		};
 
 		while(signDisplacement.MoveNext()) yield return null;

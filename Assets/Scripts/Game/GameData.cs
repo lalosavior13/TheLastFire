@@ -31,9 +31,10 @@ public class GameData : ScriptableObject
 	[SerializeField] private GameObjectTag _enemyWeaponTag; 					/// <summary>Enemy Weapon's Tag.</summary>
 	[SerializeField] private GameObjectTag _playerProjectileTag; 				/// <summary>Player Projectile's Tag.</summary>
 	[SerializeField] private GameObjectTag _enemyProjectileTag; 				/// <summary>Enemy Projectile's Tag.</summary>
-	[SerializeField] private GameObjectTag _floorTag; 							/// <summary>Floor surface's Type.</summary>
-	[SerializeField] private GameObjectTag _wallTag; 							/// <summary>Wall surface's Type.</summary>
-	[SerializeField] private GameObjectTag _ceilingTag; 						/// <summary>Ceiling surface's Type.</summary>
+	[SerializeField] private GameObjectTag _explodableTag; 						/// <summary>Explodable 's Tag.</summary>
+	[SerializeField] private GameObjectTag _floorTag; 							/// <summary>Floor surface's Type Tag.</summary>
+	[SerializeField] private GameObjectTag _wallTag; 							/// <summary>Wall surface's Type Tag.</summary>
+	[SerializeField] private GameObjectTag _ceilingTag; 						/// <summary>Ceiling surface's Type Tag.</summary>
 	[SerializeField] private GameObjectTag _outOfBoundsTag; 					/// <summary>Out-Of-Bounds' Tag.</summary>
 	[Space(5f)]
 	[Header("Layers:")]
@@ -143,6 +144,9 @@ public class GameData : ScriptableObject
 
 	/// <summary>Gets enemyProjectileTag property.</summary>
 	public GameObjectTag enemyProjectileTag { get { return _enemyProjectileTag; } }
+
+	/// <summary>Gets explodableTag property.</summary>
+	public GameObjectTag explodableTag { get { return _explodableTag; } }
 
 	/// <summary>Gets floorTag property.</summary>
 	public GameObjectTag floorTag { get { return _floorTag; } }

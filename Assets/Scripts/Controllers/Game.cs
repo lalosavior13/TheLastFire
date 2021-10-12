@@ -38,7 +38,11 @@ public class Game : Singleton<Game>
 	[SerializeField] private PlayerController _mateoController; 			/// <summary>Mateo's Controller.</summary>
 	[SerializeField] private Mateo _mateo; 									/// <summary>Mateo's Reference.</summary>
 	[SerializeField] private GameplayCameraController _cameraController; 	/// <summary>Gameplay's Camera Controller.</summary>
+	[SerializeField] private GameplayGUIController _gameplayGUIController; 	/// <summary>Gameplay's GUI Controller.</summary>
+	private Boundaries2D _defaultCameraBoundaries; 							/// <summary>Default Camera's Boundaries2D.</summary>
+	private FloatRange _defaultDistanceRange; 								/// <summary>Default Camera's Distance Range.</summary>
 
+#region Getters/Setters:
 	/// <summary>Gets and Sets data property.</summary>
 	public static GameData data
 	{
@@ -67,16 +71,46 @@ public class Game : Singleton<Game>
 		set { Instance._cameraController = value; }
 	}
 
+	/// <summary>Gets and Sets gameplayGUIController property.</summary>
+	public static GameplayGUIController gameplayGUIController
+	{
+		get { return Instance._gameplayGUIController; }
+		set { Instance._gameplayGUIController = value; }
+	}
+
+	/// <summary>Gets and Sets defaultCameraBoundaries property.</summary>
+	public static Boundaries2D defaultCameraBoundaries
+	{
+		get { return Instance._defaultCameraBoundaries; }
+		set { Instance._defaultCameraBoundaries = value; }
+	}
+
+	/// <summary>Gets and Sets defaultDistanceRange property.</summary>
+	public static FloatRange defaultDistanceRange
+	{
+		get { return Instance._defaultDistanceRange; }
+		set { Instance._defaultDistanceRange = value; }
+	}
+#endregion
+
 	/// <summary>Callback internally called immediately after Awake.</summary>
 	protected override void OnAwake()
 	{
 		data.Initialize();
+
+		defaultCameraBoundaries = cameraController.boundariesContainer.ToBoundaries2D();
+		defaultDistanceRange = cameraController.distanceAdjuster.distanceRange;
 
 		if(mateo != null)
 		{
 			AddTargetToCamera(mateo.cameraTarget);
 			mateo.eventsHandler.onIDEvent += OnMateoIDEvent;
 			mateo.health.onHealthEvent += OnMateoHealthEvent;
+		}
+
+		if(gameplayGUIController != null)
+		{
+			gameplayGUIController.canvas.worldCamera = cameraController.camera;
 		}
 	}
 
@@ -125,12 +159,31 @@ public class Game : Singleton<Game>
 		return mateo != null ? mateo.transform.position + (mateo.deltaCalculator.velocity * t) : Vector3.zero;
 	}
 
+	/// <summary>Enables player control.</summary>
+	/// <param name="_enable">Enable? True by default.</param>
+	public static void EnablePlayerControl(bool _enable = true)
+	{
+		mateoController.enabled = _enable;
+	}
+
 	/// <summary>Gets Mateo's Maximum Jump Force.</summary>
 	/// <param name="_allJumps">Predict the force of all jumps? If false, it will only project the force of the first jump.</param>
 	/// <returns>Force projection of Mateo's jumps.</returns>
 	public static Vector2 GetMateoMaxJumpingHeight(bool _allJumps = true)
 	{
 		return _allJumps ? mateo.jumpAbility.PredictForces() : mateo.jumpAbility.PredictForce(0);
+	}
+
+	/// <summary>Sets default Boundaries2D's settings for the camera.</summary>
+	public static void SetDefaultCameraBoundaries2D()
+	{
+		cameraController.boundariesContainer.Set(defaultCameraBoundaries);
+	}
+
+	/// <summary>Sets default distance range settigns for the camera.</summary>
+	public static void SetDefaultCameraDistanceRange()
+	{
+		cameraController.distanceAdjuster.distanceRange = defaultDistanceRange;
 	}
 
 	/// <summary>Adds Target's VCameraTarget into the Camera.</summary>
@@ -200,7 +253,8 @@ public class Game : Singleton<Game>
 	}
 
 	/// <summary>Callback invoked when the health of the character is depleted.</summary>
-	protected static void OnMateoHealthEvent(HealthEvent _event, float _amount = 0.0f)
+	/// <param name="_object">GameObject that caused the event, null be default.</param>
+	protected static void OnMateoHealthEvent(HealthEvent _event, float _amount = 0.0f, GameObject _object = null)
 	{
 		switch(_event)
 		{

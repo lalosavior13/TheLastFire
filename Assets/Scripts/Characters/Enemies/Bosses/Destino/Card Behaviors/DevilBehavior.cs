@@ -170,7 +170,7 @@ public class DevilBehavior : DestinoScriptableCoroutine
 		HitCollider2D leftTowerHurtBox = leftTower.GetComponentInChildren<HitCollider2D>();
 		HitCollider2D rightTowerHurtBox = rightTower.GetComponentInChildren<HitCollider2D>();
 		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
-		OnHealthInstanceEvent onHealthEvent = (_health, _event, _amount)=>
+		OnHealthInstanceEvent onHealthEvent = (_health, _event, _amount, _object)=>
 		{
 			switch(_event)
 			{

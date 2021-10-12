@@ -159,6 +159,8 @@ MonoBehaviour:
   - 1
   _impactTags: []
   _trailRenderers: []
+  _particleEffects: []
+  effect: {fileID: 0}
   _projectileType: 0
   _repelTags:
   - _tag: Weapon/Player
@@ -178,6 +180,7 @@ MonoBehaviour:
     index: 0
     objectIndex: 0
     collectionIndex: 0
+  _sourceIndex: 0
   _impactSoundEffectIndex:
     index: 0
     objectIndex: 0
@@ -384,7 +387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ID: 0
-  _detectableHitEvents: 1
+  _detectableHitEvents: 5
 --- !u!60 &800665522206241354
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -486,6 +489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ID: 1
+  _subID: 0
   _particleEffectsMatrix: []
   _soundEffectsMatrix: []
   _eventsHandler: {fileID: 0}

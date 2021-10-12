@@ -267,9 +267,9 @@ public static class VMath
 #endregion
 
 #region NormalizedPropertyFunctionOCs:
-	/*public static float Interpolate(float _initialPoint, float _finalPoint, float _t)
+	/*public static float Interpolate(float a, float b, float t)
 	{
-		return _initialPoint + (_t * (_finalPoint - _initialPoint));
+		return a + (_t * (b - a));
 	}*/
 
 	public static NormalizedPropertyFunctionOC GetEasing(Easings _easing)
@@ -384,15 +384,15 @@ public static class VMath
 	}
 
 	/// <summary>Interpolates linearly an initial value to a final value, on a normalized time, following the formula P = P0 + t(Pf - P0).</summary>
-	/// <param name="_initialPoint">Initial value [P0].</param>
-	/// <param name="_finalPoint">Destiny value [Pf].</param>
-	/// <param name="_time">Normalized t, clamped internally between -1 and 1.</param>
+	/// <param name="a">Initial value [P0].</param>
+	/// <param name="b">Destiny value [Pf].</param>
+	/// <param name="t">Normalized t, clamped internally between -1 and 1.</param>
 	/// <returns>Interpolated value on given normalized time.</returns>
-	public static float Lerp(float _initialPoint, float _finalPoint, float _time)
+	public static float Lerp(float a, float b, float t)
 	{
-		_time = Mathf.Clamp(_time, -1.0f, 1.0f);
+		t = Mathf.Clamp(t, -1.0f, 1.0f);
 
-		return _initialPoint + (_time * (_finalPoint - _initialPoint)); 
+		return a + (t * (b - a)); 
 	}
 
 	/// <summary>Evaluates sigmoid function by given x.</summary>
@@ -746,69 +746,96 @@ public static class VMath
 	}
 
 	/// <summary>Interpolates linearly an initial Vector3 to a final Vector3, on a normalized time, following the formula P = P0 + t(Pf - P0).</summary>
-	/// <param name="_initialPoint">Initial Vector3 [P0].</param>
-	/// <param name="_finalPoint">Destiny Vector3 [Pf].</param>
-	/// <param name="_time">Normalized t, clamped internally between -1 and 1.</param>
+	/// <param name="a">Initial Vector3 [P0].</param>
+	/// <param name="b">Destiny Vector3 [Pf].</param>
+	/// <param name="t">Normalized t, clamped internally between -1 and 1.</param>
 	/// <returns>Interpolated Vector3 on given normalized time.</returns>
-	public static Vector3 Lerp(Vector3 _initialPoint, Vector3 _finalPoint, float _time)
+	public static Vector3 Lerp(Vector3 a, Vector3 b, float t)
 	{
-		_time = Mathf.Clamp(_time, -1.0f, 1.0f);
+		t = Mathf.Clamp(t, -1.0f, 1.0f);
 
-		return _initialPoint + (_time * (_finalPoint - _initialPoint)); 
+		return a + (t * (b - a)); 
 	}
 
-	public static Vector3 SoomthStartN(Vector3 _initialPoint, Vector3 _finalPoint, int _exponential, float _time)
+	public static Vector3 SoomthStartN(Vector3 a, Vector3 b, int _exponential, float t)
 	{
-		_time = Mathf.Clamp(_time, -1.0f, 1.0f);
+		t = Mathf.Clamp(t, -1.0f, 1.0f);
 
-		return _initialPoint + (Mathf.Pow(_time, _exponential) * (_finalPoint - _initialPoint));
+		return a + (Mathf.Pow(t, _exponential) * (b - a));
 	}
 
-	public static Vector3 SoomthEndN(Vector3 _initialPoint, Vector3 _finalPoint, int _exponential, float _time)
+	public static Vector3 SoomthEndN(Vector3 a, Vector3 b, int _exponential, float t)
 	{
-		_time = Mathf.Clamp(_time, -1.0f, 1.0f);
+		t = Mathf.Clamp(t, -1.0f, 1.0f);
 
-		return _initialPoint + ((1f - (1f - Mathf.Pow(_time, _exponential))) * (_finalPoint - _initialPoint));
+		return a + ((1f - (1f - Mathf.Pow(t, _exponential))) * (b - a));
 	}
 
 	/// <summary>Calculates a Linear Beizer Curve point relative to the time, following the formula [B(t) = (1-t)P0 + tPf].</summary>
-	/// <param name="_initialPoint">Initial value [P0].</param>
-	/// <param name="_finalPoint">Destiny value [Pf].</param>
-	/// <param name="_time">Normalized t, clamped internally between -1 and 1.</param>
+	/// <param name="a">Initial value [P0].</param>
+	/// <param name="b">Destiny value [Pf].</param>
+	/// <param name="t">Normalized t, clamped internally between -1 and 1.</param>
 	/// <returns>Linear Beizer Curve point relative to given normalized time.</returns>
-	public static Vector3 LinearBeizer(Vector3 _initialPoint, Vector3 _finalPoint, float _time)
+	public static Vector3 LinearBeizer(Vector3 a, Vector3 b, float t)
 	{
-		_time = Mathf.Clamp(_time, -1.0f, 1.0f);
+		t = Mathf.Clamp(t, -1.0f, 1.0f);
 
-		return ((1.0f - _time) * _initialPoint) + (_time * _finalPoint);
+		return ((1.0f - t) * a) + (t * b);
 	}
 
 	/// \TODO Clean the following Beizer Curve functions to a formula that doesn't call Linear Beizer n times.
 	/// <summary>Calculates a Cuadratic Beizer Curve point relative to the time, following the formula [B(P0,P1,P2,t) = (1-t)B(P0,P1,t) + tB(P1,P2,t)].</summary>
-	/// <param name="_initialPoint">Initial value [P0].</param>
-	/// <param name="_finalPoint">Destiny value [Pf].</param>
-	/// <param name="_tangent">Tanget vector between initialPoint and finalPoint [P1].</param>
-	/// <param name="_time">Normalized t, clamped internally between -1 and 1.</param>
+	/// <param name="a">Initial value [P0].</param>
+	/// <param name="b">Destiny value [Pf].</param>
+	/// <param name="x">Tanget vector between initialPoint and finalPoint [P1].</param>
+	/// <param name="t">Normalized t, clamped internally between -1 and 1.</param>
 	/// <returns>Cuadratic Beizer Curve point relative to given normalized time.</returns>
-	public static Vector3 CuadraticBeizer(Vector3 _initialPoint, Vector3 _finalPoint, Vector3 _tangent, float _time)
+	public static Vector3 CuadraticBeizer(Vector3 a, Vector3 b, Vector3 x, float t)
 	{
-		_time = Mathf.Clamp(_time, -1.0f, 1.0f);
+		t = Mathf.Clamp(t, -1.0f, 1.0f);
 
-		return LinearBeizer(LinearBeizer(_initialPoint, _tangent, _time), LinearBeizer(_tangent, _finalPoint, _time), _time);
+		return LinearBeizer(
+			LinearBeizer(a, x, t),
+			LinearBeizer(x, b, t),
+			t
+		);
 	}
 
 	/// <summary>Calculates a Cubic Beizer Curve point relative to the time, following the formula [B(P0,P1,P2,t) = (1-t)B(P0,P1,t) + tB(P1,P2,t)].</summary>
-	/// <param name="_initialPoint">Initial value [P0].</param>
-	/// <param name="_finalPoint">Destiny value [Pf].</param>
-	/// <param name="_startTangent">First tanget vector between initialPoint and finalPoint [P1].</param>
-	/// <param name="_endTangent">Second tangent vector petween initialPoint and finalPoint [P2].</param>
-	/// <param name="_time">Normalized t, clamped internally between -1 and 1.</param>
+	/// <param name="a">Initial value [P0].</param>
+	/// <param name="b">Destiny value [Pf].</param>
+	/// <param name="x">First tanget vector between initialPoint and finalPoint [P1].</param>
+	/// <param name="y">Second tangent vector petween initialPoint and finalPoint [P2].</param>
+	/// <param name="t">Normalized t, clamped internally between -1 and 1.</param>
 	/// <returns>Cubic Beizer Curve point relative to given normalized time.</returns>
-	public static Vector3 CubicBeizer(Vector3 _initialPoint, Vector3 _finalPoint, Vector3 _startTangent, Vector3 _endTangent, float _time)
+	public static Vector3 CubicBeizer(Vector3 a, Vector3 b, Vector3 x, Vector3 y, float t)
 	{
-		_time = Mathf.Clamp(_time, -1.0f, 1.0f);
+		t = Mathf.Clamp(t, -1.0f, 1.0f);
 
-		return LinearBeizer(CuadraticBeizer(_initialPoint, _startTangent, _endTangent, _time), CuadraticBeizer(_startTangent, _endTangent, _finalPoint, _time), _time);
+		Vector3 ax = LinearBeizer(a, x, t);
+		Vector3 xy = LinearBeizer(x, y, t);
+		Vector3 yb = LinearBeizer(y, b, t);
+
+		return LinearBeizer(
+			LinearBeizer(ax, xy, t),
+			LinearBeizer(xy, yb, t),
+			t
+		);
+	}
+
+	/// \TODO IDK!!
+	public static Vector3 NBeizer(Vector3 a, Vector3 b, float t, params Vector3[] x)
+	{
+		if(x == null || x.Length <= 0) return LinearBeizer(a, b, t);
+
+		Vector3[] lbs = new Vector3[x.Length - 1];
+
+		for(int i = 0; i < x.Length; i++)
+		{
+
+		}
+
+		return Vector3.zero;
 	}
 
 	/// <summary>Gets middle point between n number of points (positions).</summary>

@@ -26,6 +26,9 @@ public class RangeDrawer : VPropertyDrawer
 		float labelDimension = (updatedLabelWidth * RATIO_WIDTH_LABEL);
 		float fieldWidth = (updatedLabelWidth * RATIO_WIDTH_FIELD);
 		
+		min = _property.FindPropertyRelative("_min");
+		max = _property.FindPropertyRelative("_max");
+		
 		positionRect.x += labelWidth * 0.5f;
 		positionRect.width = labelDimension;
 		EditorGUI.LabelField(positionRect, "Min: ");

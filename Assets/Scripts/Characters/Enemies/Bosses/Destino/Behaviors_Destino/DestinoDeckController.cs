@@ -171,6 +171,7 @@ public class DestinoDeckController : DestinoScriptableCoroutine
 	/// <param name="boss">Boss' Reference.</param>
 	private void CreateDeck(DestinoBoss boss)
 	{
+		
 		/// Internal Shuffling:
 		int deckLength = boss.cards.Length;
 		int[] cardsIndices = VMath.GetUniqueRandomSet(deckLength);		/// Shuffled indices.
@@ -183,10 +184,12 @@ public class DestinoDeckController : DestinoScriptableCoroutine
 
 			deck.Push(card);
 			card.transform.position = boss.transform.position;
+			card.transform.rotation = faceDownRotation;
 			card.transform.localScale = Vector3.zero;
 			card.gameObject.SetActive(true);
 			//card. transform.position = deckPoint.WithAddedZ(_cardOffset);
 		}
+		
 	}
 
 	/// <summary>Returns card into deck.</summary>
@@ -532,6 +535,8 @@ public class DestinoDeckController : DestinoScriptableCoroutine
 			card.transform.position = boss.transform.position;
 			//card.transform.rotation = faceUpRotation;
 			card.transform.rotation = faceDownRotation;
+
+			
 		}
 
 		while(t < 1.0f)

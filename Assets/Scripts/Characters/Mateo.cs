@@ -38,6 +38,7 @@ public class Mateo : Character
 	public const int ID_EVENT_HURT = 4; 										/// <summary>Mateo's Hurt Event.</summary>
 	public const int ID_EVENT_DEAD = 5; 										/// <summary>Mateo's Dead Event.</summary>
 
+	[SerializeField] private GameObject hurtBox; 								/// <summary>HurtBox's Container.</summary>
 	[Header("Rotations:")]
 	[SerializeField] private EulerRotation _stareAtBossRotation; 				/// <summary>Stare at Boss's Rotation.</summary>
 	[SerializeField] private EulerRotation _stareAtPlayerRotation; 				/// <summary>SSStare At Player's Rotation.</summary>
@@ -91,6 +92,7 @@ public class Mateo : Character
 	[Space(5f)]
 	[SerializeField] private TrailRenderer _extraJumpTrailRenderer; 			/// <summary>Extra-Jump's Trail Renderer.</summary>
 	[Space(5f)]
+	[SerializeField] private ParticleEffect _swordParticleEffect; 				/// <summary>Sword's Particle Effect when slashing.</summary>
 	[Header("Meditation's Attributes:")]
 	[SerializeField] private float _meditationWaitDuration; 					/// <summary>Meditation Wait's Duration.</summary>
 	private float _meditationWaitTime; 											/// <summary>Current Meditation's Time.</summary>
@@ -227,6 +229,9 @@ public class Mateo : Character
 
 	/// <summary>Gets walledCredential property.</summary>
 	public AnimatorCredential walledCredential { get { return _walledCredential; } }
+
+	/// <summary>Gets swordParticleEffect property.</summary>
+	public ParticleEffect swordParticleEffect { get { return _swordParticleEffect; } }
 
 	/// <summary>Gets extraJumpTrailRenderer property.</summary>
 	public TrailRenderer extraJumpTrailRenderer { get { return _extraJumpTrailRenderer; } }
@@ -470,7 +475,7 @@ public class Mateo : Character
 			case JumpAbility.STATE_ID_JUMPING:
 			animator.SetInteger(jumpStateIDCredential, JumpAbility.STATE_FLAG_JUMPING);
 			
-			if(jumpAbility.currentJumpIndex > 0 && extraJumpTrailRenderer != null)
+			if(jumpAbility.GetJumpIndex() > 0 && extraJumpTrailRenderer != null)
 			{
 				extraJumpTrailRenderer.Clear();
 				extraJumpTrailRenderer.enabled = true;
@@ -549,6 +554,7 @@ public class Mateo : Character
 
 		    case AnimationCommandState.Startup:
 		    sword.ActivateHitBoxes(false);
+		    if(swordParticleEffect != null) swordParticleEffect.gameObject.SetActive(true);
 		    //jumpAbility.gravityApplier.RequestScaleChange(GetInstanceID(), gravityScale, scaleChangePriority);
 		    break;
 
@@ -573,9 +579,17 @@ public class Mateo : Character
 	}
 
 	/// <summary>Callback invoked when the health of the character is depleted.</summary>
-	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f)
+	/// <param name="_object">GameObject that caused the event, null be default.</param>
+	protected override void OnHealthEvent(HealthEvent _event, float _amount = 0.0f, GameObject _object = null)
 	{
 		base.OnHealthEvent(_event, _amount);
+
+		Debug.Log(
+			"[Mateo] Received HealthEvent: "
+			+ _event.ToString()
+			+ " , from: "
+			+ (_object != null ? _object.name : "NONE")
+		);
 
 		switch(_event)
 		{
@@ -598,9 +612,14 @@ public class Mateo : Character
 			break;
 
 			case HealthEvent.FullyDepleted:
+			animator.SetAllLayersWeight(0.0f);
+			animator.SetLayerWeight(1, 1.0f);
 			animator.SetInteger(vitalityIDCredential, STATE_FLAG_DEAD);
 			CancelSwordAttack();
 			CancelJump();
+			dashAbility.CancelDash();
+			DischargeFire();
+			Move(Vector2.zero);
 			leftAxes = Vector2.zero;
 			this.ChangeState(ID_STATE_DEAD);
 			this.StartCoroutine(animator.WaitForAnimatorState(0, 0.0f,
@@ -632,9 +651,10 @@ public class Mateo : Character
 			break;
 
 			case false:
+			meditationWaitTime = 0.0f;
+			
 			if(!meditating) return;
 
-			meditationWaitTime = 0.0f;
 			this.RemoveStates(ID_STATE_MEDITATING);
 			animator.SetInteger(initialPoseIDCredential, 0);
 			InvokeIDEvent(ID_EVENT_MEDITATION_ENDS);
@@ -714,7 +734,7 @@ public class Mateo : Character
 
 		jumpAbility.Jump(_axes);
 
-		/*if(jumpAbility.currentJumpIndex > 0 && extraJumpTrailRenderer != null)
+		/*if(jumpAbility.GetJumpIndex() > 0 && extraJumpTrailRenderer != null)
 		{
 			extraJumpTrailRenderer.Clear();
 			extraJumpTrailRenderer.enabled = true; 
@@ -752,7 +772,9 @@ public class Mateo : Character
 		|| attacksHandler.state == AttackState.Waiting
 		|| wallEvaluator.state == WallEvaluationEvent.Bouncing
 		|| jumpAbility.HasStates(JumpAbility.STATE_ID_LANDING)) return;
-			
+		
+		//hurtBox.SetActive(false);
+		health.BeginInvincibilityCooldown();
 		Meditate(false);
 
 		int index = 0;
@@ -773,6 +795,9 @@ public class Mateo : Character
 	/// <summary>Cancels Attacks.</summary>
 	public void CancelSwordAttack()
 	{
+		//hurtBox.SetActive(true);
+		health.OnInvincibilityCooldownEnds();
+		if(swordParticleEffect != null) swordParticleEffect.gameObject.SetActive(false);
 		attacksHandler.CancelAttack();
 		sword.ActivateHitBoxes(false);
 		jumpAbility.gravityApplier.RejectScaleChange(GetInstanceID());

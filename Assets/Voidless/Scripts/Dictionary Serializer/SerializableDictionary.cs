@@ -155,16 +155,30 @@ public class SerializableDictionary<K, V> : Dictionary<K, V>, ISerializationCall
     	return copy_sufix + _repeatedKey;
     }
 }
+
+// String Key Dictionaries:
 [Serializable] public class StringStringDictionary : StringKeyDictionary<string> { /*...*/ }
 [Serializable] public class StringStringArrayDictionary : StringKeyDictionary<string[]> { /*...*/ }
+[Serializable] public class StringBoolDictionary : StringKeyDictionary<bool> { /*...*/ }
 [Serializable] public class StringIntDictionary : StringKeyDictionary<int> { /*...*/ }
 [Serializable] public class StringFloatDictionary : StringKeyDictionary<float> { /*...*/ }
+[Serializable] public class StringVector2Dictionary : StringKeyDictionary<Vector2> { /*...*/ }
+[Serializable] public class StringVector3Dictionary : StringKeyDictionary<Vector3> { /*...*/ }
+[Serializable] public class StringQuaternionDictionary : StringKeyDictionary<Quaternion> { /*...*/ }
+[Serializable] public class StringEulerRotationDictionary : StringKeyDictionary<EulerRotation> { /*...*/ }
 [Serializable] public class StringAudioClipDictionary : StringKeyDictionary<AudioClip> { /*...*/ }
+
+// Int Key Dictionaries:
 [Serializable] public class IntStringDictionary : SerializableDictionary<int, string> { /*...*/ }
+[Serializable] public class IntFloatDictionary : SerializableDictionary<int, float> { /*...*/ }
+
+// Float Key Dictionaries:
 [Serializable] public class FloatStringDictionary : SerializableDictionary<float, string> { /*...*/ }
 [Serializable] public class FloatIntDictionary : SerializableDictionary<float, int> { /*...*/ }
-[Serializable] public class IntFloatDictionary : SerializableDictionary<int, float> { /*...*/ }
+
+// GameObjectTag Key Dictionaries:
 [Serializable] public class TagIndexDictionary : SerializableDictionary<GameObjectTag, CollectionIndex> { /*...*/ }
 [Serializable] public class TagIntDictionary : SerializableDictionary<GameObjectTag, int> { /*...*/ }
 [Serializable] public class TagCollectionIndexDictionary : SerializableDictionary<GameObjectTag, CollectionIndex> { /*...*/ }
+
 }

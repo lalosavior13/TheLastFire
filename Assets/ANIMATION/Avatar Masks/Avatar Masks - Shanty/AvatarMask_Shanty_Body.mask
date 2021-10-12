@@ -1,0 +1,351 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AvatarMask_Shanty_Body
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: joints_grp
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/L_leg_jtn
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/L_leg_jtn/L_leg_jtn_2
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/L_leg_jtn/L_leg_jtn_2/L_leg_jtn_3
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/L_leg_jtn/L_leg_jtn_2/L_leg_jtn_3/L_leg_jtn_4
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/L_leg_jtn/L_leg_jtn_2/L_leg_jtn_3/L_leg_jtn_4/L_knee_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/L_leg_jtn/L_leg_jtn_2/L_leg_jtn_3/L_leg_jtn_4/L_knee_jnt/L_knee_jnt_2
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/L_leg_jtn/L_leg_jtn_2/L_leg_jtn_3/L_leg_jtn_4/L_knee_jnt/L_knee_jnt_2/L_knee_jnt_3
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/L_leg_jtn/L_leg_jtn_2/L_leg_jtn_3/L_leg_jtn_4/L_knee_jnt/L_knee_jnt_2/L_knee_jnt_3/L_knee_jnt_4
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/L_leg_jtn/L_leg_jtn_2/L_leg_jtn_3/L_leg_jtn_4/L_knee_jnt/L_knee_jnt_2/L_knee_jnt_3/L_knee_jnt_4/L_ankle_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/L_leg_jtn/L_leg_jtn_2/L_leg_jtn_3/L_leg_jtn_4/L_knee_jnt/L_knee_jnt_2/L_knee_jnt_3/L_knee_jnt_4/L_ankle_jnt/L_toe_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/L_leg_jtn/L_leg_jtn_2/L_leg_jtn_3/L_leg_jtn_4/L_knee_jnt/L_knee_jnt_2/L_knee_jnt_3/L_knee_jnt_4/L_ankle_jnt/L_toe_jnt/L_finger_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/L_leg_jtn/L_leg_jtn_2/L_leg_jtn_3/L_leg_jtn_4/L_knee_jnt/L_knee_jnt_2/L_knee_jnt_3/L_knee_jnt_4/L_ankle_jnt/L_toe_jnt/L_finger_jnt/L_fingerEnd_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_bomb01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_bomb02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_bomb03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_bomb04_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_case_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_gun_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_index_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_index_jnt/L_index01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_index_jnt/L_index01_jnt/L_index02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_index_jnt/L_index01_jnt/L_index02_jnt/L_index03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_index_jnt/L_index01_jnt/L_index02_jnt/L_index03_jnt/L_index04_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_index_jnt/L_index01_jnt/L_index02_jnt/L_index03_jnt/L_index04_jnt/L_index05_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_middle_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_middle_jnt/L_middle01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_middle_jnt/L_middle01_jnt/L_middle02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_middle_jnt/L_middle01_jnt/L_middle02_jnt/L_middle03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_middle_jnt/L_middle01_jnt/L_middle02_jnt/L_middle03_jnt/L_middle04_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_middle_jnt/L_middle01_jnt/L_middle02_jnt/L_middle03_jnt/L_middle04_jnt/L_middle05_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_pinky_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_pinky_jnt/L_pinky01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_pinky_jnt/L_pinky01_jnt/L_pinky02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_pinky_jnt/L_pinky01_jnt/L_pinky02_jnt/L_pinky03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_pinky_jnt/L_pinky01_jnt/L_pinky02_jnt/L_pinky03_jnt/L_pinky04_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_pinky_jnt/L_pinky01_jnt/L_pinky02_jnt/L_pinky03_jnt/L_pinky04_jnt/L_pinky05_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_thumb01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_thumb01_jnt/L_thumb02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_thumb01_jnt/L_thumb02_jnt/L_thumb03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/L_clavicle_jnt/L_shoulder_jnt/L_shoulder_jnt_2/L_shoulder_jnt_3/L_shoulder_jnt_4/L_elbow_jnt/L_elbow_jnt_2/L_elbow_jnt_3/L_elbow_jnt_4/L_wrist_jnt/L_thumb01_jnt/L_thumb02_jnt/L_thumb03_jnt/L_thumb04_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_cap_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_down_eyelip_bSkn
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_earring_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_eye_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_eyebrown01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_eyebrown01_jnt/L_eyebrown02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_eyebrown01_jnt/L_eyebrown02_jnt/L_eyebrown03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_eyebrown01_jnt/L_eyebrown02_jnt/L_eyebrown03_jnt/L_eyebrown04_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_eyebrown01_jnt/L_eyebrown02_jnt/L_eyebrown03_jnt/L_eyebrown04_jnt/L_eyebrown05_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_eyebrown01_jnt/L_eyebrown02_jnt/L_eyebrown03_jnt/L_eyebrown04_jnt/L_eyebrown05_jnt/L_eyebrown06_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_eyebrown01_jnt/L_eyebrown02_jnt/L_eyebrown03_jnt/L_eyebrown04_jnt/L_eyebrown05_jnt/L_eyebrown06_jnt/L_eyebrown07_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_eyebrown01_jnt/L_eyebrown02_jnt/L_eyebrown03_jnt/L_eyebrown04_jnt/L_eyebrown05_jnt/L_eyebrown06_jnt/L_eyebrown07_jnt/L_eyebrown08_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_eyebrown01_jnt/L_eyebrown02_jnt/L_eyebrown03_jnt/L_eyebrown04_jnt/L_eyebrown05_jnt/L_eyebrown06_jnt/L_eyebrown07_jnt/L_eyebrown08_jnt/L_eyebrown09_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_eyebrown01_jnt/L_eyebrown02_jnt/L_eyebrown03_jnt/L_eyebrown04_jnt/L_eyebrown05_jnt/L_eyebrown06_jnt/L_eyebrown07_jnt/L_eyebrown08_jnt/L_eyebrown09_jnt/L_eyebrown010_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_eyebrown01_jnt/L_eyebrown02_jnt/L_eyebrown03_jnt/L_eyebrown04_jnt/L_eyebrown05_jnt/L_eyebrown06_jnt/L_eyebrown07_jnt/L_eyebrown08_jnt/L_eyebrown09_jnt/L_eyebrown010_jnt/L_eyebrown011_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/L_up_eyelip_bSkn
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/M_hat_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/M_headEnd_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/M_jaw_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/M_teethDown_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/M_teethUp_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/M_tongue01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/M_tongue01_jnt/M_tongue02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/M_tongue01_jnt/M_tongue02_jnt/M_tongue03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/M_tongue01_jnt/M_tongue02_jnt/M_tongue03_jnt/M_tongue04_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/M_tongue01_jnt/M_tongue02_jnt/M_tongue03_jnt/M_tongue04_jnt/M_tongue05_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_down_eyelip_bSkn
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_earring_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_eye_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_eyebrown01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_eyebrown01_jnt/R_eyebrown02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_eyebrown01_jnt/R_eyebrown02_jnt/R_eyebrown03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_eyebrown01_jnt/R_eyebrown02_jnt/R_eyebrown03_jnt/R_eyebrown04_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_eyebrown01_jnt/R_eyebrown02_jnt/R_eyebrown03_jnt/R_eyebrown04_jnt/R_eyebrown05_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_eyebrown01_jnt/R_eyebrown02_jnt/R_eyebrown03_jnt/R_eyebrown04_jnt/R_eyebrown05_jnt/R_eyebrown06_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_eyebrown01_jnt/R_eyebrown02_jnt/R_eyebrown03_jnt/R_eyebrown04_jnt/R_eyebrown05_jnt/R_eyebrown06_jnt/R_eyebrown07_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_eyebrown01_jnt/R_eyebrown02_jnt/R_eyebrown03_jnt/R_eyebrown04_jnt/R_eyebrown05_jnt/R_eyebrown06_jnt/R_eyebrown07_jnt/R_eyebrown08_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_eyebrown01_jnt/R_eyebrown02_jnt/R_eyebrown03_jnt/R_eyebrown04_jnt/R_eyebrown05_jnt/R_eyebrown06_jnt/R_eyebrown07_jnt/R_eyebrown08_jnt/R_eyebrown09_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_eyebrown01_jnt/R_eyebrown02_jnt/R_eyebrown03_jnt/R_eyebrown04_jnt/R_eyebrown05_jnt/R_eyebrown06_jnt/R_eyebrown07_jnt/R_eyebrown08_jnt/R_eyebrown09_jnt/R_eyebrown010_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_eyebrown01_jnt/R_eyebrown02_jnt/R_eyebrown03_jnt/R_eyebrown04_jnt/R_eyebrown05_jnt/R_eyebrown06_jnt/R_eyebrown07_jnt/R_eyebrown08_jnt/R_eyebrown09_jnt/R_eyebrown010_jnt/R_eyebrown011_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/M_chest_jnt/M_neck_jnt/M_head_jnt/R_up_eyelip_bSkn
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_index_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_index_jnt/R_index01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_index_jnt/R_index01_jnt/R_index02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_index_jnt/R_index01_jnt/R_index02_jnt/R_index03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_index_jnt/R_index01_jnt/R_index02_jnt/R_index03_jnt/R_index04_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_index_jnt/R_index01_jnt/R_index02_jnt/R_index03_jnt/R_index04_jnt/R_index05_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_middle_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_middle_jnt/R_middle01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_middle_jnt/R_middle01_jnt/R_middle02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_middle_jnt/R_middle01_jnt/R_middle02_jnt/R_middle03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_middle_jnt/R_middle01_jnt/R_middle02_jnt/R_middle03_jnt/R_middle04_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_middle_jnt/R_middle01_jnt/R_middle02_jnt/R_middle03_jnt/R_middle04_jnt/R_middle05_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_pinky_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_pinky_jnt/R_pinky01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_pinky_jnt/R_pinky01_jnt/R_pinky02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_pinky_jnt/R_pinky01_jnt/R_pinky02_jnt/R_pinky03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_pinky_jnt/R_pinky01_jnt/R_pinky02_jnt/R_pinky03_jnt/R_pinky04_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_pinky_jnt/R_pinky01_jnt/R_pinky02_jnt/R_pinky03_jnt/R_pinky04_jnt/R_pinky05_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_thumb01_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_thumb01_jnt/R_thumb02_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_thumb01_jnt/R_thumb02_jnt/R_thumb03_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_spine02_jnt/M_spine03_jnt/R_clavicle_jnt/R_shoulder_jnt/R_shoulder_jnt_2/R_shoulder_jnt_3/R_shoulder_jnt_4/R_elbow_jnt/R_elbow_jnt_2/R_elbow_jnt_3/R_elbow_jnt_4/R_wrist_jnt/R_thumb01_jnt/R_thumb02_jnt/R_thumb03_jnt/R_thumb04_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/M_sword_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/R_leg_jtn
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/R_leg_jtn/R_leg_jtn_2
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/R_leg_jtn/R_leg_jtn_2/R_leg_jtn_3
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/R_leg_jtn/R_leg_jtn_2/R_leg_jtn_3/R_leg_jtn_4
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/R_leg_jtn/R_leg_jtn_2/R_leg_jtn_3/R_leg_jtn_4/R_knee_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/R_leg_jtn/R_leg_jtn_2/R_leg_jtn_3/R_leg_jtn_4/R_knee_jnt/R_knee_jnt_2
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/R_leg_jtn/R_leg_jtn_2/R_leg_jtn_3/R_leg_jtn_4/R_knee_jnt/R_knee_jnt_2/R_knee_jnt_3
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/R_leg_jtn/R_leg_jtn_2/R_leg_jtn_3/R_leg_jtn_4/R_knee_jnt/R_knee_jnt_2/R_knee_jnt_3/R_knee_jnt_4
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/R_leg_jtn/R_leg_jtn_2/R_leg_jtn_3/R_leg_jtn_4/R_knee_jnt/R_knee_jnt_2/R_knee_jnt_3/R_knee_jnt_4/R_ankle_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/R_leg_jtn/R_leg_jtn_2/R_leg_jtn_3/R_leg_jtn_4/R_knee_jnt/R_knee_jnt_2/R_knee_jnt_3/R_knee_jnt_4/R_ankle_jnt/R_toe_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/R_leg_jtn/R_leg_jtn_2/R_leg_jtn_3/R_leg_jtn_4/R_knee_jnt/R_knee_jnt_2/R_knee_jnt_3/R_knee_jnt_4/R_ankle_jnt/R_toe_jnt/R_finger_jnt
+    m_Weight: 1
+  - m_Path: joints_grp/ROOT_jnt/M_spine01_jnt/R_leg_jtn/R_leg_jtn_2/R_leg_jtn_3/R_leg_jtn_4/R_knee_jnt/R_knee_jnt_2/R_knee_jnt_3/R_knee_jnt_4/R_ankle_jnt/R_toe_jnt/R_finger_jnt/R_fingerEnd_jnt
+    m_Weight: 1
+  - m_Path: mesh_grp
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Arm_Bracelet
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Beard
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Belt
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Body
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Bombs
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Cape
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Chest_Strap
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Coat
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Earing
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Eye_L
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Eye_R
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Eyebrown
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Face
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Gun
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Handcoat
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Hat
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Pans
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Shirt
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Sword
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Swordsheet
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Teeth
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Tonge
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Underneals
+    m_Weight: 1
+  - m_Path: mesh_grp/Mesh_Vest
+    m_Weight: 1

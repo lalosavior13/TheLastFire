@@ -1,0 +1,250 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Forest-River-4
+  m_Shader: {fileID: 4800000, guid: d530c13914ddeaa4fb7d0b0fd49687f3, type: 3}
+  m_ShaderKeywords: _SMOOTHNESSMODE_STANDARD
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 114b40810568bb14382fe003c4f290ef, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FOAMHORIZONTAL_FoamMap:
+        m_Texture: {fileID: 2800000, guid: a6f76f1c09bfa134bb50a638153c0860, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FOAMVERTICAL_FoamMap:
+        m_Texture: {fileID: 2800000, guid: 45327f7a63fee554b9d74f35d2935c83, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamMapOffshore:
+        m_Texture: {fileID: 2800000, guid: 45327f7a63fee554b9d74f35d2935c83, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamMapShoreline:
+        m_Texture: {fileID: 2800000, guid: 45327f7a63fee554b9d74f35d2935c83, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamShoreline_FoamMap:
+        m_Texture: {fileID: 2800000, guid: c50a55a84a1e5614cb57a9840d8fd08a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OffshoreFoamMap:
+        m_Texture: {fileID: 2800000, guid: 45327f7a63fee554b9d74f35d2935c83, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OffshoreFoam_Map:
+        m_Texture: {fileID: 2800000, guid: 45327f7a63fee554b9d74f35d2935c83, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Reflection_Cubemap:
+        m_Texture: {fileID: 8900000, guid: a1704a19db73b824eb9317a49fc20e49, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShorelineFoamMap:
+        m_Texture: {fileID: 2800000, guid: 45327f7a63fee554b9d74f35d2935c83, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShorelineFoam_Map:
+        m_Texture: {fileID: 2800000, guid: 45327f7a63fee554b9d74f35d2935c83, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaterNormal_Horizontal_Vertical_NormalMap:
+        m_Texture: {fileID: 2800000, guid: 09e350b54acf68c4ca8b3f46a5a64977, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaterNormal_NormalMap:
+        m_Texture: {fileID: 2800000, guid: 09e350b54acf68c4ca8b3f46a5a64977, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaterNormal_Vertical_NormalMap:
+        m_Texture: {fileID: 2800000, guid: 09e350b54acf68c4ca8b3f46a5a64977, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex4coord4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AlphaCutoff: 0.5
+    - _AlphatoCoverage: 0
+    - _ColorMask: 15
+    - _CullMode: 0
+    - _DepthOffset: 0.54
+    - _FOAMHORIZONTAL_Distance: 10
+    - _FOAMHORIZONTAL_FlowStrength: 1
+    - _FOAMHORIZONTAL_ModeFlowType: 1
+    - _FOAMHORIZONTAL_ModeUV: 2
+    - _FOAMHORIZONTAL_NormalStrength: 2
+    - _FOAMHORIZONTAL_Speed: 0.015
+    - _FOAMHORIZONTAL_TilingX: 1.5
+    - _FOAMHORIZONTAL_TilingY: 1.5
+    - _FOAMHORIZONTAL_Timescale: 1
+    - _FOAMHORIZONTAL_TintStrength: 0.92
+    - _FOAMVERTICAL_Distance: 5
+    - _FOAMVERTICAL_FlowStrength: 1
+    - _FOAMVERTICAL_ModeFlowType: 0
+    - _FOAMVERTICAL_ModeUV: 0
+    - _FOAMVERTICAL_NormalStrength: 0.5
+    - _FOAMVERTICAL_Speed: 0.5
+    - _FOAMVERTICAL_TilingX: 6
+    - _FOAMVERTICAL_TilingY: 6
+    - _FOAMVERTICAL_Timescale: 1
+    - _FOAMVERTICAL_TintStrength: 1
+    - _FlowDirectionNormal: 1
+    - _FlowDirectionOffshore: 1
+    - _FlowDirectionShoreline: 1
+    - _FoamNormalStrength_Offshore: 0.002
+    - _FoamNormalStrength_Shoreline: 0.002
+    - _FoamShoreline_Distance: 3.7
+    - _FoamShoreline_FlowStrength: 1
+    - _FoamShoreline_ModeFlowType: 1
+    - _FoamShoreline_NormalStrength: 0.5
+    - _FoamShoreline_Speed: 0.025
+    - _FoamShoreline_Timescale: 1
+    - _FoamShoreline_TintStrength: 5
+    - _GlossyReflections: 1
+    - _ModeUV_Shoreline: 1
+    - _NormalMapSpeed: 120
+    - _NormalMapStrength: 0.5
+    - _NormalMapTiling: 0.5
+    - _NormalMapTilingX: 2
+    - _NormalMapTilingY: 2
+    - _NormalMapTillingMode: 0
+    - _NormalMapTimescale: 0.6
+    - _OffshoreFoamDistance: 1
+    - _OffshoreFoamSpeed: 240
+    - _OffshoreFoamStrength: 0.08
+    - _OffshoreFoamTiling: 0.125
+    - _OffshoreFoamTilingX: 0.125
+    - _OffshoreFoamTilingY: 0.125
+    - _OffshoreFoamTillingMode: 0
+    - _OffshoreFoamTimescale: 0.6
+    - _OffshoreFoam_Distance: 0.1
+    - _OffshoreFoam_FlowDirectionMode: 1
+    - _OffshoreFoam_FoamStrength: 0.299
+    - _OffshoreFoam_Speed: 160
+    - _OffshoreFoam_TilingX: 2
+    - _OffshoreFoam_TilingY: 2
+    - _OffshoreFoam_TillingMode: 1
+    - _OffshoreFoam_Timescale: 0.6
+    - _Opacity: 0.112
+    - _OpacityShoreline: 1.56
+    - _Reflection_BumpClamp: 0.15
+    - _Reflection_BumpScale: 1
+    - _Reflection_Cloud: 0.3
+    - _Reflection_FresnelBias: 1
+    - _Reflection_FresnelMode: 1
+    - _Reflection_FresnelScale: 1
+    - _Reflection_FresnelStrength: 0.05
+    - _Reflection_LOD: 0
+    - _Reflection_Mode: 1
+    - _Reflection_ModeURP: 0
+    - _Reflection_Smoothness: 0.13
+    - _Reflection_Wobble: 0.017
+    - _RefractionScale: 1
+    - _SMOOTHNESS_FresnelBias: 1
+    - _SMOOTHNESS_FresnelPower: 10
+    - _SMOOTHNESS_FresnelScale: 1
+    - _SMOOTHNESS_ReduceHorizon: 1
+    - _SMOOTHNESS_Strength: 0.96
+    - _Shininess: 0.377
+    - _ShorelineDepth: 12.4
+    - _ShorelineFoamDistance: 1
+    - _ShorelineFoamSpeed: 240
+    - _ShorelineFoamStrength: 0.01
+    - _ShorelineFoamTiling: 0.3
+    - _ShorelineFoamTilingX: 0.3
+    - _ShorelineFoamTilingY: 0.3
+    - _ShorelineFoamTillingMode: 0
+    - _ShorelineFoamTimescale: 0.6
+    - _ShorelineFoam_Distance: 0.3
+    - _ShorelineFoam_FlowDirectionMode: 1
+    - _ShorelineFoam_FoamStrength: 0.039
+    - _ShorelineFoam_Speed: 120
+    - _ShorelineFoam_TilingX: 3
+    - _ShorelineFoam_TilingY: 3
+    - _ShorelineFoam_TillingMode: 1
+    - _ShorelineFoam_Timescale: 0.6
+    - _ShorelineOffset: -0.154
+    - _Smoothness: 0.975
+    - _SmoothnessBias: 0.139
+    - _SmoothnessCullModeWater: 0
+    - _SmoothnessFresnel: 0.241
+    - _SmoothnessMode: 0
+    - _SmoothnessModeWater: 1
+    - _SmoothnessPower: 7.14
+    - _SmoothnessReduceHorizon: 0
+    - _SmoothnessScale: 0.079
+    - _SmoothnessStrength: 0.963
+    - _SmoothnessThreshold: 0.5
+    - _SmoothnessVariance: 1
+    - _SpecularHighlights: 1
+    - _SpecularWrap: 0.2
+    - _Specular_Mode: 2
+    - _Specular_Strength: 0.5
+    - _TilingX_Shoreline: 5
+    - _TilingY_Shoreline: 5
+    - _URP_SpecularStrength: 0.5
+    - _WaterNormal_FlowDirection: 1
+    - _WaterNormal_Horizontal_FlowStrength: 1
+    - _WaterNormal_Horizontal_FlowType: 2
+    - _WaterNormal_Horizontal_NormalStrength: 0.8
+    - _WaterNormal_Horizontal_Speed: 0.4
+    - _WaterNormal_Horizontal_TilingX: 4
+    - _WaterNormal_Horizontal_TilingY: 4
+    - _WaterNormal_Horizontal_Timescale: 1
+    - _WaterNormal_NormalMapSpeed: 120
+    - _WaterNormal_NormalMapStrength: 1
+    - _WaterNormal_TilingX: 1
+    - _WaterNormal_TilingY: 1
+    - _WaterNormal_TillingMode: 1
+    - _WaterNormal_Timescale: 1
+    - _WaterNormal_Vertical_FlowStrength: 0.5
+    - _WaterNormal_Vertical_FlowType: 0
+    - _WaterNormal_Vertical_NormalStrength: 1
+    - _WaterNormal_Vertical_Speed: 0.25
+    - _WaterNormal_Vertical_TilingX: 4
+    - _WaterNormal_Vertical_TilingY: 2.5
+    - _WaterNormal_Vertical_Timescale: 1
+    - _ZTestMode: 4
+    - _ZWriteMode: 1
+    - __dirty: 1
+    m_Colors:
+    - _DepthTint: {r: 0.024569444, g: 0.027791666, b: 0.029000001, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FOAMHORIZONTAL_Tint: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 0}
+    - _FOAMVERTICAL_Tint: {r: 1, g: 1, b: 1, a: 1}
+    - _FoamShoreline_Tint: {r: 0.02, g: 0.02, b: 0.02, a: 0}
+    - _MidwaterTint: {r: 0.40131578, g: 0.48355263, b: 0.5, a: 1}
+    - _OffshoreFoamTint: {r: 1, g: 1, b: 1, a: 1}
+    - _OffshoreFoam_Tint: {r: 0.7, g: 0.7, b: 0.7, a: 0}
+    - _ShorelineFoamTint: {r: 1, g: 1, b: 1, a: 1}
+    - _ShorelineFoam_Tint: {r: 1.0039217, g: 1.0039217, b: 1.0039217, a: 0}
+    - _ShorelineTint: {r: 0.01, g: 0.01, b: 0.0077299997, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
+    - _Specular_Tint: {r: 0.08, g: 0.1, b: 0.1, a: 0}
+    - _URP_SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

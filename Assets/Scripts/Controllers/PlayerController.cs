@@ -275,6 +275,8 @@ public class PlayerController : Singleton<PlayerController>
 	/// <summary>Updates PlayerController's instance at each Physics Thread's frame.</summary>
 	private void FixedUpdate()
 	{
+		if(mateo == null || !mateo.HasStates(Character.ID_STATE_ALIVE)) return;
+		
 		if(leftAxes.x != 0.0f) mateo.Move(leftAxes.WithY(0.0f), Mathf.Abs(leftAxes.x) > movementAxesThreshold ? 1.0f : lowSpeedScalar);
 	}
 }

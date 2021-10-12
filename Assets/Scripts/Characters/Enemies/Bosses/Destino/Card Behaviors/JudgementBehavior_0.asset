@@ -17,23 +17,23 @@ MonoBehaviour:
   _fireShowPieceIndex:
     index: 2
     objectIndex: 0
-    collectionIndex: 4
+    collectionIndex: 5
   _swordShowPieceIndex:
     index: 3
     objectIndex: 0
-    collectionIndex: 4
+    collectionIndex: 5
   _danceShowPieceIndex:
     index: 4
     objectIndex: 0
-    collectionIndex: 4
+    collectionIndex: 5
   _applauseSoundIndex:
     index: 14
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 6
   _booingSoundIndex:
     index: 15
     objectIndex: 0
-    collectionIndex: 5
+    collectionIndex: 6
   _fireShowSignSpawnPoint: {x: 0, y: 14, z: 9}
   _swordShowSignSpawnPoint: {x: 0, y: 14, z: 9}
   _danceShowSignSpawnPoint: {x: 0, y: 14, z: 9}
@@ -47,10 +47,10 @@ MonoBehaviour:
   _fireTargetIndices:
   - index: 4
     objectIndex: 0
-    collectionIndex: 1
+    collectionIndex: 2
   - index: 5
     objectIndex: 0
-    collectionIndex: 1
+    collectionIndex: 2
   _fireShowWaypoints:
     _ceilingWaypoints:
     - {x: -16, y: 11, z: 1}
@@ -85,7 +85,7 @@ MonoBehaviour:
   _swordTargetIndices:
   - index: 7
     objectIndex: 0
-    collectionIndex: 1
+    collectionIndex: 2
   _swordTargetsSpawnWaypoints:
   - {x: -12, y: 19, z: 0}
   - {x: -7, y: 19, z: 0}
@@ -116,13 +116,13 @@ MonoBehaviour:
   _ringsIndices:
   - index: 2
     objectIndex: 0
-    collectionIndex: 2
+    collectionIndex: 3
   - index: 3
     objectIndex: 0
-    collectionIndex: 2
+    collectionIndex: 3
   - index: 4
     objectIndex: 0
-    collectionIndex: 2
+    collectionIndex: 3
   _ySpawnLimits:
     _min: 2
     _max: 2.5

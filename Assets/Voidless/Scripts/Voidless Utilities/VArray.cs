@@ -7,6 +7,13 @@ namespace Voidless
 {
 public static class VArray
 {
+	/// <returns>Randomized Array.</returns>
+	public static T[] Randomized<T>(this T[] _array)
+	{
+		return RandomSet<T>(_array);
+
+	}
+
 	/// <summary>Resizes Array, initializes it if it is null.</summary>
 	/// <param name="_array">Array to resize.</param>
 	public static void Resize<T>(ref T[] _array, int _size)

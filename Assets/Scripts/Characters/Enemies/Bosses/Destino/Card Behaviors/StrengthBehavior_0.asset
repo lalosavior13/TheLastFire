@@ -20,7 +20,7 @@ MonoBehaviour:
   _drumstickSoundIndex:
     index: 33
     objectIndex: 0
-    collectionIndex: 7
+    collectionIndex: 6
   _drumstickPhaseCredential:
     _tag: DrumstickPhase
     _ID: 1695110616
@@ -28,7 +28,7 @@ MonoBehaviour:
     _min: 2
     _max: 4
   _leftDrumstickSpawnPoint: {x: -22, y: 1.25, z: 0}
-  _rightDrumstickSpawnPoint: {x: 22, y: 1.25, z: 0}
+  _rightDrumstickSpawnPoint: {x: 22, y: 0, z: 0}
   _orientationVector:
     _x: 0
     _y: 1
@@ -37,6 +37,7 @@ MonoBehaviour:
     _x: 0
     _y: 0
     _z: 1
+  _drumstickOffsetX: 15
   _dotTolerance: 0.001
   _drumstickShakeDuration: 0.3
   _drumstickShakeSpeed: 5
@@ -102,13 +103,13 @@ MonoBehaviour:
       buildUpEventID: 0
       swingEventID: 0
   _trumpetSoundIndex:
-    index: 32
+    index: 6
     objectIndex: 0
-    collectionIndex: 7
+    collectionIndex: 6
   _activateTrumpetCredential:
     _tag: Activate
     _ID: 1326475003
-  _trumpetSpawnPoint: {x: 0, y: 17, z: 0}
+  _trumpetSpawnPoint: {x: 0, y: 55, z: 0}
   _trumpetDestinyPoint: {x: 0, y: 12, z: 0}
   _entranceDuration: 1
   _exitDuration: 0.5
@@ -116,11 +117,11 @@ MonoBehaviour:
   _trumpetShakeDuration: 2
   _trumpetShakeSpeed: 10
   _trumpetShakeMagnitude: 2
-  _cymbalsSpawnPosition: {x: 0, y: 9, z: 0}
+  _cymbalsSpawnPosition: {x: 0, y: 0, z: 0}
   _cymbalSoundIndex:
-    index: 34
+    index: 11
     objectIndex: 0
-    collectionIndex: 7
+    collectionIndex: 6
   _cymbalIndex:
     index: 3
     objectIndex: 0
@@ -134,12 +135,18 @@ MonoBehaviour:
     _rotation: {x: 0, y: 0, z: 0, w: 1}
     _eulerAngles: {x: -0, y: 0, z: 0}
     _scale: {x: 1, y: 1, z: 1}
+    hideScale: 0
+    showForLinePath: 0
+    showHandles: 0
   _rightCymbalSpawnPoint:
     _parent: {fileID: 0}
     _position: {x: 22, y: 3.5, z: 0}
     _rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
     _eulerAngles: {x: -0, y: 180, z: 0}
     _scale: {x: 1, y: 1, z: 1}
+    hideScale: 0
+    showForLinePath: 0
+    showHandles: 0
   _cooldownAfterSoundNote: 0.1
   testDebugIndex: 1
   debugIndex: 0

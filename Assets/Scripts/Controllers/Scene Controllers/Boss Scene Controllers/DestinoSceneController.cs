@@ -301,12 +301,13 @@ public class DestinoSceneController : Singleton<DestinoSceneController>
 				{
 					Game.data.FSMLoops[mainLoopIndex].ChangeState(testLoopState);
 					Game.data.FSMLoops[mainLoopVoiceIndex].ChangeState(testLoopState);
-					destino.Sing();
+					//destino.Sing();
 				}
 #endregion
 
 				AudioController.PlayFSMLoop(0, mainLoopIndex, true);
 				AudioController.PlayFSMLoop(1, mainLoopVoiceIndex, true);
+				destino.Sing();
 				destino.RequestCard();
 			});
 			break;

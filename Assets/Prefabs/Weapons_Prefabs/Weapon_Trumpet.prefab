@@ -151,11 +151,12 @@ MonoBehaviour:
   _healthAffectableTags:
   - _tag: Player
     index: 5
-  _damage: 5
+  _damage: 1
   _damageScales:
   - 1
   _impactTags: []
   _trailRenderers: []
+  _particleEffects: []
 --- !u!114 &8985396009874189859
 MonoBehaviour:
   m_ObjectHideFlags: 0

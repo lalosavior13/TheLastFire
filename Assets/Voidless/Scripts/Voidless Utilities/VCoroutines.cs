@@ -832,6 +832,7 @@ public static class VCoroutines
 	*/
 	public static IEnumerator WaitForAnimatorState(this Animator _animator, int _layerIndex = 0, float _additionalWait = 0.0f, Action onAnimatorStateEnds = null)
 	{
+		/// Wait one frame after changing the Animator's parameters.
 		yield return null;
 
 		AnimatorStateInfo info = _animator.GetCurrentAnimatorStateInfo(_layerIndex);
@@ -841,6 +842,110 @@ public static class VCoroutines
 
 		if(onAnimatorStateEnds != null) onAnimatorStateEnds();
 	}
+
+	/// <summary>Plays Animation and waits until it ends.</summary>
+	/// <param name="_animation">Animation Component.</param>
+	/// <param name="_clip">AnimationClip to play.</param>
+	/// <param name="_mode">PlayMode [PlayMode.StopSameLayer bu default].</param>
+	/// <param name="_additionalWait">Additional Wait [0.0f by default].</param>
+	/// <param name="onAnimationEnds">Callback invoked when animation ends.</param>
+	public static IEnumerator PlayAnimationAndWait(this Animation _animation, AnimationClip _clip, PlayMode _mode = PlayMode.StopSameLayer, float _additionalWait = 0.0f, Action onAnimationEnds = null)
+	{
+		_animation.Play(_clip, _mode);
+
+		AnimationState animationState = _animation.GetAnimationState(_clip);
+		SecondsDelayWait wait = new SecondsDelayWait(animationState.clip.length + _additionalWait);
+
+		while(wait.MoveNext()) yield return null;
+
+		if(onAnimationEnds != null) onAnimationEnds();
+	}
+
+	/// <summary>Waits for Animation to end.</summary>
+	/// <param name="_animation">Animation's Component.</param>
+	/// <param name="_clip">AnimationClip that it is expected to end.</param>
+	/// <param name="onAnimationEnds">Optional callback invoked when AnimationClip ends.</param>
+	public static IEnumerator WaitForAnimationToEnd(this Animation _animation, AnimationClip _clip, Action onAnimationEnds = null)
+	{
+		AnimationState animationState = _animation.GetAnimationState(_clip);
+
+		if(animationState == null || !animationState.enabled)
+		{
+			if(onAnimationEnds != null) onAnimationEnds();
+			yield break;
+		}
+
+		while(animationState.normalizedTime < 1.0f)
+		{
+			Debug.Log(
+				"[VCoroutines] AnimationClip "
+				+ animationState.clip.name
+				+ " Normalized Time: "
+				+ animationState.normalizedTime
+			);
+			yield return null;
+		}
+
+		if(onAnimationEnds != null) onAnimationEnds();
+	}
+
+	/// <summary>Sincronizes animation so certain frame of the animation matches a time.</summary>
+	/// <param name="_animation">Animation Component.</param>
+	/// <param name="_clip">AnimationClip to match with given time.</param>
+	/// <param name="_frame">Desired animation's frame that must match the time.</param>
+	/// <param name="_duration">Time's Duration.</param>
+	public static IEnumerator PlayAndSincronizeAnimationWithTime(this Animation _animation, AnimationClip _clip, int _frame, float _duration, Action onAnimationEnds = null)
+	{
+		//_frame = Mathf.Max(_frame - 1, 0);
+		_duration -= Time.deltaTime;
+		AnimationState state = _animation.GetAnimationState(_clip);
+
+		state.speed = 1.0f;
+
+		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
+		float f = (float)_frame;
+		float dt = 1.0f / _clip.frameRate;						/// Ideal Delta Time.
+		float time = (f * dt) / state.speed; 					/// Time in frames it will take to reach the desired frame.
+		float difference = _duration - time;
+
+		Debug.Log(
+			"[VCoroutines] Frame:"
+			+ f
+			+ ", Frame Rate: "
+			+ _clip.frameRate
+			+ ", Delta Time (1.0/fr): "
+			+ dt
+			+ ", Time ([f * dt / speed]): "
+			+ time
+			+ ", Duration: "
+			+ _duration
+			+ ", Difference: "
+			+ difference
+			+ ", Speed: "
+			+ state.speed
+		);
+
+		if(difference > 0.0f)
+		{ /// Duration lasts more than the desired frame.
+			Debug.Log("[VCoroutines] Time before wait: " + Time.time);
+			wait.ChangeDurationAndReset(difference - Time.deltaTime);
+			while(wait.MoveNext()) yield return null;
+			Debug.Log("[VCoroutines] Time after wait: " + Time.time);
+
+		} else if(difference < 0.0f)
+		{ /// Time towards desired frame lasts more than duration.
+			state.speed = time / _duration; 					/// Make speed faster so it synchs with time.
+			Debug.Log("[VCoroutines] Speed adjusted to " + state.speed.ToString());
+		}
+
+		Debug.Log("[VCoroutines] Time before playing animation: " + Time.time);
+		_animation.Play(_clip);
+		wait.ChangeDurationAndReset(state.length * state.speed);
+		while(wait.MoveNext()) yield return null;
+
+		if(onAnimationEnds != null) onAnimationEnds();
+	}
+
 #endregion
 
 }
