@@ -34,7 +34,7 @@ namespace Flamingo
         IEnumerator DestroyObj()
         {
             yield return new WaitForSeconds(1.8f);
-            btm.ClearList();
+           // btm.ClearList();
             impactHandler.eventsHandler.InvokeDeactivationEvent(DeactivationCause.Destroyed);
            
             OnObjectDeactivation();
