@@ -5,22 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Scene_ChangeScenes.unity
     guid: 217633238a93cb844b0325f5a289b76c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Interface/Scene_LoadingScreen.unity
     guid: ec04bc4982c467b419d9f4f94dffdfcd
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tests/Scene_TrainingGround.unity
     guid: 0df3f19b2b3856448878ab5e7bc5ef85
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Interface/Mini-Games/Scene_BasketBallMiniGame.unity
     guid: 60a7388885a3ef647a02330cec83e8aa
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Scene_Credits.unity
     guid: 650d79c473dd9ad46b4dee61386568fc
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tests/Ring_Madness.unity
     guid: caecbd21976972e4e8a723ac21ab2b86
   - enabled: 1

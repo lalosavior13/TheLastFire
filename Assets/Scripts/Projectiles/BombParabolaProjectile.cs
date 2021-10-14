@@ -103,6 +103,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 	}
 #endregion
 
+#if UNITY_EDITOR
 	/// <summary>Draws Gizmos on Editor mode.</summary>
 	protected override void OnDrawGizmos()
 	{
@@ -112,7 +113,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 
 		Gizmos.DrawRay(fuse.transform.position, (fuse.transform.up * fuseLength));
 	}
-
+#endif
 	/// <summary>BombParabolaProjectile's instance initialization when loaded [Before scene loads].</summary>
 	protected override void Awake()
 	{

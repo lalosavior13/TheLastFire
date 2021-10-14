@@ -4,8 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Voidless;
+#if UNITY_SWITCH  || NN_PLUGIN_ENABLE	
 using nn.hid;
-
+#endif	
 namespace Flamingo
 {
 /*
@@ -66,7 +67,7 @@ public class TEST_SwitchInputManager : MonoBehaviour
 		GUI.Label(rect, ToString());
 	}
 
-#if UNITY_SWITCH  || !UNITY_EDITOR || NN_PLUGIN_ENABLE
+#if UNITY_SWITCH  || NN_PLUGIN_ENABLE
 	[SerializeField] private Mateo mateo; 										/// <summary>Mateo's Reference.</summary>
 	[Space(5f)]
 	[SerializeField] private NpadId[] supportedIDTypes; 						/// <summary>Supported ID Types.</summary>
