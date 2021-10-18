@@ -11,42 +11,55 @@ namespace Flamingo
 public class ShantySceneController : Singleton<ShantySceneController>
 {
 	[Space(5f)]
-	[SerializeField] private ShantyBoss _shanty; 							/// <summary>Captain Shanty's Reference.</summary>
+	[SerializeField] private ShantyBoss _shanty; 								/// <summary>Captain Shanty's Reference.</summary>
 	[Space(5f)]
-	[SerializeField] private Vector3 _tiePosition; 							/// <summary>Tie's Position.</summary>
+	[SerializeField] private Vector3 _tiePosition; 								/// <summary>Tie's Position.</summary>
 	[Space(5f)]
 	[Header("Ship's Attributes:")]
-	[SerializeField] private ShantyShip _shantyShip; 						/// <summary>Shanty's Ship.</summary>
+	[SerializeField] private ShantyShip _shantyShip; 							/// <summary>Shanty's Ship.</summary>
 	[Space(5f)]
 	[Header("Audio's Attributes:")]
-	[SerializeField] private CollectionIndex _loopIndex; 					/// <summary>Loop's Index.</summary>
+	[SerializeField] private CollectionIndex _loopIndex; 						/// <summary>Loop's Index.</summary>
 	[Space(5f)]
-	[SerializeField] private Transform[] _stage1ObjectsToDeactivate; 		/// <summary>Stage 1's Objects to deactivate.</summary>
-	[SerializeField] private Transform[] _stage2ObjectsToDeactivate; 		/// <summary>Stage 2's Objects to deactivate.</summary>
-	[SerializeField] private Transform[] _stage3ObjectsToDeactivate; 		/// <summary>Stage 3's Objects to deactivate.</summary>
-	[SerializeField] private Transform _stage1Group; 						/// <summary>Stage 1's Group.</summary>
-	[SerializeField] private Transform _stage2Group; 						/// <summary>Stage 2's Group.</summary>
-	[SerializeField] private Transform _stage3Group; 						/// <summary>Stage 3's Group.</summary>
+	[SerializeField] private Transform[] _stage1ObjectsToDeactivate; 			/// <summary>Stage 1's Objects to deactivate.</summary>
+	[SerializeField] private Transform[] _stage2ObjectsToDeactivate; 			/// <summary>Stage 2's Objects to deactivate.</summary>
+	[SerializeField] private Transform[] _stage3ObjectsToDeactivate; 			/// <summary>Stage 3's Objects to deactivate.</summary>
+	[SerializeField] private Transform _stage1Group; 							/// <summary>Stage 1's Group.</summary>
+	[SerializeField] private Transform _stage2Group; 							/// <summary>Stage 2's Group.</summary>
+	[SerializeField] private Transform _stage3Group; 							/// <summary>Stage 3's Group.</summary>
 	[Space(5f)]
-	[Header("Floors:")]
-	[SerializeField] private ScenarioBoundariesContainer _dockBoundaries; 	/// <summary>Dock's Boundaries.</summary>
-	[SerializeField] private ScenarioBoundariesContainer _shipBoundaries; 	/// <summary>Ship's Boundaries.</summary>
+	[Header("Camera Boundaries' Modifiers:")]
+	[SerializeField] private Camera2DBoundariesModifier _stage1CameraSettings; 	/// <summary>Camera Settings for Stage 1.</summary>
+	[SerializeField] private Camera2DBoundariesModifier _stage2CameraSettings; 	/// <summary>Camera Settings for Stage 2.</summary>
+	[SerializeField] private Camera2DBoundariesModifier _stage3CameraSettings; 	/// <summary>Camera Settings for Stage 3.</summary>
+	[Space(5f)]
+	[Header("Boundaries:")]
+	[SerializeField] private ScenarioBoundariesContainer _dockBoundaries; 		/// <summary>Dock's Boundaries.</summary>
+	[SerializeField] private ScenarioBoundariesContainer _shipBoundaries; 		/// <summary>Ship's Boundaries.</summary>
+	[Space(5f)]
+	[Header("Spawn Positions:")]
+	[SerializeField] private Vector3 _stage1MateoPosition; 						/// <summary>Spawn Position for Mateo at Stage 1.</summary>
+	[SerializeField] private Vector3 _stage2MateoPosition; 						/// <summary>Spawn Position for Mateo at Stage 2.</summary>
+	[SerializeField] private Vector3 _stage3MateoPosition; 						/// <summary>Spawn Position for Mateo at Stage 3.</summary>
+	[SerializeField] private Vector3 _stage1ShantyPosition; 					/// <summary>Spawn Position for Shanty at Stage 1.</summary>
+	[SerializeField] private Vector3 _stage2ShantyPosition; 					/// <summary>Spawn Position for Shanty at Stage 2.</summary>
+	[SerializeField] private Vector3 _stage3ShantyPosition; 					/// <summary>Spawn Position for Shanty at Stage 3.</summary>
 	[Space(5f)]
 	[Header("Stage 2's Attributes:")]
-	[SerializeField] private float _waitBeforeFade; 						/// <summary>Wait's duration before screen fade.</summary>
-	[SerializeField] private float _fadeInDuration; 						/// <summary>Fade-In's Duration.</summary>
-	[SerializeField] private float _fadeOutDuration; 						/// <summary>Fade-Out's Duration.</summary>
-	[SerializeField] private Vector3Pair[] _whackAMoleWaypointsPairs; 		/// <summary>Waypoint pairs for the Whack-a-Mole phase.</summary>
+	[SerializeField] private float _waitBeforeFade; 							/// <summary>Wait's duration before screen fade.</summary>
+	[SerializeField] private float _fadeInDuration; 							/// <summary>Fade-In's Duration.</summary>
+	[SerializeField] private float _fadeOutDuration; 							/// <summary>Fade-Out's Duration.</summary>
+	[SerializeField] private Vector3Pair[] _whackAMoleWaypointsPairs; 			/// <summary>Waypoint pairs for the Whack-a-Mole phase.</summary>
 	[Space(5f)]
 	[Header("Particle Effects:")]
-	[SerializeField] private Vector3[] _smokeSpawnPositions; 				/// <summary>Spawn Positions for the Some's ParticleEffect.</summary>
-	[SerializeField] private CollectionIndex _smokeEffectIndex; 			/// <summary>Smoke ParticleEffect's Index.</summary>
+	[SerializeField] private Vector3[] _smokeSpawnPositions; 					/// <summary>Spawn Positions for the Some's ParticleEffect.</summary>
+	[SerializeField] private CollectionIndex _smokeEffectIndex; 				/// <summary>Smoke ParticleEffect's Index.</summary>
 	[Space(5f)]
-	[SerializeField] private TransformData _stage2ShipTransformData; 		/// <summary>Stage 2's Ship Transform Data.</summary>
+	[SerializeField] private TransformData _stage2ShipTransformData; 			/// <summary>Stage 2's Ship Transform Data.</summary>
 #if UNITY_EDITOR
 	[Space(5f)]
 	[Header("Gizmos' Attributes:")]
-	[SerializeField] private Color gizmosColor; 							/// <summary>Gizmos' Color.</summary>
+	[SerializeField] private Color gizmosColor; 								/// <summary>Gizmos' Color.</summary>
 #endif
 
 #region Getters/Setters:
@@ -89,6 +102,24 @@ public class ShantySceneController : Singleton<ShantySceneController>
 	/// <summary>Gets stage3Group property.</summary>
 	public Transform stage3Group { get { return _stage3Group; } }
 
+	/// <summary>Gets stage1MateoPosition property.</summary>
+	public Vector3 stage1MateoPosition { get { return _stage1MateoPosition; } }
+
+	/// <summary>Gets stage2MateoPosition property.</summary>
+	public Vector3 stage2MateoPosition { get { return _stage2MateoPosition; } }
+
+	/// <summary>Gets stage3MateoPosition property.</summary>
+	public Vector3 stage3MateoPosition { get { return _stage3MateoPosition; } }
+
+	/// <summary>Gets stage1ShantyPosition property.</summary>
+	public Vector3 stage1ShantyPosition { get { return _stage1ShantyPosition; } }
+
+	/// <summary>Gets stage2ShantyPosition property.</summary>
+	public Vector3 stage2ShantyPosition { get { return _stage2ShantyPosition; } }
+
+	/// <summary>Gets stage3ShantyPosition property.</summary>
+	public Vector3 stage3ShantyPosition { get { return _stage3ShantyPosition; } }
+
 	/// <summary>Gets dockBoundaries property.</summary>
 	public ScenarioBoundariesContainer dockBoundaries { get { return _dockBoundaries; } }
 
@@ -97,6 +128,15 @@ public class ShantySceneController : Singleton<ShantySceneController>
 
 	/// <summary>Gets stage2ShipTransformData property.</summary>
 	public TransformData stage2ShipTransformData { get { return _stage2ShipTransformData; } }
+
+	/// <summary>Gets stage1CameraSettings property.</summary>
+	public Camera2DBoundariesModifier stage1CameraSettings { get { return _stage1CameraSettings; } }
+
+	/// <summary>Gets stage2CameraSettings property.</summary>
+	public Camera2DBoundariesModifier stage2CameraSettings { get { return _stage2CameraSettings; } }
+
+	/// <summary>Gets stage3CameraSettings property.</summary>
+	public Camera2DBoundariesModifier stage3CameraSettings { get { return _stage3CameraSettings; } }
 #endregion
 	
 #if UNITY_EDITOR
@@ -117,6 +157,13 @@ public class ShantySceneController : Singleton<ShantySceneController>
 			Gizmos.DrawWireSphere(shantyShip.transform.TransformPoint(pair.a), 0.5f);
 			Gizmos.DrawWireSphere(shantyShip.transform.TransformPoint(pair.b), 0.5f);
 		}
+
+		Gizmos.DrawWireSphere(stage1MateoPosition, 0.5f);
+		Gizmos.DrawWireSphere(stage2MateoPosition, 0.5f);
+		Gizmos.DrawWireSphere(stage3MateoPosition, 0.5f);
+		Gizmos.DrawWireSphere(stage1ShantyPosition, 0.5f);
+		Gizmos.DrawWireSphere(stage2ShantyPosition, 0.5f);
+		Gizmos.DrawWireSphere(stage3ShantyPosition, 0.5f);
 	}
 #endif
 
@@ -165,6 +212,8 @@ public class ShantySceneController : Singleton<ShantySceneController>
 			|| stage3Group == null) return;
 
 			int stageID = shanty.currentStage;
+
+			Debug.Log("[ShantySceneController] Shanty Stage Changed to: " + stageID);
 
 			switch(stageID)
 			{

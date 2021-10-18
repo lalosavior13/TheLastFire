@@ -32,6 +32,12 @@ public class Boss : Enemy
 	[SerializeField] private Animation _animation; 							/// <summary>Animation's Component.</summary>
 	[SerializeField] private AnimationEventInvoker _animationEventInvoker; 	/// <summary>AnimationEventInvoker's Component.</summary>
 	[SerializeField] private GameObject _hurtBoxesContainer; 				/// <summary>HurtBoxes' Container [Group].</summary>
+#if UNITY_EDITOR
+	[Space(5f)]
+	[Header("TESTs:")]
+	[SerializeField] protected bool forceStageTesting; 						/// <summary>Force Stage Testing?.</summary>
+	[SerializeField] protected int testStage; 								/// <summary>Test's Stage.</summary>
+#endif
 	private int _currentStage; 
 
 	/// <summary>Gets and Sets stages property.</summary>
@@ -103,6 +109,11 @@ public class Boss : Enemy
 	{
 		base.Awake();
 		currentStage = 0;
+
+#if UNITY_EDITOR
+		if(forceStageTesting) currentStage =  Mathf.Clamp(testStage - 1, -1, stages);
+#endif
+		
 		AdvanceStage();
 	}
 
