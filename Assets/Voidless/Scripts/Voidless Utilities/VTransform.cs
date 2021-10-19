@@ -122,6 +122,18 @@ public static class VTransform
 		return v;
 	}
 
+
+	/// <summary>Sets transform's properties equal to given TransformData.</summary>
+	/// <param name="_transform">Transform's reference.</param>
+	/// <param name="_data">TransformData to set to transform.</param>
+	/// <param name="_properties">Transform's Properties to modify [All by default].</param>
+	public static void Set(this Transform _transform, TransformData _data, TransformProperties _properties = TransformProperties.All)
+	{
+		if((_properties | TransformProperties.Position) == _properties) _transform.position = _data.position;
+		if((_properties | TransformProperties.Rotation) == _properties) _transform.rotation = _data.rotation;
+		if((_properties | TransformProperties.Scale) == _properties) _transform.localScale = _data.scale;
+	}
+
 	/// <summary>Activates/Deactivates children beneath given transform.</summary>
 	/// <param name="_transform">Parent's Transform.</param>
 	/// <param name="_activate">Activate Children? True by default.</param>

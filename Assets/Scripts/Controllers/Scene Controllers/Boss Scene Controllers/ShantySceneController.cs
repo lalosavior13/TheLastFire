@@ -21,13 +21,6 @@ public class ShantySceneController : Singleton<ShantySceneController>
 	[Header("Audio's Attributes:")]
 	[SerializeField] private CollectionIndex _loopIndex; 						/// <summary>Loop's Index.</summary>
 	[Space(5f)]
-	[SerializeField] private Transform[] _stage1ObjectsToDeactivate; 			/// <summary>Stage 1's Objects to deactivate.</summary>
-	[SerializeField] private Transform[] _stage2ObjectsToDeactivate; 			/// <summary>Stage 2's Objects to deactivate.</summary>
-	[SerializeField] private Transform[] _stage3ObjectsToDeactivate; 			/// <summary>Stage 3's Objects to deactivate.</summary>
-	[SerializeField] private Transform _stage1Group; 							/// <summary>Stage 1's Group.</summary>
-	[SerializeField] private Transform _stage2Group; 							/// <summary>Stage 2's Group.</summary>
-	[SerializeField] private Transform _stage3Group; 							/// <summary>Stage 3's Group.</summary>
-	[Space(5f)]
 	[Header("Camera Boundaries' Modifiers:")]
 	[SerializeField] private Camera2DBoundariesModifier _stage1CameraSettings; 	/// <summary>Camera Settings for Stage 1.</summary>
 	[SerializeField] private Camera2DBoundariesModifier _stage2CameraSettings; 	/// <summary>Camera Settings for Stage 2.</summary>
@@ -46,7 +39,9 @@ public class ShantySceneController : Singleton<ShantySceneController>
 	[SerializeField] private Vector3 _stage3ShantyPosition; 					/// <summary>Spawn Position for Shanty at Stage 3.</summary>
 	[Space(5f)]
 	[Header("Stage 2's Attributes:")]
+	[SerializeField] private Vector3 _shipScale; 								/// <summary>Ship's Scale on Stage 2.</summary>
 	[SerializeField] private float _waitBeforeFade; 							/// <summary>Wait's duration before screen fade.</summary>
+	[SerializeField] private float _waitAfterFade; 								/// <summary>Wait's duration after screen fade.</summary>
 	[SerializeField] private float _fadeInDuration; 							/// <summary>Fade-In's Duration.</summary>
 	[SerializeField] private float _fadeOutDuration; 							/// <summary>Fade-Out's Duration.</summary>
 	[SerializeField] private Vector3Pair[] _whackAMoleWaypointsPairs; 			/// <summary>Waypoint pairs for the Whack-a-Mole phase.</summary>
@@ -55,12 +50,15 @@ public class ShantySceneController : Singleton<ShantySceneController>
 	[SerializeField] private Vector3[] _smokeSpawnPositions; 					/// <summary>Spawn Positions for the Some's ParticleEffect.</summary>
 	[SerializeField] private CollectionIndex _smokeEffectIndex; 				/// <summary>Smoke ParticleEffect's Index.</summary>
 	[Space(5f)]
+	[SerializeField] private TransformData _stage1ShipTransformData; 			/// <summary>Stage 1's Ship Transform Data.</summary>
 	[SerializeField] private TransformData _stage2ShipTransformData; 			/// <summary>Stage 2's Ship Transform Data.</summary>
+	[SerializeField] private TransformData _stage3ShipTransformData; 			/// <summary>Stage 3's Ship Transform Data.</summary>
 #if UNITY_EDITOR
 	[Space(5f)]
 	[Header("Gizmos' Attributes:")]
 	[SerializeField] private Color gizmosColor; 								/// <summary>Gizmos' Color.</summary>
 #endif
+	private TransformData _initialShipTransformData; 							/// <summary>Initial Ship's TransformData.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets shanty property.</summary>
@@ -69,11 +67,17 @@ public class ShantySceneController : Singleton<ShantySceneController>
 	/// <summary>Gets tiePosition property.</summary>
 	public Vector3 tiePosition { get { return _tiePosition; } }
 
+	/// <summary>Gets shipScale property.</summary>
+	public Vector3 shipScale { get { return _shipScale; } }
+
 	/// <summary>Gets smokeSpawnPositions property.</summary>
 	public Vector3[] smokeSpawnPositions { get { return _smokeSpawnPositions; } }
 
 	/// <summary>Gets waitBeforeFade property.</summary>
 	public float waitBeforeFade { get { return _waitBeforeFade; } }
+
+	/// <summary>Gets waitAfterFade property.</summary>
+	public float waitAfterFade { get { return _waitAfterFade; } }
 
 	/// <summary>Gets fadeInDuration property.</summary>
 	public float fadeInDuration { get { return _fadeInDuration; } }
@@ -93,20 +97,11 @@ public class ShantySceneController : Singleton<ShantySceneController>
 	/// <summary>Gets smokeEffectIndex property.</summary>
 	public CollectionIndex smokeEffectIndex { get { return _smokeEffectIndex; } }
 
-	/// <summary>Gets stage1Group property.</summary>
-	public Transform stage1Group { get { return _stage1Group; } }
-
-	/// <summary>Gets stage2Group property.</summary>
-	public Transform stage2Group { get { return _stage2Group; } }
-
-	/// <summary>Gets stage3Group property.</summary>
-	public Transform stage3Group { get { return _stage3Group; } }
-
 	/// <summary>Gets stage1MateoPosition property.</summary>
 	public Vector3 stage1MateoPosition { get { return _stage1MateoPosition; } }
 
 	/// <summary>Gets stage2MateoPosition property.</summary>
-	public Vector3 stage2MateoPosition { get { return _stage2MateoPosition; } }
+	public Vector3 stage2MateoPosition { get { return shantyShip != null ?  shantyShip.transform.TransformPoint(_stage2MateoPosition) : _stage2MateoPosition; } }
 
 	/// <summary>Gets stage3MateoPosition property.</summary>
 	public Vector3 stage3MateoPosition { get { return _stage3MateoPosition; } }
@@ -115,7 +110,7 @@ public class ShantySceneController : Singleton<ShantySceneController>
 	public Vector3 stage1ShantyPosition { get { return _stage1ShantyPosition; } }
 
 	/// <summary>Gets stage2ShantyPosition property.</summary>
-	public Vector3 stage2ShantyPosition { get { return _stage2ShantyPosition; } }
+	public Vector3 stage2ShantyPosition { get { return shantyShip != null ? shantyShip.transform.TransformPoint(_stage2ShantyPosition) : _stage2ShantyPosition; } }
 
 	/// <summary>Gets stage3ShantyPosition property.</summary>
 	public Vector3 stage3ShantyPosition { get { return _stage3ShantyPosition; } }
@@ -126,8 +121,17 @@ public class ShantySceneController : Singleton<ShantySceneController>
 	/// <summary>Gets shipBoundaries property.</summary>
 	public ScenarioBoundariesContainer shipBoundaries { get { return _shipBoundaries; } }
 
+	/// <summary>Gets stage1ShipTransformData property.</summary>
+	public TransformData stage1ShipTransformData { get { return _stage1ShipTransformData; } }
+
 	/// <summary>Gets stage2ShipTransformData property.</summary>
 	public TransformData stage2ShipTransformData { get { return _stage2ShipTransformData; } }
+
+	/// <summary>Gets stage3ShipTransformData property.</summary>
+	public TransformData stage3ShipTransformData { get { return _stage3ShipTransformData; } }
+
+	/// <summary>Gets initialShipTransformData property.</summary>
+	public TransformData initialShipTransformData { get { return _initialShipTransformData; } }
 
 	/// <summary>Gets stage1CameraSettings property.</summary>
 	public Camera2DBoundariesModifier stage1CameraSettings { get { return _stage1CameraSettings; } }
@@ -164,6 +168,10 @@ public class ShantySceneController : Singleton<ShantySceneController>
 		Gizmos.DrawWireSphere(stage1ShantyPosition, 0.5f);
 		Gizmos.DrawWireSphere(stage2ShantyPosition, 0.5f);
 		Gizmos.DrawWireSphere(stage3ShantyPosition, 0.5f);
+
+		VGizmos.DrawTransformData(stage1ShipTransformData);
+		VGizmos.DrawTransformData(stage2ShipTransformData);
+		VGizmos.DrawTransformData(stage3ShipTransformData);
 	}
 #endif
 
@@ -182,7 +190,7 @@ public class ShantySceneController : Singleton<ShantySceneController>
 	/// <summary>ShantySceneController's starting actions before 1st Update frame.</summary>
 	private void Start ()
 	{
-		Introduction();	
+		//Introduction();	
 	}
 
 	/// <summary>Ties Shanty into rope and docks ship.</summary>
@@ -207,93 +215,84 @@ public class ShantySceneController : Singleton<ShantySceneController>
 		switch(_ID)
 		{
 			case Boss.ID_EVENT_STAGE_CHANGED:
-			if(stage1Group == null
-			|| stage2Group == null
-			|| stage3Group == null) return;
-
 			int stageID = shanty.currentStage;
 
-			Debug.Log("[ShantySceneController] Shanty Stage Changed to: " + stageID);
+			/* Things modified per-stage:
+				- Spawn Positions:
+					- Mateo
+					- Shanty
+				- Camera Settings
+				- Ship's Transform's Data
+				- Floors enabled/disabled
+				- Enable/Disable Shanty's Physics
+			*/
 
 			switch(stageID)
 			{
 				case Boss.STAGE_1:
-				dockBoundaries.Enable(true);
-				shipBoundaries.Enable(false);
+				OnStageChanged(stageID);
+				Introduction();
 				break;
 
 				case Boss.STAGE_2:
 				ParticleEffect effect = null;
-				ParticleSystem.MainModule mainModule = default(ParticleSystem.MainModule);
 				
 				shanty.ChangeState(Enemy.ID_STATE_ALIVE | Enemy.ID_STATE_IDLE);
 				Game.EnablePlayerControl(false);
-				dockBoundaries.Enable(false);
-				shipBoundaries.Enable(true);
 
 				foreach(Vector3 position in smokeSpawnPositions)
 				{
 					effect = PoolManager.RequestParticleEffect(smokeEffectIndex, position, Quaternion.identity);
 				}
-				mainModule = effect.systems[0].main;
 
-				this.StartCoroutine(this.WaitSeconds(waitBeforeFade, ()=>
+				this.StartCoroutine(this.WaitSeconds(waitBeforeFade,
+				()=>
 				{
 					Game.gameplayGUIController.screenFaderGUI.FadeIn(Color.white, fadeInDuration,
 					()=>
-					{
-						shantyShip.transform.position = stage2ShipTransformData.position;
-						shantyShip.transform.rotation = stage2ShipTransformData.rotation;
-						ActivateStage(stageID);
-						this.StartCoroutine(this.WaitSeconds(mainModule.startLifetime.constantMax, ()=>
+					{ /// Once the scenario is covered by the faded screen, do this:
+
+						OnStageChanged(stageID);
+
+						this.StartCoroutine(this.WaitSeconds(waitAfterFade,
+						()=>
 						{
 							Game.gameplayGUIController.screenFaderGUI.FadeOut(Color.white, fadeOutDuration,
 							()=>
 							{
 								Game.EnablePlayerControl(true);
-								shanty.BeginAttackRoutine();
+								//shanty.BeginAttackRoutine();
 							});
 						}));
 					});
 				}));
-				ActivateStage(stageID);
 				break;
 
 				case Boss.STAGE_3:
-				dockBoundaries.Enable(true);
-				shipBoundaries.Enable(false);
-				shantyShip.gameObject.SetActive(false);
-				ActivateStage(stageID);
+
+				this.StartCoroutine(this.WaitSeconds(waitBeforeFade, 
+				()=>
+				{
+					Game.gameplayGUIController.screenFaderGUI.FadeIn(Color.white, fadeInDuration,
+					()=>
+					{
+						OnStageChanged(stageID);
+
+						this.StartCoroutine(this.WaitSeconds(waitAfterFade,
+						()=>
+						{
+							Game.gameplayGUIController.screenFaderGUI.FadeOut(Color.white, fadeOutDuration,
+							()=>
+							{
+
+							});
+						}));
+					});
+				}));
 				break;
 			}
-			break;
-		}
-	}
 
-	/// <summary>Activates Stage.</summary>
-	/// <param name="index">Stage's Index.</param>
-	private void ActivateStage(int index)
-	{
-		stage1Group.gameObject.SetActive(false);
-		stage2Group.gameObject.SetActive(false);
-		stage3Group.gameObject.SetActive(false);
-
-		switch(index)
-		{
-			case Boss.STAGE_1:
-			stage1Group.SetActive(true);
-			break;
-
-			case Boss.STAGE_2:
-			stage2Group.SetActive(true);
-			break;
-
-			case Boss.STAGE_3:
-			stage3Group.SetActive(true);
-			break;
-
-			default:
-			Debug.LogError("[ShantySceneController] Imbecile, you provided the wrong stage number (" + index + ") when activating Stage...");
+			Debug.Log("[ShantySceneController] Shanty Stage Changed to: " + stageID);
 			break;
 		}
 	}
@@ -312,6 +311,44 @@ public class ShantySceneController : Singleton<ShantySceneController>
 			shantyShip.ropeHitBox.gameObject.SetActive(false);
 
 			shanty.OnUntie();
+		}
+	}
+
+	/// <summary>Changes settings depending on the stage.</summary>
+	/// <param name="_stageID">Stage's ID.</param>
+	public void OnStageChanged(int _stageID)
+	{
+		switch(_stageID)
+		{
+			case Boss.STAGE_1:
+			dockBoundaries.Enable(true);
+			shipBoundaries.Enable(false);
+			Game.mateo.transform.position = stage1MateoPosition;
+			shanty.transform.position = stage1ShantyPosition;
+			Game.SetCameraBoundaries2DSettings(stage1CameraSettings);
+			shantyShip.transform.Set(stage1ShipTransformData);
+			shanty.EnablePhysics(false);
+			break;
+
+			case Boss.STAGE_2:
+			dockBoundaries.Enable(false);
+			shipBoundaries.Enable(true);
+			Game.mateo.transform.position = stage2MateoPosition;
+			shanty.transform.position = stage2ShantyPosition;
+			Game.SetCameraBoundaries2DSettings(stage2CameraSettings);
+			shantyShip.transform.Set(stage2ShipTransformData);
+			shanty.EnablePhysics(false);
+			break;
+
+			case Boss.STAGE_3:
+			dockBoundaries.Enable(true);
+			shipBoundaries.Enable(false);
+			Game.mateo.transform.position = stage3MateoPosition;
+			shanty.transform.position = stage3ShantyPosition;
+			Game.SetCameraBoundaries2DSettings(stage3CameraSettings);
+			shantyShip.transform.Set(stage3ShipTransformData);
+			shanty.EnablePhysics(true);
+			break;
 		}
 	}
 #endregion

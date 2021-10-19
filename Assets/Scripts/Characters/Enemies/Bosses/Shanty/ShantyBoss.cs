@@ -36,6 +36,8 @@ public class ShantyBoss : Boss
 	public const int ID_LAUGH = 1; 										/// <summary>Intro's State ID [for AnimatorController].</summary>
 	public const int ID_TAUNT = 2; 										/// <summary>Intro's State ID [for AnimatorController].</summary>
 
+	[Space(10f)]
+	[Header("Shanty's Attributes:")]
 	[Space(5f)]
 	[SerializeField] private ShantyShip _ship; 							/// <summary>Shanty's Ship.</summary>
 	[Space(5f)]
@@ -86,11 +88,7 @@ public class ShantyBoss : Boss
 	[SerializeField] private AnimatorCredential _vitalityIDCredential; 	/// <summary>Vitality ID's AnimatorCredential.</summary>
 	[Space(5f)]
 	[Header("Animations:")]
-	[SerializeField] private AnimationClip tied0Annimation; 			/// <summary>Tied 0's Animation.</summary>
-	[SerializeField] private AnimationClip tied1Annimation; 			/// <summary>Tied 1's Animation.</summary>
-	[SerializeField] private AnimationClip tied2Annimation; 			/// <summary>Tied 2's Animation.</summary>
-	[SerializeField] private AnimationClip tied3Annimation; 			/// <summary>Tied 3's Animation.</summary>
-	[SerializeField] private AnimationClip tied4Annimation; 			/// <summary>Tied 4's Animation.</summary>
+	[SerializeField] private AnimationClip[] tiedAnimations; 			/// <summary>Tied Animations.</summary>
 	[SerializeField] private AnimationClip untiedAnnimation; 			/// <summary>Untied's Animation.</summary>
 	[SerializeField] private AnimationClip idleAnimation; 				/// <summary>Idle's Animation.</summary>
 	[SerializeField] private AnimationClip laughAnimation; 				/// <summary>Laugh's Animation.</summary>
@@ -240,17 +238,16 @@ public class ShantyBoss : Boss
 	/// <summary>ShantyBoss's instance initialization.</summary>
 	protected override void Awake()
 	{
-		base.Awake();
-
 		ActivateSword(false);
 		jumpAbility.gravityApplier.enabled = false;
 
+		if(tiedAnimations != null) foreach(AnimationClip clip in tiedAnimations)
+		{
+			Debug.Log("[ShantyBoss] Adding Animation: " + clip.ToString());
+			animation.AddClip(clip);
+		}
+
 		animation.AddClips(
-			tied0Annimation,
-			tied1Annimation,
-			tied2Annimation,
-			tied3Annimation,
-			tied4Annimation,
 			untiedAnnimation,
 			idleAnimation,
 			laughAnimation,
@@ -265,6 +262,8 @@ public class ShantyBoss : Boss
 			hitSwordAnimation,
 			cryAnimation
 		);
+
+		base.Awake();
 	}
 
 	/// <summary>ShantyBoss's starting actions before 1st Update frame.</summary>
@@ -289,6 +288,13 @@ public class ShantyBoss : Boss
 
 		sword.gameObject.SetActive(_activate);
 		falseSword.gameObject.SetActive(!_activate);
+	}
+
+	/// <summary>Enables Physics.</summary>
+	/// <param name="_enable">Enable? true by default.</param>
+	public void EnablePhysics(bool _enable = true)
+	{
+		jumpAbility.gravityApplier.useGravity = _enable;
 	}
 
 	/// <summary>Begins Attack's Routine.</summary>
@@ -319,6 +325,17 @@ public class ShantyBoss : Boss
 			this.StartCoroutine(RotateTowardsMateo(), ref coroutine);
 			break;
 		}		
+	}
+
+	/// <summary>Moves Shanty into desired direction.</summary>
+	/// <param name="_axes">Direction's Axis.</param>
+	public void Move(Vector2 _axes)
+	{
+		/* Steps here:
+			- Call the movement's animation.
+			- Displace Argel.
+		*/
+		
 	}
 
 #region BombThrowingRoutines:
@@ -422,11 +439,17 @@ public class ShantyBoss : Boss
 		switch(currentStage)
 		{
 			case STAGE_1:
+			EnablePhysics(false);
 			health.inmunities = stage1Inmunities;
 			break;
 
 			case STAGE_2:
+			EnablePhysics(false);
 			health.inmunities = stage2Inmunities;
+			break;
+
+			case STAGE_3:
+			EnablePhysics(true);
 			break;
 		}
 	}
@@ -696,13 +719,12 @@ public class ShantyBoss : Boss
 	/// <summary>Tie's Coroutine.</summary>
 	private IEnumerator TieRoutine()
 	{
-		AnimationClip[] tieClips = new AnimationClip[] { tied0Annimation, tied1Annimation, tied2Annimation, tied3Annimation, tied4Annimation };
 		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
 		AnimationState animationState = null;
 
 		while(true)
 		{
-			foreach(AnimationClip clip in tieClips)
+			foreach(AnimationClip clip in tiedAnimations)
 			{
 				animation.Play(clip);
 				animationState = animation.GetAnimationState(clip);
@@ -740,6 +762,8 @@ public class ShantyBoss : Boss
 		AnimationState animationState = null;
 		float t = 0.0f;
 		float inverseDuration = 1.0f / vectorPairInterpolationDuration;
+		Vector3 a = Vector3.zero;
+		Vector3 b = Vector3.zero;
 
 		EnableHurtBoxes(false);
 
@@ -748,16 +772,18 @@ public class ShantyBoss : Boss
 			foreach(Vector3Pair pair in waypointsPairs)
 			{
 				t = 0.0f;
+				a = ship.transform.TransformPoint(pair.a);
+				b = ship.transform.TransformPoint(pair.b);
 
 				while(t < 1.0f)
 				{
-					transform.position = Vector3.Lerp(pair.a, pair.b, t);
+					transform.position = Vector3.Lerp(a, b, t);
 
 					t += (Time.deltaTime * inverseDuration);
 					yield return null;
 				}
 
-				transform.position = pair.b;
+				transform.position = b;
 				EnableHurtBoxes(true);
 				animation.Play(throwBombAnimation);
 				animationState = animation.GetAnimationState(throwBombAnimation);
@@ -769,13 +795,13 @@ public class ShantyBoss : Boss
 
 				while(t < 1.0f)
 				{
-					transform.position = Vector3.Lerp(pair.b, pair.a, t);
+					transform.position = Vector3.Lerp(b, a, t);
 
 					t += (Time.deltaTime * inverseDuration);
 					yield return null;
 				}
 
-				transform.position = pair.a;
+				transform.position = a;
 				EnableHurtBoxes(false);
 			}
 

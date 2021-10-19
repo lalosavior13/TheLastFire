@@ -186,6 +186,14 @@ public class Game : Singleton<Game>
 		cameraController.distanceAdjuster.distanceRange = defaultDistanceRange;
 	}
 
+	/// <summary>Sets Camera2DBoundariesModifier's Settings into the Gameplay Camera.</summary>
+	/// <param name="_modifier">Camera2DBdounratiesModifier that contains the new settings.</param>
+	public static void SetCameraBoundaries2DSettings(Camera2DBoundariesModifier _modifier)
+	{
+		cameraController.boundariesContainer.Set(_modifier.boundariesContainer.ToBoundaries2D());
+		if(_modifier.setDistance) cameraController.distanceAdjuster.distanceRange = _modifier.distanceRange;
+	}
+
 	/// <summary>Adds Target's VCameraTarget into the Camera.</summary>
 	/// <param name="_target">VCameraTarget to Add.</param>
 	public static void AddTargetToCamera(VCameraTarget _target)
