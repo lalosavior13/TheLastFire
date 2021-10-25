@@ -63,6 +63,16 @@ public static class VAnimation
 		_animation.CrossFade(_clip.name, _fadeDuration, _mode);
 	}
 
+	/// <summary>Plays an animation after previous animations has finished playing.</summary>
+	/// <param name="_animation">Animation's Component.</param>
+	/// <param name="_clip">Clip to play.</param>
+	/// <param name="_queue">Queue Mode.</param>
+	/// <param name="_mode">The optional PlayMode lets you choose how this animation will affect others already playing.</param>
+	public static void PlayQueued(this Animation _animation, AnimationClip _clip, QueueMode _queue = QueueMode.CompleteOthers, PlayMode _mode = PlayMode.StopSameLayer)
+	{
+		_animation.PlayQueued(_clip.name, _queue, _mode);
+	}
+
 	/// <summary>Blends 2 animations.</summary>
 	/// <param name="_animation">Animation's Component.</param>
 	/// <param name="_clip">Destination AnimationClip.</param>

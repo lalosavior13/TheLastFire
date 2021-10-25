@@ -861,6 +861,25 @@ public static class VCoroutines
 		if(onAnimationEnds != null) onAnimationEnds();
 	}
 
+	/// <summary>Plays Animation and waits until it ends.</summary>
+	/// <param name="_animation">Animation Component.</param>
+	/// <param name="_clip">AnimationClip to play.</param>
+	/// <param name="_fadeDuration">fade's Duration.</param>
+	/// <param name="_mode">PlayMode [PlayMode.StopSameLayer bu default].</param>
+	/// <param name="_additionalWait">Additional Wait [0.0f by default].</param>
+	/// <param name="onAnimationEnds">Callback invoked when animation ends.</param>
+	public static IEnumerator CrossFadeAnimationAndWait(this Animation _animation, AnimationClip _clip, float _fadeDuration = 0.3f, PlayMode _mode = PlayMode.StopSameLayer, float _additionalWait = 0.0f, Action onAnimationEnds = null)
+	{
+		_animation.CrossFade(_clip, _fadeDuration,_mode);
+
+		AnimationState animationState = _animation.GetAnimationState(_clip);
+		SecondsDelayWait wait = new SecondsDelayWait(animationState.clip.length + _additionalWait);
+
+		while(wait.MoveNext()) yield return null;
+
+		if(onAnimationEnds != null) onAnimationEnds();
+	}
+
 	/// <summary>Waits for Animation to end.</summary>
 	/// <param name="_animation">Animation's Component.</param>
 	/// <param name="_clip">AnimationClip that it is expected to end.</param>

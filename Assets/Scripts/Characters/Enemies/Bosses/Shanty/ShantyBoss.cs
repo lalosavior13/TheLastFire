@@ -415,8 +415,8 @@ public class ShantyBoss : Boss
 	{
 		//Debug.Log("[ShantyBoss] Beggining Bombing Routine...");
 		ActivateSword(false);
-		animation.Play(throwBombAnimation);
-		animation.PlayQueued(idleAnimation.name);
+		animation.CrossFade(throwBombAnimation);
+		animation.PlayQueued(idleAnimation);
 		/// During the throw animation, a callback will be invoked that will then invoke ThrowBomb()
 		//animator.SetInteger(stateIDCredential, ID_ANIMATIONSTATE_ATTACK);
 		//animator.SetInteger(attackIDCredential, ID_ATTACK_BOMB_THROW);
@@ -462,8 +462,8 @@ public class ShantyBoss : Boss
 		//animator.SetInteger(stateIDCredential, ID_ATTACK_BARREL_THROW);
 		//animator.SetInteger(attackIDCredential, ID_ANIMATIONSTATE_ATTACK);
 		ActivateSword(false);
-		animation.Play(throwBarrelAnimation);
-		animation.PlayQueued(idleAnimation.name);
+		animation.CrossFade(throwBarrelAnimation);
+		animation.PlayQueued(idleAnimation);
 	}
 
 	/// <summary>Picks TNT.</summary>
@@ -544,7 +544,7 @@ public class ShantyBoss : Boss
 		Debug.Log("[ShantyBoss] Shanty is untied...");
 		this.DispatchCoroutine(ref behaviorCoroutine);
 
-		this.StartCoroutine(animation.PlayAnimationAndWait(untiedAnnimation, PlayMode.StopSameLayer, 0.0f,
+		this.StartCoroutine(animation.CrossFadeAnimationAndWait(untiedAnnimation, 0.3f, PlayMode.StopSameLayer, 0.0f,
 		()=>
 		{
 			this.AddStates(ID_STATE_ATTACK);
@@ -558,7 +558,7 @@ public class ShantyBoss : Boss
 		if((_state | ID_STATE_IDLE) == _state)
 		{
 			//animator.SetInteger(stateIDCredential, ID_ANIMATIONSTATE_IDLE);
-			animation.Play(idleAnimation);
+			animation.CrossFade(idleAnimation);
 
 		} else if((_state | ID_STATE_ATTACK) == _state)
 		{
@@ -614,7 +614,7 @@ public class ShantyBoss : Boss
 
 			case ID_ANIMATIONEVENT_GOIDLE:
 			//animator.SetInteger(stateIDCredential, ID_ANIMATIONSTATE_IDLE);
-			animation.Play(idleAnimation);
+			animation.CrossFade(idleAnimation);
 			break;
 
 			case ID_ANIMATIONEVENT_PICKTNT:
@@ -662,7 +662,7 @@ public class ShantyBoss : Boss
 			/*this.StartCoroutine(this.WaitSeconds(durationBeforeSwordSwing, 
 			()=>
 			{
-				animation.Play(tenninsHitAnimation);
+				animation.CrossFade(tenninsHitAnimation);
 				//animator.SetInteger(stateIDCredential, ID_ANIMATIONSTATE_ATTACK);
 				//animator.SetInteger(attackIDCredential, ID_ATTACL_HIT_TENNIS);
 			}));*/
@@ -727,7 +727,7 @@ public class ShantyBoss : Boss
 				Debug.Log("[ShantyBoss] Swing!!");
 				//animator.SetInteger(stateIDCredential, ID_ANIMATIONSTATE_ATTACK);
 				//animator.SetInteger(attackIDCredential, ID_ATTACL_HIT_TENNIS);
-				//animation.Play(tenninsHitAnimation);
+				//animation.CrossFade(tenninsHitAnimation);
 			}));
 			break;
 		}
@@ -768,7 +768,7 @@ public class ShantyBoss : Boss
 			}
 
 			//animator.SetInteger(vitalityIDCredential, damageID);
-			animation.Play(damageClip);
+			animation.CrossFade(damageClip);
 			this.RemoveStates(ID_STATE_ATTACK);
 			this.AddStates(ID_STATE_HURT);
 			break;
@@ -796,7 +796,7 @@ public class ShantyBoss : Boss
 	/// <param name="scale">Optional movement scalar [1.0f by default].</param>
 	private void Move(Vector3 direction, float scale = 1.0f)
 	{
-		animation.Play(backStepAnimation);
+		animation.CrossFade(backStepAnimation);
 		movementAbility.Move(direction, scale);
 	}
 
@@ -817,7 +817,7 @@ public class ShantyBoss : Boss
 		{
 			foreach(AnimationClip clip in tiedAnimations)
 			{
-				animation.CrossFade(clip.name); /// Update with VAnimation's function (waiting for Zucun to upload his version)
+				animation.CrossFade(clip); /// Update with VAnimation's function (waiting for Zucun to upload his version)
 				animationState = animation.GetAnimationState(clip);
 				wait.ChangeDurationAndReset(animationState.clip.length);
 
@@ -876,7 +876,7 @@ public class ShantyBoss : Boss
 
 				transform.position = b;
 				EnableHurtBoxes(true);
-				animation.Play(throwBombAnimation);
+				animation.CrossFade(throwBombAnimation);
 				animationState = animation.GetAnimationState(throwBombAnimation);
 				wait.ChangeDurationAndReset(animationState.length);
 
@@ -937,6 +937,12 @@ public class ShantyBoss : Boss
 						if(!strongAttackCooldown.onCooldown)
 						attackRoutine = StrongAttackRoutine();
 						while(attackRoutine.MoveNext()) yield return null;
+
+						animation.CrossFade(idleAnimation);
+						wait.ChangeDurationAndReset(strongAttackCooldownDuration);
+
+						while(wait.MoveNext()) yield return null;
+
 						enteredAttackRadius = false;
 					}
 					else
@@ -989,7 +995,7 @@ public class ShantyBoss : Boss
 
 		Debug.DrawRay(transform.position, direction * 2.0f, Color.magenta, 2.0f);
 
-		animation.Play(normalAttackAnimation);
+		animation.CrossFade(normalAttackAnimation);
 		animationState = animation.GetAnimationState(normalAttackAnimation);
 		sword.ActivateHitBoxes(true);
 		wait.ChangeDurationAndReset(animationState.length);
@@ -1019,9 +1025,9 @@ public class ShantyBoss : Boss
 		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
 		AnimationState animationState = null;
 
-		animation.Play(strongAttackAnimation);
+		animation.CrossFade(strongAttackAnimation);
 		animationState = animation.GetAnimationState(strongAttackAnimation);
-		wait.ChangeDurationAndReset(animationState.length);
+		wait.ChangeDurationAndReset(strongAttackAnimation.length);
 
 		while(wait.MoveNext()) yield return null;
 
@@ -1039,13 +1045,13 @@ public class ShantyBoss : Boss
 		while(!jumpAbility.HasStates(JumpAbility.STATE_ID_FALLING))
 		{
 			jumpAbility.Jump(Vector3.up);
-			Move(direction, 2.0f);
+			movementAbility.Move(direction, 2.0f);
 			yield return null;
 		}
 
 		while(!jumpAbility.HasStates(JumpAbility.STATE_ID_GROUNDED))
 		{
-			Move(direction, 2.0f);
+			movementAbility.Move(direction, 2.0f);
 			yield return null;
 		}
 
@@ -1053,7 +1059,7 @@ public class ShantyBoss : Boss
 	}
 #endregion
 
-	/// <summary>Event triggered when this Collider/Rigidbody begun having contact with another Collider/Rigidbody.</summary>
+	/*/// <summary>Event triggered when this Collider/Rigidbody begun having contact with another Collider/Rigidbody.</summary>
 	/// <param name="col">The Collision data associated with this collision Event.</param>
 	private void OnCollisionEnter2D(Collision2D col)
 	{
@@ -1067,6 +1073,6 @@ public class ShantyBoss : Boss
 	{
 		if(col.gameObject.CompareTag(Game.data.playerTag))
 		rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-	}
+	}*/
 }
 }
