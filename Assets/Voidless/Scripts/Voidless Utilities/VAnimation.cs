@@ -52,5 +52,25 @@ public static class VAnimation
 	{
 		return _animation.Play(_clip.name, _mode);
 	}
+
+	/// <summary>Cross Fades towards animation.</summary>
+	/// <param name="_animation">Animation Component.</param>
+	/// <param name="_clip">Destinatin Animation.</param>
+	/// <param name="_fadeDuration">fade's Duration.</param>
+	/// <param name="_mode">Play Mode [StopSameLayer by default].</param>
+	public static void CrossFade(this Animation _animation, AnimationClip _clip, float _fadeDuration = 0.3f, PlayMode _mode = PlayMode.StopSameLayer)
+	{
+		_animation.CrossFade(_clip.name, _fadeDuration, _mode);
+	}
+
+	/// <summary>Blends 2 animations.</summary>
+	/// <param name="_animation">Animation's Component.</param>
+	/// <param name="_clip">Destination AnimationClip.</param>
+	/// <param name="_weight">target Blending Weight.</param>
+	/// <param name="_fadeDuration">Fade's Duration.</param>
+	public static void Blend(this Animation _animation, AnimationClip _clip, float _weight = 1.0f, float _fadeDuration = 0.3f)
+	{
+		_animation.Blend(_clip.name, _weight, _fadeDuration);
+	}
 }
 }
