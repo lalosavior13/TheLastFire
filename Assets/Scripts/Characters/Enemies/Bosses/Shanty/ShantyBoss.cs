@@ -8,6 +8,7 @@ namespace Flamingo
 {
 [RequireComponent(typeof(Skeleton))]
 [RequireComponent(typeof(JumpAbility))]
+[RequireComponent(typeof(DashAbility))]
 [RequireComponent(typeof(RigidbodyMovementAbility))]
 public class ShantyBoss : Boss
 {
@@ -19,6 +20,7 @@ public class ShantyBoss : Boss
 	public const int ID_ANIMATIONEVENT_PICKTNT = 5; 					/// <summary>Pick TNT's Animation Event's ID.</summary>
 	public const int ID_ANIMATIONEVENT_THROWTNT = 6; 					/// <summary>Throw TNT's Animation Event's ID.</summary>
 	public const int ID_ANIMATIONEVENT_REPELBOMB = 7; 					/// <summary>Repel Bomb's Animation Event's ID.</summary>
+	public const int ID_ANIMATIONEVENT_JUMP = 8; 						/// <summary>Jump's Animation Event's ID.</summary>
 	public const int ID_ANIMATIONSTATE_INTRO = 0; 						/// <summary>Intro's State ID [for AnimatorController].</summary>
 	public const int ID_ANIMATIONSTATE_TIED = 1; 						/// <summary>Intro's State ID [for AnimatorController].</summary>
 	public const int ID_ANIMATIONSTATE_IDLE = 2; 						/// <summary>Idle's State ID [for AnimatorController].</summary>
@@ -73,9 +75,14 @@ public class ShantyBoss : Boss
 	[SerializeField] private float _vectorPairInterpolationDuration; 	/// <summary>Interpolation duration for Whack-A-Mole's Waypoints.</summary>
 	[Space(5f)]
 	[Header("Duel's Attributes:")]
+	[SerializeField] private FloatRange _attackRadiusRange; 			/// <summary>Attacks' Radius Range.</summary>
+	[SerializeField] private FloatRange _strongAttackWaitInterval; 		/// <summary>Strong Attack's Wait Interval.</summary>
 	[SerializeField] private float _movementSpeed; 						/// <summary>Movement's Speed.</summary>
 	[SerializeField] private float _rotationSpeed; 						/// <summary>Rotation's Speed.</summary>
+	[SerializeField] private float _regressionDuration; 				/// <summary>Regression's Duration.</summary>
 	[SerializeField] private float _attackDistance; 					/// <summary>Attack's Distance.</summary>
+	[SerializeField] private float _normalAttackCooldownDuration; 		/// <summary>Normal Attack Cooldown's Duration.</summary>
+	[SerializeField] private float _strongAttackCooldownDuration; 		/// <summary>Strong Attack Cooldown's Duration.</summary>
 	[Space(5f)]
 	[Header("Inmunities:")]
 	[SerializeField] private GameObjectTag[] _stage1Inmunities; 		/// <summary>Inmunities on Stage 1.</summary>
@@ -111,7 +118,10 @@ public class ShantyBoss : Boss
 	private Projectile _bomb; 											/// <summary>Bomb's Reference.</summary>
 	private Projectile _TNT; 											/// <summary>TNT's Reference.</summary>
 	private JumpAbility _jumpAbility; 									/// <summary>JumpAbility's Component.</summary>
+	private DashAbility _dashAbility; 									/// <summary>DashAbility's Component.</summary>
 	private RigidbodyMovementAbility _movementAbility; 					/// <summary>MovementAbility's Component.</summary>
+	private Cooldown _normalAttackCooldown; 							/// <summary>Normal Attack's Cooldown.</summary>
+	private Cooldown _strongAttackCooldown; 							/// <summary>Strong Attack's Cooldown.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets ship property.</summary>
@@ -160,11 +170,26 @@ public class ShantyBoss : Boss
 	/// <summary>Gets movementSpeed property.</summary>
 	public float movementSpeed { get { return _movementSpeed; } }
 
+	/// <summary>Gets regressionDuration property.</summary>
+	public float regressionDuration { get { return _regressionDuration; } }
+
 	/// <summary>Gets rotationSpeed property.</summary>
 	public float rotationSpeed { get { return _rotationSpeed; } }
 
 	/// <summary>Gets attackDistance property.</summary>
 	public float attackDistance { get { return _attackDistance; } }
+
+	/// <summary>Gets normalAttackCooldownDuration property.</summary>
+	public float normalAttackCooldownDuration { get { return _normalAttackCooldownDuration; } }
+
+	/// <summary>Gets strongAttackCooldownDuration property.</summary>
+	public float strongAttackCooldownDuration { get { return _strongAttackCooldownDuration; } }
+
+	/// <summary>Gets attackRadiusRange property.</summary>
+	public FloatRange attackRadiusRange { get { return _attackRadiusRange; } }
+
+	/// <summary>Gets strongAttackWaitInterval property.</summary>
+	public FloatRange strongAttackWaitInterval { get { return _strongAttackWaitInterval; } }
 
 	/// <summary>Gets sword property.</summary>
 	public ContactWeapon sword { get { return _sword; } }
@@ -224,6 +249,16 @@ public class ShantyBoss : Boss
 		}
 	}
 
+	/// <summary>Gets dashAbility Component.</summary>
+	public DashAbility dashAbility
+	{ 
+		get
+		{
+			if(_dashAbility == null) _dashAbility = GetComponent<DashAbility>();
+			return _dashAbility;
+		}
+	}
+
 	/// <summary>Gets movementAbility Component.</summary>
 	public RigidbodyMovementAbility movementAbility
 	{ 
@@ -233,13 +268,38 @@ public class ShantyBoss : Boss
 			return _movementAbility;
 		}
 	}
+
+	/// <summary>Gets and Sets normalAttackCooldown property.</summary>
+	public Cooldown normalAttackCooldown
+	{
+		get { return _normalAttackCooldown; }
+		private set { _normalAttackCooldown = value; }
+	}
+
+	/// <summary>Gets and Sets strongAttackCooldown property.</summary>
+	public Cooldown strongAttackCooldown
+	{
+		get { return _strongAttackCooldown; }
+		private set { _strongAttackCooldown = value; }
+	}
 #endregion
+
+#if UNITY_EDITOR
+	/// <summary>Draws Gizmos [On Editor Mode].</summary>
+	protected override void OnDrawGizmos()
+	{
+		base.OnDrawGizmos();
+
+		Gizmos.DrawWireSphere(transform.position, attackDistance);
+		Gizmos.DrawWireSphere(transform.position, attackRadiusRange.Min());
+		Gizmos.DrawWireSphere(transform.position, attackRadiusRange.Max());
+	}
+#endif
 
 	/// <summary>ShantyBoss's instance initialization.</summary>
 	protected override void Awake()
 	{
 		ActivateSword(false);
-		jumpAbility.gravityApplier.enabled = false;
 
 		if(tiedAnimations != null) foreach(AnimationClip clip in tiedAnimations)
 		{
@@ -260,8 +320,14 @@ public class ShantyBoss : Boss
 			hitBombAnimation,
 			hitBarrelAnimation,
 			hitSwordAnimation,
-			cryAnimation
+			cryAnimation,
+			normalAttackAnimation,
+			strongAttackAnimation,
+			backStepAnimation
 		);
+
+		normalAttackCooldown = new Cooldown(this, normalAttackCooldownDuration);
+		strongAttackCooldown = new Cooldown(this, strongAttackCooldownDuration);
 
 		base.Awake();
 	}
@@ -300,7 +366,6 @@ public class ShantyBoss : Boss
 	/// <summary>Begins Attack's Routine.</summary>
 	public void BeginAttackRoutine()
 	{
-		Debug.Log("[ShantyBoss] Beginning Attack Routine at Stage: " + currentStage);
 		this.RemoveStates(ID_STATE_IDLE);
 		this.AddStates(ID_STATE_ATTACK);
 		//animator.SetInteger(stateIDCredential, ID_ANIMATIONSTATE_ATTACK);
@@ -317,14 +382,20 @@ public class ShantyBoss : Boss
 			break;
 
 			case STAGE_2:
+			Debug.Log("[ShantyBoss] Beginning WhackAMoleRoutine()...");
 			this.StartCoroutine(WhackAMoleRoutine(), ref behaviorCoroutine);
 			break;
 
 			case STAGE_3:
+			Debug.Log("[ShantyBoss] Beginning DuelRoutine()...");
+			ActivateSword(true);
+			sword.ActivateHitBoxes(false);
 			this.StartCoroutine(DuelRoutine(), ref behaviorCoroutine);
 			this.StartCoroutine(RotateTowardsMateo(), ref coroutine);
 			break;
-		}		
+		}
+
+		Debug.Log("[ShantyBoss] Beginning Attack Routine at Stage: " + currentStage);		
 	}
 
 	/// <summary>Moves Shanty into desired direction.</summary>
@@ -558,6 +629,10 @@ public class ShantyBoss : Boss
 			if(bomb != null) bomb.RequestRepel(gameObject);
 			break;
 
+			case ID_ANIMATIONEVENT_JUMP:
+			Jump();
+			break;
+
 			case 10:
 			Debug.Log("[ShantyBoss] Time when animation starts: " + Time.time);
 			break;
@@ -716,6 +791,22 @@ public class ShantyBoss : Boss
 	}
 #endregion
 
+	/// <summary>Moves towards direction.</summary>
+	/// <param name="direction">Direction.</param>
+	/// <param name="scale">Optional movement scalar [1.0f by default].</param>
+	private void Move(Vector3 direction, float scale = 1.0f)
+	{
+		animation.Play(backStepAnimation);
+		movementAbility.Move(direction, scale);
+	}
+
+	/// <summary>Performs Jumps.</summary>
+	private void Jump()
+	{
+		this.StartCoroutine(JumpRoutine());
+	}
+
+#region Coroutines:
 	/// <summary>Tie's Coroutine.</summary>
 	private IEnumerator TieRoutine()
 	{
@@ -726,7 +817,7 @@ public class ShantyBoss : Boss
 		{
 			foreach(AnimationClip clip in tiedAnimations)
 			{
-				animation.Play(clip);
+				animation.CrossFade(clip.name); /// Update with VAnimation's function (waiting for Zucun to upload his version)
 				animationState = animation.GetAnimationState(clip);
 				wait.ChangeDurationAndReset(animationState.clip.length);
 
@@ -814,31 +905,66 @@ public class ShantyBoss : Boss
 	/// <summary>Duel's Routine.</summary>
 	private IEnumerator DuelRoutine()
 	{
+		IEnumerator attackRoutine = null;
 		AnimationClip clip = null;
 		AnimationState animationState = null;
 		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
 		Vector3 direction = Vector3.zero;
-		float sqrDistance = attackDistance * attackDistance;
+		float min = attackRadiusRange.Min();
+		float max = attackRadiusRange.Max();
+		float minSqrDistance = min * min;
+		float maxSqrDistance = max * max;
+		float sqrDistance = 0.0f;
+		bool enteredAttackRadius = false;
 
 		while(true)
 		{
 			direction = Game.mateo.transform.position - transform.position;
+			sqrDistance = direction.sqrMagnitude;
 
-			if(direction.sqrMagnitude <= sqrDistance)
+			if(sqrDistance <= maxSqrDistance)
 			{
-				animation.Play(normalAttackAnimation);
-				animationState = animation.GetAnimationState(normalAttackAnimation);
+				if(sqrDistance > minSqrDistance)
+				{
+					if(!enteredAttackRadius)
+					{
+						wait.ChangeDurationAndReset(strongAttackWaitInterval.Random());
+						enteredAttackRadius = true;
+					}
 
-				wait.ChangeDurationAndReset(normalAttackAnimation.length);
+					if(!wait.MoveNext())
+					{
+						if(!strongAttackCooldown.onCooldown)
+						attackRoutine = StrongAttackRoutine();
+						while(attackRoutine.MoveNext()) yield return null;
+						enteredAttackRadius = false;
+					}
+					else
+					{
+						direction = direction.x > 0.0f ? Vector3.right : Vector3.left;
+						Move(direction);
+					}
 
-				while(wait.MoveNext()) yield return null; 
+				} else if(sqrDistance <= minSqrDistance && !normalAttackCooldown.onCooldown)
+				{
+					enteredAttackRadius = false;
+					direction = direction.x > 0.0f ? Vector3.right : Vector3.left;
+					attackRoutine = FrontAttackRoutine(direction);
+					while(attackRoutine.MoveNext()) yield return null;
+				}
+			}
+			else
+			{
+				enteredAttackRadius = false;
+				direction = direction.x > 0.0f ? Vector3.right : Vector3.left;
+				Move(direction);
 			}
 
 			yield return null;
 		}
 	}
 
-	/// <summary>Rotate Towards Mateo's Routine.</summary>
+	/// <summary>Rotate Towards Mateo's Routine [used on the Duel].</summary>
 	private IEnumerator RotateTowardsMateo()
 	{
 		float x = 0.0f;
@@ -856,24 +982,35 @@ public class ShantyBoss : Boss
 	}
 
 	/// <summary>Front Attack's routine.</summary>
-	private IEnumerator FrontAttackRoutine()
+	private IEnumerator FrontAttackRoutine(Vector3 direction)
 	{
 		AnimationState animationState = null;
 		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
 
+		Debug.DrawRay(transform.position, direction * 2.0f, Color.magenta, 2.0f);
+
 		animation.Play(normalAttackAnimation);
 		animationState = animation.GetAnimationState(normalAttackAnimation);
-		
+		sword.ActivateHitBoxes(true);
 		wait.ChangeDurationAndReset(animationState.length);
-		
+		dashAbility.Dash(direction);
+
+		while(wait.MoveNext()) yield return null;
+
+		sword.ActivateHitBoxes(false);
+
+		wait.ChangeDurationAndReset(regressionDuration);
+
+		while(dashAbility.state != DashState.Unactive) yield return null;
+
 		while(wait.MoveNext())
 		{
-			/// Displace while doing the attack....
-			movementAbility.Move(Vector3.left);
+			Debug.Log("[ShantyBoss] Regressing with direction: " + direction);
+			Move(-direction);
 			yield return null;
 		}
 
-		yield return null;
+		normalAttackCooldown.Begin();
 	}
 
 	/// <summary>Strong Attack's Routine.</summary>
@@ -881,23 +1018,55 @@ public class ShantyBoss : Boss
 	{
 		SecondsDelayWait wait = new SecondsDelayWait(0.0f);
 		AnimationState animationState = null;
-		float duration = 0.0f;
-		float t = 0.0f;
 
 		animation.Play(strongAttackAnimation);
 		animationState = animation.GetAnimationState(strongAttackAnimation);
+		wait.ChangeDurationAndReset(animationState.length);
+
+		while(wait.MoveNext()) yield return null;
+
+		strongAttackCooldown.Begin();
+	}
+
+	/// <summary>Jump's Routine.</summary>
+	private IEnumerator JumpRoutine()
+	{
+		Vector3 direction = Game.mateo.transform.position - transform.position;
+		direction.y = 0.0f;
+		direction.Normalize();
+		sword.ActivateHitBoxes(true);
 
 		while(!jumpAbility.HasStates(JumpAbility.STATE_ID_FALLING))
 		{
 			jumpAbility.Jump(Vector3.up);
-			t += Time.deltaTime;
+			Move(direction, 2.0f);
 			yield return null;
 		}
 
-		duration = Mathf.Max((animationState.length - t), 0.0f);
-		wait.ChangeDurationAndReset(duration);
+		while(!jumpAbility.HasStates(JumpAbility.STATE_ID_GROUNDED))
+		{
+			Move(direction, 2.0f);
+			yield return null;
+		}
 
-		while(wait.MoveNext()) yield return null;
+		sword.ActivateHitBoxes(false);
+	}
+#endregion
+
+	/// <summary>Event triggered when this Collider/Rigidbody begun having contact with another Collider/Rigidbody.</summary>
+	/// <param name="col">The Collision data associated with this collision Event.</param>
+	private void OnCollisionEnter2D(Collision2D col)
+	{
+		if(col.gameObject.CompareTag(Game.data.playerTag))
+		rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+	}
+
+	/// <summary>Event triggered when this Collider/Rigidbody began having contact with another Collider/Rigidbody.</summary>
+	/// <param name="col">The Collision data associated with this collision Event.</param>
+	private void OnCollisionExit2D(Collision2D col)
+	{
+		if(col.gameObject.CompareTag(Game.data.playerTag))
+		rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
 	}
 }
 }

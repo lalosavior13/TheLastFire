@@ -184,6 +184,7 @@ public class ShantySceneController : Singleton<ShantySceneController>
 		{
 			shanty.onIDEvent += OnShantyIDEvent;
 			if(shantyShip != null) shanty.ship = shantyShip;
+			Game.AddTargetToCamera(shanty.cameraTarget);
 		}
 	}
 
@@ -284,7 +285,7 @@ public class ShantySceneController : Singleton<ShantySceneController>
 							Game.gameplayGUIController.screenFaderGUI.FadeOut(Color.white, fadeOutDuration,
 							()=>
 							{
-
+								shanty.BeginAttackRoutine();
 							});
 						}));
 					});

@@ -40,6 +40,7 @@ public class Boss : Enemy
 #endif
 	private int _currentStage; 
 
+#region Getters/Setters:
 	/// <summary>Gets and Sets stages property.</summary>
 	public int stages
 	{
@@ -94,6 +95,7 @@ public class Boss : Enemy
 		get { return _hurtBoxesContainer; }
 		set { _hurtBoxesContainer = value; }
 	}
+#endregion
 
 #region UnityMethods:
 	/// <summary>Resets Boss's instance to its default values.</summary>

@@ -8,6 +8,7 @@ namespace Flamingo
 {
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(EnemyEventsHandler))]
+[RequireComponent(typeof(VCameraTarget))]
 public class Enemy : PoolGameObject, IStateMachine
 {
 	public const int ID_STATE_DEAD = 0; 						/// <summary>Dead's State Flag.</summary>
@@ -21,12 +22,20 @@ public class Enemy : PoolGameObject, IStateMachine
 
 	[SerializeField] private Transform _meshParent; 			/// <summary>Mesh's Parent.</summary>
 	[SerializeField] private Collider2D[] _physicalColliders; 	/// <summary>Physical Colliders [Collider2Ds that don't have onTrigger enabled].</summary>
+#if UNITY_EDITOR
+	[Space(5f)]
+	[Header("Gizmos' Attributes:")]
+	[SerializeField] protected Color gizmosColor; 				/// <summary>Gizmos' Color.</summary>
+	[SerializeField] protected float gizmosRadius; 				/// <summary>Gizmos' Radius.</summary>
+#endif
 	private Health _health; 									/// <summary>Health's Component.</summary>
 	private EnemyEventsHandler _eventsHandler; 					/// <summary>EnemyEventsHandler's Component.</summary>
+	private VCameraTarget _cameraTarget; 						/// <summary>VCameraTarget's Component.</summary>
 	private int _state; 										/// <summary>Agent's Current State.</summary>
 	private int _previousState; 								/// <summary>Agent's Previous State.</summary>
 	private int _ignoreResetMask; 								/// <summary>State flags to ignore.</summary>
 	protected Coroutine behaviorCoroutine; 						/// <summary>Main Behavior Coroutine's reference.</summary>
+	private Rigidbody2D _rigidbody; 							/// <summary>[Optional] Rigidbody2D's Component.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets meshParent property.</summary>
@@ -83,7 +92,35 @@ public class Enemy : PoolGameObject, IStateMachine
 			return _eventsHandler;
 		}
 	}
+
+	/// <summary>Gets cameraTarget Component.</summary>
+	public VCameraTarget cameraTarget
+	{ 
+		get
+		{
+			if(_cameraTarget == null) _cameraTarget = GetComponent<VCameraTarget>();
+			return _cameraTarget;
+		}
+	}
+
+	/// <summary>Gets rigidbody Component.</summary>
+	public Rigidbody2D rigidbody
+	{ 
+		get
+		{
+			if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody2D>();
+			return _rigidbody;
+		}
+	}
 #endregion
+
+#if UNITY_EDITOR
+	/// <summary>Draws Gizmos [On Editor Mode].</summary>
+	protected virtual void OnDrawGizmos()
+	{
+		Gizmos.color = gizmosColor;
+	}
+#endif
 
 	/// <summary>Resets Enemy's instance to its default values.</summary>
 	public virtual void Reset()
