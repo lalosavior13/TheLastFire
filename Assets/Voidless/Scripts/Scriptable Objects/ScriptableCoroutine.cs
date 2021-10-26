@@ -7,7 +7,7 @@ namespace Voidless
 /// <summary>Event invoked when the ScriptableCoroutine ends.</summary>
 public delegate void OnCoroutineEnds();
 
-public abstract class ScriptableCoroutine<T> : ScriptableObject
+public abstract class ScriptableCoroutine<T> : MonoBehaviour
 {
 	public event OnCoroutineEnds onCoroutineEnds; 	/// <summary>OnCoroutineEnds event delegate.</summary>
 

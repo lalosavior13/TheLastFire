@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4051,8 +4051,8 @@ PrefabInstance:
         type: 3}
       propertyPath: _behavior
       value: 
-      objectReference: {fileID: 11400000, guid: f29c82ab6a02dfb49b719cb4885ce850,
-        type: 2}
+      objectReference: {fileID: 8775925146364333196, guid: 128d470398fa3db49bd15ea4105f3bdf,
+        type: 3}
     - target: {fileID: 4580468147391635085, guid: 7de7cb975f6eb9f41b3da0813bb78763,
         type: 3}
       propertyPath: _cardRenderer
@@ -5824,8 +5824,8 @@ PrefabInstance:
         type: 3}
       propertyPath: _behavior
       value: 
-      objectReference: {fileID: 11400000, guid: 16e92bd9bcdcf4f48b9ac9975d127f48,
-        type: 2}
+      objectReference: {fileID: 7118869104569710169, guid: aad728b55fc983b42812c47e8d61e625,
+        type: 3}
     - target: {fileID: 4580468147391635085, guid: 7de7cb975f6eb9f41b3da0813bb78763,
         type: 3}
       propertyPath: _cardRenderer
@@ -7651,8 +7651,8 @@ PrefabInstance:
         type: 3}
       propertyPath: _behavior
       value: 
-      objectReference: {fileID: 11400000, guid: 69e547d1b9df05742bde0bbcc746e7ae,
-        type: 2}
+      objectReference: {fileID: 3913107520581560748, guid: 56454b29aee657b4183c73b188e1fb8a,
+        type: 3}
     - target: {fileID: 4580468147391635085, guid: 7de7cb975f6eb9f41b3da0813bb78763,
         type: 3}
       propertyPath: _cardRenderer
@@ -7988,8 +7988,8 @@ PrefabInstance:
         type: 3}
       propertyPath: _behavior
       value: 
-      objectReference: {fileID: 11400000, guid: 860cd02f405da374c8e17bc0d7a3cf2b,
-        type: 2}
+      objectReference: {fileID: 7889342628589775074, guid: 1597500eb11fde240acaea2f4df8a583,
+        type: 3}
     - target: {fileID: 4580468147391635085, guid: 7de7cb975f6eb9f41b3da0813bb78763,
         type: 3}
       propertyPath: _cardRenderer
@@ -13062,6 +13062,12 @@ PrefabInstance:
       propertyPath: _siMiNoteIndex.collectionIndex
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8965366077498841998, guid: 16d6b59009cf8314aa995cfa634e8c92,
+        type: 3}
+      propertyPath: _deckController
+      value: 
+      objectReference: {fileID: 2161644131852807984, guid: ef8edb7c6541a1046a03d0d469c0645d,
+        type: 3}
     - target: {fileID: 9026799372489053172, guid: 16d6b59009cf8314aa995cfa634e8c92,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -13270,8 +13276,8 @@ PrefabInstance:
         type: 3}
       propertyPath: _behavior
       value: 
-      objectReference: {fileID: 11400000, guid: 62bdcbff77832424ab218399392498ed,
-        type: 2}
+      objectReference: {fileID: 2087594265516451964, guid: fc2163d87d5437a4083e8cc8082f54a7,
+        type: 3}
     - target: {fileID: 4580468147391635085, guid: 7de7cb975f6eb9f41b3da0813bb78763,
         type: 3}
       propertyPath: _cardRenderer
