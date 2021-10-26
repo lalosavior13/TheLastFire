@@ -88,6 +88,7 @@ public class BouncingBall : MonoBehaviour
 		{
 			if(obj.CompareTag(tag))
 			{
+				rigidbody.Sleep();
 				rigidbody.AddForce(Vector2.Scale(-_info.direction.normalized, force), ForceMode2D.Impulse);
 				break;
 			}

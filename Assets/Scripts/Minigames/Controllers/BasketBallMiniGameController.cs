@@ -11,7 +11,8 @@ public class BasketBallMiniGameController : MonoBehaviour
     [SerializeField] private BasketBallMiniGame _basketMiniGame;    /// <summary> Reference to BasketMiniGame that initialize the minigame       
     [SerializeField] private Vector3 _ballInitialPos;               /// <summary>Spawn Position to reset the ball on ring passed.</summary>
     [Space(5f)]
-    [SerializeField] private CollectionIndex _cheerSoundIndex;     /// <summary>Cheer's Sound Index.</summary>
+    [SerializeField] private CollectionIndex _cheerLocalSoundIndex;      /// <summary>Cheer's Local Sound Index.</summary>
+    [SerializeField] private CollectionIndex _cheerVisitorSoundIndex;      /// <summary>Cheer's Visitor Sound Index.</summary>
     [Space(5f)]
     [Header("UI: ")]
     [SerializeField] private TextMesh _timeText;                    /// <summary>Time's Text.</summary>
@@ -30,8 +31,12 @@ public class BasketBallMiniGameController : MonoBehaviour
         get { return _ballInitialPos; }
     }
 
-    /// <summary>Gets cheerSoundIndex property.</summary>
-    public CollectionIndex cheerSoundIndex { get { return _cheerSoundIndex; } }
+    /// <summary>Gets cheerLocalSoundIndex property.</summary>
+    public CollectionIndex cheerLocalSoundIndex { get { return _cheerLocalSoundIndex; } }
+
+        /// <summary>Gets cheerVisitorSoundIndex property.</summary>
+    public CollectionIndex cheerVisitorSoundIndex { get { return _cheerVisitorSoundIndex; } }
+
 
     /// <summary>Gets timeText property.</summary>
     public TextMesh timeText { get { return _timeText; } }
@@ -125,12 +130,12 @@ public class BasketBallMiniGameController : MonoBehaviour
             break;
 
             case MiniGame.ID_EVENT_MINIGAME_SCOREUPDATE_LOCAL:
-            AudioController.PlayOneShot(SourceType.Scenario, 0, cheerSoundIndex);
+            AudioController.PlayOneShot(SourceType.Scenario, 0, cheerLocalSoundIndex);
             localScoreText.text = basketMiniGame.localScore.ToString();
             break;
 
             case MiniGame.ID_EVENT_MINIGAME_SCOREUPDATE_VISITOR:
-            AudioController.PlayOneShot(SourceType.Scenario, 0, cheerSoundIndex);
+            AudioController.PlayOneShot(SourceType.Scenario, 0, cheerVisitorSoundIndex);
             visitorScoreText.text = basketMiniGame.visitorScore.ToString();
             break;
         }

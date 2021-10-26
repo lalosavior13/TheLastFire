@@ -1626,7 +1626,7 @@ MonoBehaviour:
   _muzzle: {fileID: 4756720496410866623}
   _faction: 0
   _projectileID:
-    index: 0
+    index: 3
     objectIndex: 0
     collectionIndex: 1
   _speedRange:
