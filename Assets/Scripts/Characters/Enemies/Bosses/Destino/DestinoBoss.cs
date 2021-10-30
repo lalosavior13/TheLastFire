@@ -14,6 +14,10 @@ namespace Flamingo
  4: Laaa
 */
 
+[RequireComponent(typeof(SensorSystem2D))]
+[RequireComponent(typeof(RigidbodyMovementAbility))]
+[RequireComponent(typeof(RotationAbility))]
+[RequireComponent(typeof(JumpAbility))]
 [RequireComponent(typeof(SteeringSnake))]
 public class DestinoBoss : Boss
 {
@@ -74,10 +78,14 @@ public class DestinoBoss : Boss
 	[Space(5f)]
 	[SerializeField] private MeshFilter headMeshFilter; 				/// <summary>Removable Head's MeshFilter Component.</summary>
 #endif
+	private RigidbodyMovementAbility _movementAbility; 					/// <summary>RigidbodyMovementAbility's Component.</summary>
+	private RotationAbility _rotationAbility; 							/// <summary>RotationAbility's Component.</summary>
+	private JumpAbility _jumpAbility; 									/// <summary>JumpAbility's Component.</summary>
 	private SteeringSnake _steeringSnake; 								/// <summary>SteeringSnake's Component.</summary>
 	private IEnumerator iterator; 										/// <summary>[Test] Iterator.</summary>
 	private Coroutine cardRoutine; 										/// <summary>Card's Coroutine reference.</summary>
 	private Coroutine fallenTolerance; 									/// <summary>Removable Head's Fallen Tolerance Coroutine reference.</summary>
+	private Vector2 axes;
 
 #region Getters/Setters:
 	/// <summary>Gets laughFrequency property.</summary>
@@ -216,6 +224,36 @@ public class DestinoBoss : Boss
 			return _steeringSnake;
 		}
 	}
+
+	/// <summary>Gets movementAbility Component.</summary>
+	public RigidbodyMovementAbility movementAbility
+	{ 
+		get
+		{
+			if(_movementAbility == null) _movementAbility = GetComponent<RigidbodyMovementAbility>();
+			return _movementAbility;
+		}
+	}
+
+	/// <summary>Gets rotationAbility Component.</summary>
+	public RotationAbility rotationAbility
+	{ 
+		get
+		{
+			if(_rotationAbility == null) _rotationAbility = GetComponent<RotationAbility>();
+			return _rotationAbility;
+		}
+	}
+
+	/// <summary>Gets jumpAbility Component.</summary>
+	public JumpAbility jumpAbility
+	{ 
+		get
+		{
+			if(_jumpAbility == null) _jumpAbility = GetComponent<JumpAbility>();
+			return _jumpAbility;
+		}
+	}
 #endregion
 
 #if UNITY_EDITOR
@@ -240,7 +278,9 @@ public class DestinoBoss : Boss
 	protected override void Awake()
 	{
 		base.Awake();
-			
+		
+		EnablePhysics(false);
+
 		animator.SetInteger(stateIDCredential, ID_STATE_IDLE_NORMAL);
 
 		if(scythe != null) scythe.gameObject.SetActive(false);
@@ -290,6 +330,50 @@ public class DestinoBoss : Boss
 			iterator = cards[testCardIndex].behavior.Routine(this);
 		}
 #endif
+	}
+
+	/// <summary>Enables Physics.</summary>
+	/// <param name="_enable">Enable? true by default.</param>
+	public override void EnablePhysics(bool _enable)
+	{
+		base.EnablePhysics(_enable);
+		jumpAbility.gravityApplier.useGravity = _enable;
+	}
+
+	public void OnLeftAxesChange(Vector2 _axes)
+	{
+		if(axes.x == 0.0f && axes == _axes) movementAbility.Stop();
+		axes = _axes;
+
+		if(axes.x != 0.0f)
+		{
+			Vector3 direction = new Vector3(
+				axes.x,
+				0.0f,
+				axes.y
+			);
+			rotationAbility.RotateTowardsDirection(meshParent, direction);
+		}
+	}
+
+	/// <summary>Moves Destino.</summary>
+	/// <param name="_axes">Displacement axes.</param>
+	/// <param name="_scale">Displacement's Scale [1.0f by default].</param>
+	public void Move(Vector2 _axes, float _scale = 1.0f)
+	{
+		movementAbility.Move(_axes, _scale, Space.World);
+	}
+
+	/// <summary>Performs Jump.</summary>
+	/// <param name="_axes">Additional Direction's Axes.</param>
+	public void Jump(Vector2 _axes)
+	{
+		jumpAbility.Jump(_axes);
+	}
+
+	public void CancelJump()
+	{
+		jumpAbility.CancelJump();
 	}
 
 	/// <summary>Requests card to the DeckController.</summary>

@@ -301,7 +301,22 @@ public static class VCoroutines
 	/// <param name="_transform">Transform to rotate.</param>
 	/// <param name="_axis">Relative to what axis to rotate.</param>
 	/// <param name="_rotation">Rotation step given at each frame.</param>
-	/// <param name="_rotation">Rotation's duration.</param>
+	/// <param name="_space">Relative to which space to rotate.</param>
+	public static IEnumerator RotateOnAxis(this Transform _transform, Vector3 _axis, float _rotation, Space _space = Space.Self)
+	{
+		while(true)
+		{
+			Debug.Log("[VCoroutines] ROTATING");
+			_transform.Rotate(_axis, _rotation * Time.deltaTime, _space);
+			yield return null;
+		}
+	}
+
+	/// <summary>Rotates Transform around given axis, at a fixed time step.</summary>
+	/// <param name="_transform">Transform to rotate.</param>
+	/// <param name="_axis">Relative to what axis to rotate.</param>
+	/// <param name="_rotation">Rotation step given at each frame.</param>
+	/// <param name="_duration">Rotation's duration.</param>
 	/// <param name="_space">Relative to which space to rotate.</param>
 	/// <param name="onRotationEnds">Optional Callback invoked when the rotation ends.</param>
 	public static IEnumerator RotateOnAxis(this Transform _transform, Vector3 _axis, float _rotation, float _duration, Space _space = Space.Self, Action onRotationEnds = null)
@@ -927,7 +942,7 @@ public static class VCoroutines
 		float time = (f * dt) / state.speed; 					/// Time in frames it will take to reach the desired frame.
 		float difference = _duration - time;
 
-		Debug.Log(
+		/*Debug.Log(
 			"[VCoroutines] Frame:"
 			+ f
 			+ ", Frame Rate: "
@@ -942,22 +957,22 @@ public static class VCoroutines
 			+ difference
 			+ ", Speed: "
 			+ state.speed
-		);
+		);*/
 
 		if(difference > 0.0f)
 		{ /// Duration lasts more than the desired frame.
-			Debug.Log("[VCoroutines] Time before wait: " + Time.time);
+			//Debug.Log("[VCoroutines] Time before wait: " + Time.time);
 			wait.ChangeDurationAndReset(difference - Time.deltaTime);
 			while(wait.MoveNext()) yield return null;
-			Debug.Log("[VCoroutines] Time after wait: " + Time.time);
+			//Debug.Log("[VCoroutines] Time after wait: " + Time.time);
 
 		} else if(difference < 0.0f)
 		{ /// Time towards desired frame lasts more than duration.
 			state.speed = time / _duration; 					/// Make speed faster so it synchs with time.
-			Debug.Log("[VCoroutines] Speed adjusted to " + state.speed.ToString());
+			//Debug.Log("[VCoroutines] Speed adjusted to " + state.speed.ToString());
 		}
 
-		Debug.Log("[VCoroutines] Time before playing animation: " + Time.time);
+		//Debug.Log("[VCoroutines] Time before playing animation: " + Time.time);
 		_animation.Play(_clip);
 		wait.ChangeDurationAndReset(state.length * state.speed);
 		while(wait.MoveNext()) yield return null;

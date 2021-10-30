@@ -595,7 +595,7 @@ public class Mateo : Character
 		{
 			case HealthEvent.Depleted:
 			animator.SetInteger(vitalityIDCredential, STATE_FLAG_HURT);
-			Time.timeScale = Game.data.hurtTimeScale;
+			Game.SetTimeScale(Game.data.hurtTimeScale);
 			break;
 
 			case HealthEvent.Replenished:
@@ -603,11 +603,13 @@ public class Mateo : Character
 			break;
 
 			case HealthEvent.HitStunEnds:
+			if(health.hp > 0.0f)
 			animator.SetInteger(vitalityIDCredential, STATE_FLAG_ALIVE);
-			Time.timeScale = 1.0f;
+			Game.SetTimeScale(1.0f);
 			break;
 
 			case HealthEvent.InvincibilityEnds:
+			if(health.hp > 0.0f)
 			animator.SetInteger(vitalityIDCredential, STATE_FLAG_ALIVE);
 			break;
 
@@ -622,7 +624,7 @@ public class Mateo : Character
 			Move(Vector2.zero);
 			leftAxes = Vector2.zero;
 			this.ChangeState(ID_STATE_DEAD);
-			this.StartCoroutine(animator.WaitForAnimatorState(0, 0.0f,
+			this.StartCoroutine(animator.WaitForAnimatorState(0, 0.1f,
 			()=>
 			{
 				InvokeIDEvent(ID_EVENT_DEAD);

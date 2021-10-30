@@ -24,6 +24,26 @@ public struct Line
 	/// <summary>Implicit Ray to Line Operator.</summary>
 	public static implicit operator Line(Ray _ray) { return new Line(_ray.origin, (_ray.origin + _ray.direction)); }*/
 
+	/// <summary>Implicit Line equals Line value bool operator.</summary>
+	public static bool operator == (Line lA, Line lB)
+	{
+		return 	(lA.type == lB.type)
+				&& (lA.a == lB.a)
+				&& (lA.b == lB.b)
+				&& (lA.point1 == lB.point1)
+				&& (lA.point2 == lB.point2);
+	}
+
+	/// <summary>Implicit Line not-equals Line value bool operator.</summary>
+	public static bool operator != (Line lA, Line lB)
+	{
+		return 	(lA.type != lB.type)
+				|| (lA.a != lB.a)
+				|| (lA.b != lB.b)
+				|| (lA.point1 != lB.point1)
+				|| (lA.point2 != lB.point2);
+	}
+
 	/// <summary>Line's Constructor.</summary>
 	/// <param name="_type">Line Segment's Type.</param>
 	/// <param name="_a">Vector A.</param>

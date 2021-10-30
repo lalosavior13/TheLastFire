@@ -16,6 +16,8 @@ public class GameData : ScriptableObject
 	[Header("Configurations:")]
 	[SerializeField] [Range(0, 60)] private int _frameRate; 					/// <summary>Game's Frame rate.</summary>
 	[SerializeField] [Range(0.0f, 1.0f)] private float _hurtTimeScale; 			/// <summary>Hurt's Time-Scale.</summary>
+	[SerializeField] private float _timeScaleAcceleration; 						/// <summary>Time-Scale change's Acceleration.</summary>
+	[SerializeField] private float _timeScaleDeceleration; 						/// <summary>Time-Scale change's Deceleration.</summary>
 	[Space(5f)]
 	[Header("Camera Configurations:")]
 	[SerializeField] private float _deathZoom; 									/// <summary>Death's Zoom.</summary>
@@ -104,6 +106,12 @@ public class GameData : ScriptableObject
 
 	/// <summary>Gets hurtTimeScale property.</summary>
 	public float hurtTimeScale { get { return _hurtTimeScale; } }
+
+	/// <summary>Gets timeScaleAcceleration property.</summary>
+	public float timeScaleAcceleration { get { return _timeScaleAcceleration; } }
+
+	/// <summary>Gets timeScaleDeceleration property.</summary>
+	public float timeScaleDeceleration { get { return _timeScaleDeceleration; } }
 
 	/// <summary>Gets deathZoom property.</summary>
 	public float deathZoom { get { return _deathZoom; } }

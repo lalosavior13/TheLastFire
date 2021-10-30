@@ -223,7 +223,6 @@ GameObject:
   - component: {fileID: 2740009211055815911}
   - component: {fileID: 5051148109742244880}
   - component: {fileID: 5051148109742244893}
-  - component: {fileID: 3841167151225498995}
   m_Layer: 15
   m_Name: Projectile_Parabola_Bomb_Shanty_Bouncing
   m_TagString: Projectile/Enemy
@@ -239,7 +238,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5051148109742244881}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.5, y: 5.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5170179748477949909}
@@ -262,7 +261,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -295,24 +294,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _healthAffectableTags:
-  - _tag: Player
-    index: 5
+  _meshContainer: {fileID: 0}
+  _healthAffectableTags: []
   _damage: 1
   _damageScales:
   - 1
   _impactTags:
-  - _tag: Surface/Floor
-    index: 13
+  - _tag: Player
+    index: 5
   _trailRenderers: []
   _particleEffects: []
   effect: {fileID: 0}
   _projectileType: 1
-  _repelTags:
-  - _tag: Weapon/Player
-    index: 9
-  - _tag: Weapon/Enemy
-    index: 10
+  _repelTags: []
   _speedMode: 1
   _speed: 5
   _lifespan: 0
@@ -350,7 +344,7 @@ MonoBehaviour:
     objectIndex: 0
     collectionIndex: 7
   _fuse: {fileID: 6623463429808312841}
-  _fuseDuration: 5
+  _fuseDuration: 15
   _fuseLength: 0.5
 --- !u!114 &2740009211055815911
 MonoBehaviour:
@@ -388,7 +382,9 @@ MonoBehaviour:
     index: 9
   - _tag: Projectile/Player
     index: 11
-  _force: {x: 3, y: 5, z: 0}
+  - _tag: Player
+    index: 5
+  _force: {x: 15, y: 20, z: 0}
 --- !u!58 &5051148109742244893
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -405,19 +401,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
---- !u!114 &3841167151225498995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5051148109742244881}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6147e7d19d772074192cfb092898ed3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tags: []
 --- !u!1 &5170179748477949908
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,4 +484,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.2
+  m_Radius: 1.1

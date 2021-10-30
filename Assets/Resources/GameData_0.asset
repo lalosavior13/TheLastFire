@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _frameRate: 60
   _hurtTimeScale: 0.5
+  _timeScaleAcceleration: 0.1
+  _timeScaleDeceleration: 3
   _deathZoom: 7
   _damageCameraShakeDuration:
     _min: 0.1
@@ -86,6 +88,7 @@ MonoBehaviour:
   - {fileID: 3571803949416437869, guid: bdf44366f21f2ee47bd94b1b19e29f1e, type: 3}
   - {fileID: 1822210689705678102, guid: 0dfbc17cfc0cf934a8c089f8df53bb4d, type: 3}
   - {fileID: 7807340246942760897, guid: 725cffea4e893ff489930583db4101d6, type: 3}
+  - {fileID: 5051148109742244886, guid: 679901165b16f984c96a28bfb1cb3396, type: 3}
   _poolObjects:
   - {fileID: 5117779936929461291, guid: c8327e899d8297a439efcf717d4dcf1d, type: 3}
   - {fileID: 4116937056435194663, guid: c9c857279d141cb4eb947c325f96b93b, type: 3}

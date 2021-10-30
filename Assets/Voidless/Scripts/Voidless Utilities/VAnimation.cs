@@ -63,6 +63,14 @@ public static class VAnimation
 		_animation.CrossFade(_clip.name, _fadeDuration, _mode);
 	}
 
+	/// <summary>Rewinds an animation without blending.</summary>
+	/// <param name="_animation">Animation's Component.</param>
+	/// <param name="_clip">AnimationClip to rewind.</param>
+	public static void Rewind(this Animation _animation, AnimationClip _clip)
+	{
+		_animation.Rewind(_clip.name);
+	}
+
 	/// <summary>Plays an animation after previous animations has finished playing.</summary>
 	/// <param name="_animation">Animation's Component.</param>
 	/// <param name="_clip">Clip to play.</param>

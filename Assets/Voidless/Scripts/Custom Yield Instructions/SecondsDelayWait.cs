@@ -55,7 +55,7 @@ public class SecondsDelayWait : VYieldInstruction
 	public bool MoveNext(float _timeScale)
 	{
 		timeScale = _timeScale;
-		currentWait += Time.deltaTime * timeScale;
+		currentWait += Time.deltaTime * timeScale * Time.timeScale;
 
 		return (currentWait <= waitDuration);
 	}

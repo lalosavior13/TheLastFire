@@ -36,6 +36,8 @@ public class SensorSystem2DInspector : Editor
 	/// <summary>Draws all subsystems with their respective sensors' data.</summary>
 	private void DrawSubsystems()
 	{
+		if(sensorsystem2D.subsystems == null) return;
+
 		EditorGUILayout.Space();
 		VEditorGUILayout.ShowSerializedPropertySizeConfiguration(ref subsystems, "Subsystems' ");
 		EditorGUILayout.Space();

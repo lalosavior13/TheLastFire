@@ -31,7 +31,6 @@ public class Boss : Enemy
 	[SerializeField] private Animator _animator; 							/// <summary>Animator's Component.</summary>
 	[SerializeField] private Animation _animation; 							/// <summary>Animation's Component.</summary>
 	[SerializeField] private AnimationEventInvoker _animationEventInvoker; 	/// <summary>AnimationEventInvoker's Component.</summary>
-	[SerializeField] private GameObject _hurtBoxesContainer; 				/// <summary>HurtBoxes' Container [Group].</summary>
 #if UNITY_EDITOR
 	[Space(5f)]
 	[Header("TESTs:")]
@@ -87,13 +86,6 @@ public class Boss : Enemy
 	{
 		get { return _animationEventInvoker; }
 		set { _animationEventInvoker = value; }
-	}
-
-	/// <summary>Gets and Sets hurtBoxesContainer property.</summary>
-	public GameObject hurtBoxesContainer
-	{
-		get { return _hurtBoxesContainer; }
-		set { _hurtBoxesContainer = value; }
 	}
 #endregion
 
@@ -178,13 +170,6 @@ public class Boss : Enemy
 			else BeginDeathRoutine();
 			break;
 		}
-	}
-
-	/// <summary>Activates HurtBoxes' Container [if it exists].</summary>
-	/// <param name="_enable">Enable? true by default.</param>
-	public void EnableHurtBoxes(bool _enable = true)
-	{
-		if(hurtBoxesContainer != null) hurtBoxesContainer.SetActive(_enable);
 	}
 
 	/// <summary>Callback invoked when an Animation Event is invoked.</summary>

@@ -21,6 +21,7 @@ public class Enemy : PoolGameObject, IStateMachine
 	public const int ID_STATE_HURT = 1 << 6; 					/// <summary>Hurt's State Flag.</summary>
 
 	[SerializeField] private Transform _meshParent; 			/// <summary>Mesh's Parent.</summary>
+	[SerializeField] private HitCollider2D[] _hurtBoxes; 			/// <summary>Hurt-Boxes.</summary>
 	[SerializeField] private Collider2D[] _physicalColliders; 	/// <summary>Physical Colliders [Collider2Ds that don't have onTrigger enabled].</summary>
 #if UNITY_EDITOR
 	[Space(5f)]
@@ -50,6 +51,13 @@ public class Enemy : PoolGameObject, IStateMachine
 	{
 		get { return _physicalColliders; }
 		set { _physicalColliders = value; }
+	}
+
+	/// <summary>Gets and Sets hurtBoxes property.</summary>
+	public HitCollider2D[] hurtBoxes
+	{
+		get { return _hurtBoxes; }
+		set { _hurtBoxes = value; }
 	}
 
 	/// <summary>Gets and Sets state property.</summary>
@@ -195,6 +203,13 @@ public class Enemy : PoolGameObject, IStateMachine
 	}
 #endregion
 
+	/// <summary>Enables Physics.</summary>
+	/// <param name="_enable">Enable? true by default.</param>
+	public virtual void EnablePhysics(bool _enable)
+	{
+		EnablePhysicalColliders(_enable);
+	}
+
 	/// <summary>Enables Physical Colliders.</summary>
 	/// <param name="_enable">Enable? true by default.</param>
 	public virtual void EnablePhysicalColliders(bool _enable = true)
@@ -206,6 +221,18 @@ public class Enemy : PoolGameObject, IStateMachine
 			collider.gameObject.SetActive(_enable);
 		}
 	}
+
+	/// <summary>Enables Physical Colliders.</summary>
+	/// <param name="_enable">Enable? true by default.</param>
+	public virtual void EnableHurtBoxes(bool _enable = true)
+	{
+		if(hurtBoxes == null) return;
+
+		foreach(HitCollider2D collider in hurtBoxes)
+		{
+			collider.gameObject.SetActive(_enable);
+		}
+	} 
 
 	/// <returns>States to string</returns>
 	public virtual string StatesToString()

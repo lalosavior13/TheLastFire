@@ -31,6 +31,9 @@ public enum SurfaceType
 //[ExecuteInEditMode]
 public class Game : Singleton<Game>
 {
+	public const float DAMAGE_MIN = 1.0f; 									/// <summary>Minimum Damage Applyable.</summary>
+	public const float DAMAGE_MAX = Mathf.Infinity; 						/// <summary>Maximum Damage Applyable.</summary>
+
 	[Space(5f)]
 	[Header("Game's Data:")]
 	[SerializeField] private GameData _data; 								/// <summary>Game's Data.</summary>
@@ -41,6 +44,7 @@ public class Game : Singleton<Game>
 	[SerializeField] private GameplayGUIController _gameplayGUIController; 	/// <summary>Gameplay's GUI Controller.</summary>
 	private Boundaries2D _defaultCameraBoundaries; 							/// <summary>Default Camera's Boundaries2D.</summary>
 	private FloatRange _defaultDistanceRange; 								/// <summary>Default Camera's Distance Range.</summary>
+	private bool _onTransition; 											/// <summary>Is the Game on a transition?.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets data property.</summary>
@@ -90,6 +94,14 @@ public class Game : Singleton<Game>
 	{
 		get { return Instance._defaultDistanceRange; }
 		set { Instance._defaultDistanceRange = value; }
+	}
+
+
+	/// <summary>Gets and Sets onTransition property.</summary>
+	public static bool onTransition
+	{
+		get { return Instance._onTransition; }
+		set { Instance._onTransition = value; }
 	}
 #endregion
 
@@ -286,6 +298,51 @@ public class Game : Singleton<Game>
 		}
 
 		Debug.Log("[Game] OnMateoHealthEvent called with Event Type: " + _event.ToString());
+	}
+
+	/// <summary>Sets Time-Scale.</summary>
+	/// <param name="_timeScale">Time-Scale.</param>
+	/// <param name="_changeAudioPitch">Change Audio-Pitch also? true by default.</param>
+	/// <param name="_accelerate">Accelerate towards new time-scale or instantly change? true by default.</param>
+	public static void SetTimeScale(float _timeScale, bool _changeAudioPitch = true, bool _accelerate = true)
+	{
+		switch(_accelerate)
+		{
+			case true:
+			Instance.StartCoroutine(Instance.ChangeTimeScaleRoutine(_timeScale, _changeAudioPitch));
+			break;
+
+			case false:
+			Time.timeScale = _timeScale;
+			if(_changeAudioPitch) AudioController.SetPitch(Time.timeScale);
+			break;
+		}
+	}
+
+	/// <summary>Sets Time-Scale's Routine.</summary>
+	/// <param name="_timeScale">Time-Scale.</param>
+	/// <param name="_changeAudioPitch">Change Audio-Pitch also? true by default.</param>
+	protected IEnumerator ChangeTimeScaleRoutine(float _timeScale, bool _changeAudioPitch = true)
+	{
+		float timeScale = Time.timeScale;
+
+		if(timeScale == _timeScale) yield break;
+
+		float t = 0.0f;
+		float s = Mathf.Sign(_timeScale - timeScale);
+		float a = s >= 0.0 ? data.timeScaleAcceleration : data.timeScaleDeceleration;
+		
+		while((s == 1.0f) ? (timeScale < _timeScale) : (timeScale > _timeScale))
+		{
+			timeScale += (t * s);
+			t += (a * Time.deltaTime);
+
+			SetTimeScale(timeScale, _changeAudioPitch, false);
+
+			yield return null;
+		}
+
+		SetTimeScale(_timeScale, _changeAudioPitch, false);
 	}
 }
 }
