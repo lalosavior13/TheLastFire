@@ -22,6 +22,7 @@ public class ReorientedJointInspector : Editor
 		DrawDefaultInspector();
 		if(reorientedJoint.reference != null && GUILayout.Button("Update Reference Offset"))
 		reorientedJoint.UpdateRotationOffset();
+		serializedObject.ApplyModifiedProperties();
 	}
 }
 }

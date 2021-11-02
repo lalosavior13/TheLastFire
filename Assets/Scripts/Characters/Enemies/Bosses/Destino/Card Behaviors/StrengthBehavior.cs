@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace Flamingo
 {
-[CreateAssetMenu]
+//[CreateAssetMenu]
 public class StrengthBehavior : DestinoScriptableCoroutine
 {
 	[Space(5f)]

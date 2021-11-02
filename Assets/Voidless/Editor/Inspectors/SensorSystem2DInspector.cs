@@ -22,6 +22,7 @@ public class SensorSystem2DInspector : Editor
 	{
 		sensorsystem2D = target as SensorSystem2D;
 		subsystems = serializedObject.FindProperty("_subsystems");
+		EditorUtility.SetDirty(sensorsystem2D);
 	}
 
 	/// <summary>OnInspectorGUI override.</summary>
@@ -29,7 +30,6 @@ public class SensorSystem2DInspector : Editor
 	{	
 		DrawSubsystems();
 
-		//EditorUtility.SetDirty(sensorsystem2D);
 		serializedObject.ApplyModifiedProperties();
 	}
 

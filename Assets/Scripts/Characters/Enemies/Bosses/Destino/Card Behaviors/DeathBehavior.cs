@@ -6,7 +6,7 @@ using Voidless;
 
 namespace Flamingo
 {
-[CreateAssetMenu]
+//[CreateAssetMenu]
 public class DeathBehavior : DestinoScriptableCoroutine
 {
 	[Space(5f)]

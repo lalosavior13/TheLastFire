@@ -30,7 +30,8 @@ public class TextFileInspector : Editor
 				EditorGUILayout.EndHorizontal();
 			}
 			if(GUILayout.Button("Get Text Asset's Path")) textFile.textAssetPath = AssetDatabase.GetAssetPath(textFile.textAsset);
-		}		
+		}
+		serializedObject.ApplyModifiedProperties();	
 	}
 }
 }

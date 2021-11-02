@@ -26,7 +26,8 @@ public class FOVFrustumSightSensorInspector : Editor
 			EditorGUILayout.Space();
 			EditorGUILayout.LabelField(FOVfrustum.FOVFrustumData.ToString(), GUILayout.Height(100));
 			if(GUILayout.Button("Update FOV's Frustum")) FOVfrustum.UpdateFOVFrustum();
-		}		
+		}
+		serializedObject.ApplyModifiedProperties();	
 	}
 }
 }

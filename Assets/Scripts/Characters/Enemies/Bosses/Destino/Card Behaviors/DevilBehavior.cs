@@ -5,7 +5,7 @@ using Voidless;
 
 namespace Flamingo
 {
-[CreateAssetMenu]
+//[CreateAssetMenu]
 public class DevilBehavior : DestinoScriptableCoroutine
 {
 	[SerializeField] private CollectionIndex _arrowProjectileIndex; 	/// <summary>Arrow Projectile's Index.</summary>
@@ -110,10 +110,10 @@ public class DevilBehavior : DestinoScriptableCoroutine
 	/// <summary>Gets ceilingHP property.</summary>
 	public float ceilingHP { get { return _ceilingHP; } }
 
+#if UNITY_EDITOR
 	/// <summary>Callback invoked when drawing Gizmos.</summary>
 	protected override void OnDrawGizmos()
 	{
-#if UNITY_EDITOR
 		//waypoints.OnDrawGizmos();
 
 		Gizmos.color = gizmosColor;
@@ -141,8 +141,8 @@ public class DevilBehavior : DestinoScriptableCoroutine
 		{
 			Gizmos.DrawWireSphere(waypoint, gizmosRadius);
 		}
-#endif
 	}
+#endif
 
 	/// <summary>Coroutine's IEnumerator.</summary>
 	/// <param name="boss">Object of type T's argument.</param>

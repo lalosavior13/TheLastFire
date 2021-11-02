@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Voidless;
 
 namespace Flamingo
@@ -18,6 +19,17 @@ public class GameData : ScriptableObject
 	[SerializeField] [Range(0.0f, 1.0f)] private float _hurtTimeScale; 			/// <summary>Hurt's Time-Scale.</summary>
 	[SerializeField] private float _timeScaleAcceleration; 						/// <summary>Time-Scale change's Acceleration.</summary>
 	[SerializeField] private float _timeScaleDeceleration; 						/// <summary>Time-Scale change's Deceleration.</summary>
+	[Space(5f)]
+	[SerializeField] private string _loadingSceneName; 							/// <summary>Loading Scene's Name.</summary>
+	[SerializeField] private string _overworldSceneName; 						/// <summary>Overworld Scene's Name.</summary>
+	[SerializeField] private string _destinoSceneName; 							/// <summary>Destuino Scene's Name.</summary>
+	[SerializeField] private string _moskarSceneName; 							/// <summary>Moskar Scene's Name.</summary>
+	[SerializeField] private string _captainShantySceneName; 					/// <summary>Captain Shanty Scene's Name.</summary>
+	[SerializeField] private string _oxfordTheFoxSceneName; 					/// <summary>Oxford the Fox Scene's Name.</summary>
+	[SerializeField] private string _miauxiSceneName; 							/// <summary>Miauxi Scene's Name.</summary>
+	[SerializeField] private string _rinocircusSceneName; 						/// <summary>Rinocircus Scene's Name.</summary>
+	[SerializeField] private string _moctechzumaSceneName; 						/// <summary>Moctechzuma Scene's Name.</summary>
+	[SerializeField] private string[] _trainingGroundScenesNames; 				/// <summary>Training Grounds' Scenes' Names.</summary>
 	[Space(5f)]
 	[Header("Camera Configurations:")]
 	[SerializeField] private float _deathZoom; 									/// <summary>Death's Zoom.</summary>
@@ -100,6 +112,36 @@ public class GameData : ScriptableObject
 		get { return _floorAngleThreshold; }
 		set { _floorAngleThreshold = value; }
 	}
+
+	/// <summary>Gets loadingSceneName property.</summary>
+	public string loadingSceneName { get { return _loadingSceneName; } }
+
+	/// <summary>Gets overworldSceneName property.</summary>
+	public string overworldSceneName { get { return _overworldSceneName; } }
+
+	/// <summary>Gets destinoSceneName property.</summary>
+	public string destinoSceneName { get { return _destinoSceneName; } }
+
+	/// <summary>Gets captainShantySceneName property.</summary>
+	public string captainShantySceneName { get { return _captainShantySceneName; } }
+
+	/// <summary>Gets moskarSceneName property.</summary>
+	public string moskarSceneName { get { return _moskarSceneName; } }
+
+	/// <summary>Gets oxfordTheFoxSceneName property.</summary>
+	public string oxfordTheFoxSceneName { get { return _oxfordTheFoxSceneName; } }
+
+	/// <summary>Gets miauxiSceneName property.</summary>
+	public string miauxiSceneName { get { return _miauxiSceneName; } }
+
+	/// <summary>Gets rinocircusSceneName property.</summary>
+	public string rinocircusSceneName { get { return _rinocircusSceneName; } }
+
+	/// <summary>Gets moctechzumaSceneName property.</summary>
+	public string moctechzumaSceneName { get { return _moctechzumaSceneName; } }
+
+	/// <summary>Gets trainingGroundScenesNames property.</summary>
+	public string[] trainingGroundScenesNames { get { return _trainingGroundScenesNames; } }
 
 	/// <summary>Gets frameRate property.</summary>
 	public int frameRate { get { return _frameRate; } }

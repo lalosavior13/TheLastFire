@@ -337,7 +337,7 @@ public class DestinoBoss : Boss
 	public override void EnablePhysics(bool _enable)
 	{
 		base.EnablePhysics(_enable);
-		jumpAbility.gravityApplier.useGravity = _enable;
+		if(jumpAbility != null) jumpAbility.gravityApplier.useGravity = _enable;
 	}
 
 	public void OnLeftAxesChange(Vector2 _axes)

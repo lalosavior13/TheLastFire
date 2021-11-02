@@ -54,3 +54,6 @@ MonoBehaviour:
     _rotation: {x: 0, y: 0, z: 0, w: 1}
     _eulerAngles: {x: -0, y: 0, z: 0}
     _scale: {x: 1, y: 1, z: 1}
+    hideScale: 0
+    showForLinePath: 0
+    showHandles: 0

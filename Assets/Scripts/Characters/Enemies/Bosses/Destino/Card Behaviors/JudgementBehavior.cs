@@ -16,7 +16,7 @@ public enum DisplacementType
 	Diagonal = Horizontal | Vertical
 }
 
-[CreateAssetMenu]
+//[CreateAssetMenu]
 public class JudgementBehavior : DestinoScriptableCoroutine
 {
 	[Space(5f)]

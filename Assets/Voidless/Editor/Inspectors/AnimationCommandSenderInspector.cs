@@ -18,6 +18,7 @@ public class AnimationCommandSenderInspector : Editor
 	private void OnEnable()
 	{
 		animationCommandSender = target as AnimationCommandSender;
+		EditorUtility.SetDirty(animationCommandSender);
 	}
 
 	/// <summary>OnInspectorGUI override.</summary>
@@ -34,8 +35,8 @@ public class AnimationCommandSenderInspector : Editor
 		DrawPercentageDistributionsBar();
 		VEditorGUILayout.Spaces(3);
 		DrawHipotheticalAnimationStateData();
-
-		EditorUtility.SetDirty(animationCommandSender);
+		
+		serializedObject.ApplyModifiedProperties();
 	}
 
 	/// <summary>Draws fields for  the Animation Flags and Sub-ID.</summary>

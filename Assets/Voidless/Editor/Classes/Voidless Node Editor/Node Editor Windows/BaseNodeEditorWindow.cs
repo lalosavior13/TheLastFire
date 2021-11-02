@@ -190,6 +190,8 @@ where T : BaseNodeData<I>
         if(connectionPoints == null) connectionPoints = new List<ConnectionPoint>();
 
         if(data != null) LoadData(null);
+
+        EditorUtility.SetDirty(data);
         //DeleteData(null);
 	}
 
@@ -658,7 +660,6 @@ where T : BaseNodeData<I>
             );
 		}
 
-        EditorUtility.SetDirty(data);
         AssetDatabase.SaveAssets();
 		Debug.LogWarning("[BaseNodeEditorWindow] SaveData Result: " + data != null ? SAVE_SUCCESS_MESSAGE : SAVE_ERROR_MESSAGE);
 		loading = false;

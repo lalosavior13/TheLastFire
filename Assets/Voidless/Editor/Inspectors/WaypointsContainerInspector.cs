@@ -17,6 +17,7 @@ public class WaypointsContainerInspector : Editor
 	private void OnEnable()
 	{
 		waypointsContainer = target as WaypointsContainer;
+		EditorUtility.SetDirty(waypointsContainer);
 	}
 
 	/// <summary>OnInspectorGUI override.</summary>
@@ -29,8 +30,7 @@ public class WaypointsContainerInspector : Editor
 		if(GUILayout.Button(relativeButtonText)) waypointsContainer.ToggleAddParentToWaypoints();
 		
 		DrawDefaultInspector();
-        
-        EditorUtility.SetDirty(waypointsContainer); 
+
         serializedObject.ApplyModifiedProperties();
     }
 

@@ -22,6 +22,7 @@ public class SensorSystem3DInspector : Editor
 	{
 		sensorsystem3D = target as SensorSystem3D;
 		subsystems = serializedObject.FindProperty("_subsystems");
+		EditorUtility.SetDirty(sensorsystem3D);
 	}
 
 	/// <summary>OnInspectorGUI override.</summary>
@@ -29,7 +30,6 @@ public class SensorSystem3DInspector : Editor
 	{	
 		DrawSubsystems();
 
-		EditorUtility.SetDirty(sensorsystem3D);
 		serializedObject.ApplyModifiedProperties();
 	}
 
