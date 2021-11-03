@@ -11127,7 +11127,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 5135843920560793742}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5135843920560793743}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ea8500a481a7c54f80ba57b2527ccf8, type: 3}
@@ -14471,8 +14471,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _deckController
       value: 
-      objectReference: {fileID: 2161644131852807984, guid: ef8edb7c6541a1046a03d0d469c0645d,
-        type: 3}
+      objectReference: {fileID: 5135843920560793744}
     - target: {fileID: 9026799372489053172, guid: 16d6b59009cf8314aa995cfa634e8c92,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -14600,6 +14599,56 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16d6b59009cf8314aa995cfa634e8c92, type: 3}
+--- !u!1 &5135843920560793743 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3701848998754718909, guid: 16d6b59009cf8314aa995cfa634e8c92,
+    type: 3}
+  m_PrefabInstance: {fileID: 5135843920560793742}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5135843920560793744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5135843920560793743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d529db533bdb03e46ab55f7d342b7646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawGizmos: 0
+  _run: 1
+  _faceUpRotation:
+    _eulerAngles: {x: 0, y: 0, z: 0}
+    _rotation: {x: 0, y: 0, z: 0, w: 1}
+  _faceDownRotation:
+    _eulerAngles: {x: 0, y: 180, z: 0}
+    _rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  _rotationDuration: 1
+  _selectedCardPoint: {x: 0, y: 10, z: 2}
+  _selectedCardDuration: 1
+  _deckPoint: {x: 0, y: 5, z: 3}
+  _cardOffset: 0.2
+  _positioningDuration: 0.5
+  _spawnEffectIndex:
+    index: 0
+    objectIndex: 0
+    collectionIndex: 7
+  _presentationPoint: {x: 0, y: 7, z: 2}
+  _cardSpacing: 3.5
+  _deckPositioningDuration: 0.5
+  _presentationDuration: 0.5
+  _storeDuration: 0.5
+  _zOffset: 0.2
+  _shufflingDuration: 0.5
+  _shufflingRadius: 1
+  _shufflingSpeed: 7
+  _shufflingCycles: 1.5
+  _yOffset: 3
+  _orbitDuration: 2
+  _orbitRadius: 7
+  _orbitSpeed: 15
 --- !u!1001 &5843153311697141449
 PrefabInstance:
   m_ObjectHideFlags: 0

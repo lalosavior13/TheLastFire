@@ -149,7 +149,10 @@ public class PlayerController : Singleton<PlayerController>
 	/// <summary>PlayerController's tick at each frame.</summary>
 	private void Update()
 	{
-		if(mateo == null || !mateo.HasStates(Character.ID_STATE_ALIVE)) return;
+		/// Pause:
+		if(InputController.InputEnds(pauseID)) Game.OnPause();
+		
+		if(mateo == null || !mateo.HasStates(Character.ID_STATE_ALIVE) || Game.state != GameState.Playing) return;
 
 		leftAxes = InputController.Instance.leftAxes;
 		rightAxes = InputController.Instance.rightAxes;
@@ -235,9 +238,6 @@ public class PlayerController : Singleton<PlayerController>
 			}
 		}
 
-		/// Pause:
-		if(InputController.InputEnds(pauseID)) Game.OnPause();
-
 		/// Reset:
 		if(InputController.InputEnds(resetID)) Game.ResetScene();
 
@@ -275,7 +275,7 @@ public class PlayerController : Singleton<PlayerController>
 	/// <summary>Updates PlayerController's instance at each Physics Thread's frame.</summary>
 	private void FixedUpdate()
 	{
-		if(mateo == null || !mateo.HasStates(Character.ID_STATE_ALIVE)) return;
+		if(mateo == null || !mateo.HasStates(Character.ID_STATE_ALIVE) || Game.state != GameState.Playing) return;
 		
 		if(leftAxes.x != 0.0f) mateo.Move(leftAxes.WithY(0.0f), Mathf.Abs(leftAxes.x) > movementAxesThreshold ? 1.0f : lowSpeedScalar);
 	}

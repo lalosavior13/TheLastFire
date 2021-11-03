@@ -13,6 +13,13 @@ public enum Faction
 	Enemy
 }
 
+public enum GameState
+{
+	None,
+	Playing,
+	Paused
+}
+
 [Flags]
 public enum SurfaceType
 {
@@ -41,9 +48,11 @@ public class Game : Singleton<Game>
 	[SerializeField] private PlayerController _mateoController; 			/// <summary>Mateo's Controller.</summary>
 	[SerializeField] private Mateo _mateo; 									/// <summary>Mateo's Reference.</summary>
 	[SerializeField] private GameplayCameraController _cameraController; 	/// <summary>Gameplay's Camera Controller.</summary>
+	[SerializeField] private Camera _UICamera; 								/// <summary>UI's Camera.</summary>
 	[SerializeField] private GameplayGUIController _gameplayGUIController; 	/// <summary>Gameplay's GUI Controller.</summary>
 	private Boundaries2D _defaultCameraBoundaries; 							/// <summary>Default Camera's Boundaries2D.</summary>
 	private FloatRange _defaultDistanceRange; 								/// <summary>Default Camera's Distance Range.</summary>
+	private GameState _state; 												/// <summary>Game's State.</summary>
 	private bool _onTransition; 											/// <summary>Is the Game on a transition?.</summary>
 
 #region Getters/Setters:
@@ -52,6 +61,13 @@ public class Game : Singleton<Game>
 	{
 		get { return Instance._data; }
 		set { Instance._data = value; }
+	}
+
+	/// <summary>Gets and Sets state property.</summary>
+	public static GameState state
+	{
+		get { return Instance._state; }
+		set { Instance._state = value; }
 	}
 
 	/// <summary>Gets and Sets mateoController property.</summary>
@@ -73,6 +89,13 @@ public class Game : Singleton<Game>
 	{
 		get { return Instance._cameraController; }
 		set { Instance._cameraController = value; }
+	}
+
+	/// <summary>Gets and Sets UICamera property.</summary>
+	public static Camera UICamera
+	{
+		get { return Instance._UICamera; }
+		set { Instance._UICamera = value; }
 	}
 
 	/// <summary>Gets and Sets gameplayGUIController property.</summary>
@@ -122,8 +145,11 @@ public class Game : Singleton<Game>
 
 		if(gameplayGUIController != null)
 		{
-			gameplayGUIController.canvas.worldCamera = cameraController.camera;
+			gameplayGUIController.canvas.worldCamera = UICamera;
+			gameplayGUIController.onIDEvent += OnGUIIDEvent;
 		}
+
+		state = GameState.Playing;
 	}
 
 	private void Start()
@@ -238,7 +264,11 @@ public class Game : Singleton<Game>
 	/// <summary>Callback invoked when a pause is requested.</summary>
 	public static void OnPause()
 	{
-		LoadScene("Scene_ChangeScenes");
+		//LoadScene("Scene_ChangeScenes");
+		bool pause = gameplayGUIController.state != GUIState.Pause;
+		state = pause ? GameState.Paused : GameState.Playing;
+		gameplayGUIController.EnablePauseMenu(pause);
+		if(pause) Time.timeScale = 0.0f;
 	}
 
 	/// <summary>Evaluates Surface Type.</summary>
@@ -298,6 +328,19 @@ public class Game : Singleton<Game>
 		}
 
 		Debug.Log("[Game] OnMateoHealthEvent called with Event Type: " + _event.ToString());
+	}
+
+	/// <summary>Callback invoked when the GUI invokes an Event.</summary>
+	/// <param name="_ID">Event's ID.</param>
+	private static void OnGUIIDEvent(int _ID)
+	{
+		switch(_ID)
+		{
+			case GameplayGUIController.ID_STATE_UNPAUSED:
+			Time.timeScale = 1.0f;
+			state = GameState.Playing;
+			break;
+		}
 	}
 
 	/// <summary>Sets Time-Scale.</summary>
