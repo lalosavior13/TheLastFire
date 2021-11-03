@@ -262,13 +262,6 @@ public class DestinoBoss : Boss
 	{
 		if(cards == null) return;
 
-		foreach(DestinoCard card in cards)
-		{
-			if(card.behavior != null) card.behavior.DrawGizmos();
-		}
-
-		if(deckController != null) deckController.DrawGizmos();
-
 		if(headMeshFilter != null) Gizmos.DrawMesh(headMeshFilter.sharedMesh, headFallPointData.position, headFallPointData.rotation);
 		VGizmos.DrawTransformData(headFallPointData);
 	}
@@ -326,7 +319,6 @@ public class DestinoBoss : Boss
 #if UNITY_EDITOR
 		if(iterator != null && !iterator.MoveNext())
 		{
-			cards[testCardIndex].behavior.BeginRoutine(this);
 			iterator = cards[testCardIndex].behavior.Routine(this);
 		}
 #endif

@@ -45,10 +45,14 @@ public class DestinoCard : MonoBehaviour
 #endif
 	private Coroutine fallenTolerance; 								/// <summary>Fallen Tolerance's Coroutine reference.</summary>
 
-	/// <summary>Gets and Sets behavior property.</summary>
+	/// <summary>Gets behavior Component.</summary>
 	public DestinoScriptableCoroutine behavior
-	{
-		get { return _behavior; }
+	{ 
+		get
+		{
+			if(_behavior == null) _behavior = GetComponent<DestinoScriptableCoroutine>();
+			return _behavior;
+		}
 		set { _behavior = value; }
 	}
 
@@ -89,7 +93,7 @@ public class DestinoCard : MonoBehaviour
 	private void OnDrawGizmos()
 	{
 #if UNITY_EDITOR
-		if(behavior != null) behavior.DrawGizmos();
+		//if(behavior != null) behavior.DrawGizmos();
 
 		if(cardMeshFilter == null) return;
 

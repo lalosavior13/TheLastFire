@@ -4,7 +4,10 @@ using UnityEngine;
 
 namespace Voidless
 {
-public abstract class ScriptableCoroutine<T> : ScriptableObject
+/// <summary>Event invoked when the CoroutineBehavior ends.</summary>
+public delegate void OnCoroutineEnds();
+
+public abstract class CoroutineBehavior<T> : MonoBehaviour
 {
 	public event OnCoroutineEnds onCoroutineEnds; 	/// <summary>OnCoroutineEnds event delegate.</summary>
 
@@ -13,15 +16,15 @@ public abstract class ScriptableCoroutine<T> : ScriptableObject
 #endif
 
 	/// <summary>Draws Gizmos [if drawGizmos' flag is turned on].</summary>
-	public void DrawGizmos()
+	protected virtual void DrawGizmos() { /*...*/ }
+
+	/// <summary>Draws Gizmos on Editor mode when CoroutineBehavior's instance is selected.</summary>
+	private void OnDrawGizmosSelected()
 	{
 #if UNITY_EDITOR
-		if(drawGizmos) OnDrawGizmos();
+		if(drawGizmos) DrawGizmos();
 #endif
 	}
-	
-	/// <summary>Draws Gizmos [only called internally if drawGizmos' flag is turned on].</summary>
-	protected virtual void OnDrawGizmos() {/*...*/}
 
 	/// <summary>Coroutine's IEnumerator.</summary>
 	/// <param name="obj">Object of type T's argument.</param>

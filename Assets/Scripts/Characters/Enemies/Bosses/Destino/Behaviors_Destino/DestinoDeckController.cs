@@ -148,10 +148,10 @@ public class DestinoDeckController : DestinoScriptableCoroutine
 #endregion
 
 	/// <summary>Draws Gizmos [only called internally if drawGizmos' flag is turned on].</summary>
-	protected override void OnDrawGizmos()
+	protected override void DrawGizmos()
 	{
 /*#if UNITY_EDITOR
-		base.OnDrawGizmos();
+		base.DrawGizmos();
 
 		Gizmos.color = gizmosColor;
 

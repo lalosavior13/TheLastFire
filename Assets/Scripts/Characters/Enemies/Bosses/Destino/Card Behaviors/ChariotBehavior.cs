@@ -66,10 +66,10 @@ public class ChariotBehavior : DestinoScriptableCoroutine
 	public bool randomizeOrder { get { return _randomizeOrder; } }
 
 	/// <summary>Callback invoked when drawing Gizmos.</summary>
-	protected override void OnDrawGizmos()
+	protected override void DrawGizmos()
 	{
 /*#if UNITY_EDITOR
-		base.OnDrawGizmos();
+		base.DrawGizmos();
 
 		Gizmos.DrawWireSphere(projectileSpawnPosition, 0.25f);
 #endif*/
@@ -228,13 +228,6 @@ public class ChariotBehavior : DestinoScriptableCoroutine
 
 		yield return null;
 		InvokeCoroutineEnd();
-	}
-
-	/// <summary>Finishes the Routine.</summary>
-	/// <param name="boss">Object of type T's argument.</param>
-	public override void FinishRoutine(DestinoBoss boss)
-	{
-
 	}
 
 	/// <returns>Appropiate Petrol Projectile Index.</returns>

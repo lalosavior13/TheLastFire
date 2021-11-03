@@ -112,9 +112,9 @@ public class DevilBehavior : DestinoScriptableCoroutine
 
 #if UNITY_EDITOR
 	/// <summary>Callback invoked when drawing Gizmos.</summary>
-	protected override void OnDrawGizmos()
+	protected override void DrawGizmos()
 	{
-		//waypoints.OnDrawGizmos();
+		//waypoints.DrawGizmos();
 
 		Gizmos.color = gizmosColor;
 
@@ -348,13 +348,6 @@ public class DevilBehavior : DestinoScriptableCoroutine
 		direction = (destiny.WithZ(origin.z) - origin);
 
 		return new Ray(origin, direction);
-	}
-
-	/// <summary>Finishes the Routine.</summary>
-	/// <param name="boss">Object of type T's argument.</param>
-	public override void FinishRoutine(DestinoBoss boss)
-	{
-
 	}
 }
 }
