@@ -8,15 +8,27 @@ using Voidless;
 namespace Flamingo
 {
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Boundaries2DContainer))]
 public abstract class TriggerZone<T> : MonoBehaviour where T : TriggerZone<T>
 {
-	protected static HashSet<T> triggerZones; 			/// <summary>TriggerZone's static registry.</summary>
+	protected static HashSet<T> triggerZones; 				/// <summary>TriggerZone's static registry.</summary>
 
-	[SerializeField] private GameObjectTag[] _tags; 	/// <summary>GameObject Tags that invoke the trigger.</summary>
-	private BoxCollider2D _boxCollider; 				/// <summary>BoxCollider2D's Component.</summary>
+	[SerializeField] private GameObjectTag[] _tags; 		/// <summary>GameObject Tags that invoke the trigger.</summary>
+	private Boundaries2DContainer _boundariesContainer; 	/// <summary>Boundaries2DContainer's Component.</summary>
+	private BoxCollider2D _boxCollider; 					/// <summary>BoxCollider2D's Component.</summary>
 
 	/// <summary>Gets tags property.</summary>
 	public GameObjectTag[] tags { get { return _tags; } }
+
+	/// <summary>Gets boundariesContainer Component.</summary>
+	public Boundaries2DContainer boundariesContainer
+	{ 
+		get
+		{
+			if(_boundariesContainer == null) _boundariesContainer = GetComponent<Boundaries2DContainer>();
+			return _boundariesContainer;
+		}
+	}
 
 	/// <summary>Gets boxCollider Component.</summary>
 	public BoxCollider2D boxCollider

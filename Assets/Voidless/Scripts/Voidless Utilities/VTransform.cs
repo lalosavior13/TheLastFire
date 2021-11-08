@@ -4,6 +4,21 @@ namespace Voidless
 {
 public static class VTransform
 {
+	/// <summary>Gets Top Parent.</summary>
+	/// <param name="_transform">Parent's Reference.</param>
+	/// <returns>Top Parent.</returns>
+	public static Transform GetTopParent(this Transform _transform)
+	{
+		Transform parent = _transform;
+
+		while(parent.parent != null)
+		{
+			parent = parent.parent;
+		}
+
+		return parent;
+	}
+
 	/// <summary>Sets Transform's Position.</summary>
 	/// <param name="_transform">Transform to modify.</param>
 	/// <param name="_position">New Position.</param>
