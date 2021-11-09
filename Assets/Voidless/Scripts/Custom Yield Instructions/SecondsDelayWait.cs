@@ -9,6 +9,7 @@ public class SecondsDelayWait : VYieldInstruction
 	private float _waitDuration; 	/// <summary>Wait Delay's Duration.</summary>
 	private float _currentWait; 	/// <summary>Current Wait's Time.</summary>
 	private float _timeScale; 		/// <summary>Time's Scale.</summary>
+	private bool _scaled; 			/// <summary>Is the time scaled?.</summary>
 
 	/// <summary>Gets and Sets waitDuration property.</summary>
 	public float waitDuration
@@ -31,16 +32,24 @@ public class SecondsDelayWait : VYieldInstruction
 		set { _timeScale = value; }
 	}
 
+	/// <summary>Gets and Sets scaled property.</summary>
+	public bool scaled
+	{
+		get { return _scaled; }
+		set { _scaled = value; }
+	}
+
 	/// <summary>Gets progress property.</summary>
 	public float progress { get { return currentWait / waitDuration; } }
 
 	/// <summary>SecondsDelayWait's constructor.</summary>
 	/// <param name="_waitDuration">Wait's Duration.</param>
-	public SecondsDelayWait(float _waitDuration, float _timeScale = 1.0f)
+	public SecondsDelayWait(float _waitDuration, float _timeScale = 1.0f, bool _scaled = true)
 	{
 		waitDuration = _waitDuration;
 		currentWait = 0.0f;
 		timeScale = _timeScale;
+		scaled = true;
 	}
 
 	/// <summary>Advances the enumerator to the next element of the collection.</summary>
@@ -54,8 +63,9 @@ public class SecondsDelayWait : VYieldInstruction
 	/// <returns>True if the iterator can keep moving, false otherwise.</returns>
 	public bool MoveNext(float _timeScale)
 	{
+		float dt = scaled ? Time.deltaTime : Time.unscaledDeltaTime;
 		timeScale = _timeScale;
-		currentWait += Time.deltaTime * timeScale;
+		currentWait += dt * timeScale;
 
 		return (currentWait <= waitDuration);
 	}

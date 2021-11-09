@@ -12,19 +12,16 @@ namespace Flamingo
     public class BreakTheTargetsMiniGame : MiniGame
     {
         public Clock clock;
-        Destroy destroy;
-        [SerializeField] private CollectionIndex impactParticleEffectIndex;
-        [SerializeField] private CollectionIndex targetIndex;
+        BreakTheTargetsController bttc;
+        [SerializeField] private CollectionIndex _targetIndex;
         [SerializeField] public List<PoolGameObject> targetList = new List<PoolGameObject>(); 	/// <summary>Target's Index.</summary>
+        [SerializeField] private LayerMask _targetMask;
         [SerializeField] private int _targetAmount;
         [SerializeField] private float _overlapRadius;
-        [SerializeField] private LayerMask _targetMask;
         [SerializeField] private float _nextSpawn;  /// <summary>Next spawn of target</summary>
-        [SerializeField] private float _spawnRate;  /// <summary>How often can it appear </summary>
-        [SerializeField] private float _endGame;
-        [SerializeField] private TextMesh _timerTxt;
-
-
+        [SerializeField] private float _spawnRate;  /// <summary>How often can it appear</summary>
+        [SerializeField] private float _maxPoints;  /// <summary>How many points you need to finish the game</summary>
+        [SerializeField] private TextMesh _timerTxt; /// <summary>Text for time</summary>
         private Vector3 SpawnPoint;   /// <summary>Spawn's Points.</summary>
         private float _new_x; /// <summary>Position of target in X  /// </summary>
         private float _new_y; /// <summary>Position of target in Y  /// </summary>
@@ -35,6 +32,11 @@ namespace Flamingo
 
         #region Set&Get
 
+        public CollectionIndex targetIndex
+        {
+            get { return _targetIndex; }
+            set { _targetIndex = value; }
+        }
         public float nextSpawn
         {
             get { return _nextSpawn; }
@@ -47,10 +49,10 @@ namespace Flamingo
             set { _spawnRate = value; }
         }
 
-        public float endGame
+        public float maxPoints
         {
-            get { return _endGame; }
-            set { _endGame = value; }
+            get { return _maxPoints; }
+            set { _maxPoints = value; }
         }
 
         public TextMesh timerTxt
@@ -121,52 +123,44 @@ namespace Flamingo
                     }
                     else
                     {
-                        PoolGameObject TempTarget = PoolManager.RequestPoolGameObject(targetIndex, SpawnPoint, Quaternion.identity);
-                        TempTarget.onPoolObjectDeactivation += OnTargetDestroyed;
+                        // PoolGameObject TempTarget = PoolManager.RequestPoolGameObject(targetIndex, SpawnPoint, Quaternion.identity);
+                        Projectile Temptarget = PoolManager.RequestProjectile(Faction.Enemy, targetIndex, SpawnPoint, Vector3.zero);
+                        Temptarget.onPoolObjectDeactivation += OnTargetDestroyed;
 
-                        targetList.Add(TempTarget);
+                        targetList.Add(Temptarget);
                     }
 
                 } while (targetList.Count < targetAmount);
 
-
             }
-
-
 
         }
 
         void OnTargetDestroyed(IPoolObject poolObject)
         {
-            
-            PoolGameObject target2 = poolObject as PoolGameObject;
-          
             poolObject.onPoolObjectDeactivation -= OnTargetDestroyed;
-        
-         //   PoolManager.RequestParticleEffect(impactParticleEffectIndex, SpawnPoint, Quaternion.identity);
-           
+            //AudioController.PlayOneShot(SourceType.Scenario, 0, soundEffect);
+            //PoolManager.RequestParticleEffect(impactParticleEffectIndex, SpawnPoint, Quaternion.identity);
             score++;
         }
 
-
-      
-
         protected override IEnumerator MiniGameCoroutine()
         {
-            while (score < endGame)
+            while (score < maxPoints)
             {
-                yield return new WaitForEndOfFrame();
+                yield return VCoroutines.WAIT_MAIN_THREAD;
                 clock.Update(Time.deltaTime);
                 RandomTargets();
 
                 timerTxt.text = clock.ToString();
             }
-
-
-            yield return null;
+            if (score >= maxPoints)
+            {
+                InvokeEvent(ID_EVENT_MINIGAME_ENDED);
+                running = false;
+                Debug.Log("Ended");
+            }
         }
-
-
 
     }
 }

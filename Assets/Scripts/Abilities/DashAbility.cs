@@ -30,7 +30,7 @@ public class DashAbility : MonoBehaviour, IFiniteStateMachine<DashState>
 	[SerializeField] private float _cooldownDuration; 			/// <summary>Cooldown's Duration.</summary>
 	[SerializeField] private float _gravityScale; 				/// <summary>Gravity Scale change when the dashing begins.</summary>
 	[SerializeField] private int _scaleChangePriority; 			/// <summary>Gravity Scale's Change Priority.</summary>
-	private FloatWrapper _scaleWrapper; 							/// <summary>Gravity's Scale FloatWrapper.</summary>
+	private FloatWrapper _scaleWrapper; 						/// <summary>Gravity's Scale FloatWrapper.</summary>
 	private TimeConstrainedForceApplier2D _forceApplier; 		/// <summary>Forces' Appliers.</summary>
 	private DashState _state; 									/// <summary>Current State.</summary>
 	private DashState _previousState; 							/// <summary>Previous State.</summary>

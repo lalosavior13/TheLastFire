@@ -30,6 +30,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 	private BombState _previousState; 							/// <summary>Current Bomb's Previous State.</summary>
 	private ParticleEffect _fuseFire; 							/// <summary>Fuse Fire's ParticleEffect.</summary>
 	private Coroutine fuseRoutine; 								/// <summary>Fuse Coroutines' Reference.</summary>
+	private Explodable _explosion; 								/// <summary>Explosion's Reference.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets flamableTags property.</summary>
@@ -101,8 +102,16 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 		get { return _fuseFire; }
 		set { _fuseFire = value; }
 	}
+
+	/// <summary>Gets and Sets explosion property.</summary>
+	public Explodable explosion
+	{
+		get { return _explosion; }
+		set { _explosion = value; }
+	}
 #endregion
 
+#if UNITY_EDITOR
 	/// <summary>Draws Gizmos on Editor mode.</summary>
 	protected override void OnDrawGizmos()
 	{
@@ -112,7 +121,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 
 		Gizmos.DrawRay(fuse.transform.position, (fuse.transform.up * fuseLength));
 	}
-
+#endif
 	/// <summary>BombParabolaProjectile's instance initialization when loaded [Before scene loads].</summary>
 	protected override void Awake()
 	{
@@ -144,7 +153,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 			break;
 
 			case BombState.Exploding:
-			Explodable explosion = PoolManager.RequestExplodable(explodableIndex, transform.position, transform.rotation);
+			explosion = PoolManager.RequestExplodable(explodableIndex, transform.position, transform.rotation);
 			break;
 		}
 
@@ -160,7 +169,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 			case BombState.WickOn:
 			if(fuseFire != null)
 			{
-				fuseFire.transform.parent = null;
+				if(gameObject.activeSelf) fuseFire.transform.parent = null;
 				fuseFire.OnObjectDeactivation();
 				fuseFire = null;
 			}
@@ -174,6 +183,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 	{
 		base.OnObjectDeactivation();
 		rigidbody.Sleep();
+		this.DispatchCoroutine(ref fuseRoutine);
 
 		if(fuseFire != null && gameObject.activeSelf)
 		{
@@ -188,6 +198,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 	{
 		base.OnObjectReset();
 		state = BombState.WickOff;
+		this.DispatchCoroutine(ref fuseRoutine);
 		if(fuseFire != null) fuseFire.gameObject.SetActive(false);
 	}
 
@@ -197,7 +208,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
 	public override void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
-		Debug.Log("[BombParabolaProjectile] Enter " + gameObject.name);
+		//Debug.Log("[BombParabolaProjectile] Enter " + gameObject.name);
 		if(state == BombState.Exploding) return;
 
 		base.OnTriggerEvent(_info, _eventType, _ID);
@@ -273,6 +284,7 @@ public class BombParabolaProjectile : Projectile, IFiniteStateMachine<BombState>
 
 		currentFuseLength = 0.0f;
 		this.ChangeState(BombState.Exploding);
+		InvokeDeactivationEvent(DeactivationCause.LifespanOver);
 	}
 }
 }

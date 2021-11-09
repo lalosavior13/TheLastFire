@@ -8,7 +8,6 @@ namespace Flamingo
 {
 [RequireComponent(typeof(SteeringVehicle2D))]
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(VCameraTarget))]
 [RequireComponent(typeof(CircleCollider2D))]
 public class MoskarBoss : Boss
 {
@@ -81,9 +80,8 @@ public class MoskarBoss : Boss
 	private float _phaseProgress; 												/// <summary>Phase's Normalized Progress.</summary>
 	private float _speedScale; 													/// <summary>Additional Speed's Scale.</summary>
 	private SteeringVehicle2D _vehicle; 										/// <summary>SteeringVehicle2D's Component.</summary>
-	private Rigidbody2D _rigidbody; 											/// <summary>Rigidbody2D's Component.</summary>
+	//private Rigidbody2D _rigidbody; 											/// <summary>Rigidbody2D's Component.</summary>
 	private CircleCollider2D _hurtBox; 											/// <summary>CircleCollider2D's Component.</summary>
-	private VCameraTarget _cameraTarget; 										/// <summary>VCameraTarget's Component.</summary>
 	private Coroutine attackCoroutine; 											/// <summary>AttackBehavior's Coroutine reference.</summary>
 	private Coroutine rotationCoroutine; 										/// <summary>Rotation Coroutine's Reference.</summary>
 	private Vector3[] waypoints; 												/// <summary>Allocated the waypoints so it can be visually debuged with Gizmos.</summary>
@@ -197,7 +195,7 @@ public class MoskarBoss : Boss
 		}
 	}
 
-	/// <summary>Gets rigidbody Component.</summary>
+	/*/// <summary>Gets rigidbody Component.</summary>
 	public Rigidbody2D rigidbody
 	{ 
 		get
@@ -205,7 +203,7 @@ public class MoskarBoss : Boss
 			if(_rigidbody == null) _rigidbody = GetComponent<Rigidbody2D>();
 			return _rigidbody;
 		}
-	}
+	}*/
 
 	/// <summary>Gets hurtBox Component.</summary>
 	public CircleCollider2D hurtBox
@@ -214,16 +212,6 @@ public class MoskarBoss : Boss
 		{
 			if(_hurtBox == null) _hurtBox = GetComponent<CircleCollider2D>();
 			return _hurtBox;
-		}
-	}
-
-	/// <summary>Gets cameraTarget Component.</summary>
-	public VCameraTarget cameraTarget
-	{ 
-		get
-		{
-			if(_cameraTarget == null) _cameraTarget = GetComponent<VCameraTarget>();
-			return _cameraTarget;
 		}
 	}
 

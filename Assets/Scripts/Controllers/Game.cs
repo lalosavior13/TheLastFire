@@ -13,6 +13,13 @@ public enum Faction
 	Enemy
 }
 
+public enum GameState
+{
+	None,
+	Playing,
+	Paused
+}
+
 [Flags]
 public enum SurfaceType
 {
@@ -31,6 +38,9 @@ public enum SurfaceType
 //[ExecuteInEditMode]
 public class Game : Singleton<Game>
 {
+	public const float DAMAGE_MIN = 1.0f; 									/// <summary>Minimum Damage Applyable.</summary>
+	public const float DAMAGE_MAX = Mathf.Infinity; 						/// <summary>Maximum Damage Applyable.</summary>
+
 	[Space(5f)]
 	[Header("Game's Data:")]
 	[SerializeField] private GameData _data; 								/// <summary>Game's Data.</summary>
@@ -38,9 +48,12 @@ public class Game : Singleton<Game>
 	[SerializeField] private PlayerController _mateoController; 			/// <summary>Mateo's Controller.</summary>
 	[SerializeField] private Mateo _mateo; 									/// <summary>Mateo's Reference.</summary>
 	[SerializeField] private GameplayCameraController _cameraController; 	/// <summary>Gameplay's Camera Controller.</summary>
+	[SerializeField] private Camera _UICamera; 								/// <summary>UI's Camera.</summary>
 	[SerializeField] private GameplayGUIController _gameplayGUIController; 	/// <summary>Gameplay's GUI Controller.</summary>
 	private Boundaries2D _defaultCameraBoundaries; 							/// <summary>Default Camera's Boundaries2D.</summary>
 	private FloatRange _defaultDistanceRange; 								/// <summary>Default Camera's Distance Range.</summary>
+	private GameState _state; 												/// <summary>Game's State.</summary>
+	private bool _onTransition; 											/// <summary>Is the Game on a transition?.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets and Sets data property.</summary>
@@ -48,6 +61,13 @@ public class Game : Singleton<Game>
 	{
 		get { return Instance._data; }
 		set { Instance._data = value; }
+	}
+
+	/// <summary>Gets and Sets state property.</summary>
+	public static GameState state
+	{
+		get { return Instance._state; }
+		set { Instance._state = value; }
 	}
 
 	/// <summary>Gets and Sets mateoController property.</summary>
@@ -71,6 +91,13 @@ public class Game : Singleton<Game>
 		set { Instance._cameraController = value; }
 	}
 
+	/// <summary>Gets and Sets UICamera property.</summary>
+	public static Camera UICamera
+	{
+		get { return Instance._UICamera; }
+		set { Instance._UICamera = value; }
+	}
+
 	/// <summary>Gets and Sets gameplayGUIController property.</summary>
 	public static GameplayGUIController gameplayGUIController
 	{
@@ -91,6 +118,14 @@ public class Game : Singleton<Game>
 		get { return Instance._defaultDistanceRange; }
 		set { Instance._defaultDistanceRange = value; }
 	}
+
+
+	/// <summary>Gets and Sets onTransition property.</summary>
+	public static bool onTransition
+	{
+		get { return Instance._onTransition; }
+		set { Instance._onTransition = value; }
+	}
 #endregion
 
 	/// <summary>Callback internally called immediately after Awake.</summary>
@@ -110,8 +145,11 @@ public class Game : Singleton<Game>
 
 		if(gameplayGUIController != null)
 		{
-			gameplayGUIController.canvas.worldCamera = cameraController.camera;
+			gameplayGUIController.canvas.worldCamera = UICamera;
+			gameplayGUIController.onIDEvent += OnGUIIDEvent;
 		}
+
+		state = GameState.Playing;
 	}
 
 	private void Start()
@@ -186,6 +224,14 @@ public class Game : Singleton<Game>
 		cameraController.distanceAdjuster.distanceRange = defaultDistanceRange;
 	}
 
+	/// <summary>Sets Camera2DBoundariesModifier's Settings into the Gameplay Camera.</summary>
+	/// <param name="_modifier">Camera2DBdounratiesModifier that contains the new settings.</param>
+	public static void SetCameraBoundaries2DSettings(Camera2DBoundariesModifier _modifier)
+	{
+		cameraController.boundariesContainer.Set(_modifier.boundariesContainer.ToBoundaries2D());
+		if(_modifier.setDistance) cameraController.distanceAdjuster.distanceRange = _modifier.distanceRange;
+	}
+
 	/// <summary>Adds Target's VCameraTarget into the Camera.</summary>
 	/// <param name="_target">VCameraTarget to Add.</param>
 	public static void AddTargetToCamera(VCameraTarget _target)
@@ -218,7 +264,11 @@ public class Game : Singleton<Game>
 	/// <summary>Callback invoked when a pause is requested.</summary>
 	public static void OnPause()
 	{
-		LoadScene("Scene_ChangeScenes");
+		//LoadScene("Scene_ChangeScenes");
+		bool pause = gameplayGUIController.state != GUIState.Pause;
+		state = pause ? GameState.Paused : GameState.Playing;
+		gameplayGUIController.EnablePauseMenu(pause);
+		if(pause) Time.timeScale = 0.0f;
 	}
 
 	/// <summary>Evaluates Surface Type.</summary>
@@ -278,6 +328,64 @@ public class Game : Singleton<Game>
 		}
 
 		Debug.Log("[Game] OnMateoHealthEvent called with Event Type: " + _event.ToString());
+	}
+
+	/// <summary>Callback invoked when the GUI invokes an Event.</summary>
+	/// <param name="_ID">Event's ID.</param>
+	private static void OnGUIIDEvent(int _ID)
+	{
+		switch(_ID)
+		{
+			case GameplayGUIController.ID_STATE_UNPAUSED:
+			Time.timeScale = 1.0f;
+			state = GameState.Playing;
+			break;
+		}
+	}
+
+	/// <summary>Sets Time-Scale.</summary>
+	/// <param name="_timeScale">Time-Scale.</param>
+	/// <param name="_changeAudioPitch">Change Audio-Pitch also? true by default.</param>
+	/// <param name="_accelerate">Accelerate towards new time-scale or instantly change? true by default.</param>
+	public static void SetTimeScale(float _timeScale, bool _changeAudioPitch = true, bool _accelerate = true)
+	{
+		switch(_accelerate)
+		{
+			case true:
+			Instance.StartCoroutine(Instance.ChangeTimeScaleRoutine(_timeScale, _changeAudioPitch));
+			break;
+
+			case false:
+			Time.timeScale = _timeScale;
+			if(_changeAudioPitch) AudioController.SetPitch(Time.timeScale);
+			break;
+		}
+	}
+
+	/// <summary>Sets Time-Scale's Routine.</summary>
+	/// <param name="_timeScale">Time-Scale.</param>
+	/// <param name="_changeAudioPitch">Change Audio-Pitch also? true by default.</param>
+	protected IEnumerator ChangeTimeScaleRoutine(float _timeScale, bool _changeAudioPitch = true)
+	{
+		float timeScale = Time.timeScale;
+
+		if(timeScale == _timeScale) yield break;
+
+		float t = 0.0f;
+		float s = Mathf.Sign(_timeScale - timeScale);
+		float a = s >= 0.0 ? data.timeScaleAcceleration : data.timeScaleDeceleration;
+		
+		while((s == 1.0f) ? (timeScale < _timeScale) : (timeScale > _timeScale))
+		{
+			timeScale += (t * s);
+			t += (a * Time.deltaTime);
+
+			SetTimeScale(timeScale, _changeAudioPitch, false);
+
+			yield return null;
+		}
+
+		SetTimeScale(_timeScale, _changeAudioPitch, false);
 	}
 }
 }

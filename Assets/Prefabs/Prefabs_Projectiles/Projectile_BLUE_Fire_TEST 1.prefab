@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2031882036058126279}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1588848031865921526
 Rigidbody2D:
@@ -116,9 +116,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2957263298254574498}
   - {fileID: 3838307137329574478}
   - {fileID: 469666877126155119}
-  - {fileID: 2957263298254574498}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -171,7 +171,10 @@ MonoBehaviour:
     index: 15
   - _tag: Enemy
     index: 8
+  - _tag: Ball
+    index: 7
   _trailRenderers: []
+  _particleEffects: []
   effect: {fileID: 0}
   _projectileType: 0
   _repelTags: []
@@ -183,7 +186,7 @@ MonoBehaviour:
   _maxSteeringForce: 0
   _distance: 0
   _impactParticleEffectIndex:
-    index: 27
+    index: 28
     objectIndex: 0
     collectionIndex: 7
   _destroyedParticleEffectIndex:
@@ -265,12 +268,12 @@ MonoBehaviour:
       collectionIndex: 7
   - ID: 2
     index:
-      index: 42
+      index: 39
       objectIndex: 0
       collectionIndex: 7
   - ID: 16
     index:
-      index: 40
+      index: 39
       objectIndex: 0
       collectionIndex: 7
   _eventsHandler: {fileID: 0}
@@ -304,7 +307,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2031882036058126279}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 270, y: 90, z: 0}
 --- !u!33 &2769555465646197917
 MeshFilter:
@@ -360,6 +363,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2031882036058126279}
     m_Modifications:
+    - target: {fileID: 2981991194163555842, guid: 3f64f0d15969d7042ba9f67b85c3a98b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2981991194163555842, guid: 3f64f0d15969d7042ba9f67b85c3a98b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989557109289504600, guid: 3f64f0d15969d7042ba9f67b85c3a98b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989557109289504600, guid: 3f64f0d15969d7042ba9f67b85c3a98b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8081931510148939188, guid: 3f64f0d15969d7042ba9f67b85c3a98b,
         type: 3}
       propertyPath: m_Name
@@ -403,7 +426,7 @@ PrefabInstance:
     - target: {fileID: 8081931510148939189, guid: 3f64f0d15969d7042ba9f67b85c3a98b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8081931510148939189, guid: 3f64f0d15969d7042ba9f67b85c3a98b,
         type: 3}
@@ -420,22 +443,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8116085811945136806, guid: 3f64f0d15969d7042ba9f67b85c3a98b,
-        type: 3}
-      propertyPath: _systems.Array.data[0]
-      value: 
-      objectReference: {fileID: 8254592888233891279}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f64f0d15969d7042ba9f67b85c3a98b, type: 3}
 --- !u!4 &2957263298254574498 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8081931510148939189, guid: 3f64f0d15969d7042ba9f67b85c3a98b,
-    type: 3}
-  m_PrefabInstance: {fileID: 6422844101920894487}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &8254592888233891279 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3147086850646129624, guid: 3f64f0d15969d7042ba9f67b85c3a98b,
     type: 3}
   m_PrefabInstance: {fileID: 6422844101920894487}
   m_PrefabAsset: {fileID: 0}

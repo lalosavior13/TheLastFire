@@ -14,6 +14,9 @@ public class Ring : PoolGameObject
 {
 	public event OnRingPassed onRingPassed; 						/// <summary>OnRingPassed event's delegate.</summary>
 
+	[SerializeField] private CollectionIndex _particleEffectIndex; 	/// <summary>ParticleEffect index to emit when ring is passed on?.</summary>
+	[SerializeField] private CollectionIndex _soundEffectIndex; 	/// <summary>Sound Effect index to emit when ring is passed on.</summary>
+	[Space(5f)]
 	[SerializeField] private EulerRotation _correctionRotation; 	/// <summary>Correction's Rotation.</summary>
 	[SerializeField] private bool _deactivateWhenPassedOn; 			/// <summary>Deactivate ring when passed on it?.</summary>
 	[SerializeField] private GameObjectTag[] _detectableTags; 		/// <summary>Tags of GameObjects that are detectable by the ring.</summary>
@@ -23,6 +26,12 @@ public class Ring : PoolGameObject
 	[SerializeField] private HitCollider2D[] _hitBoxes; 			/// <summary>Ring's HitBoxes.</summary>
 	private Dictionary<int, Vector2> _directionsMapping; 			/// <summary>Direction's Mapping for each possible GameObject.</summary>
 	private bool _passedOn; 										/// <summary>Has an object already passed on this Ring?.</summary>
+
+	/// <summary>Gets particleEffectIndex property.</summary>
+	public CollectionIndex particleEffectIndex { get { return _particleEffectIndex; } }
+
+	/// <summary>Gets soundEffectIndex property.</summary>
+	public CollectionIndex soundEffectIndex { get { return _soundEffectIndex; } }
 
 	/// <summary>Gets correctionRotation property.</summary>
 	public EulerRotation correctionRotation { get { return _correctionRotation; } }
@@ -176,6 +185,10 @@ public class Ring : PoolGameObject
 	{
 		if(deactivateWhenPassedOn) OnObjectDeactivation();
 		if(onRingPassed != null) onRingPassed(_collider);
+
+		PoolManager.RequestParticleEffect(particleEffectIndex, transform.position, Quaternion.identity);
+		AudioController.PlayOneShot(SourceType.SFX, 0, soundEffectIndex);
+
 		Reset();
 	}
 

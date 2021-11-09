@@ -13,7 +13,7 @@ public enum ShootingOrder
 	LeftAndRightOscillation
 }
 
-[CreateAssetMenu]
+//[CreateAssetMenu]
 public class ChariotBehavior : DestinoScriptableCoroutine
 {
 	[SerializeField] private Vector3 _projectileSpawnPosition; 			/// <summary>Projectiles' Spawn Position.</summary>
@@ -66,13 +66,13 @@ public class ChariotBehavior : DestinoScriptableCoroutine
 	public bool randomizeOrder { get { return _randomizeOrder; } }
 
 	/// <summary>Callback invoked when drawing Gizmos.</summary>
-	protected override void OnDrawGizmos()
+	protected override void DrawGizmos()
 	{
-#if UNITY_EDITOR
-		base.OnDrawGizmos();
+/*#if UNITY_EDITOR
+		base.DrawGizmos();
 
 		Gizmos.DrawWireSphere(projectileSpawnPosition, 0.25f);
-#endif
+#endif*/
 	}
 
 	/// <summary>Coroutine's IEnumerator.</summary>
@@ -199,7 +199,6 @@ public class ChariotBehavior : DestinoScriptableCoroutine
 
 			while(projectilesIterator.MoveNext())
 			{
-				Debug.Log("[ChariotBehavior] YO?");
 				proj = projectilesIterator.Current;
 				Vector3 direction = Game.mateo.transform.position - proj.transform.position;
 				proj.transform.rotation = VQuaternion.RightLookRotation(direction);
@@ -229,13 +228,6 @@ public class ChariotBehavior : DestinoScriptableCoroutine
 
 		yield return null;
 		InvokeCoroutineEnd();
-	}
-
-	/// <summary>Finishes the Routine.</summary>
-	/// <param name="boss">Object of type T's argument.</param>
-	public override void FinishRoutine(DestinoBoss boss)
-	{
-
 	}
 
 	/// <returns>Appropiate Petrol Projectile Index.</returns>

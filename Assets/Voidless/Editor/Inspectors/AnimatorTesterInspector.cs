@@ -59,6 +59,8 @@ public class AnimatorTesterInspector : Editor
 
 			animatorTester.parameters[i] = parameter;
 		}
+
+		serializedObject.ApplyModifiedProperties();
 	}
 }
 }

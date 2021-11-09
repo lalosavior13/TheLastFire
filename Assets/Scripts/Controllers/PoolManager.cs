@@ -86,6 +86,9 @@ public class PoolManager : Singleton<PoolManager>
 
 		if(projectile == null) return null;
 
+		projectile.rigidbody.gravityScale = 0.0f;
+		projectile.rigidbody.isKinematic = true;
+		projectile.rigidbody.bodyType = RigidbodyType2D.Kinematic;
 		projectile.projectileType = ProjectileType.Normal;
 		projectile.direction = _direction.normalized;
 		projectile.gameObject.tag = tag;

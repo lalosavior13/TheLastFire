@@ -115,6 +115,18 @@ public class ShantyShip : MonoBehaviour
 		if(clip != null) animation.Play(clip);
 	}
 
+	/// <summary>Activates Cannons.</summary>
+	/// <param name="_activate">Activate? true by default.</param>
+	public void ActivateCannons(bool _activate = true)
+	{
+		if(cannons == null) return;
+		
+		foreach(Transform cannon in cannons)
+		{
+			cannon.gameObject.SetActive(_activate);
+		}
+	}
+
 	/// <summary>Shoots Cannons.</summary>
 	private void ShootCannons()
 	{

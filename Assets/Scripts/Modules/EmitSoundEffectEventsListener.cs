@@ -49,6 +49,34 @@ public class EmitSoundEffectEventsListener : EventsListener
 	protected override void Awake()
 	{
 		base.Awake();
+
+		if(IDEvents != null)
+		{
+			IDEventsDic = new Dictionary<int, CollectionIndex>();
+
+			foreach(IntCollectionIndexPair pair in IDEvents)
+			{
+				IDEventsDic.Add(pair.ID, pair.index);
+			}
+		}
+		if(impactEvents != null)
+		{
+			impactEventsDic = new Dictionary<GameObjectTag, CollectionIndex>();
+
+			foreach(TagCollectionIndexPair pair in impactEvents)
+			{
+				impactEventsDic.Add(pair.tag, pair.index);
+			}
+		}
+		if(deactivationEvents != null)
+		{
+			deactivationEventsDic = new Dictionary<DeactivationCause, CollectionIndex>();
+
+			foreach(DeactivationCauseCollectionIndexPair pair in deactivationEvents)
+			{
+				deactivationEventsDic.Add(pair.cause, pair.index);
+			}
+		}
 	}
 
 	/// <summary>Callback invoked when an ID event occurs.</summary>
@@ -66,6 +94,7 @@ public class EmitSoundEffectEventsListener : EventsListener
 	/// <param name="_ID">Optional ID of the HitCollider2D.</param>
 	protected override void OnTriggerEvent(Trigger2DInformation _info, HitColliderEventTypes _eventType, int _ID = 0)
 	{
+		Debug.Log("[EmitSoundEffectEventsListener] hola LIf");
 		string tag = _info.collider.tag;
 
 		if(!impactEventsDic.ContainsKey(tag)) return;

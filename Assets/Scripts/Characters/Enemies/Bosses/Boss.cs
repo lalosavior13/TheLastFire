@@ -31,9 +31,15 @@ public class Boss : Enemy
 	[SerializeField] private Animator _animator; 							/// <summary>Animator's Component.</summary>
 	[SerializeField] private Animation _animation; 							/// <summary>Animation's Component.</summary>
 	[SerializeField] private AnimationEventInvoker _animationEventInvoker; 	/// <summary>AnimationEventInvoker's Component.</summary>
-	[SerializeField] private GameObject _hurtBoxesContainer; 				/// <summary>HurtBoxes' Container [Group].</summary>
+#if UNITY_EDITOR
+	[Space(5f)]
+	[Header("TESTs:")]
+	[SerializeField] protected bool forceStageTesting; 						/// <summary>Force Stage Testing?.</summary>
+	[SerializeField] protected int testStage; 								/// <summary>Test's Stage.</summary>
+#endif
 	private int _currentStage; 
 
+#region Getters/Setters:
 	/// <summary>Gets and Sets stages property.</summary>
 	public int stages
 	{
@@ -81,13 +87,7 @@ public class Boss : Enemy
 		get { return _animationEventInvoker; }
 		set { _animationEventInvoker = value; }
 	}
-
-	/// <summary>Gets and Sets hurtBoxesContainer property.</summary>
-	public GameObject hurtBoxesContainer
-	{
-		get { return _hurtBoxesContainer; }
-		set { _hurtBoxesContainer = value; }
-	}
+#endregion
 
 #region UnityMethods:
 	/// <summary>Resets Boss's instance to its default values.</summary>
@@ -103,6 +103,11 @@ public class Boss : Enemy
 	{
 		base.Awake();
 		currentStage = 0;
+
+#if UNITY_EDITOR
+		if(forceStageTesting) currentStage =  Mathf.Clamp(testStage - 1, -1, stages);
+#endif
+		
 		AdvanceStage();
 	}
 
@@ -165,13 +170,6 @@ public class Boss : Enemy
 			else BeginDeathRoutine();
 			break;
 		}
-	}
-
-	/// <summary>Activates HurtBoxes' Container [if it exists].</summary>
-	/// <param name="_enable">Enable? true by default.</param>
-	public void EnableHurtBoxes(bool _enable = true)
-	{
-		if(hurtBoxesContainer != null) hurtBoxesContainer.SetActive(_enable);
 	}
 
 	/// <summary>Callback invoked when an Animation Event is invoked.</summary>

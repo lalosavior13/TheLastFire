@@ -26,6 +26,8 @@ public class FiniteStateAudioClipInspector : Editor
 	{	
 		DrawDefaultInspector();
 		DrawSliders();
+
+		serializedObject.ApplyModifiedProperties();
 	}
 
 	/// <summary>Draws States' Ranges' Sliders.</summary>

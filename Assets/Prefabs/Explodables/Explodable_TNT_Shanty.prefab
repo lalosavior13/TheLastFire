@@ -60,8 +60,8 @@ MonoBehaviour:
     index: 24
     objectIndex: 0
     collectionIndex: 6
-  _radius: 2.8
+  _radius: 5
   _expansionDuration: 0.3
   _maxRadiusDuration: 0.4
-  _damage: 5
+  _damage: 3.4028235e+38
   gizmosColor: {r: 1, g: 1, b: 1, a: 0.19607843}

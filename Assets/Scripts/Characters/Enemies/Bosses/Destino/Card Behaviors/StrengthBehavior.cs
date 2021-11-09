@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace Flamingo
 {
-[CreateAssetMenu]
+//[CreateAssetMenu]
 public class StrengthBehavior : DestinoScriptableCoroutine
 {
 	[Space(5f)]
@@ -168,10 +168,10 @@ public class StrengthBehavior : DestinoScriptableCoroutine
 #endregion
 
 	/// <summary>Callback invoked when drawing Gizmos.</summary>
-	protected override void OnDrawGizmos()
+	protected override void DrawGizmos()
 	{
 #if UNITY_EDITOR
-		base.OnDrawGizmos();
+		base.DrawGizmos();
 
 		Gizmos.color = gizmosColor;
 

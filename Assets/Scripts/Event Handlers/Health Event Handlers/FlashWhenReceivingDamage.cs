@@ -67,6 +67,26 @@ public class FlashWhenReceivingDamage : HealthEventReceiver
 		flashColor = Color.white;
 	}
 
+	/// <summary>Gets Renderers inside GameObject.</summary>
+	public void GetRenderers()
+	{
+		/*List<Renderer> renderersList = new List<Renderer>();
+		Renderer[] rendererArray = null;
+
+		rendererArray = GetComponents<Renderer>();
+		if(rendererArray != null) renderersList.AddRange(rendererArray);
+
+		foreach(Transform child in transform)
+		{
+			rendererArray = child.GetComponents<Renderer>();
+			if(rendererArray != null) renderersList.AddRange(rendererArray);			
+		}
+
+		renderers = renderersList.ToArray();*/
+	
+		renderers = GetComponentsInChildren<Renderer>();
+	}
+
 	/// <summary>Routine.</summary>
 	public override IEnumerator Routine()
 	{
@@ -100,7 +120,7 @@ public class FlashWhenReceivingDamage : HealthEventReceiver
 			{
 				for(int j = 0; j < colors[i].Length; j++)
 				{
-					materials[i][j].color = Color.Lerp(colors[i][j], flashColor, t);
+					materials[i][j].color = Color.Lerp(colors[i][j], flashColor, s);
 				}
 			}
 

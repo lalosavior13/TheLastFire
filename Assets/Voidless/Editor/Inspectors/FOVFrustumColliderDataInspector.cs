@@ -14,6 +14,7 @@ public class FOVFrustumColliderDataInspector : Editor
 	private void OnEnable()
 	{
 		FOVfrustumColliderData = target as FOVFrustumColliderData;
+		EditorUtility.SetDirty(FOVfrustumColliderData);
 	}
 
 	/// <summary>OnInspectorGUI override.</summary>
@@ -26,7 +27,7 @@ public class FOVFrustumColliderDataInspector : Editor
 			FOVFrustumMeshCreationWindow.CreateFOVFrustumMeshCreationWindow();
 			FOVFrustumMeshCreationWindow.LoadFOVData(FOVfrustumColliderData);
 		}
-		EditorUtility.SetDirty(FOVfrustumColliderData);
+		serializedObject.ApplyModifiedProperties();
 	}
 }
 }

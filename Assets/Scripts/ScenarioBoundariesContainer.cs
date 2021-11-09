@@ -17,6 +17,7 @@ public class ScenarioBoundariesContainer : MonoBehaviour
 	[Header("Gizmos' Atrributes:")]
 	[SerializeField] private Color gizmosColor; 		/// <summary>Gizmos' Color.</summary>
 #endif
+	private bool disabled; 								/// <summary>Are the Colliders disabled?.</summary>
 
 	/// <summary>Gets and Sets ceiling property.</summary>
 	public BoxCollider2D ceiling
@@ -50,6 +51,8 @@ public class ScenarioBoundariesContainer : MonoBehaviour
 	/// <summary>Draws Gizmos on Editor mode.</summary>
 	private void OnDrawGizmos()
 	{
+		if(disabled) return;
+
 		Gizmos.color = gizmosColor;
 
 		if(ceiling != null)
@@ -64,13 +67,16 @@ public class ScenarioBoundariesContainer : MonoBehaviour
 		if(rightWall != null)
 		Gizmos.DrawCube(rightWall.transform.position + (rightWall.transform.rotation * rightWall.offset), Vector3.Scale(rightWall.transform.localScale, rightWall.size.ToVector3().WithZ(1.0f)));
 	}
+#endif
 
 	/// <summary>Resets ScenarioBoundariesContainer's instance to its default values.</summary>
 	private void Reset()
 	{
+#if UNITY_EDITOR
 		gizmosColor = Color.green.WithAlpha(0.5f);
-	}
 #endif
+		disabled = true;
+	}
 
 	/// <summary>Enables boundaries.</summary>
 	/// <param name="_enable">Enable? true by default.</param>
@@ -80,6 +86,8 @@ public class ScenarioBoundariesContainer : MonoBehaviour
 		if(floor != null) floor.gameObject.SetActive(_enable);
 		if(leftWall != null) leftWall.gameObject.SetActive(_enable);
 		if(rightWall != null) rightWall.gameObject.SetActive(_enable);
+
+		disabled = !_enable;
 	}
 }
 }

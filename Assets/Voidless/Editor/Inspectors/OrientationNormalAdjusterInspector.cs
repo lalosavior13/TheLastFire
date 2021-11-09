@@ -14,6 +14,7 @@ public class OrientationNormalAdjusterInspector : Editor
 	private void OnEnable()
 	{
 		orientationNormalAdjuster = target as OrientationNormalAdjuster;
+		EditorUtility.SetDirty(orientationNormalAdjuster);
 	}
 
 	/// <summary>OnInspectorGUI override.</summary>
@@ -24,7 +25,8 @@ public class OrientationNormalAdjusterInspector : Editor
 		DrawRelativeNormalSettings();
 		EditorGUILayout.Space();
 		orientationNormalAdjuster.normalLength = EditorGUILayout.FloatField("Normal Length", orientationNormalAdjuster.normalLength);
-		EditorUtility.SetDirty(orientationNormalAdjuster);
+		
+		serializedObject.ApplyModifiedProperties();
 	}
 
 	/// <summary>Draws Normal's Settings.</summary>

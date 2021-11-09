@@ -6,7 +6,7 @@ using Voidless;
 
 namespace Flamingo
 {
-[CreateAssetMenu]
+//[CreateAssetMenu]
 public class DeathBehavior : DestinoScriptableCoroutine
 {
 	[Space(5f)]
@@ -100,10 +100,10 @@ public class DeathBehavior : DestinoScriptableCoroutine
 #endregion
 
 	/// <summary>Callback invoked when drawing Gizmos.</summary>
-	protected override void OnDrawGizmos()
+	protected override void DrawGizmos()
 	{
 #if UNITY_EDITOR
-		base.OnDrawGizmos();
+		base.DrawGizmos();
 		
 		Gizmos.color = color;
 		Gizmos.DrawRay(pivot, snathOrientationVector.normalized * gizmosRadius);

@@ -324,6 +324,28 @@ public class AudioController : Singleton<AudioController>
 		mixer.SetVolume(parameterName, _volume);
 	}
 
+	/// <summary>Sets pitch foall AudioSources.</summary>
+	/// <param name="_pitch">New Pitch.</param>
+	public static void SetPitch(float _pitch)
+	{
+		Instance.audioSource.pitch = _pitch;
+
+		if(loopSources != null) foreach(AudioSource source in loopSources)
+		{
+			source.pitch = _pitch;
+		}
+
+		if(scenarioSources != null) foreach(AudioSource source in scenarioSources)
+		{
+			source.pitch = _pitch;
+		}
+
+		if(soundEffectSources != null) foreach(AudioSource source in soundEffectSources)
+		{
+			source.pitch = _pitch;
+		}
+	}
+
 	/// <summary>Stacks and plays AudioClip on the given AudioSource.</summary>
 	/// <param name="_source">Source to use.</param>
 	/// <param name="_indeex">AudioClip's index on the Game's Data to play.</param>

@@ -9,8 +9,11 @@ namespace Flamingo
 {
 [RequireComponent(typeof(EventsHandler))]
 [RequireComponent(typeof(ImpactEventHandler))]
+[RequireComponent(typeof(VirtualAnchorContainer))]
 public class ContactWeapon : PoolGameObject
 {
+	[Space(5f)]
+	[SerializeField] private GameObject _meshContainer; 				/// <summary>Mesh Container.</summary>
 	[Space(5f)]
 	[Header("Damage's Attributes:")]
 	[SerializeField] private GameObjectTag[] _healthAffectableTags; 	/// <summary>Tags of GameObjects whose Health is affected by this ContactWeapon.</summary>
@@ -27,8 +30,16 @@ public class ContactWeapon : PoolGameObject
 	private HashSet<int> _objectsIDs; 									/// <summary>Set of GameObject's IDs that are already inside of HitBoxes [to avoid repetition of actions].</summary>
 	private EventsHandler _eventsHandler; 								/// <summary>EventsHandler's Component.</summary>
 	private ImpactEventHandler _impactEventHandler; 					/// <summary>ImpactEventHandler's Component.</summary>
+	private VirtualAnchorContainer _anchorContainer; 					/// <summary>VirtualAnchorContainer's Component.</summary>
 
 #region Getters/Setters:
+	/// <summary>Gets and Sets meshContainer property.</summary>
+	public GameObject meshContainer
+	{
+		get { return _meshContainer; }
+		set { _meshContainer = value; }
+	}
+
 	/// <summary>Gets and Sets healthAffectableTags property.</summary>
 	public GameObjectTag[] healthAffectableTags
 	{
@@ -102,6 +113,16 @@ public class ContactWeapon : PoolGameObject
 		{
 			if(_impactEventHandler == null) _impactEventHandler = GetComponent<ImpactEventHandler>();
 			return _impactEventHandler;
+		}
+	}
+
+	/// <summary>Gets anchorContainer Component.</summary>
+	public VirtualAnchorContainer anchorContainer
+	{ 
+		get
+		{
+			if(_anchorContainer == null) _anchorContainer = GetComponent<VirtualAnchorContainer>();
+			return _anchorContainer;
 		}
 	}
 #endregion

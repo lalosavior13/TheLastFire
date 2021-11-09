@@ -31,13 +31,21 @@ namespace Flamingo {
 
         }
 
-        public void ClearList (){
-            breakTheTargetsMiniGame.targetList.Clear();      
+        public void EndMiniGameBtt()
+        {
+            breakTheTargetsMiniGame.Terminate(this);
         }
 
-       
+
+      
+        /*
+        public void ClearList (){
+            breakTheTargetsMiniGame.targetList.Clear();      
+        }*/
+
+
     }
 
 
-    
+
 }

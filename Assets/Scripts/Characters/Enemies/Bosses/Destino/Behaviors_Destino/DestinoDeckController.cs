@@ -11,7 +11,7 @@ namespace Flamingo
 /// <param name="_card">Card that was selected on the selection process.</param>
 public delegate void OnCardSelected(DestinoCard _card);
 
-[CreateAssetMenu]
+//[CreateAssetMenu]
 public class DestinoDeckController : DestinoScriptableCoroutine
 {
 	public event OnCardSelected onCardSelected; 					/// <summary>OnCardSelected's Event Delegate.</summary>
@@ -53,14 +53,14 @@ public class DestinoDeckController : DestinoScriptableCoroutine
 	[SerializeField] private float _orbitDuration; 					/// <summary>Orbiting's Duration.</summary>
 	[SerializeField] private float _orbitRadius; 					/// <summary>Orbiting's Radius.</summary>
 	[SerializeField] private float _orbitSpeed; 					/// <summary>Orbiting's Speed.</summary>
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
 	[Space(5f)]
 	[Header("Gizmos' Attributes:")]
 	[SerializeField] private Color gizmosColor; 				/// <summary>Gizmos' Color.</summary>
 	[SerializeField] private float gizmosRadius; 				/// <summary>Gizmos' Radius.</summary>
-#endif
-	private StackQueue<DestinoCard> _deck; 						/// <summary>Deck's StackQueue.</summary>
-	private DestinoCard _selectedCard; 							/// <summary>Currently Selected Card.</summary>
+#endif*/
+	private StackQueue<DestinoCard> _deck; 							/// <summary>Deck's StackQueue.</summary>
+	private DestinoCard _selectedCard; 								/// <summary>Currently Selected Card.</summary>
 
 #region Getters/Setters:
 	/// <summary>Gets faceUpRotation property.</summary>
@@ -147,17 +147,19 @@ public class DestinoDeckController : DestinoScriptableCoroutine
 	}
 #endregion
 
-#if UNITY_EDITOR
 	/// <summary>Draws Gizmos [only called internally if drawGizmos' flag is turned on].</summary>
-	protected override void OnDrawGizmos()
+	protected override void DrawGizmos()
 	{
+/*#if UNITY_EDITOR
+		base.DrawGizmos();
+
 		Gizmos.color = gizmosColor;
 
 		Gizmos.DrawWireSphere(selectedCardPoint, gizmosRadius);
 		Gizmos.DrawWireSphere(deckPoint, gizmosRadius);
 		Gizmos.DrawWireSphere(presentationPoint, gizmosRadius);
+#endif*/
 	}
-#endif
 
 	/// <summary>Resets DestinoDeckController's instance to its default values.</summary>
 	public void Reset()

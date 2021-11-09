@@ -52,5 +52,43 @@ public static class VAnimation
 	{
 		return _animation.Play(_clip.name, _mode);
 	}
+
+	/// <summary>Cross Fades towards animation.</summary>
+	/// <param name="_animation">Animation Component.</param>
+	/// <param name="_clip">Destinatin Animation.</param>
+	/// <param name="_fadeDuration">fade's Duration.</param>
+	/// <param name="_mode">Play Mode [StopSameLayer by default].</param>
+	public static void CrossFade(this Animation _animation, AnimationClip _clip, float _fadeDuration = 0.3f, PlayMode _mode = PlayMode.StopSameLayer)
+	{
+		_animation.CrossFade(_clip.name, _fadeDuration, _mode);
+	}
+
+	/// <summary>Rewinds an animation without blending.</summary>
+	/// <param name="_animation">Animation's Component.</param>
+	/// <param name="_clip">AnimationClip to rewind.</param>
+	public static void Rewind(this Animation _animation, AnimationClip _clip)
+	{
+		_animation.Rewind(_clip.name);
+	}
+
+	/// <summary>Plays an animation after previous animations has finished playing.</summary>
+	/// <param name="_animation">Animation's Component.</param>
+	/// <param name="_clip">Clip to play.</param>
+	/// <param name="_queue">Queue Mode.</param>
+	/// <param name="_mode">The optional PlayMode lets you choose how this animation will affect others already playing.</param>
+	public static void PlayQueued(this Animation _animation, AnimationClip _clip, QueueMode _queue = QueueMode.CompleteOthers, PlayMode _mode = PlayMode.StopSameLayer)
+	{
+		_animation.PlayQueued(_clip.name, _queue, _mode);
+	}
+
+	/// <summary>Blends 2 animations.</summary>
+	/// <param name="_animation">Animation's Component.</param>
+	/// <param name="_clip">Destination AnimationClip.</param>
+	/// <param name="_weight">target Blending Weight.</param>
+	/// <param name="_fadeDuration">Fade's Duration.</param>
+	public static void Blend(this Animation _animation, AnimationClip _clip, float _weight = 1.0f, float _fadeDuration = 0.3f)
+	{
+		_animation.Blend(_clip.name, _weight, _fadeDuration);
+	}
 }
 }

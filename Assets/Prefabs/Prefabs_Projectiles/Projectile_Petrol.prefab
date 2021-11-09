@@ -250,6 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
+  _meshContainer: {fileID: 0}
   _healthAffectableTags:
   - _tag: Player
     index: 5
@@ -266,6 +267,8 @@ MonoBehaviour:
   - _tag: Surface/Floor
     index: 13
   _trailRenderers: []
+  _particleEffects: []
+  effect: {fileID: 0}
   _projectileType: 1
   _repelTags: []
   _speedMode: 0
@@ -275,14 +278,6 @@ MonoBehaviour:
   _rotateTowardsDirection: 0
   _maxSteeringForce: 2
   _distance: 5
-  _motionType: 0
-  _axes:
-    _x: 1
-    _y: 0
-    _z: 0
-  _space: 0
-  _radius: 2
-  _motionSpeed: 2
   _impactParticleEffectIndex:
     index: 7
     objectIndex: 0
@@ -291,12 +286,13 @@ MonoBehaviour:
     index: 7
     objectIndex: 0
     collectionIndex: 6
+  _sourceIndex: 0
   _impactSoundEffectIndex:
-    index: 38
+    index: 16
     objectIndex: 0
     collectionIndex: 5
   _destroyedSoundEffectIndex:
-    index: 38
+    index: 16
     objectIndex: 0
     collectionIndex: 5
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}

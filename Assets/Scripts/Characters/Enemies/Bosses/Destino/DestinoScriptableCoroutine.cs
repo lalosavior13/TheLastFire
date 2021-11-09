@@ -6,7 +6,7 @@ using Voidless;
 
 namespace Flamingo
 {
-public class DestinoScriptableCoroutine : ScriptableCoroutine<DestinoBoss>
+public class DestinoScriptableCoroutine : CoroutineBehavior<DestinoBoss>
 {
 	[SerializeField] private bool _run; 	/// <summary>Run this Coroutine?.</summary>
 
@@ -16,9 +16,5 @@ public class DestinoScriptableCoroutine : ScriptableCoroutine<DestinoBoss>
 	/// <summary>Coroutine's IEnumerator.</summary>
 	/// <param name="boss">Object of type T's argument.</param>
 	public override IEnumerator Routine(DestinoBoss boss) { yield return null; }
-
-	/// <summary>Finishes the Routine.</summary>
-	/// <param name="boss">Object of type T's argument.</param>
-	public override void FinishRoutine(DestinoBoss boss) { /*...*/ }
 }
 }

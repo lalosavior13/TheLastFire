@@ -14,6 +14,7 @@ public class InputControllerInspector : Editor
 	void OnEnable()
 	{
 		inputController = target as InputController;
+		EditorUtility.SetDirty(inputController);
 	}
 
 	/// <summary>OnInspectorGUI override.</summary>
@@ -23,7 +24,7 @@ public class InputControllerInspector : Editor
 		VEditorGUILayout.Spaces(2);
 		if(GUILayout.Button("Load Default File")) LoadDefaultInputMappingFile();
 
-		EditorUtility.SetDirty(inputController);
+		serializedObject.ApplyModifiedProperties();
 	}
 
 	/// <summary>Loads InputMapping's File from default path stored.</summary>

@@ -16,7 +16,7 @@ public enum DisplacementType
 	Diagonal = Horizontal | Vertical
 }
 
-[CreateAssetMenu]
+//[CreateAssetMenu]
 public class JudgementBehavior : DestinoScriptableCoroutine
 {
 	[Space(5f)]
@@ -230,10 +230,10 @@ public class JudgementBehavior : DestinoScriptableCoroutine
 #endregion
 
 	/// <summary>Callback invoked when drawing Gizmos.</summary>
-	protected override void OnDrawGizmos()
+	protected override void DrawGizmos()
 	{
 #if UNITY_EDITOR
-		base.OnDrawGizmos();
+		base.DrawGizmos();
 
 		Gizmos.color = gizmosColor;
 

@@ -14,12 +14,12 @@ public class MinionEnemy : Enemy
 	[SerializeField] private CollectionIndex _projectileIndex; 	/// <summary>Projectile's Index.</summary>
 	[SerializeField] private float _projectionTime; 			/// <summary>Parabola Projectile's Projection Time.</summary>
 	[SerializeField] private FOVSight2D _FOVSight; 				/// <summary>FOVSight2D's Component.</summary>
-#if UNITY_EDITOR
+/*#if UNITY_EDITOR
 	[Space(5f)]
 	[Header("Gizmos' Attributes:")]
 	[SerializeField] private Color gizmosColor; 				/// <summary>Gizmos' Color.</summary>
 	[SerializeField] private float gizmosRadius; 				/// <summary>Gizmos' Radius.</summary>
-#endif
+#endif*/
 	private LineRenderer _laserRenderer; 						/// <summary>Laser's LineRenderer.</summary>
 	protected Coroutine stateCoroutine; 						/// <summary>State Coroutine.</summary>
 
@@ -73,9 +73,9 @@ public class MinionEnemy : Enemy
 
 #if UNITY_EDITOR
 	/// <summary>Draws Gizmos on Editor mode when MinionEnemy's instance is selected.</summary>
-	private void OnDrawGizmosSelected()
+	protected override void OnDrawGizmos()
 	{
-		Gizmos.color = gizmosColor;
+		base.OnDrawGizmos();
 		Gizmos.DrawWireSphere(muzzlePoint, gizmosRadius);
 	}
 
